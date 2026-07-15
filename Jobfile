@@ -1,0 +1,28 @@
+# Root jobrunner manifest.
+#
+# jobrunner traverses the directory tree, merges every Jobfile it finds, and runs
+# the listed shell scripts in order. config.sh (site selector) and environment.sh
+# (project paths) are prepended to every setup/submit job, so the environment is
+# identical whether run locally or on a scheduler.
+#
+#   jobrunner setup  software       # clone the external codebases (software/*)
+#   jobrunner submit tests/mcfm     # build MCFM and run the benchmark suite
+#   jobrunner submit tests/pepper   # build Pepper against the MCFM install
+
+schedular:
+  command: bash
+
+# To submit to Slurm instead, replace the block above with, e.g.:
+# schedular:
+#   command: sbatch
+#   options:
+#     - "#SBATCH --ntasks=1"
+#     - "#SBATCH -t 0-04:00"
+
+job:
+  setup:
+    - config.sh
+    - environment.sh
+  submit:
+    - config.sh
+    - environment.sh

@@ -1,0 +1,18 @@
+# Session-local Claude Code permission grants (machine-specific, not shared)
+.claude/settings.local.json
+
+# External scientific codebases — obtained separately (see software/README.md),
+# not tracked here. Only the pointer README and setup scripts are version-controlled.
+/software/mcfm/
+/software/pepper/
+
+# Deterministic caches produced by tools/ against the clones (index, roadmap, drafts).
+/tools/assets/
+*.tsv
+*.scribe
+
+# Python / editor cruft
+__pycache__/
+*.pyc
+.venv/
+.DS_Store

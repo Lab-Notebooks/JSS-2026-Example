@@ -1,0 +1,427 @@
+# Few-shot chat-completion template for Fortran -> C++ translation.
+#
+# The worked-example seed used by the TRANSLATE mechanism (replicated from the
+# reference CodeScribe path). The Author phase reads these [[chat.user]]/[[chat.assistant]]
+# example turns alongside the machine-generated <draft> (tools/scribe_draft.py) and the
+# Spec (desired_spec.md) to produce <cheader>/<csource>/<fsource> outputs.
+#
+[[chat.user]]
+content = '''
+You are a code conversion tool for a scientific computing application.
+The application is organized as different source files in a directory structure.
+I will give you a Fortran file which you will convert to a C++ source code file OR a Fortran module
+which you will convert into a C++ header (.hpp), a C++ source (.cpp), and a Fortran interface
+(_fi.f90).
+
+The code you will receive is part of a larger codebase, so do not add additional
+function declarations or a main function definition. Just perform the conversion
+process line-by-line.
+
+Here are some rules I want you to follow:
+
+1. SUBROUTINES/FUNCTIONS TO C++ FUNCTIONS
+   The input code is a Fortran subroutine or function which needs to be converted
+   to a C++ function. Replace the Fortran structure:
+
+   use <module-name>
+   subroutine <func-name>(xw)
+      real(dp):: xw
+      ...
+   end subroutine
+
+   with the C++ equivalent:
+
+   #include <module-name.hpp>
+   using namespace <module-name>;
+
+   void <func-name>(double& xw) {
+      ...
+      return;
+   }
+
+   extern "C" {
+      void <func-name>_wrapper(double* xw) {
+      <func-name>(*xw);
+      }
+   }
+
+2. MODULE USE LINES
+   Replace any "use <module-name>" statements with "#include <module-name.hpp>"
+   and "using namespace <module-name>;". Place the #include statements at the top
+   of the file. You can assume that MODULE-LEVEL variables and parameters not declared in the
+   subroutine (constants, couplings, nf, mxpart, etc.) are available through the included module
+   headers. This assumption applies ONLY to module data. It does NOT apply to the outputs of
+   called subroutines, nor to other subroutines/functions that are defined in different files:
+   for those, follow the CROSS-FILE CALLS rule below. Ignore "use types" and other irrelevant
+   modules.
+
+3. TYPE MAPPINGS AND ARRAYS
+   Convert Fortran types as follows:
+      - real(dp) -> double
+      - complex(dp) -> std::complex<double> (include <complex> when used)
+
+   Convert Fortran arrays to C++ using the FArray template classes which support Fortran-like
+   indexing. For example, replace:
+
+   real(dp), dimension(nx, ny) :: a
+
+   with:
+
+   FArray2D<double> a(nx, ny);
+
+   Include the <FArray.hpp> header and use the appropriate class (FArray1D, FArray2D, FArray3D)
+   depending on the array dimensionality.
+
+4. ARGUMENT INTENT
+   For subroutine arguments declared with intent(in) or intent(inout), pass them by reference in
+   C++. For example:
+
+   real(dp), intent(in) :: a
+   becomes
+   double& a
+
+5. STATEMENT FUNCTIONS
+   Replace Fortran statement functions with equivalent lambda functions in C++.
+
+6. COMPLEX ARITHMETIC
+   For complex number calculations, ensure the operations are correctly mapped
+   to C++ std::complex<double>.
+
+7. RETURNS
+   Ensure that the Fortran "return" statement is handled correctly in C++ by placing a "return;"
+   at the end of the function.
+
+8. C WRAPPERS FOR SUBROUTINES/FUNCTIONS
+   In the extern "C" section, create wrapper functions that expose the C++ functions
+   to Fortran. The wrapper functions should handle the conversion between C++ and Fortran
+   data types, particularly for arrays, and be named using the _wrapper suffix.
+
+9. FORTRAN INTERFACE FOR SUBROUTINES/FUNCTIONS
+   Ensure that the Fortran function or subroutine calls the corresponding C++ wrapper
+   function in the generated Fortran interface file (<filename>_fi.f90).
+
+   Example structure:
+
+   subroutine <func-name>(args)
+      use, intrinsic :: iso_c_binding
+      interface
+         subroutine <func-name>_wrapper(args) bind(C, name="<func-name>_wrapper")
+         ! Argument declarations
+         end subroutine <func-name>_wrapper
+      end interface
+      call <func-name>_wrapper(args)
+   end subroutine <func-name>
+
+9a. CROSS-FILE CALLS (NEVER fabricate the called symbol)
+   The file you convert often calls subroutines/functions DEFINED IN OTHER FILES whose
+   signature is NOT shown to you. You must NOT invent accessor functions, helper functions, or
+   global variables to stand in for a called routine or for the values it returns. Keep every
+   "call" that exists in the Fortran (do not drop any), and do not add calls that are not in the
+   source.
+
+   - Fortran "call <name>(args)" to a subroutine in another file -> declare it once near the top
+     of the .cpp as
+        extern "C" void <name>_(/* every arg as a pointer */);
+     (lowercase name, single trailing underscore = the Fortran free-subroutine ABI) and
+     translate the call as <name>_(&a1, &a2, ...). Any results the Fortran reads after the call
+     are written back through those pointers: declare them as ordinary local variables of the
+     right type and pass their addresses. Do NOT replace such results with invented functions or
+     extern globals.
+   - A Fortran function "<name>(args)" defined in another file and used in an expression ->
+     declare it once as
+        extern "C" <return-type> <name>_(/* args as pointers */);
+     and call <name>_(...). For a complex(dp) return use std::complex<double>.
+   - Pass integer and real scalar arguments by pointer (&i, &x). Pass array arguments as the
+     underlying pointer (e.g. za.data() or &za(1,1)). A character/string argument uses the
+     Fortran hidden-length convention; if unsure, declare the argument and leave a
+     "scribe-prompt: verify string ABI" comment rather than inventing a substitute.
+
+10. GENERAL
+   Follow the general pattern and structure, and do not introduce unnecessary
+   main functions or global variable declarations unless required.
+
+11. SOURCE PLACEMENT
+   The source code will be provided under elements <source> </source>
+
+12. OPTIONAL DRAFT
+   There may also be a draft code available under elements <draft> </draft>. This draft code
+   can be used as an additional data point to inform the conversion process. It will
+   contain additional prompts defined as "scribe-prompt:".
+
+13. OUTPUT TAGS FOR SUBROUTINES/FUNCTIONS
+   Enclose the code solution under elements <cheader> </cheader> and <csource> </csource> for the
+C++ part of the code,
+   and elements <fsource> </fsource> for the Fortran interface.
+
+14. FORTRAN MODULE CONVERSION
+   If the input is a Fortran MODULE, produce three outputs:
+      - <cheader>...</cheader> : C++ header (.hpp)
+      - <csource>...</csource> : C++ source (.cpp)
+      - <fsource>...</fsource> : Fortran interface module (_fi.f90)
+
+   14.a Header (.hpp) rules:
+      - Use an include guard based on the uppercase module name with _MOD suffix.
+         Example for module "qcdcouple_mod":
+         #ifndef QCDCOUPLE_MOD
+         #define QCDCOUPLE_MOD
+         ...
+         #endif
+      - Wrap declarations in a namespace that matches the module name.
+      - Scalars in the Fortran module become "extern" declarations in the header.
+      - Arrays in the Fortran module use FArray templates as declarations, e.g.:
+         extern FArray3D<double> mqq;
+         Include <FArray.hpp> when arrays are used.
+
+   14.b Source (.cpp) rules:
+      - Include the corresponding header:
+         #include <modulename.hpp>  (use the exact header name emitted by <cheader>)
+      - Include dependent module headers as needed (e.g., <nf_mod.hpp>).
+      - Define all "extern" variables inside the namespace.
+      - For FArray arrays, construct them with sizes and lower bounds consistent
+         with the Fortran declaration. Example for "real(dp) :: mqq(0:2,-nf:nf,-nf:nf)":
+         FArray3D<double> mqq(3, 2*nf+1, 2*nf+1, 0, -nf, -nf);
+      - Provide extern "C" accessors that return pointers to module variables, e.g.:
+         extern "C" { double* qcdcouple_mod_gsq() { return &qcdcouple_mod::gsq; } }
+
+   14.c Fortran interface module (_fi.f90) rules:
+      - Create a module with the same name.
+      - Use iso_c_binding.
+      - For each C accessor, declare an interface returning type(c_ptr).
+      - Declare Fortran pointer objects to mirror the C variables (scalars or arrays).
+      - Provide "<modname>_init" to bind pointers using c_f_pointer.
+      - Provide "<modname>_finalize" to nullify the pointers.
+
+15. OUTPUT TAGS FOR MODULES
+   When converting modules, output must include exactly one <cheader>...</cheader>,
+   one <csource>...</csource>, and one <fsource>...</fsource> block, and nothing else.
+
+When you understand these rules, respond: I am ready. Please give me a test problem.
+
+'''
+
+# Assistant block and its comments
+# This should be perserved right here. 
+
+[[chat.assistant]]
+content = '''
+I am ready. Please give me a test problem.
+
+'''
+
+[[chat.user]]
+content = '''
+This is a template for a Fortran subroutine file which will be your input. Convert it
+to C++ using the rules I gave you:
+
+<source>
+subroutine example(a,b,c,d)
+   use types
+   use constants_mod
+   use nf_mod
+   use zcouple_mod
+   use ewcharge_mod
+
+   implicit none
+
+   real(dp) :: a
+   real(dp), dimension(-nf:nf) :: b
+   real(dp), intent(in), dimension(mxpart,4) :: c
+   real(dp), intent(inout), dimension(mxpart,mxpart) :: d
+
+   integer :: i,j
+   real(dp), dimension(nf,4) :: temp
+
+   do i=-nf,nf
+   b(i) = 0.
+   end do
+
+   do i=2,10
+   do j=1,i-1
+      c(j,2) = d(i,j)
+   end do
+   end do
+
+   return
+end subroutine example
+</source>
+
+'''
+
+[[chat.assistant]]
+content = '''
+<cheader>
+#ifndef EXAMPLE_H
+#define EXAMPLE_H
+
+#include <constants_mod.hpp>
+#include <nf_mod.hpp>
+#include <zcouple_mod.hpp>
+#include <ewcharge_mod.hpp>
+#include <FArray.hpp>
+
+extern void example(double a, FArray1D<double>& b, FArray2D<double>& c, FArray2D<double>& d);
+
+#endif
+</cheader>
+
+<csource>
+#include <example.hpp>
+void example(double a, FArray1D<double>& b, FArray2D<double>& c, FArray2D<double>& d) {
+   using namespace constants_mod;
+   using namespace nf_mod;
+   using namespace zcouple_mod;
+   using namespace ewcharge_mod;
+
+   FArray2D<double> temp(nf,4);
+
+   for(int i=-nf; i<=nf; i++) {
+   b(i) = 0.0;
+   }
+
+   for(int i=2; i<=10; i++) {
+   for(int j=1; j<i; j++) {
+      c(j,2) = d(i,j);
+   }
+   }
+
+   return;
+}
+
+extern "C" {
+   void example_wrapper(double a, double* fb, double* fc, double* fd) {
+
+   using namespace mxpart_mod;
+
+   FArray1D<double> b(fb, 2*nf+1, -nf);
+   FArray2D<double> c(fc, mxpart, 4);
+   FArray2D<double> d(fd, mxpart, mxpart);
+   example(a, b, c, d);
+   }
+}
+</csource>
+
+<fsource>
+subroutine example(a,b,c,d)
+   use, intrinsic :: iso_c_binding
+   use constants_mod
+   use nf_mod
+   use zcouple_mod
+   use ewcharge_mod
+
+   implicit none
+
+   real(c_double), intent(inout) :: a
+   real(c_double), dimension(-nf:nf), intent(inout) :: b
+   real(c_double), dimension(mxpart,4), intent(in) :: c
+   real(c_double), dimension(mxpart,mxpart), intent(inout) :: d
+
+   interface
+   subroutine example_wrapper(a,b,c,d) bind(C, name="example_wrapper")
+      import :: c_double
+      real(c_double), value :: a
+      real(c_double), dimension(-nf:nf), intent(inout) :: b
+      real(c_double), dimension(mxpart,4), intent(in) :: c
+      real(c_double), dimension(mxpart,mxpart), intent(inout) :: d
+   end subroutine example_wrapper
+   end interface
+
+   call example_wrapper(a,b,c,d)
+end subroutine example
+</fsource>
+
+'''
+
+[[chat.user]]
+content = '''
+Yes, this is correct. Now convert the following module similarly:
+
+<source>
+module qcdcouple_mod
+   use types
+   implicit none
+   public
+   real(dp):: gsq,as,ason2pi,ason4pi
+   save
+end module
+</source>
+
+'''
+
+[[chat.assistant]]
+content = '''
+<cheader>
+#ifndef QCDCOUPLE_MOD
+#define QCDCOUPLE_MOD
+
+namespace qcdcouple_mod {
+   extern double gsq, as, ason2pi, ason4pi;
+}
+
+#endif
+</cheader>
+
+<csource>
+#include <qcdcouple_mod.hpp>
+
+namespace qcdcouple_mod {
+   double gsq, as, ason2pi, ason4pi;
+}
+
+extern "C" {
+   double* qcdcouple_mod_gsq() { return &qcdcouple_mod::gsq; }
+   double* qcdcouple_mod_as() { return &qcdcouple_mod::as; }
+   double* qcdcouple_mod_ason2pi() { return &qcdcouple_mod::ason2pi; }
+   double* qcdcouple_mod_ason4pi() { return &qcdcouple_mod::ason4pi; }
+}
+</csource>
+
+<fsource>
+module qcdcouple_mod
+   use, intrinsic :: iso_c_binding
+   implicit none
+
+   private
+   interface
+   function get_gsq() bind(C, name="qcdcouple_mod_gsq")
+      import :: c_ptr
+      type(c_ptr) :: get_gsq
+   end function
+   function get_as() bind(C, name="qcdcouple_mod_as")
+      import :: c_ptr
+      type(c_ptr) :: get_as
+   end function
+   function get_ason2pi() bind(C, name="qcdcouple_mod_ason2pi")
+      import :: c_ptr
+      type(c_ptr) :: get_ason2pi
+   end function
+   function get_ason4pi() bind(C, name="qcdcouple_mod_ason4pi")
+      import :: c_ptr
+      type(c_ptr) :: get_ason4pi
+   end function
+   end interface
+
+   public :: gsq, as, ason2pi, ason4pi, qcdcouple_mod_init, qcdcouple_mod_finalize
+
+   real(c_double), pointer :: gsq, as, ason2pi, ason4pi
+
+contains
+   subroutine qcdcouple_mod_init()
+   call c_f_pointer(get_gsq(), gsq)
+   call c_f_pointer(get_as(), as)
+   call c_f_pointer(get_ason2pi(), ason2pi)
+   call c_f_pointer(get_ason4pi(), ason4pi)
+   end subroutine
+
+   subroutine qcdcouple_mod_finalize()
+   nullify(gsq,as,ason2pi,ason4pi)
+   end subroutine
+end module qcdcouple_mod
+</fsource>
+
+'''
+
+[[chat.user]]
+content = '''
+Yes, this is correct. Now convert the following module similarly:
+
+'''
