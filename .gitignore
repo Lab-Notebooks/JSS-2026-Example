@@ -1,10 +1,9 @@
 # Session-local Claude Code permission grants (machine-specific, not shared)
 .claude/settings.local.json
 
-# External scientific codebases — obtained separately (see software/README.md),
-# not tracked here. Only the pointer README and setup scripts are version-controlled.
-/software/mcfm/
-/software/pepper/
+# External scientific codebases (MCFM, Pepper) are tracked as git submodules under
+# software/ — see software/README.md. Their contents live in the submodule repos,
+# so nothing to ignore here.
 
 # Deterministic caches produced by tools/ against the clones (index, roadmap, drafts).
 /tools/assets/

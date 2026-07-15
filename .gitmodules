@@ -1,0 +1,8 @@
+[submodule "software/mcfm"]
+	path = software/mcfm
+	url = https://github.com/NeuCol/mcfminterface.git
+	branch = adhruv/Convert_to_c++
+[submodule "software/pepper"]
+	path = software/pepper
+	url = https://github.com/maxkno/pepper-mcfm-amplitudes.git
+	branch = 43-add-kokkos-mcfm-interface

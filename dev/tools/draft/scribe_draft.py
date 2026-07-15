@@ -4,7 +4,7 @@
 Replicates CodeScribe's `draft` step (annotate_fortran_file + isolate_scalar_functions
 + filter_file_indexes, codescribe/lib/_filetools.py) as a self-contained tool. Given
 one Fortran source file and the Doxygen-derived symbol index (built by the INDEX
-phase, tools/build_roadmap.py -> tools/assets/symbol_index.json), it emits a machine-
+phase, dev/tools/index/build_roadmap.py -> dev/tools/assets/symbol_index.json), it emits a machine-
 generated `<base>.scribe` draft: a set of `scribe-prompt:` hints followed by a
 mechanically converted body (use->using namespace, real->double, complex(dp)->
 complex<double>, dimension->FArray, x**n->pow, comment stripping, line continuations).
@@ -17,8 +17,8 @@ other files (so the translator does not fabricate them, desired_spec.md §2 rule
 and which are array/statement functions.
 
 Usage:
-  python3 tools/scribe_draft.py <fortran_file> [--index PATH] [-o OUT] [--force] [--stdout]
-    --index  symbol index (default tools/assets/symbol_index.json)
+  python3 dev/tools/draft/scribe_draft.py <fortran_file> [--index PATH] [-o OUT] [--force] [--stdout]
+    --index  symbol index (default dev/tools/assets/symbol_index.json)
     -o       output path (default <base>.scribe next to the source)
     --stdout print to stdout instead of writing a file
 """
@@ -137,15 +137,15 @@ def main():
     if not os.path.isfile(src):
         sys.exit(f"error: file not found: {src}")
 
-    project = os.environ.get("PROJECT_HOME") or os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-    index_path = args.index or os.path.join(project, "tools", "assets", "symbol_index.json")
+    project = os.environ.get("PROJECT_HOME") or os.path.dirname(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))
+    index_path = args.index or os.path.join(project, "dev", "tools", "assets", "symbol_index.json")
     symbols = {}
     if os.path.isfile(index_path):
         with open(index_path) as fh:
             symbols = (json.load(fh) or {}).get("symbols", {})
     else:
         print(f"warning: no symbol index at {index_path} — run the INDEX phase first "
-              f"(python3 tools/build_roadmap.py); external-function hints will be omitted",
+              f"(python3 dev/tools/index/build_roadmap.py); external-function hints will be omitted",
               file=sys.stderr)
 
     draft = annotate(src, symbols)

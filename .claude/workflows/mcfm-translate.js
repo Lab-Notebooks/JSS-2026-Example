@@ -2,13 +2,13 @@
 // Workflow : mcfm-translate  (stage 1: Fortran → C++)
 // Purpose  : Translate one dependency-graph leaf layer of MCFM Fortran files to
 //            C++ — author in parallel, build + verify serially — guided by the
-//            shared Spec dev/fortran-to-cpp/desired_spec.md. Single-pass: it
+//            shared Spec dev/transformations/fortran-to-cpp/desired_spec.md. Single-pass: it
 //            translates the layer end-to-end (resolve → author → integrate → fix)
 //            and stops; there is no preview mode.
 //
 //            This is the Claude Code orchestrator of the paper's head-to-head
 //            (§4.3, Fig. 4). It reads the SAME shared inputs as the CodeScribe
-//            loop (dev/fortran-to-cpp/) and answers to the SAME verification bar
+//            loop (dev/transformations/fortran-to-cpp/) and answers to the SAME verification bar
 //            (desired_spec.md §6, the coverage probe).
 //
 //   Two structural choices realize the paper's §5.5:
@@ -32,7 +32,7 @@
 
 export const meta = {
   name: 'mcfm-translate',
-  description: 'Translate one dependency-graph leaf layer of MCFM Fortran files to C++ (author in parallel, build+verify serially), guided by dev/fortran-to-cpp/desired_spec.md. The Claude Code orchestrator for the stage-1 head-to-head.',
+  description: 'Translate one dependency-graph leaf layer of MCFM Fortran files to C++ (author in parallel, build+verify serially), guided by dev/transformations/fortran-to-cpp/desired_spec.md. The Claude Code orchestrator for the stage-1 head-to-head.',
   whenToUse: 'Batch Fortran->C++ translation of MCFM. Pass {projectRoot, resolver, scope, ...} as args and it translates end-to-end (resolve -> author in parallel -> integrate+benchmark -> fix). graph mode picks the next conflict-free leaf layer; list mode translates an explicit file list. Big files (>bigLoc) route to a stronger author model.',
   phases: [
     { title: 'Index', model: 'haiku' },
@@ -44,9 +44,9 @@ export const meta = {
 }
 
 // Staged pipeline (paper §4.2), realizing the reference multi-stage translation:
-//   Index    — Doxygen call graph -> dependency ranking + symbol map (tools/build_roadmap.py)
+//   Index    — Doxygen call graph -> dependency ranking + symbol map (dev/tools/index/build_roadmap.py)
 //   Resolve  — pick the next conflict-free leaf layer from the graph
-//   Author   — per file: Draft (tools/scribe_draft.py) then Translate against the
+//   Author   — per file: Draft (dev/tools/draft/scribe_draft.py) then Translate against the
 //              Spec + the few-shot seed examples; author-parallel
 //   Integrate— serial: rewire CMake, build once, verify + coverage-probe
 //   Fix      — escalate FAILED files to a stronger model
@@ -78,8 +78,8 @@ const AUTHOR_BIG_MODEL = cfg.model || cfg.authorBigModel  || 'opus'
 const INTEGRATE_MODEL  = cfg.model || cfg.integrateModel  || 'opus'
 const FIX_MODEL        = cfg.model || cfg.fixModel        || 'opus'
 
-const SPEC = 'dev/fortran-to-cpp/desired_spec.md'      // the Spec (translation rules + verification bar)
-const SEED = 'dev/fortran-to-cpp/seed_examples.toml'   // few-shot chat-template worked examples
+const SPEC = 'dev/transformations/fortran-to-cpp/desired_spec.md'      // the Spec (translation rules + verification bar)
+const SEED = 'dev/tools/draft/seed_examples.toml'   // few-shot chat-template worked examples
 const SRCENV = `source ${PROJECT}/environment.sh`
 
 // ---------------------------------------------------------------------------
@@ -163,10 +163,10 @@ if (RESOLVER === 'graph') {
   await agent(
     `You are the INDEX phase of the MCFM translation workflow. Work from ${PROJECT}; prefix env-dependent
 commands with \`${SRCENV} && <cmd>\`. Run the Doxygen-based index once:
-  \`${SRCENV} && cd ${PROJECT} && python3 tools/build_roadmap.py\`
+  \`${SRCENV} && cd ${PROJECT} && python3 dev/tools/index/build_roadmap.py\`
 This re-reads the Doxygen XML call graph (software/mcfm/doxygen_dep/xml) and writes
-tools/assets/roadmap_metrics.tsv (per-file deps/blind/fanin/bench), tools/assets/roadmap.md, and
-tools/assets/symbol_index.json (symbol -> defining file, used by the Draft step). Confirm the three files
+dev/tools/assets/roadmap_metrics.tsv (per-file deps/blind/fanin/bench), dev/tools/assets/roadmap.md, and
+dev/tools/assets/symbol_index.json (symbol -> defining file, used by the Draft step). Confirm the three files
 exist and report the counts printed. Do not author or translate anything.`,
     { label: 'index', phase: 'Index', model: INDEX_MODEL, effort: 'low' }
   )
@@ -183,13 +183,13 @@ The Bash tool persists cwd but resets env between calls, so prefix env-dependent
 
 The dependency graph was just refreshed by the Index phase — read it, do not reason about dependencies yourself.
 
-1. The Index phase already ran \`python3 tools/build_roadmap.py\`, so tools/assets/roadmap_metrics.tsv is
+1. The Index phase already ran \`python3 dev/tools/index/build_roadmap.py\`, so dev/tools/assets/roadmap_metrics.tsv is
    current ('deps' = number of still-untranslated callees; 'translated' = a .cpp OR .hpp sibling exists).
 
-2. Emit the ready leaf layer from tools/assets/roadmap_metrics.tsv with a single awk (columns include blind, deps, bench).
+2. Emit the ready leaf layer from dev/tools/assets/roadmap_metrics.tsv with a single awk (columns include blind, deps, bench).
    A READY leaf = deps==0 AND blind==0 (no untranslated callees, edges known). Restrict to scope ${SCOPE === 'all' ? '(no dir filter — all dirs)' : `(top == "${SCOPE}")`}.
    Example:
-   \`awk -F'\\t' 'NR==1{for(i=1;i<=NF;i++)h[$i]=i;next} $(h["deps"])==0 && $(h["blind"])==0 ${SCOPE === 'all' ? '' : `&& $(h["top"])=="${SCOPE}"`} {print $(h["rel"])"\\t"$(h["top"])"\\t"$(h["fanin"])"\\t"$(h["bench"])}' tools/assets/roadmap_metrics.tsv | sort -t$'\\t' -k3,3nr\`
+   \`awk -F'\\t' 'NR==1{for(i=1;i<=NF;i++)h[$i]=i;next} $(h["deps"])==0 && $(h["blind"])==0 ${SCOPE === 'all' ? '' : `&& $(h["top"])=="${SCOPE}"`} {print $(h["rel"])"\\t"$(h["top"])"\\t"$(h["fanin"])"\\t"$(h["bench"])}' dev/tools/assets/roadmap_metrics.tsv | sort -t$'\\t' -k3,3nr\`
    (sorted by fanin descending so high-leverage files come first).
 
 3. Also collect blind leaves (deps==0 && blind==1) in scope — these have UNKNOWN edges so deps==0 is not trustworthy; report them for manual handling, do NOT include them in 'ready'.
@@ -243,7 +243,7 @@ Your file: \`${f.file}\` (directory ${f.dir}).
 
 TRANSLATE MECHANISM (Draft -> Translate, replicated from the reference multi-stage path):
 - First generate the machine draft:
-  \`${SRCENV} && cd ${PROJECT} && python3 tools/scribe_draft.py \$MCFM_HOME/src/${f.file} --force\`
+  \`${SRCENV} && cd ${PROJECT} && python3 dev/tools/draft/scribe_draft.py \$MCFM_HOME/src/${f.file} --force\`
   This writes \`\$MCFM_HOME/src/${f.file.replace(/\.[^.]+$/, '')}.scribe\`: scribe-prompt hints (which called
   constructs are external functions, which are array/statement functions) plus a mechanical first-cut
   conversion. It is SCAFFOLDING, not the answer — read it for the hints, then write the real translation.

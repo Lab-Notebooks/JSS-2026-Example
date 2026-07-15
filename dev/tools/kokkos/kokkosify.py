@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """kokkosify.py -- deterministic pre-pass for MCFM C++ -> Pepper Kokkos kernel drafts.
 
-Applies the mechanical subset of dev/cpp-to-kokkos/desired_spec.md §3 to a stage-1
+Applies the mechanical subset of dev/transformations/cpp-to-kokkos/desired_spec.md §3 to a stage-1
 translated MCFM C++ file and emits:
   1. a DRAFT kernel body (NOT compilable as-is; the authoring agent finishes it), and
   2. a blocker/dependency report (the lint half of guide Step 1).
@@ -306,7 +306,7 @@ def kokkosify(src: str, src_name: str):
     banner = (
         "// MACHINE-GENERATED DRAFT (kokkosify.py) from %s -- NOT compilable as-is.\n"
         "// Mechanical renames + index shifts applied; every KOKKOSIFY-TODO needs a\n"
-        "// decision. Follow dev/cpp-to-kokkos/desired_spec.md sections 2-4 to finish.\n"
+        "// decision. Follow dev/transformations/cpp-to-kokkos/desired_spec.md sections 2-4 to finish.\n"
         "#pragma once\n"
         '#include "../math.h"\n' % src_name
     )

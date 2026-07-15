@@ -8,7 +8,7 @@ resolved against the objects actually listed in libmcfm's link line. Symbols
 do not lie; a closure file missing from a split plan is either a missed
 callee or must be explicitly justified as dead/off-path.
 
-Why not the Doxygen graph (tools/build_roadmap.py): that graph is built from
+Why not the Doxygen graph (dev/tools/index/build_roadmap.py): that graph is built from
 the FORTRAN sources and 288/476 of its per-file XMLs are empty stubs (silent
 parse failures, no call edges), so it cannot certify completeness. It remains
 fine for what stage 1 uses it for (ranking candidate leaves; the integrate
@@ -27,8 +27,8 @@ provenance line every mcfm_analytics header carries:
 still requires checking that the functions you need are among them.
 
 Usage:
-  python3 tools/calltree_closure.py qqb_z2jet_v
-  python3 tools/calltree_closure.py Z2jet/qqb_z2jet_v      # disambiguate
+  python3 dev/tools/closure/calltree_closure.py qqb_z2jet_v
+  python3 dev/tools/closure/calltree_closure.py Z2jet/qqb_z2jet_v      # disambiguate
 Requires a built tree ($MCFM_HOME/Bin/CMakeFiles/libmcfm.dir/link.txt) and, for
 the stage-2 reuse column, the Pepper clone ($PEPPER_HOME). Both are set by
 environment.sh; see software/README.md.
@@ -39,7 +39,7 @@ import os
 import subprocess
 import sys
 
-_ROOT = os.environ.get("PROJECT_HOME") or os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+_ROOT = os.environ.get("PROJECT_HOME") or os.path.dirname(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))
 MCFM = os.environ.get("MCFM_HOME", _ROOT + "/software/mcfm")
 BINDIR = MCFM + "/Bin"
 LINKTXT = BINDIR + "/CMakeFiles/libmcfm.dir/link.txt"

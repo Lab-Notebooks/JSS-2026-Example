@@ -135,7 +135,7 @@ Additional rules:
    `$MCFM_HOME/src/.../<name>.cpp`, follow every call, and list: the call tree;
    module globals read (→ Params fields); portability blockers (QCDLoop → §5, STL,
    heap, I/O); already-ported helpers (reuse via include). Cross-check completeness
-   with `python3 tools/calltree_closure.py <name>` — it derives the closure from
+   with `python3 dev/tools/closure/calltree_closure.py <name>` — it derives the closure from
    libmcfm's linked objects (symbols do not lie), flags any plain-Fortran object (a
    stage-1 gap), and reports stage-2 reuse from headers' `// MCFM sources:`
    provenance lines (§7). The Doxygen roadmap is NOT a completeness authority here.
@@ -213,7 +213,7 @@ so the unit of work is the flattened tree, not the file. Protocol:
 `<name>_kernel.h` + one-line `.cpp` TU are registered in CMake. **Provenance line
 (mandatory):** every mcfm_analytics header carries, in its top comment,
 `// MCFM sources: src/<dir>/<file>.cpp, …` with ` (partial)` on any file it ports
-only part of — this is what `tools/calltree_closure.py` reads to compute reuse. A
+only part of — this is what `dev/tools/closure/calltree_closure.py` reads to compute reuse. A
 frozen fragment is never edited by a later agent; if the full ME then disagrees,
 fix the assembly layer, not the fragments.
 

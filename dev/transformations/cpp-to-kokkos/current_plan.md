@@ -12,8 +12,8 @@ fragments are available for reuse.
 
 - Port with the `kokkos-translate` workflow (`args:{projectRoot, amplitude:"<name>"}`
   for one, or `amplitudes:[...]` in dependency order). Check reuse and stage-1
-  readiness first: `python3 tools/calltree_closure.py <name>` (a plain-Fortran
-  object in the closure is a stage-1 gap — finish that in `dev/fortran-to-cpp/` first).
+  readiness first: `python3 dev/tools/closure/calltree_closure.py <name>` (a plain-Fortran
+  object in the closure is a stage-1 gap — finish that in `dev/transformations/fortran-to-cpp/` first).
 - After a run, flip the boxes you cleared and note the worst relative error per
   amplitude.
 

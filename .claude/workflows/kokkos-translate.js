@@ -5,7 +5,7 @@
 //
 //            Control flow is size-gated (Spec §7):
 //              Triage  — deterministic closure-object count (cheap; runs
-//                        tools/calltree_closure.py).
+//                        dev/tools/closure/calltree_closure.py).
 //              if objects <= directMax (default 30):
 //                Direct port — ONE agent ports the whole small call tree into a
 //                              single kernel header + Params, validates the full
@@ -15,7 +15,7 @@
 //              Validate — nested full-ME validate<->fix loop vs libmcfm (both paths).
 //              Test     — doctests + CMake wiring + pepper_test (both paths).
 //
-// Spec     : dev/cpp-to-kokkos/desired_spec.md is the single source of truth for
+// Spec     : dev/transformations/cpp-to-kokkos/desired_spec.md is the single source of truth for
 //            the how; this script is orchestration only.
 // Inputs   : args.projectRoot  — absolute path to the lab-notebook root (REQUIRED)
 //            args.amplitude    — one amplitude, e.g. "qqb_z2jet_v" or "Z2jet/qqb_z2jet_v.cpp"
@@ -86,9 +86,9 @@ const FIX_MODEL      = cfg.model || cfg.fixModel      || 'opus'
 const ASSEMBLE_MODEL = cfg.model || cfg.assembleModel || 'opus'
 const TEST_MODEL     = cfg.model || cfg.testModel     || 'opus'
 
-const SPEC      = 'dev/cpp-to-kokkos/desired_spec.md'
+const SPEC      = 'dev/transformations/cpp-to-kokkos/desired_spec.md'
 const SRCENV    = `source ${PROJECT}/environment.sh`
-const TEMPLATES = `tools/kokkos`
+const TEMPLATES = `dev/tools/kokkos`
 
 // ---------------------------------------------------------------------------
 // Schemas
@@ -96,7 +96,7 @@ const TEMPLATES = `tools/kokkos`
 const TRIAGE_SCHEMA = {
   type: 'object',
   properties: {
-    objects:    { type: 'integer', description: 'closure object count from tools/calltree_closure.py (the "N/N objects" line)' },
+    objects:    { type: 'integer', description: 'closure object count from dev/tools/closure/calltree_closure.py (the "N/N objects" line)' },
     ready:      { type: 'boolean', description: 'true if every closure object is C++ (stage-1 READY); false = plain-Fortran blocker present' },
     kernelName: { type: 'string', description: 'kernel base name, e.g. qqb_z2jet_v' },
     entry:      { type: 'string', description: 'entry source relative to $MCFM_HOME/src, e.g. Z2jet/qqb_z2jet_v.cpp' },
@@ -220,15 +220,15 @@ oracle — NOT one piece per function.
 5. Blockers: any callee with NO stage-1 .cpp on disk (stage 1 must translate it first — name the .f), a
    missing \$MCFM_HOME/install/lib/libmcfm.*, or a portability problem §3/§5 cannot handle.
 6. COMPLETENESS CROSS-CHECK (MANDATORY): run
-   \`python3 ${PROJECT}/tools/calltree_closure.py <entry-base-name>\` — the symbol-level transitive closure
+   \`python3 ${PROJECT}/dev/tools/closure/calltree_closure.py <entry-base-name>\` — the symbol-level transitive closure
    from libmcfm's actual linked objects (authoritative; symbols do not lie). Every closure object must be
    (a) covered by some chunk's sources, (b) a *_mod.cpp module-data object (→ Params fields), or (c) explicitly
    listed in the plan note as dead/off-path WITH the gating reason. Any plain-FORTRAN object in the closure is
-   an automatic blocker. Do NOT use the Doxygen roadmap (tools/build_roadmap.py) as a completeness authority
+   an automatic blocker. Do NOT use the Doxygen roadmap (dev/tools/index/build_roadmap.py) as a completeness authority
    for stage 2 — many of its per-file XMLs are empty stubs.
 7. Propose the *_Params field list (union of globals + §2.5 couplings; virtual kernels nest the Born struct).
 
-Write the human-readable plan to tools/assets/kokkos-split-${AMPLITUDE}.md (chunk table + DAG + blockers) and
+Write the human-readable plan to dev/tools/assets/kokkos-split-${AMPLITUDE}.md (chunk table + DAG + blockers) and
 return the structured object. Do NOT write any kernel code.`,
   { label: 'split', phase: 'Split', schema: SPLIT_SCHEMA, model: SPLIT_MODEL }
 )
@@ -244,7 +244,7 @@ const tri = await agent(
 NOT a full dependency audit. Work from ${PROJECT}; prefix env-dependent commands with \`${SRCENV} && <cmd>\`.
 
 Amplitude: "${AMPLITUDE}". Do only this:
-1. Run \`python3 ${PROJECT}/tools/calltree_closure.py <entry-base-name>\` and read its footer lines: the
+1. Run \`python3 ${PROJECT}/dev/tools/closure/calltree_closure.py <entry-base-name>\` and read its footer lines: the
    "N/N objects are C++ -> READY" count is 'objects' and whether all are C++ is 'ready'. If any object is
    plain Fortran, set ready=false (a stage-1 blocker the split path will surface).
 2. Locate the entry .cpp under \$MCFM_HOME/src (grep for the amplitude name) → 'entry' (path relative to
@@ -380,7 +380,7 @@ READ ${PROJECT}/${SPEC} FIRST — §2 (conventions), §3 (rules incl. the Kokkos
 §4 (author), §8 (gotchas)${p.qcdloop ? ', and §5 (closed-form scalar integrals) — your chunk calls QCDLoop' : ''}.
 
 Do, in order:
-1. Deterministic pre-pass per §4 (scratch dir tools/assets/tmp/kokkos-${NAME}/${p.id}/), for EACH source:
+1. Deterministic pre-pass per §4 (scratch dir dev/tools/assets/tmp/kokkos-${NAME}/${p.id}/), for EACH source:
    \`python3 ${TEMPLATES}/kokkosify.py \$MCFM_HOME/src/<source> -o <scratch>/draft.h -r <scratch>/report.md\`
    Resolve every KOKKOSIFY-TODO by hand; the report is your blocker/Params audit.
 2. Write ONE fragment ${PARTSDIR}/${p.id}.h covering the whole chunk: include guard, then the machine-readable

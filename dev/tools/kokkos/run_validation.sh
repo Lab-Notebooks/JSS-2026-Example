@@ -25,9 +25,13 @@ script_dir="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 SHIM_DIR="${SHIM_DIR:-$script_dir}"
 
 # --- locate MCFM install (headers + libmcfm) ---
+# Fall back through $MCFM_HOME, then the repo layout: prefer $PROJECT_HOME (set by
+# environment.sh, as the Python tools do), else derive the repo root from this
+# script's location (dev/tools/kokkos/ -> three levels up).
 MCFM_DIR="${MCFM_DIR:-${MCFM_HOME:-}}"
 if [[ -z "${MCFM_DIR}" ]]; then
-  MCFM_DIR="$(cd "$script_dir/../../software/mcfm" 2>/dev/null && pwd || true)"
+  repo_root="${PROJECT_HOME:-$(cd "$script_dir/../../.." && pwd)}"
+  MCFM_DIR="$(cd "$repo_root/software/mcfm" 2>/dev/null && pwd || true)"
 fi
 if   [[ -d "${MCFM_DIR}/install/include" ]]; then inc="$MCFM_DIR/install/include"; lib="$MCFM_DIR/install/lib"
 elif [[ -d "${MCFM_DIR}/include"        ]]; then inc="$MCFM_DIR/include";        lib="$MCFM_DIR/lib"

@@ -445,7 +445,7 @@ top-level `src/` directory to a `./test -b` process:
 | Mods, Need, Inc, Procdep | (infrastructure — no direct benchmark; mark TRANSLATED, not VERIFIED) |
 
 A file in a directory with no benchmark is **translated but unverified**. This
-table is also encoded in `tools/build_roadmap.py` (the `BENCH` dict).
+table is also encoded in `dev/tools/index/build_roadmap.py` (the `BENCH` dict).
 
 ---
 

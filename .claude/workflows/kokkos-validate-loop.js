@@ -4,7 +4,7 @@
 //            (via the standalone host shim + libmcfm), and alternate
 //            diagnose-and-fix → re-validate until every check passes or no further
 //            progress can be made. This is the stage-2 verification bar
-//            (dev/cpp-to-kokkos/desired_spec.md §4-6) driven as a loop.
+//            (dev/transformations/cpp-to-kokkos/desired_spec.md §4-6) driven as a loop.
 // Invoked  : by kokkos-translate.js, or directly once a kernel header exists and
 //            needs to be made equivalent to MCFM.
 // Inputs   : args.amplitude    — amplitude / kernel name (e.g. "qqb_z1jet_v")
@@ -14,15 +14,15 @@
 //            args.scopeNote    — binding scope directive
 // Outputs  : { status:'PASSED', maxRelErr, fixes } | { status:'FAILED', reason, fixes }
 //
-// State shared between isolated agents (scratch, gitignored under tools/assets/):
-//   tools/assets/kokkos-validate-output.md      — written by the validate agent
-//   tools/assets/kokkos-translate-checklist.md  — appended by the fix agent
+// State shared between isolated agents (scratch, gitignored under dev/tools/assets/):
+//   dev/tools/assets/kokkos-validate-output.md      — written by the validate agent
+//   dev/tools/assets/kokkos-translate-checklist.md  — appended by the fix agent
 // ═══════════════════════════════════════════════════════════════════════════════
 
 export const meta = {
   name: 'kokkos-validate-loop',
   description: 'Validate a ported Kokkos kernel against MCFM and loop diagnose→fix→re-validate until it is equivalent or stuck. The stage-2 verification bar, driven as a loop.',
-  whenToUse: 'Pass args: { amplitude:"qqb_z1jet_v", projectRoot:"/abs/path", maxFixes:6, tol:1e-10 }. Requires the kernel header to already exist under $PEPPER_HOME/src/mcfm_analytics. Each cycle runs as an isolated agent; state is shared via tools/assets/kokkos-*.md.',
+  whenToUse: 'Pass args: { amplitude:"qqb_z1jet_v", projectRoot:"/abs/path", maxFixes:6, tol:1e-10 }. Requires the kernel header to already exist under $PEPPER_HOME/src/mcfm_analytics. Each cycle runs as an isolated agent; state is shared via dev/tools/assets/kokkos-*.md.',
   phases: [
     { title: 'Validate', detail: 'Build+run the libmcfm vs kernel comparison, write kokkos-validate-output.md' },
     { title: 'Fix',      detail: 'Diagnose the mismatching block, edit the kernel header, append to the checklist' },
@@ -41,8 +41,8 @@ if (!amplitude)   throw new Error('args.amplitude is required')
 if (!projectRoot) throw new Error('args.projectRoot is required')
 
 const skillRef =
-  `Follow dev/cpp-to-kokkos/desired_spec.md §4-6 (build the standalone validator from ` +
-  `tools/kokkos/validator_skeleton.cpp and build/run it with tools/kokkos/run_validation.sh, ` +
+  `Follow dev/transformations/cpp-to-kokkos/desired_spec.md §4-6 (build the standalone validator from ` +
+  `dev/tools/kokkos/validator_skeleton.cpp and build/run it with dev/tools/kokkos/run_validation.sh, ` +
   `which links libmcfm and compiles the real kernel headers via the Kokkos shim). ` +
   `Required tolerance: ${tol}.` +
   (scopeNote ? `\nSCOPE DIRECTIVE from the orchestrator (binding — configure the MCFM reference side ` +
@@ -76,7 +76,7 @@ const first = await agent(
   `Validate the ported Pepper kernel for "${amplitude}" against the original MCFM C++.
 Project root: ${projectRoot}.
 ${skillRef}
-Write the full check table (each check's ref/got/relErr) to tools/assets/kokkos-validate-output.md. Return
+Write the full check table (each check's ref/got/relErr) to dev/tools/assets/kokkos-validate-output.md. Return
 status PASSED only if every check is within ${tol}; otherwise FAILED with the worst relative error and the
 name of the worst-failing check.`,
   { label: 'validate:0', phase: 'Validate', schema: VALIDATE_SCHEMA }
@@ -97,11 +97,11 @@ while (fixes < maxFixes) {
   phase('Fix')
   const fix = await agent(
     `The Kokkos kernel for "${amplitude}" does not yet match MCFM. This is fix attempt ${fixes} of ${maxFixes}.
-Read tools/assets/kokkos-validate-output.md for the failing checks. A mismatch in a translated amplitude is
+Read dev/tools/assets/kokkos-validate-output.md for the failing checks. A mismatch in a translated amplitude is
 almost always an index-permutation or za<->zb-swap slip, a 0-based/1-based index error, or a wrong
 coupling/normalisation — diff the kernel helper against the corresponding MCFM C++ source line in $MCFM_HOME.
 Edit ONLY the kernel header under ${projectRoot} to fix the single worst-failing block. Append a
-"- [x] <what you changed>" line to tools/assets/kokkos-translate-checklist.md. Return fixed=false if you could
+"- [x] <what you changed>" line to dev/tools/assets/kokkos-translate-checklist.md. Return fixed=false if you could
 not identify a change to make. Do NOT re-run the validator — a separate step will.
 ${skillRef}`,
     { label: `fix:${fixes}`, phase: 'Fix', schema: FIX_SCHEMA }
@@ -119,7 +119,7 @@ ${skillRef}`,
     `Re-validate the ported Pepper kernel for "${amplitude}" against MCFM.
 Project root: ${projectRoot}.
 ${skillRef}
-Overwrite tools/assets/kokkos-validate-output.md with the new check table. Return status PASSED only if every
+Overwrite dev/tools/assets/kokkos-validate-output.md with the new check table. Return status PASSED only if every
 check is within ${tol}; otherwise FAILED with the worst relative error and worst-failing check name.`,
     { label: `validate:${fixes}`, phase: 'Validate', schema: VALIDATE_SCHEMA }
   )

@@ -1,4 +1,0 @@
-job:
-  setup:
-    - setup_mcfm.sh
-    - setup_pepper.sh

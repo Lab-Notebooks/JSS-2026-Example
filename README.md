@@ -14,25 +14,29 @@ scientific codebases themselves are obtained separately; see
 
 ## The two parts: coded capabilities, and documents
 
-The design separates the **coded part** from the **documents**:
+The design separates the **coded part** (the **tools** and the orchestration) from
+the **documents**:
 
-- **Coded — `tools/` + `.claude/workflows/`.** Deterministic helpers (the Doxygen
-  index, the call-tree closure, the draft annotator, the Kokkos validation
-  templates) live in `tools/`; the orchestration that drives subagents through the
-  staged pipeline lives in `.claude/workflows/`.
-- **Documents — `dev/<transformation>/`.** Each transformation is defined by a
-  **Spec** (`desired_spec.md` — the translation rules, conventions, and the
-  verification bar) and a **Plan** (`current_plan.md` — the human-seeded worklist
-  agents tick off and record outcomes in). Stage 1 also carries the few-shot
-  **seed examples** (`seed_examples.toml`) the translate step reads, and a
-  `loop.toml` documenting the reference CodeScribe orchestrator's input.
+- **Coded — `dev/tools/` + `.claude/workflows/`.** Each reusable **tool** is a
+  deterministic helper in its own directory under `dev/tools/`: `index/`
+  (the Doxygen dependency roadmap), `draft/` (the draft annotator, plus the
+  `seed_examples.toml` translation template it pairs with), `closure/` (the
+  call-tree closure), and `kokkos/` (the Kokkos validation templates + host shim).
+  The orchestration that drives subagents through the staged pipeline lives in
+  `.claude/workflows/`. Tools are orchestrator-independent — the same tool runs
+  under either orchestrator.
+- **Documents — `dev/transformations/<transformation>/`.** Each transformation is
+  defined by exactly two shared documents: a **Spec** (`desired_spec.md` — the
+  translation rules, conventions, and the verification bar) and a **Plan**
+  (`current_plan.md` — the human-seeded worklist agents tick off and record
+  outcomes in).
 
 ## The two transformations
 
 | Stage | Transformation | Documents | Workflow | Verification bar |
 |-------|----------------|-----------|----------|------------------|
-| 1 | Fortran → C++ | [`dev/fortran-to-cpp/`](dev/fortran-to-cpp/) | [`mcfm-translate.js`](.claude/workflows/mcfm-translate.js) | benchmark ratios within `1e-13` **and** a coverage probe confirming the unit is exercised |
-| 2 | C++ → Kokkos kernel | [`dev/cpp-to-kokkos/`](dev/cpp-to-kokkos/) | [`kokkos-translate.js`](.claude/workflows/kokkos-translate.js) | layered equivalence vs `libmcfm`, doctests passing |
+| 1 | Fortran → C++ | [`dev/transformations/fortran-to-cpp/`](dev/transformations/fortran-to-cpp/) | [`mcfm-translate.js`](.claude/workflows/mcfm-translate.js) | benchmark ratios within `1e-13` **and** a coverage probe confirming the unit is exercised |
+| 2 | C++ → Kokkos kernel | [`dev/transformations/cpp-to-kokkos/`](dev/transformations/cpp-to-kokkos/) | [`kokkos-translate.js`](.claude/workflows/kokkos-translate.js) | layered equivalence vs `libmcfm`, doctests passing |
 
 A unit is **verified** only when its bar is met; a unit that builds but is not
 exercised is **translated** (unverified) and recorded separately — the operational
@@ -45,9 +49,9 @@ The Stage-1 workflow realizes the reference multi-stage translation as ordered p
 authoring and verification.
 
 ```
-Index    Doxygen call graph -> dependency ranking + symbol map   tools/build_roadmap.py
+Index    Doxygen call graph -> dependency ranking + symbol map   dev/tools/index/build_roadmap.py
 Resolve  pick the next conflict-free leaf layer (deps==0)        (reads the graph)
-Author   per file: Draft then Translate, in parallel            tools/scribe_draft.py + seed_examples.toml
+Author   per file: Draft then Translate, in parallel            dev/tools/draft/scribe_draft.py + seed_examples.toml
 Integrate  serial: rewire CMake, build once, verify + probe      (the trust anchor)
 Fix      escalate FAILED units to a stronger model
 ```
@@ -69,20 +73,27 @@ validate↔fix loop [`kokkos-validate-loop.js`](.claude/workflows/kokkos-validat
 
 CodeScribe is a collaborator's agent with special capabilities. It is **not run**
 here; its valuable *index / draft / translate* mechanics are replicated as the tools
-and workflow above, and `dev/fortran-to-cpp/loop.toml` documents how that reference
-loop would read the same Spec and Plan under the same verification bar (paper §4.3).
+and workflow above. When CodeScribe drives this task it reads the same Spec and Plan
+under the same verification bar, configured by its own `loop.toml` (which lives with
+CodeScribe, not in this artifact); see paper §4.3, Fig. 4.
 
 ## Tree
 
 ```
-.claude/workflows/     coded: staged orchestration (mcfm-translate, kokkos-translate, kokkos-validate-loop)
-tools/                 coded: build_roadmap.py (Doxygen index), calltree_closure.py, scribe_draft.py, kokkos/
-dev/fortran-to-cpp/    documents: desired_spec.md, current_plan.md, seed_examples.toml, loop.toml
-dev/cpp-to-kokkos/     documents: desired_spec.md, current_plan.md
-software/              setup scripts + pointer README for the external MCFM/Pepper clones
-tests/                 jobrunner wrappers for the build/benchmark harnesses
-environment.sh         self-locating environment (exports MCFM_HOME, PEPPER_HOME)
-config.sh              site selector (SiteName); sites/<site>/environment.sh holds the toolchain
+.claude/workflows/               coded: staged orchestration (mcfm-translate, kokkos-translate, kokkos-validate-loop)
+dev/tools/                       coded: one directory per reusable tool
+  index/build_roadmap.py           Doxygen dependency roadmap + symbol map
+  draft/scribe_draft.py            draft annotator (+ seed_examples.toml translation template)
+  closure/calltree_closure.py      transitive call-tree closure (stage-2 completeness check)
+  kokkos/                          Kokkos validation templates + host shim
+  assets/                          generated outputs (roadmap, symbol index, …); runtime-only
+dev/transformations/             documents: two shared docs per transformation
+  fortran-to-cpp/                  desired_spec.md, current_plan.md
+  cpp-to-kokkos/                   desired_spec.md, current_plan.md
+software/mcfm, software/pepper   per-component folders (Jobfile + setup.sh) for the external clones
+tests/                           jobrunner wrappers for the build/benchmark harnesses
+environment.sh                   self-locating environment (exports MCFM_HOME, PEPPER_HOME)
+config.sh                        site selector (SiteName); sites/<site>/environment.sh holds the toolchain
 ```
 
 ## Running an experiment
@@ -90,14 +101,14 @@ config.sh              site selector (SiteName); sites/<site>/environment.sh hol
 1. **Configure the environment.** Edit `config.sh` (`SiteName`) and
    `sites/<site>/environment.sh` for your toolchain (a reference `sites/sedona/` is
    provided), then `source environment.sh`.
-2. **Get the codebases.** `jobrunner setup software` (or clone by hand per
-   [`software/README.md`](software/README.md)) places the MCFM and Pepper clones. For
+2. **Get the codebases.** `git submodule update --init` populates the MCFM and Pepper
+   submodules under `software/` (see [`software/README.md`](software/README.md)). For
    Stage 1, also generate the Doxygen XML under `software/mcfm/doxygen_dep/xml`.
 3. **Run a transformation.** Launch the workflow on a fixed slice of the Plan:
    - Stage 1: `mcfm-translate` with `args:{projectRoot:"<abs>", resolver:"graph", scope:"ThreeJets"}`.
    - Stage 2: `kokkos-translate` with `args:{projectRoot:"<abs>", amplitude:"qqb_z1jet_v"}`.
-   Vary the transformation (which `dev/<stage>/`), the workflow, or the per-phase
-   models to run different experiments over the same documents.
+   Vary the transformation (which `dev/transformations/<stage>/`), the workflow, or
+   the per-phase models to run different experiments over the same documents.
 4. **Verify and record.** `jobrunner submit tests/mcfm` (or the Stage-2 doctests)
    applies the bar; record per-unit outcomes in the transformation's `current_plan.md`.
 

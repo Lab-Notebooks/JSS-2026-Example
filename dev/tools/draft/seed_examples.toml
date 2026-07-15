@@ -2,7 +2,7 @@
 #
 # The worked-example seed used by the TRANSLATE mechanism (replicated from the
 # reference CodeScribe path). The Author phase reads these [[chat.user]]/[[chat.assistant]]
-# example turns alongside the machine-generated <draft> (tools/scribe_draft.py) and the
+# example turns alongside the machine-generated <draft> (dev/tools/draft/scribe_draft.py) and the
 # Spec (desired_spec.md) to produce <cheader>/<csource>/<fsource> outputs.
 #
 [[chat.user]]
