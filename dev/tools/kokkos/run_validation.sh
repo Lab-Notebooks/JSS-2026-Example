@@ -1,21 +1,11 @@
 #!/usr/bin/env bash
-# Compile and run a standalone validator/benchmark that links the original MCFM
-# C++ (libmcfm) AND the ported Pepper Kokkos kernels (compiled host-side through
-# the Kokkos shim). This is the "standalone equivalence" step of the
-# cpp-to-kokkos translate-kernel skill: it lets the real kernel headers run on the CPU and
-# be compared against MCFM with no Kokkos build.
+# Validation harness — compile and run a standalone validator that links the
+# original MCFM C++ (libmcfm) alongside the ported Kokkos kernels, compiled
+# host-side through the Kokkos shim. This is the stage-2 equivalence step: it runs
+# the real kernel headers on the CPU and compares them against MCFM, no Kokkos build.
 #
-# Usage:
-#   run_validation.sh <validator.cpp> [extra g++ args...]
-#
-# Environment overrides:
-#   MCFM_DIR     mcfminterface dir containing install/include and install/lib
-#                (default: $MCFM_HOME, else autodetected from the repo layout)
-#   KERNELS_DIR  Pepper kernels dir (default: $PEPPER_HOME/src/mcfm_analytics)
-#   SHIM_DIR     dir containing the kokkos_host_shim/{math,event_handle,kernel_macros}.h
-#                (default: alongside this script)
-#   CXX          C++ compiler (default: g++-15, then g++, then c++)
-#   CXXFLAGS     compiler flags (default: -O3 -march=native)
+# Usage: run_validation.sh <validator.cpp> [extra g++ args...]
+# Overrides: MCFM_DIR, KERNELS_DIR, SHIM_DIR, CXX (g++-15/g++/c++), CXXFLAGS.
 set -euo pipefail
 
 validator="${1:?usage: run_validation.sh <validator.cpp> [extra g++ args...]}"
