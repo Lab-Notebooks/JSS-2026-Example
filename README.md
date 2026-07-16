@@ -3,13 +3,10 @@
 This repository is a worked example of **designing collaborative, AI-driven
 workflows for scientific software engineering.** It is a *lab notebook*: a single
 versioned directory tree that carries the code, the agentic capabilities, and the
-documents needed to run staged, AI-assisted code-modernization transformations — so
-that cloning the tree shares both the work and the means to continue it.
+documents needed to staged transformations for AI-assisted code-modernization.
 
-It is also meant to be *read*. A collaborative workflow should be legible: humans own
-intent and acceptance, deterministic tools do the mechanical steps, and a thin
-orchestration layer drives agents while pointing at a shared specification rather than
-restating it. The files here are written to show that, not just to run it. If you read
+It is also meant to be *read*. A collaborative workflow should be legible between
+humans and AI. The files here are written to show that, not just to run it. If you read
 only three things, read this page, then the two guided tours it links to below, then
 one Spec.
 
