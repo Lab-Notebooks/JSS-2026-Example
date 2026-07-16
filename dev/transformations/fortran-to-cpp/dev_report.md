@@ -20,7 +20,7 @@ two branches, all far below the benchmark tolerance.
 - Each benchmark process run independently (rather than `test.sh` directly) so a
   `set -e` abort could not mask later processes — all returned RC=0.
 - ANSI codes stripped; 17-significant-digit MCFM values and ratios diffed.
-- Runner: `tests/mcfm/run_branch.sh`. Archived logs: [`tests/mcfm/jobnode.archive/2026-07-16`](https://github.com/Lab-Notebooks/Agentic-Workflows-Demo/tree/main/tests/mcfm/jobnode.archive/2026-07-16).
+- Archived logs: [`tests/mcfm/jobnode.archive/2026-07-16`](https://github.com/Lab-Notebooks/Agentic-Workflows-Demo/tree/main/tests/mcfm/jobnode.archive/2026-07-16).
 
 ## Artifacts
 
