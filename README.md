@@ -3,7 +3,7 @@
 This repository is a worked example of **designing collaborative, AI-driven
 workflows for scientific software engineering.** It is a *lab notebook*: a single
 versioned directory tree that carries the code, the agentic capabilities, and the
-documents needed to staged transformations for AI-assisted code-modernization.
+documents needed to stage transformations for AI-assisted code-modernization.
 
 It is also meant to be *read*. A collaborative workflow should be legible between
 humans and AI. The files here are written to show that, not just to run it. If you read
@@ -14,9 +14,6 @@ The scientific codebases themselves (MCFM and Pepper) are obtained separately; s
 [`software/README.md`](software/README.md).
 
 ## The shape of the design: documents and coded capabilities
-
-The whole design turns on one separation — what a human writes from what an agent
-runs:
 
 - **Documents — [`dev/transformations/`](dev/transformations/).** Each transformation
   is defined by exactly two shared, human-readable documents: a **Spec**
