@@ -9,6 +9,7 @@ resolve `$MCFM_HOME` and `$PEPPER_HOME`:
 |------|----------|-----------|------|
 | `software/mcfm` | `$MCFM_HOME` | [`NeuCol/mcfminterface`](https://github.com/NeuCol/mcfminterface) @ `adhruv/Convert_to_c++` | MCFM — Fortran source translated to C++ (stage 1), then the C++ that stage 2 ports and validates against (`libmcfm`). |
 | `software/pepper` | `$PEPPER_HOME` | [`maxkno/pepper-mcfm-amplitudes`](https://github.com/maxkno/pepper-mcfm-amplitudes) @ `43-add-kokkos-mcfm-interface` | Pepper — Kokkos event generator; stage-2 kernels live in `$PEPPER_HOME/src/mcfm_analytics`. |
+| `software/qcdloop` | `$QCDLOOP_HOME` | [`ReetBarik/qcdloop`](https://github.com/ReetBarik/qcdloop) @ `master` | Kokkos QCDLoop — header-only, device-portable massive-top one-loop scalar integrals (box/triangle/bubble). Pepper's stage-2 `texact` kernels link it via `-DPEPPER_QCDLOOP_DIR=$QCDLOOP_HOME`. |
 
 ## Getting the clones
 
@@ -16,7 +17,7 @@ The submodules are populated at clone time with `--recurse-submodules`, or after
 fact:
 
 ```
-git submodule update --init            # fetch + check out both at their pinned commits
+git submodule update --init            # fetch + check out all three at their pinned commits
 ```
 
 Each submodule is pinned to a commit but also records its branch in `.gitmodules`, so
@@ -32,6 +33,7 @@ git add software/mcfm && git commit -m "Bump MCFM submodule"
 software/
   mcfm/            # submodule: MCFM  (= $MCFM_HOME)
   pepper/          # submodule: Pepper (= $PEPPER_HOME)
+  qcdloop/         # submodule: Kokkos QCDLoop (= $QCDLOOP_HOME)
 ```
 
 ## What the tools and workflows expect inside them
@@ -46,7 +48,12 @@ software/
 - **Stage 2** (`dev/tools/closure/calltree_closure.py`, `kokkos-translate`): a built
   `software/mcfm/Bin/CMakeFiles/libmcfm.dir/link.txt` and
   `software/mcfm/install/lib/libmcfm.*`; the Pepper clone with `src/mcfm_analytics/`
-  and `tests/unit_tests/matrix_elements.cpp`.
+  and `tests/unit_tests/matrix_elements.cpp`; and, for the massive-top (`texact`) code
+  paths, the QCDLoop clone providing `src/qcdloop/{boxGPU,triangleGPU,bubbleGPU}.h`.
+  Pepper resolves these when configured with `-DPEPPER_QCDLOOP_DIR=$QCDLOOP_HOME`, which
+  adds `$QCDLOOP_HOME/src` (+ `/src/qcdloop`) to the include path and defines
+  `PEPPER_QCDLOOP` (enabling the `texact` kernels and their doctests). `tests/pepper`
+  passes this automatically.
 
 Translation outputs (generated `.cpp`/`.hpp`/`_fi.F90`, CMake edits, Kokkos kernel
 headers) are written *into these clones*, not into this repository. Per-unit outcomes

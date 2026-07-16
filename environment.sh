@@ -22,11 +22,14 @@ if [ -n "$SiteName" ] && [ -f "$SiteHome/config.sh" ]; then
   source "$SiteHome/config.sh"
 fi
 
-# The two scientific codebases under transformation. These are external clones
-# obtained per software/README.md; the paths are fixed, the contents are not
-# tracked by this repository.
+# The scientific codebases under transformation, plus the QCDLoop dependency
+# Pepper links. These are external clones obtained per software/README.md; the
+# paths are fixed, the contents are not tracked by this repository.
 export MCFM_HOME="$PROJECT_HOME/software/mcfm"       # Fortran -> C++ (stage 1)
 export PEPPER_HOME="$PROJECT_HOME/software/pepper"   # C++ -> Kokkos (stage 2)
+# Kokkos QCDLoop (header-only): the massive-top scalar integrals Pepper's stage-2
+# texact kernels link against. Pepper is built with -DPEPPER_QCDLOOP_DIR=$QCDLOOP_HOME.
+export QCDLOOP_HOME="$PROJECT_HOME/software/qcdloop"
 
 echo "---------------------------------------------------------------------------------------"
 echo "Lab-notebook environment:"
@@ -34,4 +37,5 @@ echo "  PROJECT_HOME=$PROJECT_HOME"
 echo "  SITE_HOME=$SiteHome"
 echo "  MCFM_HOME=$MCFM_HOME"
 echo "  PEPPER_HOME=$PEPPER_HOME"
+echo "  QCDLOOP_HOME=$QCDLOOP_HOME"
 echo "---------------------------------------------------------------------------------------"

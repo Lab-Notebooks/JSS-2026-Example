@@ -1,3 +1,5 @@
 job:
   submit:
     - test.sh
+  archive:
+    - runlogs

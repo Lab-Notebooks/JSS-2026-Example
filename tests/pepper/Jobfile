@@ -1,3 +1,8 @@
 job:
   submit:
     - test.sh
+  clean:
+    - pepper_cache
+    - pepper_logs
+    - "*.debug"
+    - "*.hdf5"

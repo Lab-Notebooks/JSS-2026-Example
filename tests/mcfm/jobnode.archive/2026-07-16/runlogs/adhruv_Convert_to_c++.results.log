@@ -1,0 +1,546 @@
+########## PROCESS: u d~ ve e+ ##########
+*************************************************************
+*                                                           *
+*  MCFM Interface running MCFM v10.1                        *
+*                                                           *
+*  Please cite:                                             *
+*  J.M. Campbell, R.K. Ellis              hep-ph/9905386    *
+*  J.M. Campbell, R.K. Ellis, C. Williams arXiv:1105.0020   *
+*  J.M. Campbell, T. Neumann              arXiv:1909.09117  *
+*  J.M. Campbell, S. Hoeche, C.T. Preuss  arXiv:2107.04472  *
+*                                                           *
+*************************************************************
+
+************** Electroweak parameters **************
+*                                                  *
+zmass   91.1876 wmass(+)80.385
+zwidth(+)2.4952 wwidth(+)2.085
+Gf(+)1.19745e-05 1/aemmz(+)128.74
+xw   0.22293 mtop   173.21
+gwsq(+)0.437853 esq   0.0976108
+top width1(NLO)
+mb0 mc0
+*                                                  *
+* Parameters marked (+) are input, others derived  *
+****************************************************
+
+ Generating 1 flat phase space points
+
+process = 2 -1 -> 12 -11
+ Finite: MCFM = 2.8668728699527227e-07
+ IR:     MCFM = 2.5239432225802022e-07
+ IR2:    MCFM = -2.1209099620735084e-07
+ Born:   MCFM = 4.2349799718912332e-06
+
+ Finite: ratio = 1
+ IR:     ratio = 1
+ IR2:    ratio = 1
+ Born:   ratio = 1
+
+Benchmark with tolerance: 1.00000000000000003e-13
+ PASSED  
+
+*************************************************************
+*  Thanks for using MCFM.                                   *
+*                                                           *
+*  Please cite:                                             *
+*  J.M. Campbell, R.K. Ellis              hep-ph/9905386    *
+*  J.M. Campbell, R.K. Ellis, C. Williams arXiv:1105.0020   *
+*  J.M. Campbell, T. Neumann              arXiv:1909.09117  *
+*  J.M. Campbell, S. Hoeche, C.T. Preuss  arXiv:2107.04472  *
+*                                                           *
+*************************************************************
+
+########## RC=0 ##########
+
+########## PROCESS: u d~ ve e+ g ##########
+*************************************************************
+*                                                           *
+*  MCFM Interface running MCFM v10.1                        *
+*                                                           *
+*  Please cite:                                             *
+*  J.M. Campbell, R.K. Ellis              hep-ph/9905386    *
+*  J.M. Campbell, R.K. Ellis, C. Williams arXiv:1105.0020   *
+*  J.M. Campbell, T. Neumann              arXiv:1909.09117  *
+*  J.M. Campbell, S. Hoeche, C.T. Preuss  arXiv:2107.04472  *
+*                                                           *
+*************************************************************
+
+************** Electroweak parameters **************
+*                                                  *
+zmass   91.1876 wmass(+)80.385
+zwidth(+)2.4952 wwidth(+)2.085
+Gf(+)1.19745e-05 1/aemmz(+)128.74
+xw   0.22293 mtop   173.21
+gwsq(+)0.437853 esq   0.0976108
+top width1(NLO)
+mb0 mc0
+*                                                  *
+* Parameters marked (+) are input, others derived  *
+****************************************************
+
+ Generating 1 flat phase space points
+
+process = 2 -1 -> 12 -11 21
+ Finite: MCFM = 1.3213351414629449e-06
+ IR:     MCFM = 7.8094385629543055e-08
+ IR2:    MCFM = -1.0923352691331871e-06
+ Born:   MCFM = 1.0264224696208924e-05
+
+ Finite: ratio = 1
+ IR:     ratio = 1
+ IR2:    ratio = 1
+ Born:   ratio = 1
+
+Benchmark with tolerance: 1.00000000000000003e-13
+ PASSED  
+
+*************************************************************
+*  Thanks for using MCFM.                                   *
+*                                                           *
+*  Please cite:                                             *
+*  J.M. Campbell, R.K. Ellis              hep-ph/9905386    *
+*  J.M. Campbell, R.K. Ellis, C. Williams arXiv:1105.0020   *
+*  J.M. Campbell, T. Neumann              arXiv:1909.09117  *
+*  J.M. Campbell, S. Hoeche, C.T. Preuss  arXiv:2107.04472  *
+*                                                           *
+*************************************************************
+
+########## RC=0 ##########
+
+########## PROCESS: u d~ ve e+ g g ##########
+*************************************************************
+*                                                           *
+*  MCFM Interface running MCFM v10.1                        *
+*                                                           *
+*  Please cite:                                             *
+*  J.M. Campbell, R.K. Ellis              hep-ph/9905386    *
+*  J.M. Campbell, R.K. Ellis, C. Williams arXiv:1105.0020   *
+*  J.M. Campbell, T. Neumann              arXiv:1909.09117  *
+*  J.M. Campbell, S. Hoeche, C.T. Preuss  arXiv:2107.04472  *
+*                                                           *
+*************************************************************
+
+************** Electroweak parameters **************
+*                                                  *
+zmass   91.1876 wmass(+)80.385
+zwidth(+)2.4952 wwidth(+)2.085
+Gf(+)1.19745e-05 1/aemmz(+)128.74
+xw   0.22293 mtop   173.21
+gwsq(+)0.437853 esq   0.0976108
+top width1(NLO)
+mb0 mc0
+*                                                  *
+* Parameters marked (+) are input, others derived  *
+****************************************************
+
+ Generating 1 flat phase space points
+
+process = 2 -1 -> 12 -11 21 21
+ Finite: MCFM = 8.2191476834752224e-09
+ IR:     MCFM = -9.4873597419703466e-09
+ IR2:    MCFM = -6.4477067720646566e-09
+ Born:   MCFM = 3.961421426522716e-08
+
+ Finite: ratio = 1
+ IR:     ratio = 1
+ IR2:    ratio = 1
+ Born:   ratio = 1
+
+Benchmark with tolerance: 1.00000000000000003e-13
+ PASSED  
+
+*************************************************************
+*  Thanks for using MCFM.                                   *
+*                                                           *
+*  Please cite:                                             *
+*  J.M. Campbell, R.K. Ellis              hep-ph/9905386    *
+*  J.M. Campbell, R.K. Ellis, C. Williams arXiv:1105.0020   *
+*  J.M. Campbell, T. Neumann              arXiv:1909.09117  *
+*  J.M. Campbell, S. Hoeche, C.T. Preuss  arXiv:2107.04472  *
+*                                                           *
+*************************************************************
+
+########## RC=0 ##########
+
+########## PROCESS: u u~ e- e+ ##########
+*************************************************************
+*                                                           *
+*  MCFM Interface running MCFM v10.1                        *
+*                                                           *
+*  Please cite:                                             *
+*  J.M. Campbell, R.K. Ellis              hep-ph/9905386    *
+*  J.M. Campbell, R.K. Ellis, C. Williams arXiv:1105.0020   *
+*  J.M. Campbell, T. Neumann              arXiv:1909.09117  *
+*  J.M. Campbell, S. Hoeche, C.T. Preuss  arXiv:2107.04472  *
+*                                                           *
+*************************************************************
+
+************** Electroweak parameters **************
+*                                                  *
+zmass   91.1876 wmass(+)80.385
+zwidth(+)2.4952 wwidth(+)2.085
+Gf(+)1.19745e-05 1/aemmz(+)128.74
+xw   0.22293 mtop   173.21
+gwsq(+)0.437853 esq   0.0976108
+top width1(NLO)
+mb0 mc0
+*                                                  *
+* Parameters marked (+) are input, others derived  *
+****************************************************
+
+ Generating 1 flat phase space points
+
+process = 2 -2 -> 11 -11
+ Finite: MCFM = 4.2308096378721202e-05
+ IR:     MCFM = 3.7247285791610406e-05
+ IR2:    MCFM = -3.1299491521392679e-05
+ Born:   MCFM = 0.00062498041922480886
+
+ Finite: ratio = 1
+ IR:     ratio = 1
+ IR2:    ratio = 1
+ Born:   ratio = 1
+
+Benchmark with tolerance: 1.00000000000000003e-13
+ PASSED  
+
+*************************************************************
+*  Thanks for using MCFM.                                   *
+*                                                           *
+*  Please cite:                                             *
+*  J.M. Campbell, R.K. Ellis              hep-ph/9905386    *
+*  J.M. Campbell, R.K. Ellis, C. Williams arXiv:1105.0020   *
+*  J.M. Campbell, T. Neumann              arXiv:1909.09117  *
+*  J.M. Campbell, S. Hoeche, C.T. Preuss  arXiv:2107.04472  *
+*                                                           *
+*************************************************************
+
+########## RC=0 ##########
+
+########## PROCESS: u u~ e- e+ g ##########
+*************************************************************
+*                                                           *
+*  MCFM Interface running MCFM v10.1                        *
+*                                                           *
+*  Please cite:                                             *
+*  J.M. Campbell, R.K. Ellis              hep-ph/9905386    *
+*  J.M. Campbell, R.K. Ellis, C. Williams arXiv:1105.0020   *
+*  J.M. Campbell, T. Neumann              arXiv:1909.09117  *
+*  J.M. Campbell, S. Hoeche, C.T. Preuss  arXiv:2107.04472  *
+*                                                           *
+*************************************************************
+
+************** Electroweak parameters **************
+*                                                  *
+zmass   91.1876 wmass(+)80.385
+zwidth(+)2.4952 wwidth(+)2.085
+Gf(+)1.19745e-05 1/aemmz(+)128.74
+xw   0.22293 mtop   173.21
+gwsq(+)0.437853 esq   0.0976108
+top width1(NLO)
+mb0 mc0
+*                                                  *
+* Parameters marked (+) are input, others derived  *
+****************************************************
+
+ Generating 1 flat phase space points
+
+process = 2 -2 -> 11 -11 21
+ Finite: MCFM = 5.5987038123129648e-07
+ IR:     MCFM = 3.0579962404127593e-08
+ IR2:    MCFM = -4.2773332799175597e-07
+ Born:   MCFM = 4.0192339409204803e-06
+
+ Finite: ratio = 1.0000000000000002
+ IR:     ratio = 1.0000000000000036
+ IR2:    ratio = 1.0000000000000002
+ Born:   ratio = 1.0000000000000002
+
+Benchmark with tolerance: 1.00000000000000003e-13
+ PASSED  
+
+*************************************************************
+*  Thanks for using MCFM.                                   *
+*                                                           *
+*  Please cite:                                             *
+*  J.M. Campbell, R.K. Ellis              hep-ph/9905386    *
+*  J.M. Campbell, R.K. Ellis, C. Williams arXiv:1105.0020   *
+*  J.M. Campbell, T. Neumann              arXiv:1909.09117  *
+*  J.M. Campbell, S. Hoeche, C.T. Preuss  arXiv:2107.04472  *
+*                                                           *
+*************************************************************
+
+########## RC=0 ##########
+
+########## PROCESS: u u~ e- e+ g g ##########
+*************************************************************
+*                                                           *
+*  MCFM Interface running MCFM v10.1                        *
+*                                                           *
+*  Please cite:                                             *
+*  J.M. Campbell, R.K. Ellis              hep-ph/9905386    *
+*  J.M. Campbell, R.K. Ellis, C. Williams arXiv:1105.0020   *
+*  J.M. Campbell, T. Neumann              arXiv:1909.09117  *
+*  J.M. Campbell, S. Hoeche, C.T. Preuss  arXiv:2107.04472  *
+*                                                           *
+*************************************************************
+
+************** Electroweak parameters **************
+*                                                  *
+zmass   91.1876 wmass(+)80.385
+zwidth(+)2.4952 wwidth(+)2.085
+Gf(+)1.19745e-05 1/aemmz(+)128.74
+xw   0.22293 mtop   173.21
+gwsq(+)0.437853 esq   0.0976108
+top width1(NLO)
+mb0 mc0
+*                                                  *
+* Parameters marked (+) are input, others derived  *
+****************************************************
+
+ Generating 1 flat phase space points
+
+process = 2 -2 -> 11 -11 21 21
+ Finite: MCFM = 3.1535139416645479e-09
+ IR:     MCFM = -3.6253551175804121e-09
+ IR2:    MCFM = -2.4633208158173431e-09
+ Born:   MCFM = 1.5134453543168024e-08
+
+ Finite: ratio = 1
+ IR:     ratio = 1
+ IR2:    ratio = 1
+ Born:   ratio = 1
+
+Benchmark with tolerance: 1.00000000000000003e-13
+ PASSED  
+
+*************************************************************
+*  Thanks for using MCFM.                                   *
+*                                                           *
+*  Please cite:                                             *
+*  J.M. Campbell, R.K. Ellis              hep-ph/9905386    *
+*  J.M. Campbell, R.K. Ellis, C. Williams arXiv:1105.0020   *
+*  J.M. Campbell, T. Neumann              arXiv:1909.09117  *
+*  J.M. Campbell, S. Hoeche, C.T. Preuss  arXiv:2107.04472  *
+*                                                           *
+*************************************************************
+
+########## RC=0 ##########
+
+########## PROCESS: -Pmodel=heft g g h ##########
+*************************************************************
+*                                                           *
+*  MCFM Interface running MCFM v10.1                        *
+*                                                           *
+*  Please cite:                                             *
+*  J.M. Campbell, R.K. Ellis              hep-ph/9905386    *
+*  J.M. Campbell, R.K. Ellis, C. Williams arXiv:1105.0020   *
+*  J.M. Campbell, T. Neumann              arXiv:1909.09117  *
+*  J.M. Campbell, S. Hoeche, C.T. Preuss  arXiv:2107.04472  *
+*                                                           *
+*************************************************************
+
+************** Electroweak parameters **************
+*                                                  *
+zmass   91.1876 wmass(+)80.385
+zwidth(+)2.4952 wwidth(+)2.085
+Gf(+)1.19745e-05 1/aemmz(+)128.74
+xw   0.22293 mtop   173.21
+gwsq(+)0.437853 esq   0.0976108
+top width1(NLO)
+mb0 mc0
+*                                                  *
+* Parameters marked (+) are input, others derived  *
+****************************************************
+ ****************************************************
+ *             Setting zerowidth to .true.          *
+ *             Brn.Rat. removed =   0.0000000       *
+ ****************************************************
+
+ Generating 1 flat phase space points
+
+process = 21 21 -> 25
+ Finite: MCFM = 0.0074958256914330135
+ IR:     MCFM = -0.00073825114604950635
+ IR2:    MCFM = -0.0011410582205663919
+ Born:   MCFM = 0.010126384528388753
+
+ Finite: ratio = 0.99999999999999989
+ IR:     ratio = 1
+ IR2:    ratio = 1
+ Born:   ratio = 1
+
+Benchmark with tolerance: 1.00000000000000003e-13
+ PASSED  
+
+*************************************************************
+*  Thanks for using MCFM.                                   *
+*                                                           *
+*  Please cite:                                             *
+*  J.M. Campbell, R.K. Ellis              hep-ph/9905386    *
+*  J.M. Campbell, R.K. Ellis, C. Williams arXiv:1105.0020   *
+*  J.M. Campbell, T. Neumann              arXiv:1909.09117  *
+*  J.M. Campbell, S. Hoeche, C.T. Preuss  arXiv:2107.04472  *
+*                                                           *
+*************************************************************
+
+########## RC=0 ##########
+
+########## PROCESS: g g h ##########
+*************************************************************
+*                                                           *
+*  MCFM Interface running MCFM v10.1                        *
+*                                                           *
+*  Please cite:                                             *
+*  J.M. Campbell, R.K. Ellis              hep-ph/9905386    *
+*  J.M. Campbell, R.K. Ellis, C. Williams arXiv:1105.0020   *
+*  J.M. Campbell, T. Neumann              arXiv:1909.09117  *
+*  J.M. Campbell, S. Hoeche, C.T. Preuss  arXiv:2107.04472  *
+*                                                           *
+*************************************************************
+
+************** Electroweak parameters **************
+*                                                  *
+zmass   91.1876 wmass(+)80.385
+zwidth(+)2.4952 wwidth(+)2.085
+Gf(+)1.19745e-05 1/aemmz(+)128.74
+xw   0.22293 mtop   173.21
+gwsq(+)0.437853 esq   0.0976108
+top width1(NLO)
+mb0 mc0
+*                                                  *
+* Parameters marked (+) are input, others derived  *
+****************************************************
+ ****************************************************
+ *             Setting zerowidth to .true.          *
+ *             Brn.Rat. removed =   0.0000000       *
+ ****************************************************
+
+ Generating 1 flat phase space points
+
+process = 21 21 -> 25
+ Born:   MCFM = 0.010787211120355569
+
+ Born:   ratio = 1
+
+Benchmark with tolerance: 1.00000000000000003e-13
+ PASSED  
+
+*************************************************************
+*  Thanks for using MCFM.                                   *
+*                                                           *
+*  Please cite:                                             *
+*  J.M. Campbell, R.K. Ellis              hep-ph/9905386    *
+*  J.M. Campbell, R.K. Ellis, C. Williams arXiv:1105.0020   *
+*  J.M. Campbell, T. Neumann              arXiv:1909.09117  *
+*  J.M. Campbell, S. Hoeche, C.T. Preuss  arXiv:2107.04472  *
+*                                                           *
+*************************************************************
+
+########## RC=0 ##########
+
+########## PROCESS: g g g g g ##########
+*************************************************************
+*                                                           *
+*  MCFM Interface running MCFM v10.1                        *
+*                                                           *
+*  Please cite:                                             *
+*  J.M. Campbell, R.K. Ellis              hep-ph/9905386    *
+*  J.M. Campbell, R.K. Ellis, C. Williams arXiv:1105.0020   *
+*  J.M. Campbell, T. Neumann              arXiv:1909.09117  *
+*  J.M. Campbell, S. Hoeche, C.T. Preuss  arXiv:2107.04472  *
+*                                                           *
+*************************************************************
+
+************** Electroweak parameters **************
+*                                                  *
+zmass   91.1876 wmass(+)80.385
+zwidth(+)2.4952 wwidth(+)2.085
+Gf(+)1.19745e-05 1/aemmz(+)128.74
+xw   0.22293 mtop   173.21
+gwsq(+)0.437853 esq   0.0976108
+top width1(NLO)
+mb0 mc0
+*                                                  *
+* Parameters marked (+) are input, others derived  *
+****************************************************
+
+ Generating 1 flat phase space points
+
+process = 21 21 -> 21 21 21
+ Finite: MCFM = 0.030909089219912787
+ IR:     MCFM = 0.0033726284546849276
+ IR2:    MCFM = -0.037214918617662747
+ Born:   MCFM = 0.13210634455727832
+
+ Finite: ratio = 1
+ IR:     ratio = 1
+ IR2:    ratio = 1
+ Born:   ratio = 1
+
+Benchmark with tolerance: 1.00000000000000003e-13
+ PASSED  
+
+*************************************************************
+*  Thanks for using MCFM.                                   *
+*                                                           *
+*  Please cite:                                             *
+*  J.M. Campbell, R.K. Ellis              hep-ph/9905386    *
+*  J.M. Campbell, R.K. Ellis, C. Williams arXiv:1105.0020   *
+*  J.M. Campbell, T. Neumann              arXiv:1909.09117  *
+*  J.M. Campbell, S. Hoeche, C.T. Preuss  arXiv:2107.04472  *
+*                                                           *
+*************************************************************
+
+########## RC=0 ##########
+
+########## PROCESS: g g h g g ##########
+*************************************************************
+*                                                           *
+*  MCFM Interface running MCFM v10.1                        *
+*                                                           *
+*  Please cite:                                             *
+*  J.M. Campbell, R.K. Ellis              hep-ph/9905386    *
+*  J.M. Campbell, R.K. Ellis, C. Williams arXiv:1105.0020   *
+*  J.M. Campbell, T. Neumann              arXiv:1909.09117  *
+*  J.M. Campbell, S. Hoeche, C.T. Preuss  arXiv:2107.04472  *
+*                                                           *
+*************************************************************
+
+************** Electroweak parameters **************
+*                                                  *
+zmass   91.1876 wmass(+)80.385
+zwidth(+)2.4952 wwidth(+)2.085
+Gf(+)1.19745e-05 1/aemmz(+)128.74
+xw   0.22293 mtop   173.21
+gwsq(+)0.437853 esq   0.0976108
+top width1(NLO)
+mb0 mc0
+*                                                  *
+* Parameters marked (+) are input, others derived  *
+****************************************************
+
+ Generating 1 flat phase space points
+
+process = 21 21 -> 25 21 21
+ Born:   MCFM = 1.9621447229562655e-07
+
+ Born:   ratio = 1
+
+Benchmark with tolerance: 1.00000000000000003e-13
+ PASSED  
+
+*************************************************************
+*  Thanks for using MCFM.                                   *
+*                                                           *
+*  Please cite:                                             *
+*  J.M. Campbell, R.K. Ellis              hep-ph/9905386    *
+*  J.M. Campbell, R.K. Ellis, C. Williams arXiv:1105.0020   *
+*  J.M. Campbell, T. Neumann              arXiv:1909.09117  *
+*  J.M. Campbell, S. Hoeche, C.T. Preuss  arXiv:2107.04472  *
+*                                                           *
+*************************************************************
+
+########## RC=0 ##########
+
