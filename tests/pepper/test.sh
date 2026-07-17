@@ -11,8 +11,6 @@
 # src/mcfm_analytics and their doctests in tests/unit_tests/matrix_elements.cpp.
 set -e
 
-export MCFM_DIR="$MCFM_HOME/install"
-
 # Kokkos: prefer an externally-provided install (Kokkos_ROOT / CMAKE_PREFIX_PATH, e.g.
 # from a site module). Otherwise build and cache a pinned Kokkos that matches Pepper's
 # own build_pepper.sh (4.5.00): Pepper's EnableKokkos.cmake FetchContent pulls Kokkos
@@ -43,7 +41,6 @@ rm -rf "$BUILD_DIR"
 
 cmake -S "$PEPPER_HOME" -B "$BUILD_DIR" \
       -DCMAKE_BUILD_TYPE=Release \
-      -DMCFM_DIR="$MCFM_HOME/install" \
       -DPEPPER_QCDLOOP_DIR="$QCDLOOP_HOME"
 
 cmake --build "$BUILD_DIR" --target pepper_test -j
