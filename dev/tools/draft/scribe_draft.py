@@ -9,7 +9,7 @@ real → double, dimension → FArray, x**n → pow, comments stripped).
 The draft is scaffolding, not an answer — the Author subagent reads it alongside the
 worked examples in seed_examples.toml and the Spec, then writes the real translation.
 Its value is the hint block: it flags which called names are external functions
-defined elsewhere (so the model does not fabricate them, Spec §2 rule 9a).
+defined elsewhere (so the model does not fabricate them; the Spec's rewrite rules — don't invent a called name).
 
 By default the draft is written under dev/tmp/drafts/ (the scratch root, git-ignored),
 mirroring the file's path below src/; pass -o to override.

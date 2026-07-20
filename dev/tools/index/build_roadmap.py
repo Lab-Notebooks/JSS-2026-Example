@@ -26,7 +26,7 @@ XML    = ROOT + "/software/mcfm/doxygen_dep/xml"
 ASSETS = ROOT + "/dev/tmp/assets"
 os.makedirs(ASSETS, exist_ok=True)
 
-# top-level src/ directory -> the ./test -b benchmark that exercises it (Spec §4).
+# top-level src/ directory -> the ./test -b benchmark that exercises it (Spec's test-coverage table).
 BENCH = {
     "W": "u d~ ve e+", "W1jet": "u d~ ve e+ g", "W2jet": "u d~ ve e+ g g",
     "Z": "u u~ e- e+", "Z1jet": "u u~ e- e+ g", "Z2jet": "u u~ e- e+ g g",

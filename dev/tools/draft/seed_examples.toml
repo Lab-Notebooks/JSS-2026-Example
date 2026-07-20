@@ -2,7 +2,7 @@
 #
 # The worked examples the Author phase reads alongside the machine draft
 # (scribe_draft.py) and the Spec. The translation *rules* live in the Spec
-# (dev/transformations/fortran-to-cpp/desired_spec.md §2); this file only shows the
+# (dev/transformations/fortran-to-cpp/desired_spec.md, "Rules for rewriting"); this file only shows the
 # expected output shape: one subroutine and one module, each producing a C++ header
 # (<cheader>), a C++ source (<csource>), and a Fortran interface (<fsource>).
 

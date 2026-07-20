@@ -1,9 +1,11 @@
 # CodeScribe runner for the C++ -> Kokkos step.
 #
-# Same job as the Claude Code `port` (and `validate`) workflow, with a different runner.
-# Both read the same two files (the Spec and Plan in this folder) and the same helper
-# programs in dev/tools/. Run it from the project root, with the environment already set up
-# (for example, through jobrunner):
+# Same job as the Claude Code `port` workflow (which has a built-in check-and-fix loop),
+# with a different runner.
+# Both read the same two files (the Spec and Plan in this folder), keep the changing task
+# list in an agent-created agent_checklist.md, and use the same helper programs in dev/tools/.
+# Run it from the project root, with the environment already set up (for example, through
+# jobrunner):
 #
 #   code-scribe loop -p dev/transformations/cpp-to-kokkos/loop.toml -m <model>
 #
@@ -17,19 +19,24 @@ bash = ["jobrunner", "cmake", "make", "python3", "bash"]
 
 [[chat.user]]
 content = '''
-Read dev/transformations/cpp-to-kokkos/desired_spec.md for what the kernel should look like
-and how to tell it is correct, then read dev/transformations/cpp-to-kokkos/current_plan.md
-for the amplitudes to do and the notes. Do as many as you can, in order of need, and check
-your work.
+Read dev/transformations/cpp-to-kokkos/current_plan.md first — it says how to run this step
+(the helper programs, the running-command rules, which target to do next, and the notes from
+past sessions) — then read dev/transformations/cpp-to-kokkos/desired_spec.md for what the
+kernel should look like and how to tell it is correct. Do as many amplitudes as you can, in
+order of need, and check your work.
 
-Use the helper programs in dev/tools/ that the Spec names: the Closure program to list what
-an amplitude calls and confirm it is step-1 ready, the Kokkosify program for the easy
-rewrites, and the compare harness to check each block against libmcfm while you write. Only
-do amplitudes whose C++ dependencies a person has already marked VERIFIED in
-dev/transformations/fortran-to-cpp/current_plan.md.
+Keep the changing task list in dev/transformations/cpp-to-kokkos/agent_checklist.md: create
+it if it isn't there yet, then work through it. Use the helper programs in dev/tools/ that the
+Plan names: the Closure program to list what an amplitude calls and confirm it is step-1 ready,
+the Kokkosify program for the easy rewrites, and the compare harness to check each block
+against libmcfm while you write. Only do amplitudes whose C++ dependencies a person has already
+marked VERIFIED in dev/transformations/fortran-to-cpp/agent_checklist.md.
 
-A kernel counts as correct ("verified") only when Pepper's tests pass; build Pepper and run
-them with `jobrunner submit tests/pepper`. Write each amplitude's result (verified /
-translated / failed) in current_plan.md, and before you stop, update the plan with anything
-still left so the next round knows what to do.
+Check your work with `jobrunner submit tests/pepper`; run it to root out compile/link errors
+and runtime crashes and to confirm the existing tests still pass. Do NOT author new reference
+doctests — adding those is the developer's job (see the Spec's correctness bar), so a loop run tops out at
+TRANSLATED (the libmcfm compare matches and the build and existing tests are clean); note in
+agent_checklist.md which tests the developer should add. At the end of each round, before you
+stop, update agent_checklist.md and add a dated note to the Plan's session log with what you
+did and what is left, so the next round knows what to do.
 '''

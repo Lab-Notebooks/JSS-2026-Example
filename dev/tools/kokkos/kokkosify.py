@@ -1,11 +1,11 @@
 #!/usr/bin/env python3
 """Kokkosify tool — a deterministic pre-pass for a C++ -> Kokkos kernel draft.
 
-Applies the mechanical subset of the stage-2 Spec (§3) to a stage-1 C++ file and
-emits two things: a draft kernel body (NOT compilable as-is) and a blocker report.
-Zero tokens at run time; anything it cannot decide safely it flags with a
+Applies the mechanical subset of the stage-2 Spec's rewriting rules to a stage-1 C++
+file and emits two things: a draft kernel body (NOT compilable as-is) and a blocker
+report. Zero tokens at run time; anything it cannot decide safely it flags with a
 KOKKOSIFY-TODO rather than guessing. The Author agent resolves every TODO and
-finishes the port, with the §4 validation ladder as the safety net.
+finishes the port, with the compare-against-libmcfm ladder as the safety net.
 
 Rewrites (safe): std::complex<double> -> C ; std:: math -> Kokkos:: ;
 KOKKOS_INLINE_FUNCTION on file-scope functions ; #include lines -> ../math.h.
@@ -21,7 +21,7 @@ MATH = ["sqrt", "cbrt", "exp", "log", "log10", "pow", "sin", "cos", "tan",
         "asin", "acos", "atan", "atan2", "sinh", "cosh", "tanh", "fabs", "abs", "conj"]
 
 BLOCKERS = [
-    (re.compile(r"\bloopI[1-4]\b|\bqli\w*\b"), "QCDLoop -> analytic closed form (Spec §5)"),
+    (re.compile(r"\bloopI[1-4]\b|\bqli\w*\b"), "QCDLoop -> analytic closed form (Spec's loop-integral rule)"),
     (re.compile(r"\bstd::(vector|map|string)\b"), "STL -> fixed-size local / not allowed on device"),
     (re.compile(r"\bstd::c(out|err)\b|\bprintf\s*\("), "host I/O -> remove"),
     (re.compile(r"\bthrow\b"), "exception -> Kokkos::abort() or restructure"),
@@ -71,13 +71,13 @@ def kokkosify(src, name):
         out.append(line)
 
     banner = (f"// MACHINE-GENERATED DRAFT (kokkosify.py) from {name} -- NOT compilable as-is.\n"
-              "// Resolve every KOKKOSIFY-TODO; follow the stage-2 Spec §2-4 to finish.\n"
+              "// Resolve every KOKKOSIFY-TODO; follow the stage-2 Spec and Plan to finish.\n"
               '#pragma once\n#include "../math.h"\n')
     return banner + "\n" + "\n".join(out) + "\n", report
 
 
 def format_report(r, name):
-    L = [f"# kokkosify report -- {name}", "", "## Blockers (must be resolved; Spec §3/§5)"]
+    L = [f"# kokkosify report -- {name}", "", "## Blockers (must be resolved; Spec's rewriting + loop-integral rules)"]
     L += [f"- L{n}: `{code}` -- {why}" for n, code, why in r["blockers"]] or ["- none"]
     L += ["", "## Candidate *_Params fields (module globals read)"]
     L += [f"- `{g}`" for g in sorted(r["globals"])] or ["- none"]

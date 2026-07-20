@@ -21,10 +21,14 @@ Each step is described by two plain-text files in `dev/transformations/<step>/`:
 
 - a **Spec** (`desired_spec.md`) — the rules to follow, and how to tell the result is
   correct;
-- a **Plan** (`current_plan.md`) — the checklist of what to do and what is done.
+- a **Plan** (`current_plan.md`) — how to run the step (the helper programs, the
+  running-command rules, which files to do next) and the notes across sessions.
 
-A **workflow** in `.claude/workflows/` reads those two files and does the work. The same
-workflow works for any step; you just point it at a different folder.
+As it works, a runner keeps the changing task list — which files are in flight and each
+one's result — in a third file it creates, `agent_checklist.md` (not tracked in git; a
+fresh clone starts with only the Spec and Plan). A **workflow** in `.claude/workflows/`
+reads the Plan and Spec and does the work. The same workflow works for any step; you just
+point it at a different folder.
 
 ## How to run it
 
@@ -45,9 +49,9 @@ Three steps, once you have read the paper.
      rewrites the C++ files a person already approved in step 1; or pass `target:"<name>"`
      to do just one. Check with `jobrunner submit tests/pepper`.
 
-Write the result of each file (correct / rewritten / failed) in that step's
-`current_plan.md`. You can change the step, the workflow, or the AI models to try
-different runs over the same two files.
+The runner writes the result of each file (correct / rewritten / failed) in that step's
+`agent_checklist.md` and adds a note to the Plan's session log. You can change the step,
+the workflow, or the AI models to try different runs over the same Spec and Plan.
 
 The workflow is one way to run a step. You can run the same two files with a second
 runner, CodeScribe, using the `loop.toml` in each step's folder
@@ -74,9 +78,9 @@ git submodule update --init            # get all three at their pinned versions
 
 ```
 AGENTS.md              what an AI agent reads first (agents read this, not the README)
-.claude/workflows/     the workflows: translate.js, port.js, validate.js (work for any step)
+.claude/workflows/     the workflows: translate.js, port.js (port has a built-in check-and-fix loop; both work for any step)
 dev/tools/             small helper programs; each one explains itself at the top of its file
-dev/transformations/   one folder per step: desired_spec.md (Spec), current_plan.md (Plan), loop.toml (CodeScribe)
+dev/transformations/   one folder per step: desired_spec.md (Spec), current_plan.md (Plan), loop.toml (CodeScribe); the runner creates agent_checklist.md (the live task list, not in git)
 dev/tmp/               throwaway scratch files (not kept in git); the real record is the Plan
 software/              the physics codes (submodules): mcfm, pepper, qcdloop
 tests/                 run the checks: jobrunner submit tests/mcfm (step 1), tests/pepper (step 2)

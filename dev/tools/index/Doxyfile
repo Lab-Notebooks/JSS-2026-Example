@@ -19,7 +19,7 @@ EXTENSION_MAPPING      = f=FortranFixed F=FortranFixed f90=FortranFree F90=Fortr
 EXTRACT_ALL            = YES
 EXTRACT_PRIVATE        = YES
 EXTRACT_STATIC         = YES
-# Skip the vendored/legacy trees the roadmap also excludes (Spec §4 infrastructure
+# Skip the vendored/legacy trees the roadmap also excludes (Spec's infrastructure rule
 # dirs stay in; these never contribute translatable leaves).
 EXCLUDE_PATTERNS       = */deprecated/* */Store/* */working/*
 
