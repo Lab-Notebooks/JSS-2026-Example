@@ -111,7 +111,8 @@ follows the same order.
 
 1. **Map the call tree and check it can move to the GPU.** Follow every call from the entry
    `.cpp`; list the tree, the module globals it reads (→ `*_Params` fields), the things that
-   can't go on the GPU as-is (QCDLoop → the Spec's loop-integral rule, STL, heap, I/O), and
+   can't go on the GPU as-is (QCDLoop → the Spec's loop-integral rule, the C++ standard library
+   (STL), heap, I/O), and
    the already-ported helpers you can reuse. Double-check with
    `python3 dev/tools/closure/calltree_closure.py <name>` — it reads `libmcfm`'s linked pieces
    (symbols don't lie) and flags any still-Fortran piece as a step-1 gap.

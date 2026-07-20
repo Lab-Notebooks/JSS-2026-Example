@@ -25,7 +25,8 @@ Paths use `$MCFM_HOME`/`$PEPPER_HOME` (a normal-shell shortcut; the literal form
 ## What a kernel looks like
 
 - **Complex type and math.** `C = Kokkos::complex<double>` (from `../math.h`); imaginary unit
-  `C(0,1)`. Event data is SoA, particles are 0-based with 0 and 1 always incoming, and the
+  `C(0,1)`. Event data is laid out as a structure of arrays (SoA), particles are 0-based with
+  0 and 1 always incoming, and the
   result is `evt.me2(i)`. Put a skip-empty-event guard `if (evt.w(i)==0.0) return;` at the top
   of every kernel. Pass module globals in as a plain `<Name>_Params` struct by value.
 - **Naming and files.** `<name>_kernel.h` plus a one-line `<name>_kernel.cpp` listed in
@@ -44,7 +45,7 @@ Paths use `$MCFM_HOME`/`$PEPPER_HOME` (a normal-shell shortcut; the literal form
 | `std::complex<double>` | `C` (from `../math.h`); imaginary unit `C(0,1)` |
 | `std::sqrt/log/pow/…` | `Kokkos::sqrt/log/pow/…` (never bare `std::` in device code) |
 | `FArray` (1-based) | fixed-size local arrays, 0-based (`C za[N][N]`), no heap |
-| module globals | fields of the POD `*_Params` struct |
+| module globals | fields of the plain-old-data (POD) `*_Params` struct |
 | out-array + wrapper | scalar `*_me2(...)` return; the template kernel writes `evt.me2(i)` |
 | QCDLoop (`loopI2/3/4`, `qli*`) | direct formulas (see "Loop integrals" below) — QCDLoop is not device code |
 

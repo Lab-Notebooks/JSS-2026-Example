@@ -1,10 +1,20 @@
 # Collaborative AI-Driven Workflows: a Lab Notebook
 
-This is the demo for the paper *Designing Collaborative AI-Driven Workflows for
-Scientific Software Engineering*. It is a "lab notebook": one folder, kept in git, that
-holds the code, the AI helpers, and the notes needed to change scientific software with
-help from AI agents. The paper explains the ideas. This page only shows how to run the
-demo, and assumes you have read the paper.
+This is a lab notebook: one folder, kept in git, that holds the code, the AI helpers, and
+the notes needed to change scientific software with help from AI agents. It is a small,
+working example of a few simple ideas:
+
+- **A person stays in charge.** The AI does the repetitive rewriting; a person reads and
+  approves the result of each step before the next one starts.
+- **Plain files drive the work.** Each step is described by two files anyone can read: the
+  rules to follow and how to tell the result is correct (the Spec), and how to run the step
+  and what happened last time (the Plan). Nothing is hidden.
+- **The record lives in git.** The code, the helpers, the Spec, the Plan, and the notes sit
+  together under version control, so a run can be read, repeated, or changed later.
+- **One workflow fits every step.** The same AI workflow does any step; you point it at a
+  different folder.
+
+The rest of this page shows how to run the demo.
 
 ## What the demo does
 
@@ -32,7 +42,7 @@ point it at a different folder.
 
 ## How to run it
 
-Three steps, once you have read the paper.
+Three steps.
 
 1. **Set up your machine.** Put your machine's name in `config.sh`, add a
    `sites/<name>/config.sh` with your compilers (there is an example in `sites/sedona/`),
