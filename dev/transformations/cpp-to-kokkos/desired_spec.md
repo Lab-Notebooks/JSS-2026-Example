@@ -1,74 +1,98 @@
-# C++ → Kokkos kernel (stage 2)
+# C++ → Kokkos (step 2)
 
-How to port an MCFM C++ amplitude (the output of stage 1) into a device-portable Kokkos
-kernel inside Pepper, and what makes the port **verified**. This is the source of truth
-for the rules; the workflow and tools point here rather than restating them.
+How to rewrite an MCFM C++ amplitude (the output of step 1) as a Kokkos kernel that runs on
+GPUs, inside Pepper, and how to tell the result is correct. This is the source of truth for
+the rules; the workflow and helper programs point here instead of repeating them.
 
 ```
-Fortran (MCFM)  --stage 1-->  C++ (FArray + std::complex)  --stage 2-->  Kokkos kernel (Pepper)
+Fortran (MCFM)  --step 1-->  C++ (FArray + std::complex)  --step 2-->  Kokkos kernel (Pepper)
 ```
 
-The ported kernels are native Pepper code: Pepper does not link MCFM. A kernel is
-**verified** only when Pepper's own doctests pass, checking it against frozen reference
-values; a header that merely compiles is **translated** (unverified). Verification is
-*translation equivalence*, not physics: the physics was already established when stage 1
-passed the MCFM benchmarks at 1e-13 (§6). During authoring, `libmcfm` serves as an
-out-of-band oracle to cross-check a port block by block (§4, §7); it is a developer aid,
-not part of Pepper or its bar.
+The kernels become part of Pepper: Pepper does not link MCFM. A kernel is **verified** only
+when Pepper's own tests (doctests) pass, comparing it against saved reference numbers. A
+header that only compiles is **translated** (not yet verified). "Verified" here means it
+matches MCFM number-for-number; it does not re-check the physics — the physics was already
+checked in step 1, when MCFM passed its tests to 1e-13 (§6). While you write, `libmcfm` is a
+handy reference to compare against, block by block (§4, §7); it is a helper for the author,
+not part of Pepper or its tests.
 
-Paths use `$MCFM_HOME` and `$PEPPER_HOME` (set by `source environment.sh`). The Pepper
-clone must be on the branch carrying the `mcfm_analytics` kernels.
+Paths use `$MCFM_HOME`/`$PEPPER_HOME` (a normal-shell shortcut; the literal forms are
+`software/mcfm` and `software/pepper`). The Pepper copy must be on the branch that has the
+`mcfm_analytics` kernels.
 
 ---
 
-## Tools
+## Helper programs (Tools)
 
-The `port` and `validate` workflows run these Tools by name; each documents its
-interface in its own docstring under `dev/tools/`.
+The `port` and `validate` workflows run these small programs by name. Each explains how to
+use it at the top of its own file under `dev/tools/`.
 
-- **Closure.** `dev/tools/closure/calltree_closure.py <name>` derives the call-tree
-  closure from `libmcfm`'s linked objects and reports the object count and stage-1
-  readiness (whether every object is C++).
-- **Authoring pre-pass.** `dev/tools/kokkos/kokkosify.py` applies the mechanical subset
-  of §3 and flags what it cannot decide as `KOKKOSIFY-TODO` for the author to resolve.
-- **Validation harness (oracle).** `dev/tools/kokkos/run_validation.sh` builds the
-  host-side comparison, linking `libmcfm` and the kernel through the Kokkos shim; the
-  `validate` loop drives it and its check table lands in `dev/tmp/assets/validate-output.md`.
+- **Closure.** `dev/tools/closure/calltree_closure.py <name>` lists everything an amplitude
+  calls (its "closure") by reading what `libmcfm` links, and says how many pieces there are
+  and whether they are all C++ (ready for step 2).
+- **First draft (Kokkosify).** `dev/tools/kokkos/kokkosify.py` does the easy, mechanical
+  parts of §3 and marks what it can't decide with `KOKKOSIFY-TODO` for the author to finish.
+- **Compare-against-MCFM harness.** `dev/tools/kokkos/run_validation.sh <validator.cpp>`
+  builds a small test that links `libmcfm` and includes your kernel, runs it, and prints
+  each check (reference / got / relative error). It does not save a file itself; the
+  `validate` loop reads what it prints and saves it to `dev/tmp/assets/validate-output.md`
+  for the fix step.
+
+## Running commands (works in both runners)
+
+Two runners drive this step, and they have different shells. The Claude Code `port`/`validate`
+workflows have a normal shell; the CodeScribe loop has a **limited** shell: it refuses the
+characters `$ | & ; < > \``, refuses any command whose first word is not on its allow-list,
+and does not fill in `$VARIABLES` when reading or writing files.
+
+- **Use plain relative paths.** Write `software/mcfm/src/<...>` and
+  `software/pepper/src/mcfm_analytics/<...>`, not `$MCFM_HOME/...` / `$PEPPER_HOME/...`. The
+  `$…` shortcuts elsewhere only work in a normal shell. `run_validation.sh` reads
+  `MCFM_HOME`/`PEPPER_HOME` from its own environment, so call it without `$`:
+  `bash dev/tools/kokkos/run_validation.sh <validator.cpp>`.
+- **No `cd`, pipes, or redirects.** Just read what a program prints.
+- **Check with one command.** Run Pepper's tests with `jobrunner submit tests/pepper`; that
+  one command sets up, builds, and runs the tests, and both shells allow it.
 
 ---
 
-## §1 Prerequisites
+## §1 Before you start
 
-1. `source "$PROJECT_HOME/environment.sh"` — sets `PEPPER_HOME`, `QCDLOOP_HOME`, `MCFM_HOME`.
-2. The Pepper clone is on the `mcfm_analytics` branch. `jobrunner submit tests/pepper`
-   builds it standalone (Kokkos + QCDLoop, no MCFM link) and runs the doctests: the bar.
-3. Only for the authoring cross-check (§4 step 4): a built MCFM
-   (`jobrunner submit tests/mcfm`), so `dev/tools/kokkos/run_validation.sh` can link `libmcfm`.
+1. `source "$PROJECT_HOME/environment.sh"` — sets `PEPPER_HOME`, `QCDLOOP_HOME`, `MCFM_HOME`
+   (a one-time step in a normal shell; both runners inherit it).
+2. The Pepper copy is on the `mcfm_analytics` branch. `jobrunner submit tests/pepper` builds
+   Pepper on its own (Kokkos + QCDLoop, no MCFM) and runs the tests — that is the correctness
+   check.
+3. **You must build MCFM first — it is required, not optional.** Run
+   `jobrunner submit tests/mcfm` before anything else: the Closure tool reads `libmcfm` to
+   find the call tree, and the compare harness (§4 step 4) links `libmcfm`. On a fresh
+   checkout, picking/sizing a target and validating both fail until MCFM is built.
 
-## §2 Conventions you must not get wrong
+## §2 Things that are easy to get wrong
 
-- **Two 4-vector conventions.** Pepper's `evt.e/px/py/pz` and the fixtures store
-  `{E,px,py,pz}` (E first); the MCFM kernel signature `*_me2(double p[N][4])` uses
-  `{px,py,pz,E}` (E last). Every fixture conversion reindexes. Metric is mostly-minus.
-- **The incoming-leg sign flip — where it happens and where it must not.** Both codes
-  store incoming legs with negative energy internally, so *inside a kernel* reading
-  `evt.*` there is **no flip**. It is the *validator and doctests* that hand back
-  physical (positive-energy) momenta, so when building the `p[N][4]` array you negate
-  the 4-vectors of particles 0 and 1. Stating "incoming particles negated" as one
-  universal rule is a known error — it applies to array-building, not in-kernel reads.
-- **Kernel infrastructure.** Complex type `C = Kokkos::complex<double>` (`../math.h`);
-  event data SoA, particles 0-based with 0 and 1 always incoming, result `evt.me2(i)`;
-  dead-event guard `if (evt.w(i)==0.0) return;` at the top of every kernel; module
-  globals delivered as a POD `<Name>_Params` struct passed by value.
-- **Naming.** `<name>_kernel.h` + a one-line `<name>_kernel.cpp` TU registered in
+- **Two ways to order a 4-vector.** Pepper's `evt.e/px/py/pz` and the fixtures store
+  `{E,px,py,pz}` (energy first); the MCFM kernel signature `*_me2(double p[N][4])` uses
+  `{px,py,pz,E}` (energy last). Every fixture conversion has to reorder. The metric is
+  mostly-minus.
+- **The incoming-leg sign flip — where it happens and where it must not.** Both codes store
+  incoming legs with negative energy inside, so *inside a kernel* reading `evt.*` there is
+  **no flip**. It is the *validator and the tests* that hand back real (positive-energy)
+  momenta, so when you build the `p[N][4]` array you flip the sign of particles 0 and 1.
+  Saying "flip all incoming particles" as one blanket rule is a known mistake — it is only
+  for building the array, not for reads inside the kernel.
+- **Kernel basics.** Complex type `C = Kokkos::complex<double>` (`../math.h`); event data is
+  SoA, particles are 0-based with 0 and 1 always incoming, the result is `evt.me2(i)`; put a
+  skip-empty-event guard `if (evt.w(i)==0.0) return;` at the top of every kernel; pass module
+  globals in as a plain `<Name>_Params` struct by value.
+- **Naming.** `<name>_kernel.h` plus a one-line `<name>_kernel.cpp` listed in
   `src/CMakeLists.txt`; entry point `double <name>_me2(double p[N][4], const <Name>_Params&)`;
-  helpers `KOKKOS_INLINE_FUNCTION` inside `namespace mcfm_<name>`. Reuse an
-  already-validated helper via include; never re-derive one.
-- **Couplings.** Built host-side with MCFM's `couplz` convention at fixed Z-pole
-  inputs (`xw=0.2312`, `alpha_s=0.118`, `m_Z=91.1876`, finite part `epinv=0`), so
-  every reference value is reproducible.
+  helpers are `KOKKOS_INLINE_FUNCTION` inside `namespace mcfm_<name>`. Reuse an
+  already-checked helper by including it; never re-derive one.
+- **Couplings.** Built on the host with MCFM's `couplz` convention at fixed Z-pole inputs
+  (`xw=0.2312`, `alpha_s=0.118`, `m_Z=91.1876`, finite part `epinv=0`), so every reference
+  number can be reproduced.
 
-## §3 Translation rules (MCFM C++ → Kokkos kernel)
+## §3 Rewriting rules (MCFM C++ → Kokkos kernel)
 
 | MCFM C++ | Pepper Kokkos kernel |
 |---|---|
@@ -78,85 +102,98 @@ interface in its own docstring under `dev/tools/`.
 | `FArray` (1-based) | fixed-size local arrays, 0-based (`C za[N][N]`), no heap |
 | module globals | fields of the POD `*_Params` struct |
 | out-array + wrapper | scalar `*_me2(...)` return; the template kernel writes `evt.me2(i)` |
-| QCDLoop (`loopI2/3/4`, `qli*`) | analytic closed forms (§5) — QCDLoop is not device code |
+| QCDLoop (`loopI2/3/4`, `qli*`) | direct formulas (§5) — QCDLoop is not device code |
 
-Two rules earn their own line:
+Two rules deserve their own line:
 
-- **`Kokkos::complex` is not `std::complex`.** Its `operator/` scales by the 1-norm
-  of the divisor, so complex divisions agree only to rounding. Prefer
-  multiply-by-conjugate; set division-heavy tolerances at 1e-10; if a check stalls
-  near 1e-12 suspect this before hunting an algebra bug.
-- **Preserve the amplitude's internal structure** (e.g. Born-then-K-factor) — the
-  same spirit as stage 1's "keep every call."
+- **`Kokkos::complex` is not `std::complex`.** Its `/` divides using the 1-norm of the
+  divisor, so complex divisions only agree to rounding. Prefer multiply-by-conjugate; set
+  tolerances for division-heavy code at 1e-10; if a check gets stuck near 1e-12, suspect this
+  before hunting for a math bug.
+- **Keep the amplitude's structure** (for example, Born then K-factor) — same spirit as step
+  1's "keep every call."
 
-## §4 Procedure per amplitude
+## Which target to do next, and how big it is (Resolution)
 
-1. **Map the call tree and audit portability.** Follow every call from the entry
-   `.cpp`; list the tree, the module globals read (→ Params fields), the portability
-   blockers (QCDLoop → §5, STL, heap, I/O), and the already-ported helpers to reuse.
-   Cross-check completeness with `python3 dev/tools/closure/calltree_closure.py <name>`
-   — it derives the closure from `libmcfm`'s linked objects (symbols do not lie) and
-   flags any plain-Fortran object as a stage-1 gap.
-2. **Author the kernel header** bottom-up: device-safe helpers, then the pure
-   `<name>_me2(p, params)`, then the templated dispatch kernel reading `evt.*`
-   directly and writing `evt.me2(i)`. Add the one-line `.cpp` TU. Large call trees
-   split at function boundaries (§7).
-3. **Closed forms for scalar integrals** — only if the amplitude calls QCDLoop (§5).
-4. **Validate against `libmcfm`** host-side through the Kokkos shim: compare layered —
-   loop functions → sub-amplitudes → full `|M|²`, target ≤1e-10 relative, same fixed
+A runner does not pick targets freely; the `port` workflow, the CodeScribe loop, and a person
+all follow this, and this section (not the runner) is the source of truth.
+
+- **First:** MCFM must be built (§1.3) before you can size any target.
+- **Which one (in order).** Do a Born before its virtual, so earlier frozen pieces can be
+  reused. A target is ready when the Closure tool says its whole call tree is C++ (step-1
+  ready) *and* its step-1 files are tagged `VERIFIED` in the step-1 Plan
+  (`dev/transformations/fortran-to-cpp/current_plan.md`). Auto-pick (`port … from:`) reads
+  those tags; giving an explicit `target:` skips the search.
+- **How big (direct vs split).** Size the call tree with the Closure tool. A small tree
+  (about 30 pieces or fewer) is done in one pass; a bigger one uses the split plan (§7):
+  break it into pieces, do them bottom-up, check each against its own reference, then join.
+  The number is a guide, not a hard rule — split sooner if one agent can't hold the whole
+  tree.
+
+## §4 Steps for one amplitude
+
+1. **Map the call tree and check it can move to the GPU.** Follow every call from the entry
+   `.cpp`; list the tree, the module globals it reads (→ Params fields), the things that
+   can't go on the GPU as-is (QCDLoop → §5, STL, heap, I/O), and the already-ported helpers
+   you can reuse. Double-check you have everything with
+   `python3 dev/tools/closure/calltree_closure.py <name>` — it reads `libmcfm`'s linked
+   pieces (symbols don't lie) and flags any still-Fortran piece as a step-1 gap.
+2. **Write the kernel header** bottom-up: GPU-safe helpers first, then the plain
+   `<name>_me2(p, params)`, then the templated kernel that reads `evt.*` and writes
+   `evt.me2(i)`. Add the one-line `.cpp`. Split big trees at function boundaries (§7).
+3. **Direct formulas for the loop integrals** — only if the amplitude calls QCDLoop (§5).
+4. **Compare against `libmcfm`** on the host through the Kokkos shim, layer by layer: loop
+   functions → sub-amplitudes → full `|M|²`, aiming for 1e-10 relative, with the same fixed
    inputs and momenta on both sides. This is the `validate` workflow.
-5. **Doctests and build wiring**: add layered `DOCTEST_TEST_CASE`s mirroring the existing
-   `MCFM-analytics` cases (they check the kernel against frozen reference values, not a
-   live `libmcfm`); register the header + TU in `src/CMakeLists.txt`. Build and run the
-   bar with `jobrunner submit tests/pepper`, or iterate faster with
-   `pepper_test --dt-test-case="*<name>*"`.
-6. **Report** files written, worst relative error per layer, and blockers.
-   Verified ⇔ doctests pass; else translated.
+5. **Tests and build wiring**: add layered `DOCTEST_TEST_CASE`s like the existing
+   `MCFM-analytics` ones (they check against saved reference numbers, not a live `libmcfm`);
+   list the header + `.cpp` in `src/CMakeLists.txt`. Build and run the check with
+   `jobrunner submit tests/pepper`, or faster with `pepper_test --dt-test-case="*<name>*"`.
+6. **Report** the files written, the worst relative error per layer, and any blockers.
+   Verified = the tests pass; otherwise translated.
 
-## §5 Scalar integrals: closed forms on device
+## §5 Loop integrals: direct formulas on the GPU
 
-QCDLoop cannot run in a kernel. Replace each call with an analytic
-`KOKKOS_INLINE_FUNCTION` closed form (Ellis–Zanderighi 0712.1851; QCDLoop 2.0
-1605.03181) and validate it **in isolation** against the real QCDLoop through
-`libmcfm` (~1e-12) before using it. Numerical stability near thresholds is an open
-problem on device (catastrophic dilog cancellations, no affordable quad fallback per
-thread): choose a strategy per integral — safe expanded branch, accept rare bad
-points, or flag unstable kinematics host-side — and record which one. Boxes at high
-multiplicity are the hard case; bubbles and triangles have been fine.
+QCDLoop can't run inside a kernel. Replace each call with a direct `KOKKOS_INLINE_FUNCTION`
+formula (Ellis–Zanderighi 0712.1851; QCDLoop 2.0 1605.03181) and check it **on its own**
+against the real QCDLoop through `libmcfm` (~1e-12) before using it. Staying accurate near
+thresholds is an open problem on the GPU (subtracting two nearly-equal dilogs loses
+precision, and there is no cheap high-precision fallback per thread): pick a plan per
+integral — a safe expanded formula, accept a few bad points, or flag shaky inputs on the host
+— and write down which one you chose. High-multiplicity boxes are the hard case; bubbles and
+triangles have been fine.
 
-## §6 Why validation is equivalence, not physics
+## §6 Why the check is "matches MCFM", not physics
 
-Pepper has no internal one-loop recursion, so virtual kernels are checked by **translation
-equivalence** rather than a physics recomputation: the doctests' reference values are the
-MCFM results for the same inputs, so a passing doctest means the port reproduces MCFM block
-by block and for the assembled `|M|²`. The `libmcfm` cross-check (§4 step 4) applies the
-same equivalence out of band during authoring. The physics itself was validated at stage 1.
+Pepper has no one-loop math of its own, so virtual kernels are checked by **matching MCFM
+number-for-number**, not by redoing the physics: the tests' reference numbers are MCFM's
+results for the same inputs, so a passing test means the kernel reproduces MCFM block by
+block and for the full `|M|²`. The `libmcfm` comparison (§4 step 4) is the same check, run on
+the side while you write. The physics itself was checked in step 1.
 
-## §7 Splitting large call trees across agents
+## §7 Splitting a big call tree across agents
 
-A kernel absorbs its entire call tree (no external calls from device code), so the
-unit of work is the flattened tree, not the file. Because each MCFM C++ function has
-a bit-identical reference symbol in `libmcfm`, **every piece has its own oracle** —
-which is what makes a split safe:
+A kernel pulls in its whole call tree (no calls out of the GPU code), so the unit of work is
+the flattened tree, not the file. Because each MCFM C++ function has an exact reference in
+`libmcfm`, **every piece has its own reference** — which is what makes splitting safe:
 
-1. Split at function boundaries, never at line counts.
-2. Build the piece DAG and author bottom-up: leaves first (in parallel), then
-   sub-amplitudes, then the assembly. One agent per piece; each reports the globals
-   it needs (these become Params fields).
-3. Validate each piece against its `libmcfm` twin before joining (≤1e-12 → frozen).
-4. Join: the assembly agent includes the frozen fragments, writes the `*_Params`
-   struct and the dispatch kernel, then runs the full-ME validation. If the full ME
-   disagrees while every piece passes, the bug is in the assembly layer — a small
-   search space.
+1. Split at function boundaries, never by line count.
+2. Lay out the pieces and do them bottom-up: leaves first (in parallel), then sub-amplitudes,
+   then the join. One agent per piece; each one reports the globals it needs (these become
+   Params fields).
+3. Check each piece against its `libmcfm` twin before joining (≤1e-12 → frozen).
+4. Join: the joining agent includes the frozen pieces, writes the `*_Params` struct and the
+   kernel, then runs the full check. If the full `|M|²` disagrees while every piece passes,
+   the bug is in the join — a small place to look.
 
-**Convention:** fragments live in `mcfm_analytics/<name>_parts/<piece>.h`, all inside
-`namespace mcfm_<name>`; only the final `<name>_kernel.h` + TU are registered in
-CMake. Every header carries a `// MCFM sources: …` provenance line — that is what the
-closure tool reads to compute reuse. A frozen fragment is never edited by a later
-agent; if the full ME then disagrees, fix the assembly, not the fragments.
+**Convention:** pieces live in `mcfm_analytics/<name>_parts/<piece>.h`, all inside
+`namespace mcfm_<name>`; only the final `<name>_kernel.h` + `.cpp` go in CMake. Every header
+has a `// MCFM sources: …` comment saying where it came from — that is what the closure tool
+reads to work out reuse. A frozen piece is never edited by a later agent; if the full `|M|²`
+then disagrees, fix the join, not the pieces.
 
 ## §8 References
 
 Pepper (arXiv:2311.06198); MadGraph4GPU/CUDACPP (arXiv:2312.02898, splitting
-arXiv:2510.05392); scalar closed forms (arXiv:0712.1851); QCDLoop 2.0
-(arXiv:1605.03181); `Kokkos::complex` non-drop-in (kokkos/kokkos#7618).
+arXiv:2510.05392); scalar closed forms (arXiv:0712.1851); QCDLoop 2.0 (arXiv:1605.03181);
+`Kokkos::complex` non-drop-in (kokkos/kokkos#7618).

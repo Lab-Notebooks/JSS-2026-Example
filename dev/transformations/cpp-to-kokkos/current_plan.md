@@ -1,51 +1,59 @@
-# C++ → Kokkos kernel worklist
+# C++ → Kokkos to-do list
 
-Amplitudes to port to Pepper kernels. Tick tasks off and record short notes and
-per-amplitude outcomes directly in this file; it is the running record shared across
-sessions. Port in **dependency order** (a Born before its virtual) so each earlier
-kernel's frozen fragments are available for reuse.
+The amplitudes to rewrite as Pepper kernels. Tick tasks off and write short notes and a
+result per amplitude here; this is the shared record across sessions. Do them in **order of
+need** (a Born before its virtual) so each earlier kernel's frozen pieces can be reused.
 
-Legend: `- [ ]` not yet ported; `- [x]` kernel authored. A kernel is **verified** only
-after its doctests pass (`desired_spec.md` §4).
+Key: `- [ ]` not done; `- [x]` kernel written. A kernel is **verified** only after its tests
+(doctests) pass (`desired_spec.md` §4). Paths are written as
+`software/pepper/src/mcfm_analytics/…` (the `$PEPPER_HOME` form is only for a normal shell —
+see the Spec's "Running commands").
 
-## Running the work
+**How to record a result.** Same as step 1: when an amplitude is done, add a tag —
+`- [x] <name> — VERIFIED (maxRelErr <value>)`, `- [x] <name> — TRANSLATED (<reason>)`, or
+`- [ ] <name> — FAILED (<what went wrong>)`. Tests pass ⇒ VERIFIED.
 
-1. **Check reuse and stage-1 readiness first**:
-   `python3 dev/tools/closure/calltree_closure.py <name>` lists the call-tree closure from
-   the linked objects. A plain-Fortran object in the closure is a stage-1 gap; finish that
-   in `dev/transformations/fortran-to-cpp/` before porting.
-2. **Port** with the `port` workflow: `args:{projectRoot, transformation:"cpp-to-kokkos",
-   target:"<name>"}` for one (or `targets:[...]` in dependency order), or omit the target
-   and pass `from:"fortran-to-cpp"` to auto-select the C++ units a human has already
-   accepted (VERIFIED) in the stage-1 Plan. It triages the tree, authors the kernel
-   (direct or split), cross-checks against `libmcfm` during authoring, then wires and runs
-   the doctests.
-3. **Verify**: `jobrunner submit tests/pepper` builds Pepper standalone and runs the
-   doctests (`desired_spec.md` §4). Verified ⇔ doctests pass.
-4. **Record** the outcome below (flip the box, note the worst relative error).
+## How to do the work
 
-## Seed worklist (bootstrap order)
+0. **Build MCFM first** — `jobrunner submit tests/mcfm`. Step 2 needs `libmcfm` before it can
+   even size a target: the Closure tool and the compare harness both read it (Spec §1.3).
+   Skip this and step 1 and every check will fail on a fresh checkout.
+1. **Check reuse and step-1 readiness**:
+   `python3 dev/tools/closure/calltree_closure.py <name>` lists everything the amplitude
+   calls, read from the linked pieces. A still-Fortran piece in that list is a step-1 gap;
+   finish it in `dev/transformations/fortran-to-cpp/` before rewriting.
+2. **Rewrite** with the `port` workflow: `args:{projectRoot, transformation:"cpp-to-kokkos",
+   target:"<name>"}` for one (or `targets:[...]` in order). Auto-pick (`from:"fortran-to-cpp"`,
+   no target) rewrites the files the step-1 Plan tags `VERIFIED` whose call tree is fully
+   C++; it only finds work once step 1 has verified the target's dependencies, so for the
+   list below (whose C++ dependencies already ship) pass an explicit `target:`. It sizes the
+   tree, writes the kernel (one pass or split), compares against `libmcfm` while writing,
+   then wires up and runs the tests.
+3. **Check**: `jobrunner submit tests/pepper` builds Pepper on its own and runs the tests
+   (`desired_spec.md` §4). Verified = tests pass.
+4. **Record** the result below (flip the box, add the tag and the worst relative error).
 
-Smallest cases first; each is a dependency of the next, and reuse across kernels is by
-include. The Z Born and single-jet cases already ship as native reference kernels in
-`$PEPPER_HOME/src/mcfm_analytics/` (usable as doctest references and for fragment reuse);
-`qqb_z2jet` is the open porting target for a demo.
+## Amounts to do (start small)
 
-- [x] qqb_z         — Born; closed-form K-factor, no QCDLoop (reference kernel present)
-- [x] qqb_z_v       — first virtual; smallest case with real loop functions (reference present)
-- [x] qqb_z1jet     — Born, dependency of qqb_z1jet_v (reference present)
-- [x] qqb_z1jet_v   — loop functions + heavy-quark axial anomaly (reference present)
-- [ ] qqb_z2jet     — Born; larger call tree (exercises the §7 split protocol)
-- [ ] qqb_z2jet_v   — virtual; boxes → a §5 threshold-stability decision is required
+Smallest cases first; each is needed by the next, and kernels reuse each other by include.
+The Z Born and single-jet cases already ship as ready kernels in
+`software/pepper/src/mcfm_analytics/` (use them as test references and to reuse pieces);
+`qqb_z2jet` is the open target for a demo.
 
-## Working notes
+- [x] qqb_z         — Born; direct K-factor formula, no QCDLoop (kernel present)
+- [x] qqb_z_v       — first virtual; smallest case with real loop functions (present)
+- [x] qqb_z1jet     — Born, needed by qqb_z1jet_v (present)
+- [x] qqb_z1jet_v   — loop functions + heavy-quark axial anomaly (present)
+- [ ] qqb_z2jet     — Born; bigger call tree (uses the §7 split plan)
+- [ ] qqb_z2jet_v   — virtual; boxes → needs a §5 accuracy-near-threshold decision
 
-- Stage-2 validation is *equivalence*, not physics (Spec §6): a kernel is correct by
-  construction when it reproduces the MCFM reference values block-by-block and the doctests
-  pass. Pepper does not link MCFM; `libmcfm` is only the authoring cross-check.
-- Watch the `Kokkos::complex` division caveat (Spec §3): division-heavy paths agree only to
+## Notes
+
+- The step-2 check is "matches MCFM", not physics (Spec §6): a kernel is correct once it
+  reproduces MCFM's reference numbers block by block and the tests pass. Pepper does not link
+  MCFM; `libmcfm` is only the compare-while-writing helper.
+- Watch the `Kokkos::complex` division catch (Spec §3): division-heavy code only agrees to
   ~1e-10, not 1e-13.
-- Box integrals at higher multiplicity are the open hard case (Spec §5): pick the
-  threshold-stability strategy explicitly and record which one, per integral.
-- A port that needs a human-guided runtime diff to resolve is escalated to a human and
-  noted here.
+- High-multiplicity box integrals are the open hard case (Spec §5): pick the
+  accuracy-near-threshold plan on purpose and write down which one, per integral.
+- If a rewrite needs a person to compare runs by hand, hand it to a person and note it here.

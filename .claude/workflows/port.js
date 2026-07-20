@@ -1,30 +1,31 @@
-// Workflow: port — collapse a call-tree closure into one output artifact, size-gated.
+// Workflow: port — turn everything a target calls into one self-contained piece of code.
 //
-// A Claude Code orchestrator for a transformation whose unit of work is not a single
-// file but the whole call-tree closure of a target, ported into one self-contained
-// artifact (no external calls out of the artifact). It is transformation-agnostic:
-// the transformation directory is the only required input, and every concrete step
-// (the closure tool, the authoring pre-pass, the per-unit oracle, the validation
-// harness, and the final test) is read from that transformation's Spec. Invoke it as
-//   "Run port for dev/transformations/<transformation>".
+// A small driver for a step where the unit of work is not one file but the whole tree of
+// things a target calls, rewritten into one self-contained output (nothing calls out of
+// it). It only sets up the structure (the phases below, the small-vs-big branch, doing
+// levels in order, and what to do on a failure). All the real rules and commands (which
+// target to do, small vs. big, the closure tool, the first-draft tool, the reference to
+// check against, the compare harness, and the final test) live in that step's Spec
+// (especially its "Resolution" section). It works for any step; the only required input
+// is the step's folder. Start it with:
+//   "Run port for dev/transformations/<step>".
 //
-// The headline pattern is the SIZE-GATE: a cheap deterministic Triage counts the
-// closure, and the workflow routes accordingly —
-//   small tree  → Direct: one agent ports + validates + assembles in a single pass.
-//   large tree  → Split: a coarse piece DAG (each piece has its own oracle), authored
-//                 bottom-up level by level, then a serial Assemble.
-// Both paths converge on the shared Loop and final test:
-//   … → Validate (the nested `validate` loop) → Test (the Spec's verification criteria).
+// The main idea is the SIZE CHECK: a quick Triage counts how big the tree is, and the
+// workflow picks a path —
+//   small tree  → Direct: one agent rewrites + checks + assembles in a single pass.
+//   large tree  → Split: break it into pieces (each with its own reference), do them
+//                 bottom-up level by level, then Assemble them one at a time.
+// Both paths end at the same loop and final test:
+//   … → Validate (the `validate` loop) → Test (the Spec's correctness check).
 //
-// When no target is given, a Select phase reads a predecessor transformation's Plan
-// (args.from) and ports the units a human has already accepted there (verified) whose
-// closure is now fully produced by that predecessor stage.
+// With no target given, a Select phase reads an earlier step's Plan (args.from) and does
+// the files a person already approved there whose call tree is now fully rewritten.
 //
-// Config (args): projectRoot (required), transformation (required — a dir under
-//                dev/transformations/), target OR targets:[...] (batch, in dependency
-//                order; omit both to auto-select from a predecessor Plan), from (a
-//                predecessor transformation dir, required only for auto-select),
-//                directMax (size gate, 30), tol (1e-10), maxFixes (6).
+// Config (args): projectRoot (required), transformation (required — a folder under
+//                dev/transformations/), target OR targets:[...] (a batch, in order of
+//                need; leave both out to auto-pick from an earlier Plan), from (the
+//                earlier step's folder, only needed for auto-pick),
+//                directMax (small-vs-big cutoff, 30), tol (1e-10), maxFixes (6).
 
 export const meta = {
   name: 'port',
@@ -122,7 +123,7 @@ const SELECT_SCHEMA = {
 }
 
 async function portOne(TARGET) {
-  // Triage — cheap, deterministic size gate (a closure count, not a full audit).
+  // Triage — a quick size check (just count the tree, not a full review).
   phase('Triage')
   const tri = await agent(
     `Size the "${TARGET}" call tree to pick direct vs split — a cheap pass, not a full audit.
@@ -144,7 +145,7 @@ only the structured object.`,
   log(`Triage: ${tri.objects} objects → ${direct ? `DIRECT (≤ ${DIRECT_MAX})` : `SPLIT (> ${DIRECT_MAX})`}.`)
 
   if (direct) {
-    // Direct — one agent ports the whole small tree, validates it, assembles the artifact.
+    // Direct — one agent rewrites the whole small tree, checks it, and assembles the output.
     phase('Direct port')
     const d = await agent(
       `Port the SMALL target "${NAME}" (${tri.objects} objects) — the whole call tree — into one artifact, in
@@ -158,8 +159,8 @@ Return written + worstRelErr.`,
     if (!d?.written) return { status: 'FAILED', stage: 'direct', target: TARGET }
     log(`Direct port wrote artifact ${NAME} (self-validated ${d.worstRelErr || 'n/a'}).`)
   } else {
-    // Split — a coarse piece DAG; each piece has its own oracle, so it can be authored
-    // and frozen independently, bottom-up, then assembled serially.
+    // Split — break the tree into pieces; each piece has its own reference, so it can be
+    // written and frozen on its own, bottom-up, then assembled one at a time.
     phase('Split')
     const plan = await agent(
       `Split the "${TARGET}" call tree into the FEWEST author-sized pieces that each still have an oracle (not
@@ -175,9 +176,9 @@ predecessor stage has not produced). Return the structured object.`,
       return { status: 'BLOCKED', stage: 'split', target: TARGET, plan }
     }
 
-    // Author each level in parallel; a level barrier is real — a level-N piece includes
-    // the FROZEN level-<N fragments. A failed piece aborts before its dependents author
-    // against a broken fragment.
+    // Do each level in parallel; the order matters — a piece at level N includes the
+    // frozen pieces from lower levels. If a piece fails, stop before the ones that depend
+    // on it get built on top of a broken piece.
     const done = new Map()
     const maxLevel = Math.max(...plan.pieces.map((p) => p.level))
     for (let L = 0; L <= maxLevel; L++) {
@@ -202,7 +203,7 @@ a piece that cannot meet tolerance returns authored="failed" with the symptom.`,
       }
     }
 
-    // Assemble — serial: the trust anchor that owns the shared artifact files.
+    // Assemble — one agent, on its own, owns the shared output files.
     phase('Assemble')
     const globals = [...new Set([...done.values()].flatMap((r) => r.globals || []))]
     const asm = await agent(
@@ -217,8 +218,8 @@ notes instead of editing it. Do NOT wire the build or run the validation loop. R
     if (!asm?.written) return { status: 'FAILED', stage: 'assemble', target: TARGET, plan }
   }
 
-  // Validate — the nested loop (shared by both paths). If pieces pass but the whole
-  // target disagrees, the bug is in the assembly layer.
+  // Validate — the shared loop (both paths use it). If the pieces pass but the whole
+  // target doesn't match, the bug is in how they were joined.
   phase('Validate')
   const val = await workflow('validate', { target: NAME, projectRoot: PROJECT, transformation: TRANSFORMATION, maxFixes: MAXFIXES, tol: TOL })
   if (val?.status !== 'PASSED') {
@@ -227,7 +228,7 @@ notes instead of editing it. Do NOT wire the build or run the validation loop. R
   }
   log(`Artifact matches the oracle (maxRelErr=${val.maxRelErr}, fixes=${val.fixes}).`)
 
-  // Test — the Spec's final verification criteria.
+  // Test — the Spec's final correctness check.
   phase('Test')
   const test = await agent(
     `The "${NAME}" artifact now matches the oracle (maxRelErr=${val.maxRelErr}). Finish per the Spec's final
@@ -242,9 +243,9 @@ regression. Return PASSED only if the new tests and the pre-existing cases all p
   return { status, target: TARGET, artifactName: NAME, path: direct ? 'direct' : 'split', validation: val, test }
 }
 
-// Select — when the human named no target, port what the predecessor stage has already
-// delivered and accepted. This reads the predecessor Plan (its durable, human-owned
-// record) for VERIFIED units, then confirms each candidate's closure is fully ready.
+// Select — when no target was named, do what the earlier step already finished and a
+// person approved. Read the earlier Plan for files tagged VERIFIED, then confirm each
+// one's call tree is fully rewritten.
 async function selectFromPredecessor() {
   if (!FROM_PLAN) {
     log('No target given and no args.from predecessor set — nothing to select.')
@@ -253,20 +254,17 @@ async function selectFromPredecessor() {
   phase('Select')
   log(`No target given; selecting human-approved units from ${FROM_PLAN}.`)
   const sel = await agent(
-    `Pick the targets to port from the predecessor stage's Plan. Work from ${PROJECT}; prefix env commands with
-\`${ENV} &&\`. READ ${PROJECT}/${FROM_PLAN}: take only units a human has accepted there (marked VERIFIED, not
-merely translated). For each candidate, run the closure tool the Spec (${PROJECT}/${SPEC}) names and keep it
-only if every closure object was produced by the predecessor stage (ready to port). Drop any whose output
-artifact already exists (see this transformation's Plan ${PROJECT}/${PLAN}). Return 'targets' in dependency
-order (a prerequisite before what depends on it) and 'skipped' with a one-line reason each.`,
+    `Select the targets to port per ${PROJECT}/${SPEC} "Resolution" (selection), reading the predecessor Plan
+${PROJECT}/${FROM_PLAN} and dropping any already ported (see ${PROJECT}/${PLAN}). Work from ${PROJECT}; prefix
+env commands with \`${ENV} &&\`. Return 'targets' in dependency order and 'skipped' with a one-line reason each.`,
     { label: 'select', phase: 'Select', schema: SELECT_SCHEMA }
   )
   if (sel?.skipped?.length) log(`Skipped: ${sel.skipped.map((s) => `${s.target} (${s.reason})`).join('; ')}`)
   return sel?.targets || []
 }
 
-// Driver — an explicit target/targets arg is honored verbatim; otherwise the Select
-// phase derives the list from the predecessor Plan named by args.from.
+// Driver — if a target was given, use it as-is; otherwise Select builds the list from
+// the earlier Plan named by args.from.
 const TARGETS = REQUESTED.length ? REQUESTED : await selectFromPredecessor()
 if (!TARGETS.length) {
   log('Nothing to port: no target given and no human-approved predecessor unit is ready.')

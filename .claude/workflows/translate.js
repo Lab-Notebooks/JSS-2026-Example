@@ -1,26 +1,27 @@
-// Workflow: translate — parallel-author, serial-integrate over a discovered worklist.
+// Workflow: translate — write files in parallel, then combine them one at a time.
 //
-// A Claude Code orchestrator for a transformation whose unit of work is a single
-// source file with a dependency graph over the units. It is transformation-agnostic:
-// the transformation directory is the only required input, and every concrete step
-// (which discovery tool to run, how to author a unit, and the verification criteria)
-// is read from that transformation's Spec (desired_spec.md). The workflow supplies
-// the structure; the Spec supplies the commands. Invoke it as
-//   "Run translate for dev/transformations/<transformation>".
+// A small driver for a step whose unit of work is one source file, where some files
+// depend on others. It only sets up the structure (the phases below, what runs in
+// parallel vs. one at a time, and what to do on a failure). All the real rules and
+// commands (which tools to run, which files are ready, how to group them, how to
+// rewrite, and how to check the result) live in that step's Spec (desired_spec.md,
+// especially its "Resolution" section). It works for any step; the only required input
+// is the step's folder. Start it with:
+//   "Run translate for dev/transformations/<step>".
 //
-// The pipeline is six phases; the structural lessons worth study are the parallel
-// author / serial integrate split and the human review checklist:
-//   Index      deterministic — run the Spec's discovery tools to rank units by readiness
-//   Resolve    deterministic — pick the next leaf layer (units with no unconverted deps)
-//   Bundle     group the ready layer into review-sized bundles; record them in the Plan
-//   Author     PARALLEL, and SIZE-GATED: a large unit goes to a stronger model
-//   Integrate  SERIAL — one agent owns the build and is the verification trust anchor
-//   Fix        escalate FAILED units to a stronger model, then re-integrate
+// Six phases. The two ideas worth noticing are "write in parallel, combine one at a
+// time" and the review list for a person:
+//   Index      run the Spec's tools to rank files by how ready they are (no AI guessing)
+//   Resolve    pick the next batch of ready files, following the Spec's Resolution rule
+//   Bundle     group them into review-sized batches; write them in the Plan
+//   Author     IN PARALLEL, one file each; a big file gets a stronger model
+//   Integrate  ONE AT A TIME: one agent owns the build and runs the check
+//   Fix        a failed file goes to a stronger model, then gets combined again
 //
-// Config (args): projectRoot (required, absolute), transformation (required — a dir
-//                under dev/transformations/), scope (a subtree filter, default 'all'),
-//                maxUnits (cap one run, 12), bigLoc (model gate, 400),
-//                bundleSize (units per human-review bundle, 5).
+// Config (args): projectRoot (required, absolute), transformation (required — a folder
+//                under dev/transformations/), scope (limit to a subfolder, default 'all'),
+//                maxUnits (files per run, 12), bigLoc (big-file cutoff, 400),
+//                bundleSize (files per review batch, 5).
 
 export const meta = {
   name: 'translate',
@@ -102,8 +103,8 @@ const INTEGRATE_SCHEMA = {
   required: ['buildOk', 'rows'],
 }
 
-// Index — run the transformation's discovery tools to rank units by readiness.
-// Deterministic: the Spec names these tools; they are run, not reasoned about.
+// Index — run the Spec's tools to rank files by how ready they are.
+// These are plain programs named by the Spec; run them, don't work the ranking out by hand.
 phase('Index')
 await agent(
   `Run the discovery/index step exactly as ${PROJECT}/${SPEC} describes it: its deterministic tools that build
@@ -113,14 +114,14 @@ the tools print (units total / converted / remaining, ready leaves). Do not auth
   { label: 'index', phase: 'Index', effort: 'low' }
 )
 
-// Resolve — pick this run's leaf layer from the readiness ranking the Index produced.
+// Resolve — pick this run's batch of ready files. The rule (which files are ready, what
+// to skip, what order) lives in the Spec's "Resolution" section, not here.
 phase('Resolve')
 const resolved = await agent(
-  `Read the readiness ranking the Index step produced (the Spec names where it is written) and pick the READY
-leaf layer: units with no unconverted dependency${SCOPE === 'all' ? ' (any group)' : `, restricted to group "${SCOPE}"`}.
-Skip any unit already converted. For each kept unit record its id/path, its group, its verification handle
-(per the Spec, or ""), and a size metric (e.g. \`wc -l\`). Cap 'ready' to ${MAXUNITS} units but report the true
-total in 'layerSize'. Work from ${PROJECT}; prefix env commands with \`${ENV} &&\`. Return only the structured object.`,
+  `Follow ${PROJECT}/${SPEC} "Resolution" to pick the READY leaf layer${SCOPE === 'all' ? '' : `, restricted to group "${SCOPE}"`}.
+Fill the schema for each kept unit (id/path, group, verification handle, size metric). Cap 'ready' to
+${MAXUNITS} units but report the true total in 'layerSize'. Work from ${PROJECT}; prefix env commands with
+\`${ENV} &&\`. Return only the structured object.`,
   { label: 'resolve', phase: 'Resolve', schema: RESOLVE_SCHEMA }
 )
 if (!resolved?.ready?.length) {
@@ -129,26 +130,22 @@ if (!resolved?.ready?.length) {
 }
 log(`Layer: ${resolved.layerSize} ready leaf(s) in "${SCOPE}"; taking ${resolved.ready.length} this run.`)
 
-// Bundle — group the ready layer into review-sized units and record them in the Plan.
-// This is the human-facing output of the run: a reviewer accepts one coherent bundle at
-// a time, so bundling balances throughput (fewer, larger bundles) against the reviewer's
-// technical debt (smaller, coherent bundles). The Plan is the durable record; dev/tmp is not.
+// Bundle — group the ready files into review-sized batches and write them in the Plan.
+// The grouping rule and the Plan's "Review bundles" format both live in the Spec/Plan.
 phase('Bundle')
 const bundled = await agent(
-  `Group these ${resolved.ready.length} ready units into review-sized bundles for a human reviewer, balancing
-throughput against reviewer technical debt: keep each bundle coherent (same group and same verification handle
-so it can be accepted as a unit), and cap each at ${BUNDLESIZE} units. Then refresh the "## Review bundles"
-section of ${PROJECT}/${PLAN}: one "### <id> — <group> (<k> units, verify: <handle>)" heading per bundle with
-a "- [ ] <unit>" line per unit (leave any existing recorded outcomes intact). Work from ${PROJECT}; prefix env
-commands with \`${ENV} &&\`. Units (id · group · verify · size):
+  `Bundle these ${resolved.ready.length} ready units per ${PROJECT}/${SPEC} "Resolution" (review-sized,
+coherent, cap ${BUNDLESIZE}), then refresh the "## Review bundles" section of ${PROJECT}/${PLAN} in the format
+that Plan prescribes, preserving any recorded outcomes. Work from ${PROJECT}; prefix env commands with
+\`${ENV} &&\`. Units (id · group · verify · size):
 ${resolved.ready.map((u) => `  ${u.unit} · ${u.group} · ${u.verify || '-'} · ${u.size || '?'}`).join('\n')}
 Return the bundles you wrote.`,
   { label: 'bundle', phase: 'Bundle', schema: BUNDLE_SCHEMA }
 )
 log(`Recorded ${bundled?.bundles?.length ?? 0} review bundle(s) in ${PLAN}.`)
 
-// Author — one agent per unit, in parallel. Each writes ONLY its own outputs.
-// Size-gate: a large unit is escalated to a stronger model instead of being chunked.
+// Author — one agent per file, all at once. Each writes only its own files.
+// A big file goes to a stronger model instead of being split up.
 phase('Author')
 const authorPrompt = (u) => `Convert one unit of this transformation: \`${u.unit}\` (group ${u.group}).
 Work from ${PROJECT}; prefix env commands with \`${ENV} &&\`. READ ${PROJECT}/${SPEC} and follow it end to end,
@@ -167,8 +164,8 @@ const ok = authored.filter((r) => r?.authored === 'yes')
 log(`Authored ${ok.length}/${resolved.ready.length}.`)
 if (!ok.length) return { resolved, bundles: bundled?.bundles ?? null, authored, integrated: null }
 
-// Integrate — ONE serial agent owns the build and applies the verification criteria.
-// This concentrates the correctness check in a single place: the trust anchor.
+// Integrate — one agent, on its own, owns the build and runs the check.
+// Keeping the check in one place is what makes the result trustworthy.
 const verifyFor = (units) => [...new Set(resolved.ready.filter((u) => units.includes(u.unit) && u.verify).map((u) => u.verify))]
 const integratePrompt = (units, verify, notes) => `You are the SERIAL integrator — you alone own the build tree
 and shared build files. Work from ${PROJECT}; prefix env commands with \`${ENV} &&\`. Apply the verification
@@ -188,8 +185,8 @@ let integrated = await agent(
   { label: 'integrate', phase: 'Integrate', schema: INTEGRATE_SCHEMA }
 )
 
-// Fix — bounded escalation: re-author FAILED units with a stronger model, re-integrate once.
-// Failures that survive are surfaced for a human, not retried indefinitely.
+// Fix — try each failed file once more with a stronger model, then combine again.
+// Anything still failing goes to a person instead of being retried forever.
 const failed = (integrated?.rows || []).filter((r) => r.status === 'FAILED')
 if (failed.length) {
   phase('Fix')
