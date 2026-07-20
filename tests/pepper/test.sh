@@ -1,14 +1,17 @@
 #!/usr/bin/env bash
-# Build Pepper (the local $PEPPER_HOME checkout) against the installed MCFM and the
-# Kokkos QCDLoop clone, then run the unit-test / doctest suite (the stage-2 build +
-# verification harness; desired_spec.md §4-6, tools/kokkos/run_validation.sh).
+# Build Pepper (the local $PEPPER_HOME checkout) against Kokkos and the Kokkos QCDLoop
+# clone, then run the unit-test / doctest suite: the stage-2 verification criteria
+# (dev/transformations/cpp-to-kokkos/desired_spec.md). The ported amplitude kernels are
+# native Pepper code, so this build does NOT link MCFM; the doctests check the kernels
+# against frozen reference values in tests/unit_tests/matrix_elements.cpp.
 #
-# Requires environment.sh to have exported MCFM_HOME, PEPPER_HOME and QCDLOOP_HOME,
-# and tests/mcfm to have installed MCFM under $MCFM_HOME/install (libmcfm) first.
+# Requires environment.sh to have exported PEPPER_HOME and QCDLOOP_HOME. It does not
+# depend on MCFM: libmcfm is used only by the optional developer cross-check
+# dev/tools/kokkos/run_validation.sh during authoring, not by this build.
 #
 # -DPEPPER_QCDLOOP_DIR adds $QCDLOOP_HOME/src (+ /src/qcdloop) to the include path and
 # defines PEPPER_QCDLOOP, enabling the massive-top (texact) scalar-integral kernels in
-# src/mcfm_analytics and their doctests in tests/unit_tests/matrix_elements.cpp.
+# src/mcfm_analytics and their doctests.
 set -e
 
 # Kokkos: prefer an externally-provided install (Kokkos_ROOT / CMAKE_PREFIX_PATH, e.g.

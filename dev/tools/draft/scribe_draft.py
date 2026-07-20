@@ -11,6 +11,9 @@ worked examples in seed_examples.toml and the Spec, then writes the real transla
 Its value is the hint block: it flags which called names are external functions
 defined elsewhere (so the model does not fabricate them, Spec §2 rule 9a).
 
+By default the draft is written under dev/tmp/drafts/ (the scratch root, git-ignored),
+mirroring the file's path below src/; pass -o to override.
+
 Usage: scribe_draft.py <file.f> [--index PATH] [-o OUT] [--force] [--stdout]
 """
 import argparse, json, os, re, sys
@@ -78,7 +81,7 @@ def main():
         sys.exit(f"error: file not found: {src}")
 
     project = os.environ.get("PROJECT_HOME") or os.path.dirname(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))
-    index = args.index or os.path.join(project, "dev/tools/assets/symbol_index.json")
+    index = args.index or os.path.join(project, "dev/tmp/assets/symbol_index.json")
     symbols = {}
     if os.path.isfile(index):
         with open(index) as fh:
@@ -89,7 +92,11 @@ def main():
     draft = annotate(src, symbols)
     if args.stdout:
         sys.stdout.write(draft); return
-    out = args.output or os.path.splitext(src)[0] + ".scribe"
+    # Default output: dev/tmp/drafts/<path-below-src>.scribe (scratch, git-ignored),
+    # keeping the MCFM clone clean. Mirror the sub-path under src/ to avoid collisions.
+    rel = src.split("/src/", 1)[1] if "/src/" in src else os.path.basename(src)
+    out = args.output or os.path.join(project, "dev/tmp/drafts", os.path.splitext(rel)[0] + ".scribe")
+    os.makedirs(os.path.dirname(out), exist_ok=True)
     if os.path.exists(out) and not args.force:
         print(f"skipping (exists): {out}  (use --force)"); return
     with open(out, "w") as fh:

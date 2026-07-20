@@ -1,17 +1,29 @@
-# Spec — Fortran → C++ translation of MCFM
+# Fortran → C++ translation of MCFM
 
-This is the **Spec** for the stage-1 transformation — the correctness specification:
-it describes the code we want and defines what "done" means *before any agent runs*.
-It is orchestrator-agnostic — the Claude Code workflow and the CodeScribe loop read
-this same file — and it is the single source of truth for *how* to translate.
-Workflows and tools point here rather than restating the rules.
+The rules for translating one MCFM Fortran file to C++, and what makes the result
+**verified**. The workflow and tools point here rather than restating these rules.
 
-The one distinction to keep in mind throughout: a unit is **verified** only when a
-benchmark actually exercises it and the coverage probe fires (§5). Everything else
-is **translated** — say so plainly, and never claim correctness for it.
+A unit is **verified** only when a benchmark actually exercises it and the coverage probe
+fires (§5); everything else is **translated**. Say which, plainly, and never claim
+correctness for a merely-translated unit.
 
-Paths use `$MCFM_HOME` (the MCFM clone, set by `source environment.sh`) and are
-relative to `$MCFM_HOME/src`.
+Paths use `$MCFM_HOME` (the MCFM clone, set by `source environment.sh`) and are relative to
+`$MCFM_HOME/src`.
+
+---
+
+## Tools
+
+The `translate` workflow runs these deterministic Tools by name; each documents its
+interface in its own docstring under `dev/tools/`.
+
+- **Discovery (Index).** `dev/tools/index/generate_doxygen.sh` builds the Doxygen call
+  graph, then `dev/tools/index/build_roadmap.py` ranks units by readiness into
+  `dev/tmp/assets/roadmap_metrics.tsv` (a ready leaf has `deps==0` and `blind==0`) and
+  writes the symbol map `dev/tmp/assets/symbol_index.json`.
+- **Authoring pre-pass (Draft).** `dev/tools/draft/scribe_draft.py <file.f>` writes a
+  mechanical scaffold plus rule-9a external-symbol hints; pair it with the worked
+  examples in `dev/tools/draft/seed_examples.toml`.
 
 ---
 
@@ -124,12 +136,14 @@ is also encoded in the Index tool (`dev/tools/index/build_roadmap.py`).
 
 ## §5 Verification and the coverage probe
 
-Build and benchmark in `$MCFM_HOME/Bin`:
+Build and benchmark via the harness, or by hand for a single-process probe:
 
 ```bash
 source "$PROJECT_HOME/environment.sh"
+jobrunner submit tests/mcfm    # builds $MCFM_HOME/Bin and runs the full benchmark suite
+# or, to build and probe one process by hand:
 cd "$MCFM_HOME/Bin" && cmake . >/dev/null && make install 2>&1 | tail -40
-./test -b <process>        # records four ratios: Finite / IR / IR2 / Born
+./test -b <process>            # records four ratios: Finite / IR / IR2 / Born
 ```
 
 A translation passes only when all four ratios match within **1e-13**. (Amplitudes
@@ -149,6 +163,6 @@ reach the routine, so it reports a match without ever being tested. So probe it:
    read off-path only until the routine that uses it lands.
 
 Always revert every probe edit and leave the tree building clean. This §5 *is* the
-verification bar: the workflow's serial Integrate phase applies it, and the
+verification criteria: the workflow's serial Integrate phase applies it, and the
 CodeScribe review phase would apply the same one. Record per-file outcomes
 (verified / translated / failed) in the Plan (`current_plan.md`), not here.

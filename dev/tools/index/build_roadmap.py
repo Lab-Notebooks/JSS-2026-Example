@@ -9,8 +9,10 @@ they can be translated now without a missing dependency.
 A collaborator generated the call graph with Doxygen (not a regex scan), so this one
 command also emits the symbol → file map the Draft tool consumes. Two outputs:
 
-  dev/tools/assets/roadmap_metrics.tsv   per-file: deps, blind, fanin, bench
-  dev/tools/assets/symbol_index.json     symbol → defining file (for scribe_draft.py)
+  dev/tmp/assets/roadmap_metrics.tsv   per-file: deps, blind, fanin, bench
+  dev/tmp/assets/symbol_index.json     symbol → defining file (for scribe_draft.py)
+
+All generated output goes under dev/tmp/ (the scratch root, git-ignored).
 
 deps = untranslated callees (0 = ready). blind = a file Doxygen could not parse, so
 its edges are unknown and deps==0 cannot be trusted. translated = a .cpp or .hpp
@@ -21,7 +23,7 @@ import os, re, glob, json, collections, xml.etree.ElementTree as ET
 ROOT   = os.environ.get("PROJECT_HOME") or os.path.dirname(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))
 SRC    = os.environ.get("MCFM_HOME", ROOT + "/software/mcfm") + "/src"
 XML    = ROOT + "/software/mcfm/doxygen_dep/xml"
-ASSETS = ROOT + "/dev/tools/assets"
+ASSETS = ROOT + "/dev/tmp/assets"
 os.makedirs(ASSETS, exist_ok=True)
 
 # top-level src/ directory -> the ./test -b benchmark that exercises it (Spec §4).

@@ -1,29 +1,49 @@
-# Spec — C++ → Kokkos kernel (stage 2)
+# C++ → Kokkos kernel (stage 2)
 
-The **Spec** for the stage-2 transformation: how to port an MCFM C++ amplitude (the
-output of stage 1) into a device-portable Kokkos kernel inside Pepper, and what
-makes the port **verified**. Like the stage-1 Spec it is orchestrator-agnostic and
-is the single source of truth; the workflow points here rather than restating it.
+How to port an MCFM C++ amplitude (the output of stage 1) into a device-portable Kokkos
+kernel inside Pepper, and what makes the port **verified**. This is the source of truth
+for the rules; the workflow and tools point here rather than restating them.
 
 ```
 Fortran (MCFM)  --stage 1-->  C++ (FArray + std::complex)  --stage 2-->  Kokkos kernel (Pepper)
 ```
 
-A kernel is **verified** only when its doctests pass (layered equivalence against
-`libmcfm`); a header that merely compiles is **translated** (unverified). Stage-2
-verification is *translation equivalence*, not physics — the physics was already
-validated when stage 1 passed the MCFM benchmarks at 1e-13 (§6).
+The ported kernels are native Pepper code: Pepper does not link MCFM. A kernel is
+**verified** only when Pepper's own doctests pass, checking it against frozen reference
+values; a header that merely compiles is **translated** (unverified). Verification is
+*translation equivalence*, not physics: the physics was already established when stage 1
+passed the MCFM benchmarks at 1e-13 (§6). During authoring, `libmcfm` serves as an
+out-of-band oracle to cross-check a port block by block (§4, §7); it is a developer aid,
+not part of Pepper or its bar.
 
-Paths use `$MCFM_HOME` and `$PEPPER_HOME` (set by `source environment.sh`). The
-Pepper clone must be on the branch carrying the `mcfm_analytics` kernels.
+Paths use `$MCFM_HOME` and `$PEPPER_HOME` (set by `source environment.sh`). The Pepper
+clone must be on the branch carrying the `mcfm_analytics` kernels.
+
+---
+
+## Tools
+
+The `port` and `validate` workflows run these Tools by name; each documents its
+interface in its own docstring under `dev/tools/`.
+
+- **Closure.** `dev/tools/closure/calltree_closure.py <name>` derives the call-tree
+  closure from `libmcfm`'s linked objects and reports the object count and stage-1
+  readiness (whether every object is C++).
+- **Authoring pre-pass.** `dev/tools/kokkos/kokkosify.py` applies the mechanical subset
+  of §3 and flags what it cannot decide as `KOKKOSIFY-TODO` for the author to resolve.
+- **Validation harness (oracle).** `dev/tools/kokkos/run_validation.sh` builds the
+  host-side comparison, linking `libmcfm` and the kernel through the Kokkos shim; the
+  `validate` loop drives it and its check table lands in `dev/tmp/assets/validate-output.md`.
 
 ---
 
 ## §1 Prerequisites
 
-1. `source "$PROJECT_HOME/environment.sh"` — sets `MCFM_HOME`, `PEPPER_HOME`.
-2. `$MCFM_HOME` is built and `libmcfm.*` exists — the validator links it.
-3. The Pepper clone is on the `mcfm_analytics` branch.
+1. `source "$PROJECT_HOME/environment.sh"` — sets `PEPPER_HOME`, `QCDLOOP_HOME`, `MCFM_HOME`.
+2. The Pepper clone is on the `mcfm_analytics` branch. `jobrunner submit tests/pepper`
+   builds it standalone (Kokkos + QCDLoop, no MCFM link) and runs the doctests: the bar.
+3. Only for the authoring cross-check (§4 step 4): a built MCFM
+   (`jobrunner submit tests/mcfm`), so `dev/tools/kokkos/run_validation.sh` can link `libmcfm`.
 
 ## §2 Conventions you must not get wrong
 
@@ -84,9 +104,11 @@ Two rules earn their own line:
 3. **Closed forms for scalar integrals** — only if the amplitude calls QCDLoop (§5).
 4. **Validate against `libmcfm`** host-side through the Kokkos shim: compare layered —
    loop functions → sub-amplitudes → full `|M|²`, target ≤1e-10 relative, same fixed
-   inputs and momenta on both sides. This is the `kokkos-validate-loop` workflow.
-5. **Doctests and build wiring**: add layered `DOCTEST_TEST_CASE`s mirroring the
-   existing `MCFM-analytics` cases; register the header + TU; run
+   inputs and momenta on both sides. This is the `validate` workflow.
+5. **Doctests and build wiring**: add layered `DOCTEST_TEST_CASE`s mirroring the existing
+   `MCFM-analytics` cases (they check the kernel against frozen reference values, not a
+   live `libmcfm`); register the header + TU in `src/CMakeLists.txt`. Build and run the
+   bar with `jobrunner submit tests/pepper`, or iterate faster with
    `pepper_test --dt-test-case="*<name>*"`.
 6. **Report** files written, worst relative error per layer, and blockers.
    Verified ⇔ doctests pass; else translated.
@@ -104,10 +126,11 @@ multiplicity are the hard case; bubbles and triangles have been fine.
 
 ## §6 Why validation is equivalence, not physics
 
-Pepper has no internal one-loop recursion, so virtual kernels are validated purely
-by **translation equivalence** against `libmcfm`, block by block and then the
-assembled `|M|²`. This checks the faithfulness of the port; the physics was validated
-at stage 1.
+Pepper has no internal one-loop recursion, so virtual kernels are checked by **translation
+equivalence** rather than a physics recomputation: the doctests' reference values are the
+MCFM results for the same inputs, so a passing doctest means the port reproduces MCFM block
+by block and for the assembled `|M|²`. The `libmcfm` cross-check (§4 step 4) applies the
+same equivalence out of band during authoring. The physics itself was validated at stage 1.
 
 ## §7 Splitting large call trees across agents
 

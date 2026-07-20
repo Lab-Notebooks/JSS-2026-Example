@@ -23,8 +23,8 @@ if [ -n "$SiteName" ] && [ -f "$SiteHome/config.sh" ]; then
 fi
 
 # The scientific codebases under transformation, plus the QCDLoop dependency
-# Pepper links. These are external clones obtained per software/README.md; the
-# paths are fixed, the contents are not tracked by this repository.
+# Pepper links. These are git submodules (see the submodule table in README.md); the
+# paths are fixed, the contents tracked in their own submodule repositories.
 export MCFM_HOME="$PROJECT_HOME/software/mcfm"       # Fortran -> C++ (stage 1)
 export PEPPER_HOME="$PROJECT_HOME/software/pepper"   # C++ -> Kokkos (stage 2)
 # Kokkos QCDLoop (header-only): the massive-top scalar integrals Pepper's stage-2

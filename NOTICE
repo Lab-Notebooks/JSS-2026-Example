@@ -18,4 +18,4 @@ This repository is the evaluation artifact accompanying the paper
 Engineering." It packages the shared inputs, the Claude Code orchestrator,
 and the evaluation harness needed to reproduce the paper's systematic
 evaluation. The scientific codebases under transformation (MCFM and Pepper)
-are third-party software obtained separately; see software/README.md.
+are third-party software obtained separately; see the submodule table in README.md.

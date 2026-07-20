@@ -1,0 +1,44 @@
+# Doxyfile for the stage-1 Index tool.
+#
+# Doxygen config that produces the call-graph XML the Index tool consumes
+# (dev/tools/index/build_roadmap.py reads compounddef file/module entries and
+# memberdef <references> edges). It is intentionally minimal: XML only, no HTML,
+# and cross-reference relations turned on so <references> is emitted per routine.
+#
+# INPUT and OUTPUT_DIRECTORY are NOT set here — generate_doxygen.sh appends them
+# from $MCFM_HOME so the same committed file works on any checkout. Run it via
+# that script, never `doxygen Doxyfile` directly.
+
+PROJECT_NAME           = MCFM
+
+# --- what to parse ---
+RECURSIVE              = YES
+FILE_PATTERNS          = *.f *.F *.f90 *.F90
+OPTIMIZE_FOR_FORTRAN   = YES
+EXTENSION_MAPPING      = f=FortranFixed F=FortranFixed f90=FortranFree F90=FortranFree
+EXTRACT_ALL            = YES
+EXTRACT_PRIVATE        = YES
+EXTRACT_STATIC         = YES
+# Skip the vendored/legacy trees the roadmap also excludes (Spec §4 infrastructure
+# dirs stay in; these never contribute translatable leaves).
+EXCLUDE_PATTERNS       = */deprecated/* */Store/* */working/*
+
+# --- the edges the Index tool needs ---
+# SOURCE_BROWSER + *_RELATION are what make Doxygen emit <references> /
+# <referencedby> in the XML; without them every file looks dependency-free.
+SOURCE_BROWSER         = YES
+REFERENCED_BY_RELATION = YES
+REFERENCES_RELATION    = YES
+
+# --- output: XML only ---
+GENERATE_HTML          = NO
+GENERATE_LATEX         = NO
+GENERATE_XML           = YES
+XML_OUTPUT             = xml
+XML_PROGRAMLISTING     = NO
+
+# --- keep it quiet and dot-free (edges come from the XML, not call-graph images) ---
+HAVE_DOT               = NO
+QUIET                  = YES
+WARNINGS               = NO
+WARN_IF_UNDOCUMENTED   = NO

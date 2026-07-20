@@ -62,6 +62,24 @@ def ported_sources():
     return out
 
 
+def link_tokens(path, seen=None):
+    """Tokens of a CMake link command, expanding @response-file references.
+    Newer CMake writes the object list into an @objects*.rsp file instead of
+    inlining it in link.txt, so the objects must be read out of there."""
+    seen = seen if seen is not None else set()
+    if path in seen or not os.path.isfile(path):
+        return []
+    seen.add(path)
+    toks = []
+    for t in open(path).read().split():
+        if t.startswith("@"):
+            rsp = t[1:]
+            toks += link_tokens(rsp if os.path.isabs(rsp) else os.path.join(BINDIR, rsp), seen)
+        else:
+            toks.append(t)
+    return toks
+
+
 def nm_symbols(objs):
     """defined: symbol -> object ; undef: object -> {symbols}."""
     defined, undef = {}, collections.defaultdict(set)
@@ -84,7 +102,7 @@ def main():
         sys.exit(__doc__)
     entry = sys.argv[1]
     objs = [o if os.path.isabs(o) else os.path.join(BINDIR, o)
-            for o in open(LINKTXT).read().split() if o.endswith(".o")]
+            for o in link_tokens(LINKTXT) if o.endswith(".o")]
     defined, undef = nm_symbols(objs)
 
     base = os.path.basename(entry)
