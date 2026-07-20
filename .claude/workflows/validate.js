@@ -1,23 +1,23 @@
-// Workflow: validate — the oracle validate↔fix loop.
+// Workflow: validate — the check-and-fix loop.
 //
-// This is the Loop primitive in its minimal form: a deterministic validate↔fix cycle
-// whose only cross-iteration state lives on disk. It validates a produced artifact
-// against the reference oracle the Spec names, and alternates diagnose-and-fix with
-// re-validate until every check passes or no further progress is possible. The `port`
-// workflow calls it as its verification criteria; it also runs standalone once an
-// artifact exists and needs to be made equivalent.
+// The simplest kind of loop: check, fix, check again, and repeat until every check
+// passes or it stops making progress. Its only memory between rounds is a file on disk.
+// It compares a finished output against the reference the Spec names, and takes turns
+// between finding-and-fixing one problem and re-checking. The `port` workflow calls this
+// as its correctness check; it also runs on its own once an output exists and needs to be
+// made to match.
 //
-// It is transformation-agnostic: the transformation directory is a required argument
-// and the Spec is read from there, so any transformation whose Spec defines a per-block
-// oracle and a validation harness can drive the same loop.
+// It works for any step: the step's folder is a required input and the Spec is read from
+// there, so any step whose Spec names a per-block reference and a compare harness can use
+// this same loop.
 //
-// The only cross-step scratch is the check table dev/tmp/assets/validate-output.md: the
-// validate step writes it (ref/got/relErr per check) and the fix step reads it. It is
-// transient and regenerated each cycle. Durable notes (what was changed, the per-target
-// outcome) belong in the transformation's Plan, not in scratch.
+// The only file passed between steps is the check table dev/tmp/assets/validate-output.md:
+// the check step writes it (reference / got / relative error per check) and the fix step
+// reads it. It is throwaway and rebuilt each round. What to keep (what changed, the result
+// per target) goes in the step's Plan, not in this scratch file.
 //
 // Config (args): target (required), projectRoot (required), transformation (required —
-//                a dir under dev/transformations/), maxFixes (6), tol (1e-10).
+//                a folder under dev/transformations/), maxFixes (6), tol (1e-10).
 
 export const meta = {
   name: 'validate',
