@@ -1,51 +1,40 @@
-# CodeScribe runner for the Fortran -> C++ step.
+# CodeScribe loop for Fortran -> C++.
 #
-# Reads the Spec and Plan in this folder, keeps the changing task list in an
-# agent-created agent_checklist.md, and uses the helper programs in dev/tools/ (all plain
-# python3 calls). Run it from the project root, with the environment already set up (for
-# example, through jobrunner):
-#
+# Run from the project root:
 #   code-scribe loop -p dev/transformations/fortran-to-cpp/loop.toml -m <model>
-#
-# It runs a writer-then-reviewer loop, up to five rounds: one pass writes the code, a second
-# pass reviews it, and the two repeat until the review is happy or five rounds are used up.
-#
-# [tools].bash lists the extra commands the writer may run. It applies to the writing phase
-# only; the review phase has its own, read-mostly, list.
 
 [tools]
 bash = ["jobrunner", "python3"]
 
 [[chat.user]]
 content = '''
-Read dev/transformations/fortran-to-cpp/current_plan.md first — it says how to run this step
-(the tools, which files to do next, and the notes from past sessions) — then read
-dev/transformations/fortran-to-cpp/desired_spec.md for what the code should look like and how
-to tell it is correct.
+Read, in order:
+1. dev/transformations/fortran-to-cpp/current_plan.md
+2. dev/transformations/fortran-to-cpp/desired_spec.md
 
-Refresh the readiness map yourself before picking files — it's cheap, and safe to redo every
-round:
-  python3 dev/tools/index/build_roadmap.py --doxygen
-  python3 dev/tools/index/build_roadmap.py
+Operate in this order each round:
+1. Refresh readiness:
+   python3 dev/tools/index/build_roadmap.py --doxygen
+   python3 dev/tools/index/build_roadmap.py
+2. Open or update dev/transformations/fortran-to-cpp/agent_checklist.md.
+3. Determine whether there is an existing open review group. If there is, continue working in
+   that group. Do not stop just because it is not yet approved.
+4. Run `python3 dev/tools/approve/check_gate.py dev/transformations/fortran-to-cpp/agent_checklist.md`
+   only to decide whether you may start a new group. A gate failure means: an earlier completed
+   group needs human approval before any new group starts. It does NOT forbid continuing work,
+   fixes, builds, or verification inside the current open group.
+5. If build, test, or verification work is needed and MCFM is not built yet, run
+   `jobrunner submit tests/mcfm` before trying to verify files.
+6. Only rewrite ready files. Use Draft for a first cut, then write the real translation from
+   the Spec. Rewrite one file at a time. Never invent a symbol.
+7. After edits, build and verify. Apply fixes if the build or checks fail. Do not stop merely
+   because a review group exists; stop only when you are blocked waiting for human approval to
+   start the next group, or when there is no ready work.
+8. Verify each file immediately with Coverage and mark it VERIFIED, TRANSLATED, or FAILED.
+9. Before stopping, update agent_checklist.md and append a dated session note to the Plan.
 
-If software/mcfm has never been built, run `jobrunner submit tests/mcfm` once first so
-Coverage below has something to build against.
-
-Keep the changing task list in dev/transformations/fortran-to-cpp/agent_checklist.md: create
-it if it isn't there yet, then work through it following the Plan's Resolution rules. Use the
-Draft tool for a rough first cut and its don't-invent-a-name hints, then write the real
-translation following the Spec. Rewrite one file at a time; never invent a name that is not in
-the source.
-
-Verify each file with the Coverage tool (dev/tools/coverage/coverage_check.py) and mark it
-VERIFIED, TRANSLATED, or FAILED directly from its result, per the Spec's correctness bar — do
-not leave the verification to a later pass.
-
-Respect the approval gate: a person signs off each review group by writing an `APPROVED` line
-under its heading in agent_checklist.md. Do not start a new group while an earlier, completed
-group is unapproved — run
-`python3 dev/tools/approve/check_gate.py dev/transformations/fortran-to-cpp/agent_checklist.md`
-and, if it fails, stop and leave the finished group for a person to review. At the end of each
-round, before you stop, update agent_checklist.md and add a dated note to the Plan's session
-log with what you did and what is left, so the next round knows what to do.
+Graceful exit conditions:
+- Stop for human review only when a completed group blocks starting another group.
+- Stop when there is no ready file to work on.
+- Otherwise keep building, fixing, verifying, and finishing the current group.
 '''

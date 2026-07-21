@@ -1,18 +1,13 @@
-"""Kokkos tool — mechanical C++ -> Kokkos pre-pass, plus a host validation harness.
+"""Kokkos tool — C++ -> Kokkos draft pass plus validator.
 
-  python3 kokkosify.py <input.cpp> [-o draft.h] [-r report.md]   ('-' = stdout)
+  python3 kokkosify.py <input.cpp> [-o draft.h] [-r report.md]
   python3 kokkosify.py validate <validator.cpp> [extra g++ args...]
 
-kokkosify: applies the safe subset of the stage-2 rewriting rules to a stage-1 C++
-file and emits a draft kernel body (NOT compilable as-is) plus a blocker report.
-Anything it cannot decide safely it flags with a KOKKOSIFY-TODO. Rewrites:
-std::complex<double> -> C ; std:: math -> Kokkos:: ; KOKKOS_INLINE_FUNCTION on
-file-scope functions ; #include lines dropped. Flags only: QCDLoop, STL/heap/IO,
-module-global reads, FArray declarations, wrappers.
+`kokkosify` applies safe mechanical rewrites and flags unresolved cases with
+`KOKKOSIFY-TODO`. `validate` builds and runs a host-side comparison against `libmcfm`.
 
-validate: compile+run a standalone validator that links the original MCFM C++
-(libmcfm) alongside the ported kernels, compiled host-side via kokkos_host_shim/.
-Overrides: MCFM_DIR, KERNELS_DIR, SHIM_DIR, CXX, CXXFLAGS (or MCFM_HOME/PEPPER_HOME).
+Environment overrides: `MCFM_DIR`, `KERNELS_DIR`, `SHIM_DIR`, `CXX`, `CXXFLAGS`
+(or `MCFM_HOME` / `PEPPER_HOME`).
 """
 import argparse, os, re, shutil, subprocess, sys, tempfile, shlex
 from pathlib import Path

@@ -1,16 +1,12 @@
-"""Draft tool — a mechanical first cut of one Fortran file, with hints.
+"""Draft tool — rough first cut for one Fortran file.
 
   python3 scribe_draft.py <file.f> [--index PATH] [-o OUT] [--force] [--stdout]
-  python3 scribe_draft.py --seed          print the few-shot seed examples
+  python3 scribe_draft.py --seed
 
-Given a Fortran source and the symbol index (from build_roadmap.py), it writes a
-`<base>.scribe` draft: a block of `scribe-prompt:` hints plus a rough mechanical
-conversion (use -> using namespace, real -> double, dimension -> FArray, x**n -> pow).
-The hints flag which called names are defined in other files, so the Author agent does
-not fabricate them. The draft is scaffolding; the agent reads it with the seed examples
-(--seed) and the Spec, then writes the real translation.
+Writes a `.scribe` draft with `scribe-prompt:` hints plus a mechanical conversion.
+The symbol index adds dependency hints so the translator does not invent names.
 
-Default output: dev/tmp/drafts/<path-below-src>.scribe (git-ignored scratch).
+Default output: `dev/tmp/drafts/<path-below-src>.scribe`.
 """
 import argparse, json, os, re, sys
 

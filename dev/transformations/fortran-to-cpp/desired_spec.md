@@ -1,97 +1,69 @@
-# Fortran → C++: what a rewritten MCFM file must look like
+# Fortran → C++: target output for one MCFM file
 
-The rules for what one rewritten MCFM file must look like, and how "correct" is defined.
-This file is only the desired result and the correctness bar; how to run the step — the
-helper programs, the running-command rules, which files to do next, and the notes across
-sessions — lives in the Plan (`current_plan.md`).
+This file defines the rewrite target and correctness bar for step 1. The workflow lives in
+`current_plan.md`.
 
-Paths are written as `software/mcfm/src/...` (relative to the MCFM code).
+Paths are written as `software/mcfm/src/...`.
 
 ---
 
-## What each file turns into
+## Output shape
 
-One Fortran file becomes one C++ output, and its `.f`/`.f90` entry in the folder's
-`CMakeLists.txt` is swapped for it:
+One Fortran file becomes one C++ translation unit set, and the folder's `CMakeLists.txt` swaps
+its `.f`/`.f90` entry for the new files:
 
-- **`<base>.cpp`** — the C++ code, plus an `extern "C" <base>_wrapper(...)` so Fortran can
-  still call it (raw pointers come in; `FArray` views are built inside the wrapper).
-- **`<base>.hpp`** — the header, so other C++ files can call it directly.
-- **`<base>_fi.F90`** — a small Fortran shim (an `iso_c_binding` interface): a Fortran
-  subroutine with the *original* name that calls `<base>_wrapper`. This lets every existing
-  Fortran caller keep working while you rewrite the code a bit at a time, instead of
-  switching everything at once.
+- **`<base>.cpp`** — translated code plus `extern "C" <base>_wrapper(...)`
+- **`<base>.hpp`** — direct C++ declaration
+- **`<base>_fi.F90`** — Fortran shim with the original entry name calling the wrapper
 
-A Fortran **module** instead becomes a `.hpp` (a namespace of `extern` declarations), a
-`.cpp` (the definitions plus `extern "C"` pointer accessors), and a `_fi.f90` that mirrors
-each variable with `c_f_pointer`. Copy the shape of an already-done module in `src/Mods`.
+A Fortran module instead becomes a `.hpp`, a `.cpp`, and a `_fi.f90` that mirrors variables via
+`c_f_pointer`. Follow existing rewritten modules in `src/Mods`.
 
----
+## Rewrite rules
 
-## Rules for rewriting
-
-Rewrite the body line by line. Don't add a `main`, extra declarations, or any name the
-source doesn't already use.
+Rewrite line by line. Do not add a `main`, extra declarations, or invented names.
 
 | Fortran | C++ |
 |---|---|
-| `subroutine`/`function` | free function; add `<name>_wrapper` in an `extern "C"` block |
-| `use <mod>` | `#include <mod.hpp>` + `using namespace <mod>;` (module *data* only) |
+| `subroutine`/`function` | free function + `<name>_wrapper` in `extern "C"` |
+| `use <mod>` | `#include <mod.hpp>` + `using namespace <mod>;` |
 | `real(dp)` / `complex(dp)` | `double` / `std::complex<double>` |
-| `dimension(nx,ny)` array | `FArray2D<double> a(nx, ny)` (1-based; `FArray1D…4D` only) |
-| `intent(in/inout)` scalar | pass by reference (`double& a`) |
+| `dimension(nx,ny)` array | `FArray2D<double> a(nx, ny)` |
+| `intent(in/inout)` scalar | pass by reference |
 | statement function | C++ lambda |
 | `x**n` | `pow(x, n)` |
 | `return` | `return;` |
 
-**The rule worth repeating — don't invent a called name.** A file usually calls routines
-defined in *other* files whose signatures you can't see. Keep every `call` that is there;
-invent none. Handle each one based on whether it has been rewritten yet:
+### Never invent a called symbol
 
-- **Already C++** (a `<dep>.cpp` file exists) → call the C++ function directly:
-  `#include "<dep>.hpp"` and match its signature.
-- **Still Fortran** → call it the plain Fortran way: declare
-  `extern "C" void <name>_(/* every arg a pointer */);` and call `<name>_(&a, &b, …)`,
-  passing arrays as the underlying pointer. Results come back through the pointers.
+Keep every call already present in the source.
 
-If a called routine is in a module that isn't rewritten yet and has no C binding, that is a
-real blocker — rewrite that dependency first, don't guess around it. The readiness map (the
-Index program the Plan names) exists so a rewrite is only ever handed a file whose called
-routines are already done.
+- If the callee is already rewritten, include its `.hpp` and call the C++ function.
+- If the callee is still Fortran, declare the plain Fortran symbol in `extern "C"` and call it
+  with pointer arguments.
+- If a needed module dependency has no usable C binding yet, stop and rewrite that dependency
+  first.
 
-A full worked example (a subroutine and a module, all three output files) is in the examples
-the Draft tool prints: `dev/tools/draft/scribe_draft.py --seed`.
+The readiness map exists so a file is only rewritten when its callees are already available.
+Use the Draft tool's hints and seed examples when needed.
 
-### Silent traps to self-check
+## Silent traps
 
-Most rewriting bugs are *silent*: the code builds, links, and may even pass the test, but is
-still wrong. Each one below happened on a real MCFM file. Use them as a self-check, and rely
-on the coverage check (below) to catch what you miss.
+Check these explicitly:
 
-1. **A dropped `call`.** Leaving out a call whose output you don't see used, or skipping one
-   of a near-identical pair (a public routine often calls its `core` worker twice, once with
-   the spinor arguments swapped). This leaves outputs unset, and it builds fine.
-2. **Order of × and ÷.** Fortran `)/za*za` divides by `za²`; C++ goes left to right and
-   makes it `(…/za)*za`. Put parentheses around every denominator.
-3. **`FArray` sizes.** Build an existing array with *all* its sizes and 1-based bounds;
-   giving too few sizes silently shifts the whole buffer. There is no `FArray5D` — for 5+
-   dimensions, flatten it with an index lambda.
-4. **0-based vs 1-based.** Don't write index 0 of a 1-based Fortran array; keep fill loops
-   1-based so every index stays in `[1,N]`.
-5. **Includes.** Include the module headers the `use` lines imply (not just the file's own
-   header), plus `<Need.hpp>` for the loop/spinor helpers (`lnrat`, `L0`, `spinoru`, `dot`,
-   …). A missing header from another folder means that folder needs a rewritten dependency
-   first — don't edit shared CMake yourself.
+1. Dropped calls, especially near-duplicate paired calls.
+2. Missing parentheses around denominators after translating chained `*` and `/`.
+3. Wrong `FArray` sizes or bounds.
+4. Accidental 0-based indexing for 1-based Fortran arrays.
+5. Missing module or `Need.hpp` includes.
 
-If a number still disagrees after you've checked, mark it FAILED with the symptom instead of
-guessing a fix — a small mismatch goes to a person.
+If numbers still disagree after checking, mark the file `FAILED` with the symptom.
 
 ---
 
-## Which test covers which folder
+## Coverage map
 
-A rewrite counts as verified only if a test actually runs it. Match the file's top-level
-`src/` folder to a `./test -b` run:
+A file is only verified if a test actually runs it.
 
 | Directory | `./test -b` process |
 |-----------|---------------------|
@@ -99,27 +71,20 @@ A rewrite counts as verified only if a test actually runs it. Match the file's t
 | Z / Z1jet / Z2jet | `u u~ e- e+` (+ `g`, `g g`) |
 | ThreeJets | `g g g g g` |
 | ggH / gghgg_dep | `g g h` / `g g h g g` |
-| Mods, Need, Inc, Procdep | infrastructure — no test; mark TRANSLATED |
+| Mods, Need, Inc, Procdep | infrastructure — mark `TRANSLATED` |
 
-A file in a folder with no test is **translated but not verified**. This table is also built
-into the Index program (`dev/tools/index/build_roadmap.py`).
+This mapping is also built into `dev/tools/index/build_roadmap.py`.
 
 ---
 
-## The correctness bar
+## Correctness bar
 
-A rewrite passes only when the MCFM test that runs it matches to within **1e-13** (code that
-uses complex powers can be off by about 1e-15 — that is normal and well inside the limit).
-But a passing test is necessary, not sufficient: the fixed test inputs might never reach your
-routine, so a test can report a match without ever running your code — which is what
-`dev/tools/coverage/coverage_check.py` (the Plan's "Verify" step) exists to prove.
+A passing MCFM test must match to **1e-13**. That alone is not enough: the test must also be
+shown to exercise the rewritten file via `dev/tools/coverage/coverage_check.py`.
 
-- **VERIFIED** — the coverage check confirms a test actually exercised the file, and the
-  restored build's numbers match.
-- **TRANSLATED** — it builds and links, but no test has been shown to run it (it's off every
-  test's path, or it's in an infrastructure folder with no test). Rewritten, not yet correct.
-- **FAILED** — the numbers disagree after checking. Record the symptom instead of guessing a
-  fix; a small mismatch goes to a person.
+- **VERIFIED** — the coverage check shows the test exercised the file, and the restored build
+  still matches.
+- **TRANSLATED** — the file builds, but no test has been shown to exercise it.
+- **FAILED** — the numbers disagree after checking.
 
-Record each file's result in the run's checklist (`agent_checklist.md`, see the Plan's
-recording note), not here.
+Record results in `agent_checklist.md`, not here.

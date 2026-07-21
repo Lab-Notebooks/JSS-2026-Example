@@ -1,134 +1,119 @@
 # Fortran → C++ plan
 
-How to run this step: rewrite MCFM's Fortran files as C++, one file at a time, in the order
-the map allows, and check each result. The **rules** for a single file and the **correctness
-bar** live in the Spec (`desired_spec.md`); this Plan holds how to do the work. The runner is
-the CodeScribe loop (`loop.toml`), which reads both files and does the work end to end —
-there is nothing to set up by hand first.
+This file says how to run step 1. The rewrite rules and correctness bar are in
+`desired_spec.md`.
 
-## Your checklist
+## Checklist file
 
-The list of files in flight keeps changing, so it does not live in this Plan. Keep it in a
-separate file you create, **`agent_checklist.md`** in this folder — create it if it isn't
-there yet, and keep it current as you work. It holds the ready files grouped into
-review-sized batches (see Resolution below), a checkbox per file, and each file's result.
-This is the shared record across sessions; the durable prose notes go in the session log at
-the bottom of this Plan.
+Keep the changing worklist in `agent_checklist.md` in this folder. Create it if missing and
+keep it current. Use it for ready files, review groups, and per-file status. Keep durable prose
+notes in the session log at the end of this file.
 
-**How to record a result.** When a file is done, tag its line so a program can read the
-result — the cpp-to-kokkos step only picks files tagged `VERIFIED`:
+Record each finished file as:
 
-- `- [x] <file> — VERIFIED (worst Δrel <value>)` — the coverage check passed and the numbers
-  match.
-- `- [x] <file> — TRANSLATED (<reason>)` — builds, but not verified (not on a test's path, or
-  it's infrastructure; see the Spec's correctness bar).
-- `- [ ] <file> — FAILED (<what went wrong>)` — a bad rewrite handed to a person.
+- `- [x] <file> — VERIFIED (worst Δrel <value>)`
+- `- [x] <file> — TRANSLATED (<reason>)`
+- `- [ ] <file> — FAILED (<what went wrong>)`
 
-Paths are written as `software/mcfm/src/...`.
+Use paths like `software/mcfm/src/...`.
 
-**The approval gate (how a person signs off a group).** A person reviews one group's results
-and, when happy, writes a line right under that group's heading in `agent_checklist.md`:
+## Approval gate
+
+Review groups live under headings starting with `Group` in `agent_checklist.md`. A person signs
+off a finished group by adding:
 
 ```
 APPROVED 2026-07-21 by <name>
 ```
 
-A runner must **not start a new group while an earlier, completed group is unapproved** — that
-is the "a human approves each step before the next one starts" rule made mechanical. Check it
-with the gate tool before picking the next group:
+Use the gate only when deciding whether to start a new group:
 
 ```
 python3 dev/tools/approve/check_gate.py dev/transformations/fortran-to-cpp/agent_checklist.md
 ```
 
-It exits non-zero and names any completed-but-unapproved group; stop and get sign-off first.
+Interpret it this way:
+
+- If a group is still open, you may keep working inside that same group.
+- If an earlier group is completed but unapproved, do not start a new group.
+- A gate failure blocks new-group creation, not builds, fixes, or verification inside the
+  current open group.
+
+Stop for human review only when a completed group blocks the next group.
 
 ## Tools
 
-Every tool is a plain `python3 <path> ...` call — none need a special shell, since each one
-shells out to whatever it needs (doxygen, cmake, make) itself. Each explains its own flags at
-the top of its file; this is only what each is for.
+Run these from the project root:
 
-- `dev/tools/index/build_roadmap.py` — **Index.** `--doxygen` (re)generates the call-graph
-  XML; with no flag, ranks files by translation readiness into
-  `dev/tmp/assets/roadmap_metrics.tsv` and writes the name→file map
-  `dev/tmp/assets/symbol_index.json`. Run both, in order, at the start of every round — cheap,
-  and it's how newly-rewritten files unblock the ones that called them.
-- `dev/tools/draft/scribe_draft.py <file.f>` — **Draft.** A rough starting draft plus flags for
-  which called names come from other files, so you don't invent them. `--seed` prints the
-  worked examples (one subroutine, one module) to translate from.
-- `dev/tools/coverage/coverage_check.py <file.cpp> -- <process>` — **Coverage.** Proves a test
-  actually ran a rewritten file — the *verified* vs *translated* decision (see "Verify"
-  below).
-- `dev/tools/approve/check_gate.py <agent_checklist.md>` — **Gate.** Fails if a completed
-  review group has no `APPROVED` line (see above).
+- `python3 dev/tools/index/build_roadmap.py --doxygen` then
+  `python3 dev/tools/index/build_roadmap.py`
+  - refresh the readiness map and symbol index
+- `python3 dev/tools/draft/scribe_draft.py <file.f>`
+  - make a rough draft and dependency hints
+- `python3 dev/tools/coverage/coverage_check.py <file.cpp> -- <process>`
+  - decide VERIFIED vs TRANSLATED
+- `python3 dev/tools/approve/check_gate.py <agent_checklist.md>`
+  - enforce human sign-off between completed groups
+- `jobrunner submit tests/mcfm`
+  - full MCFM build + test run; run this before verification if MCFM is not yet built
 
-The one non-python3 command is `jobrunner submit tests/mcfm`, which builds MCFM and runs its
-full benchmark suite in one shot — use it to get an initial build before the first round, and
-any time you want to check a run beyond a single file's coverage check.
+## Resolution: which files to do next
 
-## Which files to do next (Resolution)
+1. Only rewrite **ready** files from `dev/tmp/assets/roadmap_metrics.tsv`:
+   - `deps == 0`
+   - `blind == 0`
+   - no generated `.cpp` yet
+2. Optional: limit one run to one top-level `src/` folder.
+3. Group ready files for review:
+   - same folder or test topic
+   - about 5 files per group
+   - headings must start with `Group`
+4. If there is already an open group, keep filling and fixing that group before opening another.
+5. Rewrite the group, wire it into the folder's `CMakeLists.txt`, build, and verify each file.
+6. After a group is completed, check the gate before opening the next one.
+7. After approval, refresh the roadmap again before picking more work.
 
-The unit of work is one file, and the order is set by which file needs which — a runner does
-not pick freely.
-
-1. **Only "ready" files.** In `dev/tmp/assets/roadmap_metrics.tsv` (from the Index tool), a
-   file is **ready** when `deps == 0` and `blind == 0` — every routine it calls is already in
-   C++ — and it has no `.cpp` version yet. Don't rewrite a file that still calls Fortran-only
-   routines; inventing those missing routines is exactly what the Spec's rewrite rules forbid.
-2. **Optional focus.** You can limit a run to one top-level `src/` folder; otherwise take
-   ready files from anywhere.
-3. **Group for review.** Put the ready files into review-sized groups a person can check
-   without being overwhelmed: keep each group on one topic (same folder, same test from the
-   Spec's test-coverage table) and small (about 5 files). Write the groups in
-   `agent_checklist.md` under a heading whose text starts with `Group` (so the gate tool can
-   find it), one group per heading. A person approves one group at a time (see "The approval
-   gate" above); do not start a new group until the previous completed one is signed off.
-4. **Rewrite the group, then build it.** Draft and rewrite each ready file (it only touches
-   its own output), wire the new files into the folder's `CMakeLists.txt`, build, and run the
-   coverage check per file (see "Verify" below). Give a big or deeply nested file (about 400+
-   lines) a stronger model or extra care — those go wrong most often.
-5. **Look again after building.** Once a group is built its files are now C++, so a file that
-   was `blind` (it called a not-yet-rewritten routine) becomes ready. Check the approval gate
-   so the just-finished group is signed off, then re-run the Index to refresh the map and pick
-   the next group.
-
-This ordering is the whole point of the map: a writer is only ever handed a file whose called
-routines are already in C++.
+The map exists so a file is only rewritten after its callees are already available in C++.
 
 ## Shell notes
 
-CodeScribe's bash tool is limited: it refuses the characters `$ | & ; < > \``, refuses any
-command whose first word is not on `loop.toml`'s allow-list, and does not expand
-`$VARIABLES` when reading or writing files. In practice this means:
+CodeScribe bash is restricted. In practice:
 
-- **Use plain relative paths** — `software/mcfm/src/<...>`, not `$MCFM_HOME/src/<...>`.
-- **No `cd`, no pipes, no redirects** — every tool above takes plain arguments and prints
-  what it did; there's nothing to pipe into `grep` or `tail`.
+- use plain relative paths like `software/mcfm/src/...`
+- no `cd`, pipes, redirects, or `$VARIABLES`
 
-## Verify (the coverage check)
+## Verify
 
-The Spec's "correctness bar" defines what VERIFIED/TRANSLATED/FAILED mean; this is how to
-produce that result. Mark the one statement that writes the file's main output with
-`// @coverage-probe`, e.g. `msq(i, j) = ampsq;   // @coverage-probe`, then run:
+Mark the statement that writes the file's main output with `// @coverage-probe`, then run:
 
 ```
 python3 dev/tools/coverage/coverage_check.py <file.cpp> -- <process>
 ```
 
-using the process the Spec's test-coverage table maps to the file's folder (e.g.
-`-- u u~ e- e+` for `Z`). It builds, records the numbers, scales the marked output, rebuilds,
-compares, then always restores the file and rebuilds clean — a forgotten undo can never
-poison the tree. It exits reporting **COVERED** (mark VERIFIED, once the restored build's
-match is confirmed) or **NOT COVERED** (mark TRANSLATED; check again once a file that calls it
-is rewritten).
+Use the process mapped from the file's top-level folder in the Spec. If verification work is
+needed and MCFM is not built yet, run `jobrunner submit tests/mcfm` first.
+
+Interpret results as:
+
+- `COVERED` → mark `VERIFIED` once the restored build still matches
+- `NOT COVERED` → mark `TRANSLATED`
+
+If build or verification fails, keep fixing the current group unless the gate is blocking the
+start of a later group.
+
+## When to stop
+
+Stop only when one of these is true:
+
+- a completed group needs human approval before the next group can start
+- there is no ready file to work on
+- a real blocker requires a person
+
+Otherwise continue editing, building, testing, and verifying.
 
 ## Notes / session log
 
-- Files in `Mods/Need/Inc/Procdep` have no test that runs them — mark them *translated*,
-  never *verified* (see the Spec's test-coverage table).
-- If a coverage check shows no change, the file just isn't on a test's path yet; check it
-  again after a file that calls it is rewritten.
-- If you suspect a bad rewrite, mark it FAILED with the symptom instead of guessing; hand a
-  small number mismatch to a person and note it here.
-- _(Add a dated line per session: what you did, what's left, anything a person must decide.)_
+- Files under `Mods/Need/Inc/Procdep` have no coverage test; mark them `TRANSLATED`.
+- If coverage shows no change, retry after a caller is rewritten.
+- If numbers disagree, mark `FAILED` with the symptom instead of guessing.
+- Add a dated note per session: what you changed, what remains, and any human decision needed.

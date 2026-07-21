@@ -1,19 +1,13 @@
-"""Coverage check (stage 1) — decides VERIFIED vs TRANSLATED for one rewritten MCFM file.
+"""Coverage check — decide VERIFIED vs TRANSLATED for one rewritten MCFM file.
 
-  source environment.sh
   python3 coverage_check.py <target.cpp> -- <process args>
-  e.g. python3 coverage_check.py software/mcfm/src/Z/qqb_z.cpp -- u u~ e- e+
 
-A passing test is necessary but not sufficient: fixed inputs might never reach your
-routine. This proves a test actually ran the file, and ALWAYS restores the file and
-leaves a clean build, even on failure. Steps: snapshot -> build+test (baseline) ->
-scale the marked output by FACTOR -> build+test (probed) -> restore+rebuild -> compare.
-Numbers changed = COVERED (VERIFIED-eligible); identical = NOT COVERED (mark TRANSLATED).
+Builds and tests once, scales the marked output statement, rebuilds and retests, then
+restores the file and rebuilds clean. Changed output means `COVERED`; unchanged output
+means `NOT COVERED`.
 
-Mark the one statement that writes the main output, e.g.
-    msq(i, j) = ampsq;   // @coverage-probe
-Needs a NORMAL shell (so the CodeScribe loop can't run it) and $MCFM_HOME.
-Overrides: FACTOR (1.5), FC/CC/CXX (gfortran/gcc/g++). Exit: 0 covered, 1 not, 2 usage/setup.
+Mark exactly one output statement with `// @coverage-probe`.
+Needs `MCFM_HOME`. Exit: 0 covered, 1 not covered, 2 usage/setup error.
 """
 import os, re, sys, shutil, tempfile, subprocess
 

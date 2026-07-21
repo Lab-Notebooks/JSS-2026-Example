@@ -1,16 +1,14 @@
-"""Index tool — rank MCFM's Fortran files by translation readiness.
+"""Index tool — build the step-1 readiness map.
 
-Two modes:
-  python3 build_roadmap.py --doxygen   generate the call-graph XML (needs doxygen)
-  python3 build_roadmap.py             rank files, write the roadmap + symbol index
+  python3 build_roadmap.py --doxygen
+  python3 build_roadmap.py
 
-The roadmap fuses Doxygen's call graph with a translated/not check to find leaves:
-files whose callees are all already C++, so they can be translated now. Outputs:
-  dev/tmp/assets/roadmap_metrics.tsv   per-file: deps, blind, fanin, bench
-  dev/tmp/assets/symbol_index.json     symbol -> defining file (for scribe_draft.py)
+Outputs:
+- `dev/tmp/assets/roadmap_metrics.tsv`
+- `dev/tmp/assets/symbol_index.json`
 
-deps = untranslated callees (0 = ready). blind = Doxygen could not parse the file, so
-deps==0 cannot be trusted. translated = a .cpp/.hpp sibling exists. Paths from $MCFM_HOME.
+`deps == 0` and `blind == 0` means a file is ready to rewrite. A file is treated as
+translated when a sibling `.cpp` or `.hpp` exists.
 """
 import os, glob, sys, json, shutil, collections, subprocess, xml.etree.ElementTree as ET
 

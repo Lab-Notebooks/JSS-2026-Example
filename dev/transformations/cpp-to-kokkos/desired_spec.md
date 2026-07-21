@@ -1,120 +1,81 @@
-# C++ → Kokkos: what a Pepper kernel must look like
+# C++ → Kokkos: target output for one Pepper kernel
 
-What a rewritten MCFM C++ amplitude (the output of step 1) must look like as a Kokkos kernel
-that runs on GPUs inside Pepper, and how "correct" is defined. This file is only the desired
-result and the correctness bar; how to run the step — the helper programs, which target to do
-next, the step-by-step, and the splitting procedure — lives in the Plan (`current_plan.md`).
+This file defines the kernel contract and correctness bar for step 2. The workflow lives in
+`current_plan.md`.
 
 ```
-Fortran (MCFM)  --step 1-->  C++ (FArray + std::complex)  --step 2-->  Kokkos kernel (Pepper)
+Fortran (MCFM) -> C++ (step 1) -> Kokkos kernel in Pepper (step 2)
 ```
 
-The kernels become part of Pepper: Pepper does not link MCFM. A kernel is **verified** only
-when Pepper's own tests (doctests) pass, comparing it against saved reference numbers — and
-those reference doctests are added by a person, not a runner (see the correctness bar below),
-so a runner's own output tops out at **translated**: matched against `libmcfm` and building
-clean, but not yet covered by a frozen doctest. A header that only compiles is translated too.
-
-The Pepper copy must be on the branch that has the `mcfm_analytics` kernels.
+Pepper does not link MCFM. During authoring, `libmcfm` is only the reference used to compare
+against. A runner can produce `TRANSLATED`, not `VERIFIED`; doctest-based verification is a
+human step.
 
 ---
 
-## What a kernel looks like
+## Kernel shape
 
-- **Complex type and math.** `C = Kokkos::complex<double>` (from `../math.h`); imaginary unit
-  `C(0,1)`. Event data is laid out as a structure of arrays (SoA), particles are 0-based with
-  0 and 1 always incoming, and the
-  result is `evt.me2(i)`. Put a skip-empty-event guard `if (evt.w(i)==0.0) return;` at the top
-  of every kernel. Pass module globals in as a plain `<Name>_Params` struct by value.
-- **Naming and files.** `<name>_kernel.h` plus a one-line `<name>_kernel.cpp` listed in
-  `src/CMakeLists.txt`; entry point `double <name>_me2(double p[N][4], const <Name>_Params&)`;
-  helpers are `KOKKOS_INLINE_FUNCTION` inside `namespace mcfm_<name>`. Reuse an already-checked
-  helper by including it; never re-derive one.
-- **Couplings.** Built on the host with MCFM's `couplz` convention at fixed Z-pole inputs
-  (`xw=0.2312`, `alpha_s=0.118`, `m_Z=91.1876`, finite part `epinv=0`), so every reference
-  number can be reproduced.
+- Use `C = Kokkos::complex<double>` from `../math.h`; imaginary unit `C(0,1)`.
+- Event data is SoA, particles are 0-based, and the result is written to `evt.me2(i)`.
+- Start every kernel with `if (evt.w(i)==0.0) return;`.
+- Pass module globals through a plain `<Name>_Params` struct by value.
+- Files are `<name>_kernel.h` plus a one-line `<name>_kernel.cpp` listed in `src/CMakeLists.txt`.
+- Entry point is `double <name>_me2(double p[N][4], const <Name>_Params&)`.
+- Helpers are `KOKKOS_INLINE_FUNCTION` inside `namespace mcfm_<name>`.
+- Reuse already-checked helpers by including them; do not re-derive them.
 
-## Rewriting rules (MCFM C++ → Kokkos kernel)
+Use fixed Z-pole inputs matching MCFM's `couplz` convention so reference numbers reproduce.
 
-| MCFM C++ | Pepper Kokkos kernel |
+## Rewrite rules
+
+| MCFM C++ | Pepper Kokkos |
 |---|---|
-| free host function | `KOKKOS_INLINE_FUNCTION` helper; template only the dispatch entry |
-| `std::complex<double>` | `C` (from `../math.h`); imaginary unit `C(0,1)` |
-| `std::sqrt/log/pow/…` | `Kokkos::sqrt/log/pow/…` (never bare `std::` in device code) |
-| `FArray` (1-based) | fixed-size local arrays, 0-based (`C za[N][N]`), no heap |
-| module globals | fields of the plain-old-data (POD) `*_Params` struct |
-| out-array + wrapper | scalar `*_me2(...)` return; the template kernel writes `evt.me2(i)` |
-| QCDLoop (`loopI2/3/4`, `qli*`) | direct formulas (see "Loop integrals" below) — QCDLoop is not device code |
+| free host function | `KOKKOS_INLINE_FUNCTION` helper |
+| `std::complex<double>` | `C` |
+| `std::sqrt/log/pow/...` | `Kokkos::sqrt/log/pow/...` |
+| `FArray` (1-based) | fixed-size local arrays, 0-based |
+| module globals | fields of `*_Params` |
+| out-array + wrapper | scalar `*_me2(...)` + event kernel writes `evt.me2(i)` |
+| QCDLoop calls | direct formulas |
 
-Two rules deserve their own line:
+### Important traps
 
-- **`Kokkos::complex` is not `std::complex`.** Its `/` divides using the 1-norm of the
-  divisor, so complex divisions only agree to rounding. Prefer multiply-by-conjugate; set
-  tolerances for division-heavy code at 1e-10; if a check gets stuck near 1e-12, suspect this
-  before hunting for a math bug.
-- **Keep the amplitude's structure** (for example, Born then K-factor) — same spirit as step
-  1's "keep every call."
+- `Kokkos::complex` division is not `std::complex` division. Division-heavy code often settles
+  near `1e-10`, not `1e-13`.
+- Preserve the amplitude structure; do not collapse away meaningful stages.
+- Reorder four-vectors correctly: fixtures use `{E,px,py,pz}` while `*_me2(double p[N][4])`
+  uses `{px,py,pz,E}`.
+- Flip incoming legs only when building the validator/test `p[N][4]` array, not inside kernel
+  reads from `evt.*`.
 
-### Silent traps to self-check
+## Loop integrals
 
-1. **Two ways to order a 4-vector.** Pepper's `evt.e/px/py/pz` and the fixtures store
-   `{E,px,py,pz}` (energy first); the MCFM kernel signature `*_me2(double p[N][4])` uses
-   `{px,py,pz,E}` (energy last). Every fixture conversion has to reorder. The metric is
-   mostly-minus.
-2. **The incoming-leg sign flip — where it happens and where it must not.** Both codes store
-   incoming legs with negative energy inside, so *inside a kernel* reading `evt.*` there is
-   **no flip**. It is the *validator and the tests* that hand back real (positive-energy)
-   momenta, so when you build the `p[N][4]` array you flip the sign of particles 0 and 1.
-   Saying "flip all incoming particles" as one blanket rule is a known mistake — it is only
-   for building the array, not for reads inside the kernel.
+QCDLoop does not run in device code. Replace each loop-integral call with a direct
+`KOKKOS_INLINE_FUNCTION` formula and check that formula against QCDLoop before relying on it.
+For threshold-sensitive cases, choose and document the handling strategy per integral.
 
-## Loop integrals: direct formulas on the GPU
+## Split layout
 
-QCDLoop can't run inside a kernel, so a correct kernel replaces each call with a direct
-`KOKKOS_INLINE_FUNCTION` formula (Ellis–Zanderighi 0712.1851; QCDLoop 2.0 1605.03181), each
-one checked on its own against the real QCDLoop through `libmcfm` (~1e-12) before use. Staying
-accurate near thresholds is an open problem on the GPU (subtracting two nearly-equal dilogs
-loses precision, and there is no cheap high-precision fallback per thread): the kernel must
-carry a chosen plan per integral — a safe expanded formula, accept a few bad points, or flag
-shaky inputs on the host — and say which one, in a comment. High-multiplicity boxes are the
-hard case; bubbles and triangles have been fine.
+If a tree is split, pieces live in `mcfm_analytics/<name>_parts/<piece>.h` inside
+`namespace mcfm_<name>`. Only the final `<name>_kernel.h` and `.cpp` go in CMake. Every split
+header needs a `// MCFM sources: ...` line. Frozen pieces are not edited later; fix the join if
+joined output disagrees.
 
-## How split pieces are laid out
+## Correctness bar
 
-When a call tree is too big for one pass it is split into pieces (the Plan says how). The
-desired layout is fixed: pieces live in `mcfm_analytics/<name>_parts/<piece>.h`, all inside
-`namespace mcfm_<name>`; only the final `<name>_kernel.h` + `.cpp` go in CMake. Every header
-has a `// MCFM sources: …` comment saying where it came from — that is what the closure tool
-reads to work out reuse. A frozen piece is never edited by a later agent; if the full `|M|²`
-then disagrees, the bug is in the join, not the pieces.
+Correctness for step 2 means **matches MCFM**, not independent physics revalidation.
 
-## The correctness bar: "matches MCFM", not physics
+While authoring, compare block by block against `libmcfm` and target **1e-10** relative error
+for the final kernel.
 
-Pepper has no one-loop math of its own, so a kernel is checked by **matching MCFM
-number-for-number**, not by redoing the physics: the tests' reference numbers are MCFM's
-results for the same inputs, so the kernel must reproduce MCFM block by block and for the full
-`|M|²`. The physics itself was already checked in step 1, when MCFM passed its tests to 1e-13.
-While the kernel is written, `libmcfm` is the reference to match against, block by block
-(loop functions → sub-amplitudes → full `|M|²`), aiming for **1e-10** relative — a helper for
-the author, not part of Pepper or its tests.
+- **TRANSLATED** — matches `libmcfm`, builds, and existing Pepper tests pass.
+- **VERIFIED** — a human-added Pepper doctest reproduces frozen reference numbers.
+- **FAILED** — cannot be made to match `libmcfm`.
 
-The two outcomes:
-
-- **VERIFIED** — a frozen Pepper doctest reproduces the saved reference numbers for this
-  kernel. Those reference doctests are added by a **person**, not a runner: picking and
-  freezing reference numbers needs human judgement — this is true regardless of what tools a
-  runner has, so a runner never marks VERIFIED.
-- **TRANSLATED** — the kernel matches `libmcfm` block by block, builds, and the existing tests
-  still pass, but no frozen doctest covers it yet. This is the most a runner produces; it
-  reports which layered doctests the developer should add (mirroring the existing
-  `MCFM-analytics` cases). A person adds the doctest and, when it passes, marks it VERIFIED.
-
-A kernel that a runner cannot get to match `libmcfm` is **FAILED**, handed to a person with the
-symptom. Record each kernel's result in the run's checklist (`agent_checklist.md`, see the
-Plan's recording note), not here.
+A runner never marks `VERIFIED`. Record results in `agent_checklist.md`, not here.
 
 ## References
 
-Pepper (arXiv:2311.06198); MadGraph4GPU/CUDACPP (arXiv:2312.02898, splitting
-arXiv:2510.05392); scalar closed forms (arXiv:0712.1851); QCDLoop 2.0 (arXiv:1605.03181);
-`Kokkos::complex` non-drop-in (kokkos/kokkos#7618).
+Pepper (arXiv:2311.06198), MadGraph4GPU/CUDACPP (arXiv:2312.02898, arXiv:2510.05392),
+Ellis–Zanderighi scalar integrals (arXiv:0712.1851), QCDLoop 2.0 (arXiv:1605.03181), and the
+`Kokkos::complex` behavior note in kokkos/kokkos#7618.

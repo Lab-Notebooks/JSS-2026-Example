@@ -1,19 +1,11 @@
-"""Approval gate — make the human sign-off between review groups mechanical.
+"""Approval gate — block new work until finished review groups are signed off.
 
   python3 check_gate.py <path/to/agent_checklist.md>
 
-Reads a step's checklist and fails if a group that already has finished work has not
-been signed off, so a runner can *check* the sign-off instead of *trust* it. Format:
+A group is a heading containing `group`. A group blocks if it has a completed item
+(`- [x] ...`) but no `APPROVED YYYY-MM-DD by ...` line before the next heading.
 
-    ### Group 1 — W, ./test -b u d~ ve e+
-    - [x] software/mcfm/src/W/qqb_w.cpp — TRANSLATED (off-path)
-    APPROVED 2026-07-21 by AK
-
-A group starts at a heading (`##`..`####`) whose text contains "group"; it is "done"
-if it has a `- [x]` item, and approved if an `APPROVED <YYYY-MM-DD> ...` line follows
-before the next heading. A done, unapproved group blocks; open-only groups do not.
-
-Exit codes: 0 = all done groups approved; 1 = a done group is unapproved; 2 = bad usage/missing file.
+Exit codes: 0 ok, 1 blocked, 2 usage or missing file.
 """
 import re
 import sys
