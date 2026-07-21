@@ -1,18 +1,19 @@
 # Collaborative AI-Driven Workflows: a Lab Notebook
 
-This is a lab notebook: one folder, kept in git, that holds the code, the AI helpers, and
-the notes needed to change scientific software with help from AI agents. It is a small,
-working example of a few simple ideas:
+This lab notebook demonstrates a collaborative approach to embed AI in scientific software
+engineering workflows. It is a small, working example of a few fundamental ideas inspired
+from principles of software provenance, reproducibility, and scientific rigor.
 
-- **A person stays in charge.** The AI does the repetitive rewriting; a person reads and
+- **Human teams stay in charge.** The AI does the repetitive rewriting; a human reads and
   approves the result of each step before the next one starts.
-- **Plain files drive the work.** Each step is described by two files anyone can read: the
-  rules to follow and how to tell the result is correct (the Spec), and how to run the step
-  and what happened last time (the Plan). Nothing is hidden.
-- **The record lives in git.** The code, the helpers, the Spec, the Plan, and the notes sit
-  together under version control, so a run can be read, repeated, or changed later.
-- **One workflow fits every step.** The same AI workflow does any step; you point it at a
-  different folder.
+
+- **Plain files drive the work.** People write two files anyone can read: the rules to
+  follow and how to tell the result is correct (the Spec), and how to run the step and what
+  happened last time (the Plan). The AI writes a third file (the Checklist), where it plans
+  what it wants to do and ticks off each task as it goes.
+
+- **The record lives in git.** The code, the helpers, the Spec, and the Plan sit together
+  under version control, so a run can be read, repeated, or changed later.
 
 The rest of this page shows how to run the demo.
 
@@ -24,49 +25,50 @@ each step before the next one starts.
 1. **Fortran to C++.** Rewrite MCFM's old Fortran code as C++. Then check it is correct
    by running MCFM's own tests, plus a small extra check that the test really used the new
    code.
+
 2. **C++ to Kokkos.** Rewrite that C++ again as Kokkos code, which can run on GPUs, inside
    a program called Pepper. Then check it again with Pepper's tests.
 
-Each step is described by two plain-text files in `dev/transformations/<step>/`:
+Each step lives in its own folder under `dev/transformations/<step>/`. People write two
+plain-text files there:
 
 - a **Spec** (`desired_spec.md`) — the rules to follow, and how to tell the result is
   correct;
+
 - a **Plan** (`current_plan.md`) — how to run the step (the helper programs, the
   running-command rules, which files to do next) and the notes across sessions.
 
-As it works, a runner keeps the changing task list — which files are in flight and each
-one's result — in a third file it creates, `agent_checklist.md` (not tracked in git; a
-fresh clone starts with only the Spec and Plan). A **workflow** in `.claude/workflows/`
-reads the Plan and Spec and does the work. The same workflow works for any step; you just
-point it at a different folder.
+A runner called **CodeScribe** reads the Plan and the Spec and does the work. Before it
+changes any code, it writes down what it wants to do in a third file, `agent_checklist.md` — the
+list of files to rewrite and, as it goes, each one's result. The checklist is the AI's own
+working file: it is not tracked in git, so a fresh clone starts with only the Spec and the
+Plan. The same runner works for any step; you just point it at a different folder.
 
 ## How to run it
-
-Three steps.
 
 1. **Set up your machine.** Put your machine's name in `config.sh`, add a
    `sites/<name>/config.sh` with your compilers (there is an example in `sites/sedona/`),
    then run `source environment.sh`. Get the code with `git submodule update --init`
    (see the table below).
-2. **Start Claude Code** in this folder.
-3. **Run a workflow on a step.** You point a workflow at a step's folder:
-   - Step 1: *"Run `translate` for `dev/transformations/fortran-to-cpp`"* —
-     `args:{projectRoot:"<path>", transformation:"fortran-to-cpp"}`. It finds the files
-     that are ready, lists them in the Plan in review-sized groups, rewrites them, and
-     checks them. Check a run with `jobrunner submit tests/mcfm`.
-   - Step 2: *"Run `port` for `dev/transformations/cpp-to-kokkos`"* —
-     `args:{projectRoot:"<path>", transformation:"cpp-to-kokkos", from:"fortran-to-cpp"}`
-     rewrites the C++ files a person already approved in step 1; or pass `target:"<name>"`
-     to do just one. Check with `jobrunner submit tests/pepper`.
 
-The runner writes the result of each file (correct / rewritten / failed) in that step's
-`agent_checklist.md` and adds a note to the Plan's session log. You can change the step,
-the workflow, or the AI models to try different runs over the same Spec and Plan.
+2. **Run a transformation.** Point CodeScribe at a step's folder:
 
-The workflow is one way to run a step. You can run the same two files with a second
-runner, CodeScribe, using the `loop.toml` in each step's folder
-(`code-scribe loop -p dev/transformations/<step>/loop.toml -m <model>`). Same input files,
-either runner, same correctness check.
+   ```
+   code-scribe loop dev/transformations/<name>/loop.toml -m <model> --<options>
+   ```
+
+   - Step 1: `code-scribe loop dev/transformations/fortran-to-cpp/loop.toml -m <model>`.
+     CodeScribe reads the Plan and Spec, writes its `Checklist.md`, finds the files that
+     are ready, rewrites them one at a time, and checks its work. Check a run with
+     `jobrunner submit tests/mcfm`.
+
+   - Step 2: `code-scribe loop dev/transformations/cpp-to-kokkos/loop.toml -m <model>`.
+     This rewrites the C++ files a person already approved in step 1. Check with
+     `jobrunner submit tests/pepper`.
+
+CodeScribe writes the result of each file (correct / rewritten / failed) in that step's
+`agent_checklist.md` and adds a note to the Plan's session log. You can change the step, the
+`loop.toml` options, or the AI model to try different runs over the same Spec and Plan.
 
 ## The code you are changing (git submodules)
 
@@ -82,18 +84,4 @@ and `$QCDLOOP_HOME`.
 
 ```
 git submodule update --init            # get all three at their pinned versions
-```
-
-## Folder map
-
-```
-AGENTS.md              what an AI agent reads first (agents read this, not the README)
-.claude/workflows/     the workflows: translate.js, port.js (port has a built-in check-and-fix loop; both work for any step)
-dev/tools/             small helper programs; each one explains itself at the top of its file
-dev/transformations/   one folder per step: desired_spec.md (Spec), current_plan.md (Plan), loop.toml (CodeScribe); the runner creates agent_checklist.md (the live task list, not in git)
-dev/tmp/               throwaway scratch files (not kept in git); the real record is the Plan
-software/              the physics codes (submodules): mcfm, pepper, qcdloop
-tests/                 run the checks: jobrunner submit tests/mcfm (step 1), tests/pepper (step 2)
-environment.sh         sets the paths (MCFM_HOME, PEPPER_HOME, QCDLOOP_HOME)
-config.sh              picks your machine; sites/<name>/ holds your compilers
 ```

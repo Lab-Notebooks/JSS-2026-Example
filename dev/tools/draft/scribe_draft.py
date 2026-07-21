@@ -1,26 +1,187 @@
-#!/usr/bin/env python3
 """Draft tool — a mechanical first cut of one Fortran file, with hints.
 
-The second step of stage-1 authoring. Given a Fortran source and the symbol index
-(from the Index tool), it writes a `<base>.scribe` draft: a block of `scribe-prompt:`
-hints followed by a rough, mechanically converted body (use → using namespace,
-real → double, dimension → FArray, x**n → pow, comments stripped).
+  python3 scribe_draft.py <file.f> [--index PATH] [-o OUT] [--force] [--stdout]
+  python3 scribe_draft.py --seed          print the few-shot seed examples
 
-The draft is scaffolding, not an answer — the Author subagent reads it alongside the
-worked examples in seed_examples.toml and the Spec, then writes the real translation.
-Its value is the hint block: it flags which called names are external functions
-defined elsewhere (so the model does not fabricate them; the Spec's rewrite rules — don't invent a called name).
+Given a Fortran source and the symbol index (from build_roadmap.py), it writes a
+`<base>.scribe` draft: a block of `scribe-prompt:` hints plus a rough mechanical
+conversion (use -> using namespace, real -> double, dimension -> FArray, x**n -> pow).
+The hints flag which called names are defined in other files, so the Author agent does
+not fabricate them. The draft is scaffolding; the agent reads it with the seed examples
+(--seed) and the Spec, then writes the real translation.
 
-By default the draft is written under dev/tmp/drafts/ (the scratch root, git-ignored),
-mirroring the file's path below src/; pass -o to override.
-
-Usage: scribe_draft.py <file.f> [--index PATH] [-o OUT] [--force] [--stdout]
+Default output: dev/tmp/drafts/<path-below-src>.scribe (git-ignored scratch).
 """
 import argparse, json, os, re, sys
 
 RE_USE  = re.compile(r"^\s*use\s+(\w+)", re.I)
 RE_CALL = re.compile(r"^\s*call\s+(\w+)", re.I)
 RE_NAME = re.compile(r"\b(\w+)\s*\(")
+
+# Few-shot seed for Fortran -> C++. The translation *rules* live in the Spec; this only
+# shows the output shape: one subroutine and one module, each -> a C++ header
+# (<cheader>), C++ source (<csource>), Fortran interface (<fsource>).
+SEED = """
+[[chat.user]]
+content = '''
+You convert one Fortran file to C++ following the rules in the Spec. Keep every call,
+invent no symbol, and emit the code between <cheader>/<csource>/<fsource> tags. The
+input arrives under <source> tags, with an optional machine draft under <draft>.
+When you understand, reply: I am ready.
+'''
+
+[[chat.assistant]]
+content = '''
+I am ready.
+'''
+
+[[chat.user]]
+content = '''
+<source>
+subroutine example(a,b,c,d)
+   use constants_mod
+   use nf_mod
+   implicit none
+   real(dp) :: a
+   real(dp), dimension(-nf:nf) :: b
+   real(dp), intent(in), dimension(mxpart,4) :: c
+   real(dp), intent(inout), dimension(mxpart,mxpart) :: d
+   integer :: i,j
+   do i=-nf,nf
+      b(i) = 0.
+   end do
+   do i=2,10
+   do j=1,i-1
+      c(j,2) = d(i,j)
+   end do
+   end do
+   return
+end subroutine example
+</source>
+'''
+
+[[chat.assistant]]
+content = '''
+<cheader>
+#ifndef EXAMPLE_H
+#define EXAMPLE_H
+#include <constants_mod.hpp>
+#include <nf_mod.hpp>
+#include <FArray.hpp>
+extern void example(double a, FArray1D<double>& b, FArray2D<double>& c, FArray2D<double>& d);
+#endif
+</cheader>
+
+<csource>
+#include <constants_mod.hpp>
+#include <nf_mod.hpp>
+#include <FArray.hpp>
+void example(double a, FArray1D<double>& b, FArray2D<double>& c, FArray2D<double>& d) {
+   using namespace nf_mod;
+   for(int i=-nf; i<=nf; i++) b(i) = 0.0;
+   for(int i=2; i<=10; i++)
+      for(int j=1; j<i; j++) c(j,2) = d(i,j);
+   return;
+}
+extern "C" {
+   void example_wrapper(double a, double* fb, double* fc, double* fd) {
+      using namespace nf_mod; using namespace mxpart_mod;
+      FArray1D<double> b(fb, 2*nf+1, -nf);
+      FArray2D<double> c(fc, mxpart, 4);
+      FArray2D<double> d(fd, mxpart, mxpart);
+      example(a, b, c, d);
+   }
+}
+</csource>
+
+<fsource>
+subroutine example(a,b,c,d)
+   use, intrinsic :: iso_c_binding
+   use nf_mod
+   implicit none
+   real(c_double), intent(inout) :: a
+   real(c_double), dimension(-nf:nf), intent(inout) :: b
+   real(c_double), dimension(mxpart,4), intent(in) :: c
+   real(c_double), dimension(mxpart,mxpart), intent(inout) :: d
+   interface
+      subroutine example_wrapper(a,b,c,d) bind(C, name="example_wrapper")
+         import :: c_double
+         real(c_double), value :: a
+         real(c_double), dimension(*), intent(inout) :: b   ! assumed-size in the inner interface
+         real(c_double), dimension(*), intent(in) :: c
+         real(c_double), dimension(*), intent(inout) :: d
+      end subroutine example_wrapper
+   end interface
+   call example_wrapper(a,b,c,d)
+end subroutine example
+</fsource>
+'''
+
+[[chat.user]]
+content = '''
+Correct. Now the module case:
+
+<source>
+module qcdcouple_mod
+   use types
+   implicit none
+   public
+   real(dp):: gsq,as
+   save
+end module
+</source>
+'''
+
+[[chat.assistant]]
+content = '''
+<cheader>
+#ifndef QCDCOUPLE_MOD
+#define QCDCOUPLE_MOD
+namespace qcdcouple_mod { extern double gsq, as; }
+#endif
+</cheader>
+
+<csource>
+#include <qcdcouple_mod.hpp>
+namespace qcdcouple_mod { double gsq, as; }
+extern "C" {
+   double* qcdcouple_mod_gsq() { return &qcdcouple_mod::gsq; }
+   double* qcdcouple_mod_as()  { return &qcdcouple_mod::as; }
+}
+</csource>
+
+<fsource>
+module qcdcouple_mod
+   use, intrinsic :: iso_c_binding
+   implicit none
+   private
+   interface
+      function get_gsq() bind(C, name="qcdcouple_mod_gsq")
+         import :: c_ptr ; type(c_ptr) :: get_gsq
+      end function
+      function get_as() bind(C, name="qcdcouple_mod_as")
+         import :: c_ptr ; type(c_ptr) :: get_as
+      end function
+   end interface
+   public :: gsq, as, qcdcouple_mod_init, qcdcouple_mod_finalize
+   real(c_double), pointer :: gsq, as
+contains
+   subroutine qcdcouple_mod_init()
+      call c_f_pointer(get_gsq(), gsq)
+      call c_f_pointer(get_as(), as)
+   end subroutine
+   subroutine qcdcouple_mod_finalize()
+      nullify(gsq, as)
+   end subroutine
+end module qcdcouple_mod
+</fsource>
+'''
+
+[[chat.user]]
+content = '''
+Correct. Now convert the following similarly:
+'''
+""".lstrip()
 
 
 def external_hints(path, symbols):
@@ -69,12 +230,18 @@ def annotate(path, symbols):
 
 def main():
     ap = argparse.ArgumentParser(description=__doc__.splitlines()[0])
-    ap.add_argument("fortran_file")
+    ap.add_argument("fortran_file", nargs="?")
+    ap.add_argument("--seed", action="store_true", help="print the few-shot seed and exit")
     ap.add_argument("--index", default=None)
     ap.add_argument("-o", "--output", default=None)
     ap.add_argument("--force", action="store_true")
     ap.add_argument("--stdout", action="store_true")
     args = ap.parse_args()
+
+    if args.seed:
+        sys.stdout.write(SEED); return
+    if not args.fortran_file:
+        ap.error("fortran_file is required (or use --seed)")
 
     src = os.path.abspath(args.fortran_file)
     if not os.path.isfile(src):
@@ -87,13 +254,11 @@ def main():
         with open(index) as fh:
             symbols = (json.load(fh) or {}).get("symbols", {})
     else:
-        print(f"warning: no symbol index at {index} — run the Index tool first; hints omitted", file=sys.stderr)
+        print(f"warning: no symbol index at {index} — run build_roadmap.py first; hints omitted", file=sys.stderr)
 
     draft = annotate(src, symbols)
     if args.stdout:
         sys.stdout.write(draft); return
-    # Default output: dev/tmp/drafts/<path-below-src>.scribe (scratch, git-ignored),
-    # keeping the MCFM clone clean. Mirror the sub-path under src/ to avoid collisions.
     rel = src.split("/src/", 1)[1] if "/src/" in src else os.path.basename(src)
     out = args.output or os.path.join(project, "dev/tmp/drafts", os.path.splitext(rel)[0] + ".scribe")
     os.makedirs(os.path.dirname(out), exist_ok=True)

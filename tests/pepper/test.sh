@@ -7,7 +7,7 @@
 #
 # Requires environment.sh to have exported PEPPER_HOME and QCDLOOP_HOME. It does not
 # depend on MCFM: libmcfm is used only by the optional developer cross-check
-# dev/tools/kokkos/run_validation.sh during authoring, not by this build.
+# dev/tools/kokkos/kokkosify.py validate during authoring, not by this build.
 #
 # -DPEPPER_QCDLOOP_DIR adds $QCDLOOP_HOME/src (+ /src/qcdloop) to the include path and
 # defines PEPPER_QCDLOOP, enabling the massive-top (texact) scalar-integral kernels in

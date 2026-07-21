@@ -1,21 +1,23 @@
-#!/usr/bin/env python3
-"""Kokkosify tool — a deterministic pre-pass for a C++ -> Kokkos kernel draft.
+"""Kokkos tool — mechanical C++ -> Kokkos pre-pass, plus a host validation harness.
 
-Applies the mechanical subset of the stage-2 Spec's rewriting rules to a stage-1 C++
-file and emits two things: a draft kernel body (NOT compilable as-is) and a blocker
-report. Zero tokens at run time; anything it cannot decide safely it flags with a
-KOKKOSIFY-TODO rather than guessing. The Author agent resolves every TODO and
-finishes the port, with the compare-against-libmcfm ladder as the safety net.
+  python3 kokkosify.py <input.cpp> [-o draft.h] [-r report.md]   ('-' = stdout)
+  python3 kokkosify.py validate <validator.cpp> [extra g++ args...]
 
-Rewrites (safe): std::complex<double> -> C ; std:: math -> Kokkos:: ;
-KOKKOS_INLINE_FUNCTION on file-scope functions ; #include lines -> ../math.h.
-Flags only (never rewritten): QCDLoop calls, STL/heap/IO, module-global reads
-(-> Params fields), FArray declarations (-> fixed-size local arrays), wrappers.
+kokkosify: applies the safe subset of the stage-2 rewriting rules to a stage-1 C++
+file and emits a draft kernel body (NOT compilable as-is) plus a blocker report.
+Anything it cannot decide safely it flags with a KOKKOSIFY-TODO. Rewrites:
+std::complex<double> -> C ; std:: math -> Kokkos:: ; KOKKOS_INLINE_FUNCTION on
+file-scope functions ; #include lines dropped. Flags only: QCDLoop, STL/heap/IO,
+module-global reads, FArray declarations, wrappers.
 
-Usage: kokkosify.py input.cpp [-o draft.h] [-r report.md]   ('-' = stdout)
+validate: compile+run a standalone validator that links the original MCFM C++
+(libmcfm) alongside the ported kernels, compiled host-side via kokkos_host_shim/.
+Overrides: MCFM_DIR, KERNELS_DIR, SHIM_DIR, CXX, CXXFLAGS (or MCFM_HOME/PEPPER_HOME).
 """
-import argparse, re, sys
+import argparse, os, re, shutil, subprocess, sys, tempfile, shlex
 from pathlib import Path
+
+HERE = Path(__file__).resolve().parent
 
 MATH = ["sqrt", "cbrt", "exp", "log", "log10", "pow", "sin", "cos", "tan",
         "asin", "acos", "atan", "atan2", "sinh", "cosh", "tanh", "fabs", "abs", "conj"]
@@ -89,12 +91,12 @@ def format_report(r, name):
     return "\n".join(L)
 
 
-def main():
-    ap = argparse.ArgumentParser(description=__doc__.splitlines()[0])
+def run_kokkosify(argv):
+    ap = argparse.ArgumentParser(prog="kokkosify.py", description=__doc__.splitlines()[0])
     ap.add_argument("input")
     ap.add_argument("-o", "--out", default=None)
     ap.add_argument("-r", "--report", default=None)
-    args = ap.parse_args()
+    args = ap.parse_args(argv)
 
     p = Path(args.input)
     draft, report = kokkosify(p.read_text(), p.name)
@@ -102,9 +104,55 @@ def main():
 
     out = args.out or str(p.with_suffix("")) + ".kokkosified.h"
     repout = args.report or str(p.with_suffix("")) + ".kokkosify-report.md"
-    (sys.stdout.write(draft) if out == "-" else (Path(out).write_text(draft), print(f"draft:  {out}")))
-    (sys.stdout.write(rep) if repout == "-" else (Path(repout).write_text(rep), print(f"report: {repout}")))
+    sys.stdout.write(draft) if out == "-" else (Path(out).write_text(draft), print(f"draft:  {out}"))
+    sys.stdout.write(rep) if repout == "-" else (Path(repout).write_text(rep), print(f"report: {repout}"))
+
+
+def validate(argv):
+    """Compile and run a standalone validator."""
+    if not argv:
+        sys.exit("usage: kokkosify.py validate <validator.cpp> [extra g++ args...]")
+    validator, extra = argv[0], argv[1:]
+
+    root = os.environ.get("PROJECT_HOME") or str(HERE.parent.parent.parent)
+    mcfm = os.environ.get("MCFM_DIR") or os.environ.get("MCFM_HOME") or (root + "/software/mcfm")
+    if os.path.isdir(mcfm + "/install/include"):
+        inc, lib = mcfm + "/install/include", mcfm + "/install/lib"
+    elif os.path.isdir(mcfm + "/include"):
+        inc, lib = mcfm + "/include", mcfm + "/lib"
+    else:
+        sys.exit("error: set MCFM_DIR to the mcfminterface dir (with install/include and install/lib)")
+
+    kernels = os.environ.get("KERNELS_DIR")
+    if not kernels and os.environ.get("PEPPER_HOME"):
+        kernels = os.environ["PEPPER_HOME"] + "/src/mcfm_analytics"
+    if not kernels or not os.path.isdir(kernels):
+        sys.exit("error: set KERNELS_DIR to .../src/mcfm_analytics (or export PEPPER_HOME)")
+
+    cxx = os.environ.get("CXX") or next((c for c in ("g++-15", "g++", "c++") if shutil.which(c)), None)
+    if not cxx:
+        sys.exit("error: no C++ compiler found; set CXX")
+    cxxflags = shlex.split(os.environ.get("CXXFLAGS", "-O3 -march=native"))
+
+    shim = os.environ.get("SHIM_DIR", str(HERE))
+    with tempfile.TemporaryDirectory() as build:
+        # Mirror the kernels' relative includes: kernels under <build>/mcfm_analytics/
+        # so their `../math.h` resolves to the shim headers copied into <build>/.
+        shutil.copytree(kernels, os.path.join(build, "mcfm_analytics"))
+        for h in ("math.h", "event_handle.h", "kernel_macros.h"):
+            shutil.copy(os.path.join(shim, "kokkos_host_shim", h), os.path.join(build, h))
+
+        binpath = os.path.join(build, "validator")
+        print(f"compiler : {cxx} {' '.join(cxxflags)}\nMCFM     : {inc}\nkernels  : {kernels}")
+        cmd = [cxx, "-std=c++17", *cxxflags, "-I", inc, "-I", build, validator,
+               "-L", lib, "-lmcfm", "-Wl,-rpath," + lib, *extra, "-o", binpath]
+        if subprocess.run(cmd).returncode:
+            sys.exit(1)
+        sys.exit(subprocess.run([binpath]).returncode)
 
 
 if __name__ == "__main__":
-    main()
+    if len(sys.argv) > 1 and sys.argv[1] == "validate":
+        validate(sys.argv[2:])
+    else:
+        run_kokkosify(sys.argv[1:])

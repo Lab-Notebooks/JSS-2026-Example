@@ -1,10 +1,10 @@
 # Fortran → C++ plan
 
-How to run this step: rewrite MCFM's Fortran files as C++, one file at a time, in the
-order the map allows, and check each result. The **rules** for a single file and the
-**correctness bar** live in the Spec (`desired_spec.md`); this Plan holds how to do the
-work — the helper programs, the running-command rules, which files to do next, and the
-running notes across sessions.
+How to run this step: rewrite MCFM's Fortran files as C++, one file at a time, in the order
+the map allows, and check each result. The **rules** for a single file and the **correctness
+bar** live in the Spec (`desired_spec.md`); this Plan holds how to do the work. The runner is
+the CodeScribe loop (`loop.toml`), which reads both files and does the work end to end —
+there is nothing to set up by hand first.
 
 ## Your checklist
 
@@ -15,165 +15,113 @@ review-sized batches (see Resolution below), a checkbox per file, and each file'
 This is the shared record across sessions; the durable prose notes go in the session log at
 the bottom of this Plan.
 
-**How to record a result** (write these in `agent_checklist.md`, not here). When a file is
-done, tag its line so a program can read the result — step 2's `port … from:fortran-to-cpp`
-only picks files tagged `VERIFIED`:
+**How to record a result.** When a file is done, tag its line so a program can read the
+result — the cpp-to-kokkos step only picks files tagged `VERIFIED`:
 
-- `- [x] <file> — VERIFIED (worst Δrel <value>)` — the coverage check passed and the numbers match.
-- `- [x] <file> — TRANSLATED (<reason>)` — builds, but not verified (not on a test's path,
-  it's infrastructure, or the check was left for a normal-shell pass, see the Spec's
-  correctness bar).
+- `- [x] <file> — VERIFIED (worst Δrel <value>)` — the coverage check passed and the numbers
+  match.
+- `- [x] <file> — TRANSLATED (<reason>)` — builds, but not verified (not on a test's path, or
+  it's infrastructure; see the Spec's correctness bar).
 - `- [ ] <file> — FAILED (<what went wrong>)` — a bad rewrite handed to a person.
 
-Only a runner with a normal shell (the `translate` combining step, or a person) may write
-`VERIFIED`; a CodeScribe run writes `TRANSLATED` and leaves the upgrade to the check pass.
-Paths are written as `software/mcfm/src/...` (the `$MCFM_HOME/src` form is only for a normal
-shell — see "Running commands").
+Paths are written as `software/mcfm/src/...`.
 
-## Helper programs (Tools)
+**The approval gate (how a person signs off a group).** A person reviews one group's results
+and, when happy, writes a line right under that group's heading in `agent_checklist.md`:
 
-The workflow runs these small programs by name. They always do the same thing (no AI
-guessing). Each one explains how to use it at the top of its own file under `dev/tools/`.
+```
+APPROVED 2026-07-21 by <name>
+```
 
-- **Find what's ready (Index).** `dev/tools/index/generate_doxygen.sh` maps out which file
-  calls which, then `dev/tools/index/build_roadmap.py` ranks files by how ready they are to
-  rewrite. It writes `dev/tmp/assets/roadmap_metrics.tsv` (a file is ready when `deps==0`
-  and `blind==0`) and a name→file map `dev/tmp/assets/symbol_index.json`.
-- **First draft (Draft).** `dev/tools/draft/scribe_draft.py <file.f>` writes a rough
-  starting draft and flags which called names come from other files, so you don't invent
-  them (see the Spec's rewrite rules — don't invent a called name). Use it with the worked
-  examples in `dev/tools/draft/seed_examples.toml`.
+A runner must **not start a new group while an earlier, completed group is unapproved** — that
+is the "a human approves each step before the next one starts" rule made mechanical. Check it
+with the gate tool before picking the next group:
 
-Run `generate_doxygen.sh` once, ahead of time, in a normal shell. CodeScribe's limited
-shell can't run it, so do it first; it leaves its output under `software/mcfm/doxygen_dep/xml`.
+```
+python3 dev/tools/approve/check_gate.py dev/transformations/fortran-to-cpp/agent_checklist.md
+```
 
-## Running commands (works in both runners)
+It exits non-zero and names any completed-but-unapproved group; stop and get sign-off first.
 
-Two runners drive this step, and they have different shells, so write commands that work in
-both. The Claude Code `translate` workflow has a normal shell. The CodeScribe loop has a
-**limited** shell: it refuses the characters `$ | & ; < > \``, refuses any command whose
-first word is not on its allow-list, and does not fill in `$VARIABLES` when reading or
-writing files.
+## Tools
 
-- **Use plain relative paths.** Write `software/mcfm/src/<...>`, not `$MCFM_HOME/src/<...>`.
-  The `$MCFM_HOME`/`$PEPPER_HOME` shortcuts elsewhere only work in a normal shell.
-- **No `cd`, no pipes, no redirects.** Use `cmake -S software/mcfm -B software/mcfm/Bin`
-  and `make -C software/mcfm/Bin install` instead of `cd … && cmake …`. Don't use `| tail`,
-  `2>&1`, or `>/dev/null`; just read what the program prints.
-- **Check with one command.** Build and run all the tests with `jobrunner submit tests/mcfm`
-  instead of running `cmake`/`make`/`./test` yourself. That one command sets up the
-  environment, builds, and runs the tests, and both shells allow it.
+Every tool is a plain `python3 <path> ...` call — none need a special shell, since each one
+shells out to whatever it needs (doxygen, cmake, make) itself. Each explains its own flags at
+the top of its file; this is only what each is for.
+
+- `dev/tools/index/build_roadmap.py` — **Index.** `--doxygen` (re)generates the call-graph
+  XML; with no flag, ranks files by translation readiness into
+  `dev/tmp/assets/roadmap_metrics.tsv` and writes the name→file map
+  `dev/tmp/assets/symbol_index.json`. Run both, in order, at the start of every round — cheap,
+  and it's how newly-rewritten files unblock the ones that called them.
+- `dev/tools/draft/scribe_draft.py <file.f>` — **Draft.** A rough starting draft plus flags for
+  which called names come from other files, so you don't invent them. `--seed` prints the
+  worked examples (one subroutine, one module) to translate from.
+- `dev/tools/coverage/coverage_check.py <file.cpp> -- <process>` — **Coverage.** Proves a test
+  actually ran a rewritten file — the *verified* vs *translated* decision (see "Verify"
+  below).
+- `dev/tools/approve/check_gate.py <agent_checklist.md>` — **Gate.** Fails if a completed
+  review group has no `APPROVED` line (see above).
+
+The one non-python3 command is `jobrunner submit tests/mcfm`, which builds MCFM and runs its
+full benchmark suite in one shot — use it to get an initial build before the first round, and
+any time you want to check a run beyond a single file's coverage check.
 
 ## Which files to do next (Resolution)
 
-The unit of work is one file, and the order is set by which file needs which. So a runner
-does not pick freely — the `translate` workflow, the CodeScribe loop, and a person all
-follow the rule below. This section is the source of truth; a runner just does these steps.
+The unit of work is one file, and the order is set by which file needs which — a runner does
+not pick freely.
 
-1. **Only "ready" files.** In `dev/tmp/assets/roadmap_metrics.tsv` (from the Index program),
-   a file is **ready** when `deps == 0` and `blind == 0` — every routine it calls is already
-   in C++ — and it has no `.cpp` version yet. Don't rewrite a file that still calls
-   Fortran-only routines; inventing those missing routines is exactly what the Spec's rewrite
-   rules forbid.
+1. **Only "ready" files.** In `dev/tmp/assets/roadmap_metrics.tsv` (from the Index tool), a
+   file is **ready** when `deps == 0` and `blind == 0` — every routine it calls is already in
+   C++ — and it has no `.cpp` version yet. Don't rewrite a file that still calls Fortran-only
+   routines; inventing those missing routines is exactly what the Spec's rewrite rules forbid.
 2. **Optional focus.** You can limit a run to one top-level `src/` folder; otherwise take
    ready files from anywhere.
 3. **Group for review.** Put the ready files into review-sized groups a person can check
-   without being overwhelmed: keep each group on one topic (same folder, same test from
-   the Spec's test-coverage table) and small (about 5 files). Write the groups in
-   `agent_checklist.md`; a person approves one group at a time.
-4. **Write in parallel, combine one at a time.** Rewrite each file on its own (it only
-   touches its own output). Then one step combines them: it owns the build, wires the new
-   files in, and runs the coverage check (see "How to verify" below). Give a big or deeply nested file (about 400+
+   without being overwhelmed: keep each group on one topic (same folder, same test from the
+   Spec's test-coverage table) and small (about 5 files). Write the groups in
+   `agent_checklist.md` under a heading whose text starts with `Group` (so the gate tool can
+   find it), one group per heading. A person approves one group at a time (see "The approval
+   gate" above); do not start a new group until the previous completed one is signed off.
+4. **Rewrite the group, then build it.** Draft and rewrite each ready file (it only touches
+   its own output), wire the new files into the folder's `CMakeLists.txt`, build, and run the
+   coverage check per file (see "Verify" below). Give a big or deeply nested file (about 400+
    lines) a stronger model or extra care — those go wrong most often.
-5. **Look again after combining.** Once a group is combined its files are now C++, so a file
-   that was `blind` (it called a not-yet-rewritten routine) becomes ready. Re-run the Index
-   to refresh the map, then pick the next group.
+5. **Look again after building.** Once a group is built its files are now C++, so a file that
+   was `blind` (it called a not-yet-rewritten routine) becomes ready. Check the approval gate
+   so the just-finished group is signed off, then re-run the Index to refresh the map and pick
+   the next group.
 
-This ordering is the whole point of the map: a writer is only ever handed a file whose
-called routines are already in C++.
+This ordering is the whole point of the map: a writer is only ever handed a file whose called
+routines are already in C++.
 
-## How to do the work
+## Shell notes
 
-1. **Index first** — build the call map once in a normal shell, then rank the files:
-   ```
-   source environment.sh
-   dev/tools/index/generate_doxygen.sh          # one-time, normal shell; writes the call map
-   python3 dev/tools/index/build_roadmap.py     # -> dev/tmp/assets/roadmap_metrics.tsv
-   ```
-   Which files to take, how to group them, and the order all follow the Resolution section
-   above (ready files are the rows with `deps==0` and `blind==0`). The Doxygen step can't run
-   in CodeScribe's limited shell, so do it before starting a run.
-2. **Draft, then rewrite** each ready file: `dev/tools/draft/scribe_draft.py <file.f>` for
-   the rough draft and its don't-invent-a-called-name hints, then the real rewrite following `desired_spec.md` and
-   `dev/tools/draft/seed_examples.toml`. The `translate` workflow does this for you
-   (index → resolve → bundle → author → integrate) and refreshes the checklist.
-3. **Check and cover** (see "How to verify" below): `jobrunner submit tests/mcfm` builds MCFM
-   and runs the test suite; the coverage check then tells *verified* from *translated*.
-4. **Record** the result in `agent_checklist.md` — flip the box, add the tag and a one-line
-   note — and, before you stop, add a dated line to the session log below so the next round
-   knows what happened.
+CodeScribe's bash tool is limited: it refuses the characters `$ | & ; < > \``, refuses any
+command whose first word is not on `loop.toml`'s allow-list, and does not expand
+`$VARIABLES` when reading or writing files. In practice this means:
 
-## Silent traps to self-check
+- **Use plain relative paths** — `software/mcfm/src/<...>`, not `$MCFM_HOME/src/<...>`.
+- **No `cd`, no pipes, no redirects** — every tool above takes plain arguments and prints
+  what it did; there's nothing to pipe into `grep` or `tail`.
 
-Most rewriting bugs are *silent*: the code builds, links, and may even pass the test, but is
-still wrong. Each one below happened on a real MCFM file. Use them as a self-check, and rely
-on the coverage check to catch what you miss.
+## Verify (the coverage check)
 
-1. **A dropped `call`.** Leaving out a call whose output you don't see used, or skipping one
-   of a near-identical pair (a public routine often calls its `core` worker twice, once with
-   the spinor arguments swapped). This leaves outputs unset, and it builds fine.
-2. **Order of × and ÷.** Fortran `)/za*za` divides by `za²`; C++ goes left to right and
-   makes it `(…/za)*za`. Put parentheses around every denominator.
-3. **`FArray` sizes.** Build an existing array with *all* its sizes and 1-based bounds;
-   giving too few sizes silently shifts the whole buffer. There is no `FArray5D` — for 5+
-   dimensions, flatten it with an index lambda.
-4. **0-based vs 1-based.** Don't write index 0 of a 1-based Fortran array; keep fill loops
-   1-based so every index stays in `[1,N]`.
-5. **Includes.** Include the module headers the `use` lines imply (not just the file's own
-   header), plus `<Need.hpp>` for the loop/spinor helpers (`lnrat`, `L0`, `spinoru`, `dot`,
-   …). A missing header from another folder is the combining step's job: report the folder;
-   don't edit shared CMake yourself.
+The Spec's "correctness bar" defines what VERIFIED/TRANSLATED/FAILED mean; this is how to
+produce that result. Mark the one statement that writes the file's main output with
+`// @coverage-probe`, e.g. `msq(i, j) = ampsq;   // @coverage-probe`, then run:
 
-If a number still disagrees after you've checked, mark it FAILED with the symptom instead of
-guessing a fix — a small mismatch goes to a person.
-
-## How to verify (the coverage check)
-
-The Spec's "correctness bar" defines *verified* vs *translated*; this is how you run it. Build
-and run the tests through the harness — one command both runners can use, which sets up the
-environment, builds, and runs the tests:
-
-```bash
-jobrunner submit tests/mcfm    # builds software/mcfm/Bin and runs the full benchmark suite
+```
+python3 dev/tools/coverage/coverage_check.py <file.cpp> -- <process>
 ```
 
-In a normal shell you can build and run one test by hand. Write it without `cd`, pipes, or
-redirects so it also works in the limited shell:
-
-```bash
-cmake -S software/mcfm -B software/mcfm/Bin
-make -C software/mcfm/Bin install
-software/mcfm/Bin/test -b <process>   # four numbers: Finite / IR / IR2 / Born
-```
-
-It passes only when all four numbers match to within **1e-13**. To confirm the code is linked
-in, run `nm software/mcfm/Bin/libmcfm.*` and read its output for `<name>` (don't pipe to
-`grep`; the limited shell won't allow it).
-
-**Always run the coverage check before calling anything VERIFIED.** A passing test can report
-a match without ever reaching your routine, so prove it ran:
-
-1. Multiply the file's main output by 1.5 for a moment.
-2. Rebuild (just relink the one file) and re-run the test that passed.
-3. If the numbers **change**, your code ran → undo the 1.5×, rebuild to confirm it PASSES,
-   and mark **VERIFIED**.
-4. If the numbers **don't change**, the test never reached your code → mark **TRANSLATED**
-   (not verified). Check again later, after a routine that calls it is rewritten.
-
-Always undo every check edit and leave the build clean. This check needs a normal shell (a
-single-file relink and re-run), which the limited shell can't do — so a CodeScribe run marks
-files **TRANSLATED** and leaves the check, and the VERIFIED upgrade, to a normal-shell pass
-(the `translate` combining step, or a person).
+using the process the Spec's test-coverage table maps to the file's folder (e.g.
+`-- u u~ e- e+` for `Z`). It builds, records the numbers, scales the marked output, rebuilds,
+compares, then always restores the file and rebuilds clean — a forgotten undo can never
+poison the tree. It exits reporting **COVERED** (mark VERIFIED, once the restored build's
+match is confirmed) or **NOT COVERED** (mark TRANSLATED; check again once a file that calls it
+is rewritten).
 
 ## Notes / session log
 

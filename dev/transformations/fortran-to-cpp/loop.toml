@@ -1,10 +1,9 @@
 # CodeScribe runner for the Fortran -> C++ step.
 #
-# This does the same job as the Claude Code `translate` workflow, with a different runner.
-# Both read the same two files (the Spec and Plan in this folder), keep the changing task
-# list in an agent-created agent_checklist.md, and use the same helper programs in dev/tools/.
-# Run it from the project root, with the environment already set up (for example, through
-# jobrunner):
+# Reads the Spec and Plan in this folder, keeps the changing task list in an
+# agent-created agent_checklist.md, and uses the helper programs in dev/tools/ (all plain
+# python3 calls). Run it from the project root, with the environment already set up (for
+# example, through jobrunner):
 #
 #   code-scribe loop -p dev/transformations/fortran-to-cpp/loop.toml -m <model>
 #
@@ -15,27 +14,38 @@
 # only; the review phase has its own, read-mostly, list.
 
 [tools]
-bash = ["jobrunner", "cmake", "make", "python3", "nm"]
+bash = ["jobrunner", "python3"]
 
 [[chat.user]]
 content = '''
 Read dev/transformations/fortran-to-cpp/current_plan.md first — it says how to run this step
-(the helper programs, the running-command rules, which files to do next, and the notes from
-past sessions) — then read dev/transformations/fortran-to-cpp/desired_spec.md for what the
-code should look like and how to tell it is correct. Do as much of the plan as you can, and
-check your work.
+(the tools, which files to do next, and the notes from past sessions) — then read
+dev/transformations/fortran-to-cpp/desired_spec.md for what the code should look like and how
+to tell it is correct.
+
+Refresh the readiness map yourself before picking files — it's cheap, and safe to redo every
+round:
+  python3 dev/tools/index/build_roadmap.py --doxygen
+  python3 dev/tools/index/build_roadmap.py
+
+If software/mcfm has never been built, run `jobrunner submit tests/mcfm` once first so
+Coverage below has something to build against.
 
 Keep the changing task list in dev/transformations/fortran-to-cpp/agent_checklist.md: create
-it if it isn't there yet (a fresh checkout has only the Plan and Spec), then work through it.
-Use the helper programs in dev/tools/ that the Plan names: the Index program to find which
-files are ready, and the Draft program for a rough first draft and hints. Rewrite one file at
-a time, follow the Spec's rules, and never invent a name that is not in the source.
+it if it isn't there yet, then work through it following the Plan's Resolution rules. Use the
+Draft tool for a rough first cut and its don't-invent-a-name hints, then write the real
+translation following the Spec. Rewrite one file at a time; never invent a name that is not in
+the source.
 
-A file counts as correct ("verified") only when a test actually runs it and the Spec's
-coverage check passes; build and run the tests with `jobrunner submit tests/mcfm`. This loop
-runs in the limited shell, which can't do the single-file coverage check, so write each file's
-result as TRANSLATED (not VERIFIED) in agent_checklist.md and leave the coverage check and the
-VERIFIED upgrade to a normal-shell pass (the `translate` combining step, or a person). At the
-end of each round, before you stop, update agent_checklist.md and add a dated note to the
-Plan's session log with what you did and what is left, so the next round knows what to do.
+Verify each file with the Coverage tool (dev/tools/coverage/coverage_check.py) and mark it
+VERIFIED, TRANSLATED, or FAILED directly from its result, per the Spec's correctness bar — do
+not leave the verification to a later pass.
+
+Respect the approval gate: a person signs off each review group by writing an `APPROVED` line
+under its heading in agent_checklist.md. Do not start a new group while an earlier, completed
+group is unapproved — run
+`python3 dev/tools/approve/check_gate.py dev/transformations/fortran-to-cpp/agent_checklist.md`
+and, if it fails, stop and leave the finished group for a person to review. At the end of each
+round, before you stop, update agent_checklist.md and add a dated note to the Plan's session
+log with what you did and what is left, so the next round knows what to do.
 '''

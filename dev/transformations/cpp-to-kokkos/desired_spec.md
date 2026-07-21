@@ -2,9 +2,8 @@
 
 What a rewritten MCFM C++ amplitude (the output of step 1) must look like as a Kokkos kernel
 that runs on GPUs inside Pepper, and how "correct" is defined. This file is only the desired
-result and the correctness bar; how to run the step — the helper programs, the running-command
-rules, which target to do next, the step-by-step, the authoring traps, and the splitting
-procedure — lives in the Plan (`current_plan.md`).
+result and the correctness bar; how to run the step — the helper programs, which target to do
+next, the step-by-step, and the splitting procedure — lives in the Plan (`current_plan.md`).
 
 ```
 Fortran (MCFM)  --step 1-->  C++ (FArray + std::complex)  --step 2-->  Kokkos kernel (Pepper)
@@ -16,9 +15,7 @@ those reference doctests are added by a person, not a runner (see the correctnes
 so a runner's own output tops out at **translated**: matched against `libmcfm` and building
 clean, but not yet covered by a frozen doctest. A header that only compiles is translated too.
 
-Paths use `$MCFM_HOME`/`$PEPPER_HOME` (a normal-shell shortcut; the literal forms are
-`software/mcfm` and `software/pepper`). The Pepper copy must be on the branch that has the
-`mcfm_analytics` kernels.
+The Pepper copy must be on the branch that has the `mcfm_analytics` kernels.
 
 ---
 
@@ -58,6 +55,19 @@ Two rules deserve their own line:
 - **Keep the amplitude's structure** (for example, Born then K-factor) — same spirit as step
   1's "keep every call."
 
+### Silent traps to self-check
+
+1. **Two ways to order a 4-vector.** Pepper's `evt.e/px/py/pz` and the fixtures store
+   `{E,px,py,pz}` (energy first); the MCFM kernel signature `*_me2(double p[N][4])` uses
+   `{px,py,pz,E}` (energy last). Every fixture conversion has to reorder. The metric is
+   mostly-minus.
+2. **The incoming-leg sign flip — where it happens and where it must not.** Both codes store
+   incoming legs with negative energy inside, so *inside a kernel* reading `evt.*` there is
+   **no flip**. It is the *validator and the tests* that hand back real (positive-energy)
+   momenta, so when you build the `p[N][4]` array you flip the sign of particles 0 and 1.
+   Saying "flip all incoming particles" as one blanket rule is a known mistake — it is only
+   for building the array, not for reads inside the kernel.
+
 ## Loop integrals: direct formulas on the GPU
 
 QCDLoop can't run inside a kernel, so a correct kernel replaces each call with a direct
@@ -92,7 +102,8 @@ The two outcomes:
 
 - **VERIFIED** — a frozen Pepper doctest reproduces the saved reference numbers for this
   kernel. Those reference doctests are added by a **person**, not a runner: picking and
-  freezing reference numbers needs human judgement. So a runner does not mark VERIFIED.
+  freezing reference numbers needs human judgement — this is true regardless of what tools a
+  runner has, so a runner never marks VERIFIED.
 - **TRANSLATED** — the kernel matches `libmcfm` block by block, builds, and the existing tests
   still pass, but no frozen doctest covers it yet. This is the most a runner produces; it
   reports which layered doctests the developer should add (mirroring the existing

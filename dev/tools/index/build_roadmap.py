@@ -1,113 +1,163 @@
-#!/usr/bin/env python3
 """Index tool — rank MCFM's Fortran files by translation readiness.
 
-The deterministic first phase of the stage-1 workflow. It fuses Doxygen's call
-graph with a translated/not-translated check to answer one question the Resolve
-phase needs: which files are *leaves* — every routine they call is already C++, so
-they can be translated now without a missing dependency.
+Two modes:
+  python3 build_roadmap.py --doxygen   generate the call-graph XML (needs doxygen)
+  python3 build_roadmap.py             rank files, write the roadmap + symbol index
 
-A collaborator generated the call graph with Doxygen (not a regex scan), so this one
-command also emits the symbol → file map the Draft tool consumes. Two outputs:
-
+The roadmap fuses Doxygen's call graph with a translated/not check to find leaves:
+files whose callees are all already C++, so they can be translated now. Outputs:
   dev/tmp/assets/roadmap_metrics.tsv   per-file: deps, blind, fanin, bench
-  dev/tmp/assets/symbol_index.json     symbol → defining file (for scribe_draft.py)
+  dev/tmp/assets/symbol_index.json     symbol -> defining file (for scribe_draft.py)
 
-All generated output goes under dev/tmp/ (the scratch root, git-ignored).
-
-deps = untranslated callees (0 = ready). blind = a file Doxygen could not parse, so
-its edges are unknown and deps==0 cannot be trusted. translated = a .cpp or .hpp
-sibling exists. Paths resolve from $PROJECT_HOME (set by environment.sh).
+deps = untranslated callees (0 = ready). blind = Doxygen could not parse the file, so
+deps==0 cannot be trusted. translated = a .cpp/.hpp sibling exists. Paths from $MCFM_HOME.
 """
-import os, re, glob, json, collections, xml.etree.ElementTree as ET
+import os, glob, sys, json, shutil, collections, subprocess, xml.etree.ElementTree as ET
 
 ROOT   = os.environ.get("PROJECT_HOME") or os.path.dirname(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))
-SRC    = os.environ.get("MCFM_HOME", ROOT + "/software/mcfm") + "/src"
-XML    = ROOT + "/software/mcfm/doxygen_dep/xml"
+MCFM   = os.environ.get("MCFM_HOME", ROOT + "/software/mcfm")
+SRC    = MCFM + "/src"
+XML    = MCFM + "/doxygen_dep/xml"
 ASSETS = ROOT + "/dev/tmp/assets"
-os.makedirs(ASSETS, exist_ok=True)
 
-# top-level src/ directory -> the ./test -b benchmark that exercises it (Spec's test-coverage table).
+# top-level src/ directory -> the ./test -b benchmark that exercises it.
 BENCH = {
     "W": "u d~ ve e+", "W1jet": "u d~ ve e+ g", "W2jet": "u d~ ve e+ g g",
     "Z": "u u~ e- e+", "Z1jet": "u u~ e- e+ g", "Z2jet": "u u~ e- e+ g g",
     "ThreeJets": "g g g g g", "ggH": "g g h", "gghgg_dep": "g g h g g",
 }
 
+# Minimal Doxygen config for the XML the roadmap reads: XML only, Fortran, with the
+# cross-reference relations that make <references> edges appear. INPUT/OUTPUT are
+# appended at run time from $MCFM_HOME so this stays machine-independent.
+DOXYFILE = """
+PROJECT_NAME           = MCFM
+RECURSIVE              = YES
+FILE_PATTERNS          = *.f *.F *.f90 *.F90
+OPTIMIZE_FOR_FORTRAN   = YES
+EXTENSION_MAPPING      = f=FortranFixed F=FortranFixed f90=FortranFree F90=FortranFree
+EXTRACT_ALL            = YES
+EXTRACT_PRIVATE        = YES
+EXTRACT_STATIC         = YES
+EXCLUDE_PATTERNS       = */deprecated/* */Store/* */working/*
+SOURCE_BROWSER         = YES
+REFERENCED_BY_RELATION = YES
+REFERENCES_RELATION    = YES
+GENERATE_HTML          = NO
+GENERATE_LATEX         = NO
+GENERATE_XML           = YES
+XML_OUTPUT             = xml
+XML_PROGRAMLISTING     = NO
+HAVE_DOT               = NO
+QUIET                  = YES
+WARNINGS               = NO
+WARN_IF_UNDOCUMENTED   = NO
+"""
+
+
 def relsrc(p):
     p = p.replace("\\", "/"); i = p.find("/src/")
     return p[i + 5:] if i >= 0 else os.path.relpath(p, SRC)
 
+
 def is_src(fn):
     return (fn.endswith(".f") or fn.endswith(".f90")) and "_fi." not in fn
 
-# ---- collect source files and their translated state ----
-files = []
-for root, dirs, fs in os.walk(SRC):
-    dirs[:] = [d for d in dirs if d not in ("deprecated", "Store", "working")]
-    files += [os.path.join(root, fn) for fn in fs if is_src(fn)]
 
-info, translated = {}, set()
-for p in sorted(files):
-    r = relsrc(p)
-    info[r] = {"rel": r, "top": r.split("/")[0]}
-    if os.path.exists(p.rsplit(".", 1)[0] + ".cpp") or os.path.exists(p.rsplit(".", 1)[0] + ".hpp"):
-        translated.add(r)
+def run_doxygen():
+    """Generate $MCFM_HOME/doxygen_dep/xml from the embedded config."""
+    if not shutil.which("doxygen"):
+        sys.exit("error: doxygen not found on PATH (Ubuntu: sudo apt-get install -y doxygen)")
+    out = os.path.dirname(XML)
+    os.makedirs(out, exist_ok=True)
+    print(f"Generating Doxygen XML for {SRC} -> {XML}")
+    config = DOXYFILE + f"\nINPUT = {SRC}\nOUTPUT_DIRECTORY = {out}\n"
+    r = subprocess.run(["doxygen", "-"], input=config, text=True,
+                       stdout=subprocess.DEVNULL)
+    n = len([x for x in glob.glob(XML + "/*.xml") if not x.endswith("index.xml")])
+    if r.returncode or n == 0:
+        sys.exit("error: no XML produced — check doxygen output")
+    print(f"wrote {n} XML file(s) to {XML}")
 
-# ---- Doxygen call graph -> file edges + symbol -> file index ----
-cref2file, symbols, edges = {}, {}, collections.defaultdict(set)
-xmls = [x for x in glob.glob(XML + "/*.xml") if not x.endswith("index.xml")]
-for x in xmls:
-    try: root = ET.parse(x).getroot()
-    except ET.ParseError: continue
-    for cd in root.findall("compounddef"):
-        loc = cd.find("location")
-        if cd.get("kind") == "file" and loc is not None and loc.get("file"):
-            cref2file[cd.get("id")] = relsrc(loc.get("file"))
-        elif cd.get("kind") == "module":
-            cn = cd.find("compoundname")
-            if cn is not None and cn.text and loc is not None and loc.get("file"):
-                symbols.setdefault(cn.text.strip().lower(), relsrc(loc.get("file")))
-for x in xmls:
-    try: root = ET.parse(x).getroot()
-    except ET.ParseError: continue
-    for md in root.iter("memberdef"):
-        loc = md.find("location")
-        cf = relsrc(loc.get("file")) if (loc is not None and loc.get("file")) else None
-        if not cf: continue
-        if md.get("kind") in ("function", "subroutine"):
-            nm = md.find("name")
-            if nm is not None and nm.text: symbols.setdefault(nm.text.strip().lower(), cf)
-        for ref in md.findall("references"):
-            g = cref2file.get(ref.get("compoundref"))
-            if g and g in info and g != cf: edges[cf].add(g)
 
-# ---- readiness: untranslated callees (deps), fan-in, blindness ----
-def is_blind(r):
-    return r.endswith("_inc.f") or r.startswith("gghgg_dep/Inc/")
+def build_roadmap():
+    os.makedirs(ASSETS, exist_ok=True)
 
-untranslated = {r for r in info if r not in translated}
-fanin = collections.Counter()
-for r in info:
-    udeps = {g for g in edges.get(r, set()) if g in untranslated and g != r}
-    info[r]["deps"] = len(udeps)
-    for g in udeps: fanin[g] += 1
-for r in info:
-    info[r]["fanin"] = fanin.get(r, 0)
-    info[r]["blind"] = int(is_blind(r))
-    info[r]["bench"] = BENCH.get(info[r]["top"], "")
+    # ---- source files and their translated state ----
+    files = []
+    for root, dirs, fs in os.walk(SRC):
+        dirs[:] = [d for d in dirs if d not in ("deprecated", "Store", "working")]
+        files += [os.path.join(root, fn) for fn in fs if is_src(fn)]
 
-# ---- outputs ----
-with open(ASSETS + "/symbol_index.json", "w") as fh:
-    json.dump({"root": SRC, "symbols": symbols}, fh, indent=1, sort_keys=True)
+    info, translated = {}, set()
+    for p in sorted(files):
+        r = relsrc(p)
+        info[r] = {"rel": r, "top": r.split("/")[0]}
+        if os.path.exists(p.rsplit(".", 1)[0] + ".cpp") or os.path.exists(p.rsplit(".", 1)[0] + ".hpp"):
+            translated.add(r)
 
-cols = ["rel", "top", "deps", "blind", "fanin", "bench"]
-with open(ASSETS + "/roadmap_metrics.tsv", "w") as fh:
-    fh.write("\t".join(cols) + "\n")
-    for r in sorted(untranslated, key=lambda x: (info[x]["deps"], -info[x]["fanin"])):
-        fh.write("\t".join(str(info[r][c]) for c in cols) + "\n")
+    # ---- Doxygen call graph -> file edges + symbol -> file index ----
+    cref2file, symbols, edges = {}, {}, collections.defaultdict(set)
+    xmls = [x for x in glob.glob(XML + "/*.xml") if not x.endswith("index.xml")]
+    for x in xmls:
+        try: root = ET.parse(x).getroot()
+        except ET.ParseError: continue
+        for cd in root.findall("compounddef"):
+            loc = cd.find("location")
+            if cd.get("kind") == "file" and loc is not None and loc.get("file"):
+                cref2file[cd.get("id")] = relsrc(loc.get("file"))
+            elif cd.get("kind") == "module":
+                cn = cd.find("compoundname")
+                if cn is not None and cn.text and loc is not None and loc.get("file"):
+                    symbols.setdefault(cn.text.strip().lower(), relsrc(loc.get("file")))
+    for x in xmls:
+        try: root = ET.parse(x).getroot()
+        except ET.ParseError: continue
+        for md in root.iter("memberdef"):
+            loc = md.find("location")
+            cf = relsrc(loc.get("file")) if (loc is not None and loc.get("file")) else None
+            if not cf: continue
+            if md.get("kind") in ("function", "subroutine"):
+                nm = md.find("name")
+                if nm is not None and nm.text: symbols.setdefault(nm.text.strip().lower(), cf)
+            for ref in md.findall("references"):
+                g = cref2file.get(ref.get("compoundref"))
+                if g and g in info and g != cf: edges[cf].add(g)
 
-leaves = sum(1 for r in untranslated if info[r]["deps"] == 0 and not info[r]["blind"])
-print(f"source {len(info)}  translated {len(translated)}  untranslated {len(untranslated)}")
-print(f"ready leaves (deps=0, non-blind): {leaves}")
-print(f"symbol index: {len(symbols)} symbol(s)")
-print("wrote roadmap_metrics.tsv, symbol_index.json")
+    # ---- readiness: untranslated callees (deps), fan-in, blindness ----
+    def is_blind(r):
+        return r.endswith("_inc.f") or r.startswith("gghgg_dep/Inc/")
+
+    untranslated = {r for r in info if r not in translated}
+    fanin = collections.Counter()
+    for r in info:
+        udeps = {g for g in edges.get(r, set()) if g in untranslated and g != r}
+        info[r]["deps"] = len(udeps)
+        for g in udeps: fanin[g] += 1
+    for r in info:
+        info[r]["fanin"] = fanin.get(r, 0)
+        info[r]["blind"] = int(is_blind(r))
+        info[r]["bench"] = BENCH.get(info[r]["top"], "")
+
+    # ---- outputs ----
+    with open(ASSETS + "/symbol_index.json", "w") as fh:
+        json.dump({"root": SRC, "symbols": symbols}, fh, indent=1, sort_keys=True)
+
+    cols = ["rel", "top", "deps", "blind", "fanin", "bench"]
+    with open(ASSETS + "/roadmap_metrics.tsv", "w") as fh:
+        fh.write("\t".join(cols) + "\n")
+        for r in sorted(untranslated, key=lambda x: (info[x]["deps"], -info[x]["fanin"])):
+            fh.write("\t".join(str(info[r][c]) for c in cols) + "\n")
+
+    leaves = sum(1 for r in untranslated if info[r]["deps"] == 0 and not info[r]["blind"])
+    print(f"source {len(info)}  translated {len(translated)}  untranslated {len(untranslated)}")
+    print(f"ready leaves (deps=0, non-blind): {leaves}")
+    print(f"symbol index: {len(symbols)} symbol(s)")
+    print("wrote roadmap_metrics.tsv, symbol_index.json")
+
+
+if __name__ == "__main__":
+    if "--doxygen" in sys.argv[1:]:
+        run_doxygen()
+    else:
+        build_roadmap()

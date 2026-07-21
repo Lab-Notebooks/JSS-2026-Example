@@ -1,21 +1,16 @@
-#!/usr/bin/env python3
 """Closure tool — the transitive call tree of an MCFM routine, from linked objects.
 
-The completeness cross-check for the stage-2 Split phase. An agent maps a call tree
-by reading source; this tool derives it from the *build itself*: every linked
-object's undefined symbols are its real callees, resolved against the objects
-actually in libmcfm's link line. Symbols do not lie — a closure file missing from a
-split plan is either a missed callee or must be justified as off-path.
+  python3 calltree_closure.py <name>    e.g. qqb_z2jet_v
 
-(The Doxygen roadmap from the Index tool is not used here: many of its per-file XMLs
-are empty stubs, so it cannot certify completeness. It is fine for ranking stage-1
-leaves; it is not an authority for stage-2 coverage.)
+The completeness cross-check for the stage-2 Split phase. Derives the call tree from
+the build itself: each linked object's undefined symbols are its real callees,
+resolved against the objects in libmcfm's link line. A closure file missing from a
+split plan is either a missed callee or must be justified as off-path.
 
 Language tags show stage-1 state: cpp (translated), fi (iso_c_binding shim), FORTRAN
 (a plain object still in the closure = a stage-1 gap). The 'kokkos' column reads the
-`// MCFM sources:` provenance line every ported header carries, to show reuse.
-
-Usage: calltree_closure.py qqb_z2jet_v   (needs a built tree; $MCFM_HOME, $PEPPER_HOME)
+`// MCFM sources:` line every ported header carries, to show reuse.
+Needs a built tree; $MCFM_HOME, $PEPPER_HOME.
 """
 import collections, glob, os, subprocess, sys
 
