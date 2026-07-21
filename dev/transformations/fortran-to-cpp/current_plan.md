@@ -70,6 +70,7 @@ Run these from the project root:
    - headings must start with `Group`
 4. If there is already an open group, keep filling and fixing that group before opening another.
 5. Rewrite the group, wire it into the folder's `CMakeLists.txt`, build, and verify each file.
+   - After converting a Fortran source into `<base>.cpp`, `<base>_fi.F90`, and `<base>.hpp`, move the deprecated original Fortran source file into `deprecated/` under the same directory.
 6. After a group is completed, check the gate before opening the next one.
 7. After approval, refresh the roadmap again before picking more work.
 
