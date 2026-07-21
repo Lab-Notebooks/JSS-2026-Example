@@ -1,0 +1,48 @@
+# CodeScribe loop for MCFM cleanup and consolidation.
+#
+# Run from the project root:
+#   code-scribe loop -p dev/transformations/mcfm-cleanup/loop.toml -m <model>
+
+[tools]
+bash = ["jobrunner", "python3"]
+
+[[chat.user]]
+content = '''
+Read, in order:
+1. dev/transformations/mcfm-cleanup/current_plan.md
+2. dev/transformations/mcfm-cleanup/desired_spec.md
+
+Operate in this order each round:
+1. Refresh readiness and the doxygen-based dependency graph:
+   python3 dev/tools/index/build_roadmap.py --doxygen
+   python3 dev/tools/index/build_roadmap.py
+   python3 dev/tools/cleanup/analyze_cleanup.py
+2. Open or update dev/transformations/mcfm-cleanup/agent_checklist.md.
+3. Determine whether there is an existing open review group. If there is, continue working in
+   that group. Do not stop just because it is not yet approved.
+4. Run `python3 dev/tools/approve/check_gate.py dev/transformations/mcfm-cleanup/agent_checklist.md`
+   only to decide whether you may start a new group. A gate failure means: an earlier completed
+   group needs human approval before any new group starts. It does NOT forbid continuing work,
+   fixes, builds, or verification inside the current open group.
+5. If build, test, or verification work is needed and MCFM is not built yet, run
+   `jobrunner submit tests/mcfm` before trying to verify files.
+6. Pick only already-translated cleanup targets. Use `dev/tmp/assets/cleanup_candidates.tsv`
+   and `python3 dev/tools/cleanup/analyze_cleanup.py` as the first pass, then use the
+   doxygen-based dependency graph and build wiring to decide:
+   - whether the original `.f` should be moved into sibling `deprecated/`
+   - whether the `_fi.f90` or `_fi.F90` shim is still required
+   - whether the `.hpp` and `.cpp` can be merged to reduce bloat
+7. Apply only conservative cleanups. Never delete a shim that may still be required by a
+   Fortran caller. Never merge a header into a source file if the declarations are reused by
+   multiple translation units or form a required interop boundary.
+8. After edits, build and verify with `jobrunner submit tests/mcfm`. If the cleanup changes call
+   paths, rerun the doxygen roadmap build to confirm the updated graph is consistent.
+9. Record each target immediately in agent_checklist.md as MOVED, DELETED_SHIM, KEPT_SHIM,
+   MERGED_CPP, KEPT_SPLIT, or FAILED, with a short reason.
+10. Before stopping, update agent_checklist.md and append a dated session note to the Plan.
+
+Graceful exit conditions:
+- Stop for human review only when a completed group blocks starting another group.
+- Stop when there is no safe cleanup to apply.
+- Otherwise keep building, fixing, verifying, and finishing the current group.
+'''
