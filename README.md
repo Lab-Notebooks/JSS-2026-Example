@@ -67,14 +67,14 @@ CodeScribe writes the result of each file (correct / rewritten / failed) in that
 
 ## The code you are changing (git submodules)
 
-The physics codes are other people's software, pulled in as git submodules pinned to fixed
+The physics codes are pulled in as git submodules pinned to fixed
 versions. `environment.sh` expects them at set paths and sets `$MCFM_HOME`, `$PEPPER_HOME`,
 and `$QCDLOOP_HOME`.
 
 | Path | Variable | Submodule | What it is |
 |------|----------|-----------|------------|
-| `software/mcfm` | `$MCFM_HOME` | `NeuCol/mcfminterface` @ `adhruv/Convert_to_c++` | MCFM: Fortran rewritten as C++ (step 1), then the C++ that step 2 rewrites. |
-| `software/pepper` | `$PEPPER_HOME` | `maxkno/pepper-mcfm-amplitudes` @ `43-add-kokkos-mcfm-interface` | Pepper: the GPU program; step-2 code goes in `src/mcfm_analytics`. |
+| `software/mcfm` | `$MCFM_HOME` | `NeuCol/mcfminterface` | MCFM: Fortran rewritten as C++ (step 1), then the C++ that step 2 rewrites. |
+| `software/pepper` | `$PEPPER_HOME` | `maxkno/pepper-mcfm-amplitudes` | Pepper: the GPU program; step-2 code goes in `src/mcfm_analytics`. |
 | `software/qcdloop` | `$QCDLOOP_HOME` | `ReetBarik/qcdloop` @ `master` | QCDLoop: a small math library some step-2 code needs. |
 
 ```
