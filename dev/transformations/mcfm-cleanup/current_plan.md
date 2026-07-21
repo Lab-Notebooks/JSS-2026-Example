@@ -71,13 +71,14 @@ still part of an active Fortran call path.
    - the original Fortran source has not yet been moved into `deprecated/`
    - the shim appears to have no remaining required callers
    - the header/source split looks local and mergeable
-3. Group review items by folder and call-path topic, about 5 cleanup targets per group.
+3. Group review items by folder and call-path topic, about 20 cleanup targets per group.
 4. If there is already an open group, keep filling and fixing that group before opening another.
 5. For each target, perform cleanup in this order:
    - move deprecated original Fortran source into sibling `deprecated/` when a translated path
      already exists
    - decide whether the `_fi` shim must stay or can be deleted safely
    - decide whether `.hpp` and `.cpp` should stay split or be merged
+   - replace translation-era local forward declarations with proper header includes when a reusable interface exists
    - update local `CMakeLists.txt` or includes as needed
 6. After a group is completed, check the gate before opening the next one.
 7. After approval, refresh the roadmap again before picking more work.
@@ -111,9 +112,24 @@ Merge a header into its `.cpp` only when all of the following are true:
 2. No other active translation unit relies on the header as a reusable interface.
 3. The header is not needed as a stable interop boundary.
 4. The merge reduces obvious bloat without obscuring ownership or call structure.
-5. `jobrunner submit tests/mcfm` passes after the merge.
+5. Keeping the header would not materially improve normal C++ declaration-before-use structure across translation units.
+6. `jobrunner submit tests/mcfm` passes after the merge.
 
 Otherwise keep the split and record why.
+
+### Replacing local forward declarations
+
+Prefer header-based interfaces over translation-era local forward declarations.
+
+Replace a local forward declaration with a proper header include when all of the following are true:
+
+1. the callee already has a header, or clearly should have one as the reusable interface
+2. the declaration is used across translation units rather than only inside one implementation file
+3. using the header reduces duplication or risk of signature drift
+4. include/build structure stays clean
+5. `jobrunner submit tests/mcfm` passes after the change
+
+Otherwise keep the local declaration and record why.
 
 ## Verify
 
@@ -151,5 +167,6 @@ Otherwise continue editing, building, testing, and verifying.
 - The purpose of this pass is cleanup, not new translation.
 - Bias toward fewer tiny wrapper files and a cleaner C++ structure, but never guess about active
   callers.
+- Prefer normal C++ declaration-before-use structure: reusable functions declared in headers, included before use in other `.cpp` files.
 - A merged C++ layout is preferred only when it preserves current behavior and verification.
 - Add a dated note per session: what you changed, what remains, and any human decision needed.

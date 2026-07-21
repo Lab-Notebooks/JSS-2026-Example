@@ -71,6 +71,8 @@ Run these from the project root:
 4. If there is already an open group, keep filling and fixing that group before opening another.
 5. Rewrite the group, wire it into the folder's `CMakeLists.txt`, build, and verify each file.
    - After converting a Fortran source into `<base>.cpp`, `<base>_fi.F90`, and `<base>.hpp`, move the deprecated original Fortran source file into `deprecated/` under the same directory.
+   - Ensure the translated `.cpp` includes its own `<base>.hpp` when such a header exists.
+   - If the translated file calls another translated C++ unit and that callee has a header, include the header instead of adding a local forward declaration.
 6. After a group is completed, check the gate before opening the next one.
 7. After approval, refresh the roadmap again before picking more work.
 
@@ -115,6 +117,8 @@ Otherwise continue editing, building, testing, and verifying.
 ## Notes / session log
 
 - Files under `Mods/Need/Inc/Procdep` have no coverage test; mark them `TRANSLATED`.
+- For reusable translated C++ functions, put declarations in headers and include those headers before use from other `.cpp` files.
+- Prefer proper header inclusion over translation-era ad hoc forward declarations.
 - If coverage shows no change, retry after a caller is rewritten.
 - If numbers disagree, mark `FAILED` with the symptom instead of guessing.
 - Add a dated note per session: what you changed, what remains, and any human decision needed.

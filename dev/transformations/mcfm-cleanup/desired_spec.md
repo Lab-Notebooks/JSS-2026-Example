@@ -16,10 +16,12 @@ This pass works only on already-translated targets and focuses on three cleanup 
 1. move obsolete original Fortran sources out of active source directories
 2. remove `_fi` compatibility shims that are no longer required
 3. merge header/source pairs where the split is unnecessary
+4. replace translation-era local forward declarations with proper header-based C++ interfaces where appropriate
 
-The desired direction is a cleaner and more organized C++ port with fewer tiny wrapper files and
-less dead compatibility structure. Prefer coherent ownership and clearer interfaces, but do not
-invent new APIs or delete boundaries that are still needed.
+The desired direction is a cleaner and more organized C++ port with fewer tiny wrapper files,
+less dead compatibility structure, and more standard C++ header/source organization. Prefer
+coherent ownership and clearer interfaces, but do not invent new APIs or delete boundaries that
+are still needed.
 
 ---
 
@@ -112,9 +114,37 @@ Merge `.hpp` into `.cpp` only when:
 1. repository inspection shows the header is not an actively reused interface
 2. any necessary forward declarations or includes can be handled cleanly in the merged file
 3. local build wiring remains correct
-4. `jobrunner submit tests/mcfm` passes afterward
+4. no other active translation unit benefits from the header as the proper declaration point for the C++ interface
+5. `jobrunner submit tests/mcfm` passes afterward
 
 If unsure, keep the split and record `KEPT_SPLIT`.
+
+## Action 4: replace local forward declarations with headers where appropriate
+
+A common translation artifact is a `.cpp` file that calls a translated C++ sibling via a local
+forward declaration even though a corresponding header exists or should clearly serve as the
+interface.
+
+### Preferred cleanup
+
+Prefer standard C++ structure:
+
+- reusable functions are declared in headers
+- `.cpp` files include the headers for the translated C++ functions they use
+- local forward declarations are reserved for narrow cases where no reusable header is warranted
+
+### Cleanup rule
+
+Replace a local forward declaration with a header include when:
+
+1. the callee already has a header, or clearly should have one as a reusable interface
+2. the function is used across translation units
+3. the change reduces duplication or declaration drift risk
+4. local include/build structure stays clear and correct
+5. `jobrunner submit tests/mcfm` passes afterward
+
+If the function is truly local in spirit or introducing/keeping a header would add needless
+surface area, keep the declaration local and record the reason in the checklist notes.
 
 ---
 
