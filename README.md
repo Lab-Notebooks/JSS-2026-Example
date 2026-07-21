@@ -53,7 +53,7 @@ Plan. The same runner works for any step; you just point it at a different folde
    ```
 
    - Step 1: `code-scribe loop dev/transformations/fortran-to-cpp/loop.toml -m <model>`.
-     CodeScribe reads the Plan and Spec, writes its `agent_hecklist.md`, finds the files that
+     CodeScribe reads the Plan and Spec, writes its `agent_checklist.md`, finds the files that
      are ready, rewrites them one at a time, and checks its work. Check a run with
      `jobrunner submit tests/mcfm`.
 
