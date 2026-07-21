@@ -75,7 +75,7 @@ and `$QCDLOOP_HOME`.
 |------|----------|-----------|------------|
 | `software/mcfm` | `$MCFM_HOME` | `NeuCol/mcfminterface` | MCFM: Fortran rewritten as C++ (step 1), then the C++ that step 2 rewrites. |
 | `software/pepper` | `$PEPPER_HOME` | `maxkno/pepper-mcfm-amplitudes` | Pepper: the GPU program; step-2 code goes in `src/mcfm_analytics`. |
-| `software/qcdloop` | `$QCDLOOP_HOME` | `ReetBarik/qcdloop` @ `master` | QCDLoop: a small math library some step-2 code needs. |
+| `software/qcdloop` | `$QCDLOOP_HOME` | `ReetBarik/qcdloop` | QCDLoop: a small math library some step-2 code needs. |
 
 ```
 git submodule update --init            # get all three at their pinned versions
