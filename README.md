@@ -6,12 +6,10 @@ from principles of software provenance, reproducibility, and scientific rigor.
 
 - **Human teams stay in charge.** The AI does the repetitive rewriting; a human reads and
   approves the result of each step before the next one starts.
-
 - **Plain files drive the work.** People write two files anyone can read: the rules to
   follow and how to tell the result is correct (the Spec), and how to run the step and what
   happened last time (the Plan). The AI writes a third file (the Checklist), where it plans
   what it wants to do and ticks off each task as it goes.
-
 - **The record lives in git.** The code, the helpers, the Spec, and the Plan sit together
   under version control, so a run can be read, repeated, or changed later.
 
@@ -25,7 +23,6 @@ each step before the next one starts.
 1. **Fortran to C++.** Rewrite MCFM's old Fortran code as C++. Then check it is correct
    by running MCFM's own tests, plus a small extra check that the test really used the new
    code.
-
 2. **C++ to Kokkos.** Rewrite that C++ again as Kokkos code, which can run on GPUs, inside
    a program called Pepper. Then check it again with Pepper's tests.
 
@@ -34,7 +31,6 @@ plain-text files there:
 
 - a **Spec** (`desired_spec.md`) — the rules to follow, and how to tell the result is
   correct;
-
 - a **Plan** (`current_plan.md`) — how to run the step (the helper programs, the
   running-command rules, which files to do next) and the notes across sessions.
 
@@ -50,7 +46,6 @@ Plan. The same runner works for any step; you just point it at a different folde
    `sites/<name>/config.sh` with your compilers (there is an example in `sites/sedona/`),
    then run `source environment.sh`. Get the code with `git submodule update --init`
    (see the table below).
-
 2. **Run a transformation.** Point CodeScribe at a step's folder:
 
    ```
