@@ -3,9 +3,9 @@
 This file says how to run step 2. The kernel contract and correctness bar are in
 `desired_spec.md`.
 
-## Checklist file
+## Log file
 
-Keep the changing worklist in `agent_checklist.md` in this folder. Create it if missing and
+Keep the changing worklist in `agent_log.md` in this folder. Create it if missing and
 keep it current. Use it for active amplitudes, review groups, and per-amplitude status. Keep
 session prose in the log at the end of this file.
 
@@ -19,37 +19,65 @@ Use paths like `software/pepper/src/mcfm_analytics/...`.
 
 ## Approval gate
 
-Review groups live under headings starting with `Group` in `agent_checklist.md`. A person signs
-off a finished group by adding:
+Review groups live under headings starting with `Group` in `agent_log.md`. Humans do not edit
+`agent_log.md`. Human approvals live in `approvals.toml` in this folder and should normally be
+recorded with:
 
 ```
-APPROVED 2026-07-21 by <name>
+python3 dev/tools/approve/approve_group.py dev/transformations/pepper-kokkos-port --latest-blocking
 ```
 
-Do not start a new completed group while an earlier completed group is unapproved. Check with:
+or, to approve the oldest pending completed group,
 
 ```
-python3 dev/tools/approve/check_gate.py dev/transformations/pepper-kokkos-port/agent_checklist.md
+python3 dev/tools/approve/approve_group.py dev/transformations/pepper-kokkos-port --latest
 ```
 
-If it fails, stop.
+or, for an explicit group,
+
+```
+python3 dev/tools/approve/approve_group.py dev/transformations/pepper-kokkos-port "Group ..." --by <name>
+```
+
+Check with:
+
+```
+python3 dev/tools/approve/check_gate.py dev/transformations/pepper-kokkos-port
+```
+
+Interpret it this way:
+
+- If a group is still open, you may keep working inside that same group.
+- A completed group containing `FAILED` requires approval before the next group starts.
+- Otherwise, up to 2 completed groups may accumulate before approval is required.
+
+If the gate fails, stop before opening the next group.
 
 ## Tools
 
-Run these from the project root:
+Run these from the project root. Prefer the unified workflow interface:
 
-- `python3 dev/tools/closure/calltree_closure.py <name>`
+- `python3 dev/workflow.py closure <name>`
   - transitive linked closure, stage-1 readiness, and existing reuse
-- `python3 dev/tools/kokkos/kokkosify.py <input.cpp> [-o draft.h] [-r report.md]`
+- `python3 dev/workflow.py kokkos draft <input.cpp> [-o draft.h] [-r report.md]`
   - mechanical first draft plus blockers
-- `python3 dev/tools/kokkos/kokkosify.py validate <validator.cpp>`
+- `python3 dev/workflow.py kokkos validate <validator.cpp>`
   - compare the ported kernel against `libmcfm`
-- `python3 dev/tools/approve/check_gate.py <agent_checklist.md>`
-  - enforce human sign-off between groups
+- `python3 dev/workflow.py gate pepper-kokkos-port`
+  - enforce the human approval policy between groups
+- `python3 dev/workflow.py approve pepper-kokkos-port --latest-blocking`
+  - approve the exact group currently blocking the gate
+- `python3 dev/workflow.py approve pepper-kokkos-port --latest`
+  - approve the oldest pending completed group
+- `python3 dev/workflow.py approve pepper-kokkos-port --list-pending`
+  - show pending completed groups waiting for approval
+- `python3 dev/workflow.py approve pepper-kokkos-port "Group ..." --by <name>`
+  - record a human approval for a specific group in `approvals.toml`
 - `jobrunner submit tests/mcfm`
 - `jobrunner submit tests/pepper`
   - build and test both codebases
 
+The low-level scripts under `dev/tools/` remain available, but `dev/workflow.py` is the preferred interface.
 Build both codebases once before the first round if needed.
 
 ## Resolution: which target to do next
@@ -58,7 +86,7 @@ Build both codebases once before the first round if needed.
 - A target is ready only when:
   1. Closure shows its full call tree is in C++.
   2. The needed step-1 files are marked `VERIFIED` in
-     `dev/transformations/mcfm-translate/agent_checklist.md`.
+     `dev/transformations/mcfm-translate/agent_log.md`.
 - Size the closure before starting:
   - about 30 linked pieces or fewer: do it directly
   - larger trees: split by function boundary and work bottom-up

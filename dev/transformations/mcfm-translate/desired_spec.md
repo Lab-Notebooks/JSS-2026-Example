@@ -101,4 +101,4 @@ shown to exercise the rewritten file via `dev/tools/coverage/coverage_check.py`.
 - **TRANSLATED** — the file builds, but no test has been shown to exercise it.
 - **FAILED** — the numbers disagree after checking.
 
-Record results in `agent_checklist.md`, not here.
+Record results in `agent_log.md`, not here.

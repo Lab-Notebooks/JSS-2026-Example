@@ -153,7 +153,7 @@ Replace a local forward declaration with a header include when:
 5. `jobrunner submit tests/mcfm` passes afterward
 
 If the function is truly local in spirit or introducing/keeping a header would add needless
-surface area, keep the declaration local and record the reason in the checklist notes.
+surface area, keep the declaration local and record the reason in the log notes.
 
 ---
 
@@ -197,4 +197,4 @@ state is consistent with the cleanup decision.
 - **FAILED** — attempted cleanup broke build/test expectations or the dependency evidence was not
   sufficient to proceed safely
 
-Record results in `agent_checklist.md`, not here.
+Record results in `agent_log.md`, not here.

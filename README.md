@@ -8,12 +8,36 @@ from principles of software provenance, reproducibility, and scientific rigor.
   approves the result of each step before the next one starts.
 - **Plain files drive the work.** People write two files anyone can read: the rules to
   follow and how to tell the result is correct (the Spec), and how to run the step and what
-  happened last time (the Plan). The AI writes a third file (the Checklist), where it plans
+  happened last time (the Plan). The AI writes a third file (the Log), where it plans
   what it wants to do and ticks off each task as it goes.
 - **The record lives in git.** The code, the helpers, the Spec, and the Plan sit together
   under version control, so a run can be read, repeated, or changed later.
 
 The rest of this page shows how to run the demo.
+
+## Streamlined workflow interface
+
+The preferred interface for workflow helpers is now a single command:
+
+```
+python3 dev/workflow.py <command>
+```
+
+Representative commands:
+
+```
+python3 dev/workflow.py refresh
+python3 dev/workflow.py gate mcfm-translate
+python3 dev/workflow.py approve mcfm-translate --latest-blocking
+python3 dev/workflow.py draft software/mcfm/src/.../file.f
+python3 dev/workflow.py verify software/mcfm/src/.../file.cpp -- u u~ e- e+
+python3 dev/workflow.py cleanup report
+python3 dev/workflow.py closure qqb_z
+python3 dev/workflow.py kokkos draft software/mcfm/src/.../file.cpp
+python3 dev/workflow.py kokkos validate dev/tools/kokkos/validator_skeleton.cpp
+```
+
+The low-level scripts under `dev/tools/` still exist, but `dev/workflow.py` is the preferred human- and agent-facing entrypoint.
 
 ## What the demo does
 
@@ -35,10 +59,11 @@ plain-text files there:
   running-command rules, which files to do next) and the notes across sessions.
 
 A runner called **CodeScribe** reads the Plan and the Spec and does the work. Before it
-changes any code, it writes down what it wants to do in a third file, `agent_checklist.md` — the
-list of files to rewrite and, as it goes, each one's result. The checklist is the AI's own
-working file: it is not tracked in git, so a fresh clone starts with only the Spec and the
-Plan. The same runner works for any step; you just point it at a different folder.
+changes any code, it writes down what it wants to do in a third file, `agent_log.md` — the
+list of files to rewrite and, as it goes, each one's result. The log is the AI's own
+working file. Human approvals live separately in `approvals.toml`, which a person updates
+through the approval helper command rather than by editing the agent log. The same runner
+works for any step; you just point it at a different folder.
 
 ## How to run it
 
@@ -53,7 +78,7 @@ Plan. The same runner works for any step; you just point it at a different folde
    ```
 
    - Step 1: `code-scribe loop dev/transformations/mcfm-translate/loop.toml -m <model>`.
-     CodeScribe reads the Plan and Spec, writes its `agent_checklist.md`, finds the files that
+     CodeScribe reads the Plan and Spec, writes its `agent_log.md`, finds the files that
      are ready, rewrites them one at a time, and checks its work. Check a run with
      `jobrunner submit tests/mcfm`.
 
@@ -62,7 +87,32 @@ Plan. The same runner works for any step; you just point it at a different folde
      `jobrunner submit tests/pepper`.
 
 CodeScribe writes the result of each file (correct / rewritten / failed) in that step's
-`agent_checklist.md` and adds a note to the Plan's session log. You can change the step, the
+`agent_log.md` and adds a note to the Plan's session log. When a human approval is needed,
+record it with either:
+
+```
+python3 dev/workflow.py approve <name> --latest-blocking
+```
+
+or, to approve the oldest pending completed group regardless of whether it is blocking yet,
+
+```
+python3 dev/workflow.py approve <name> --latest
+```
+
+or, for an explicit group,
+
+```
+python3 dev/workflow.py approve <name> "Group ..." --by <name>
+```
+
+You can also inspect pending approvals with:
+
+```
+python3 dev/workflow.py approve <name> --list-pending
+```
+
+This writes `approvals.toml` for that transformation. You can change the step, the
 `loop.toml` options, or the AI model to try different runs over the same Spec and Plan.
 
 ## The code you are changing (git submodules)

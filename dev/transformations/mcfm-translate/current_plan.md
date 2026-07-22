@@ -3,9 +3,9 @@
 This file says how to run step 1. The rewrite rules and correctness bar are in
 `desired_spec.md`.
 
-## Checklist file
+## Log file
 
-Keep the changing worklist in `agent_checklist.md` in this folder. Create it if missing and
+Keep the changing worklist in `agent_log.md` in this folder. Create it if missing and
 keep it current. Use it for ready files, review groups, and per-file status. Keep durable prose
 notes in the session log at the end of this file.
 
@@ -19,43 +19,66 @@ Use paths like `software/mcfm/src/...`.
 
 ## Approval gate
 
-Review groups live under headings starting with `Group` in `agent_checklist.md`. A person signs
-off a finished group by adding:
+Review groups live under headings starting with `Group` in `agent_log.md`. Humans do not edit
+`agent_log.md`. Human approvals live in `approvals.toml` in this folder and should normally be
+recorded with:
 
 ```
-APPROVED 2026-07-21 by <name>
+python3 dev/tools/approve/approve_group.py dev/transformations/mcfm-translate --latest-blocking
+```
+
+or, to approve the oldest pending completed group,
+
+```
+python3 dev/tools/approve/approve_group.py dev/transformations/mcfm-translate --latest
+```
+
+or, for an explicit group,
+
+```
+python3 dev/tools/approve/approve_group.py dev/transformations/mcfm-translate "Group ..." --by <name>
 ```
 
 Use the gate only when deciding whether to start a new group:
 
 ```
-python3 dev/tools/approve/check_gate.py dev/transformations/mcfm-translate/agent_checklist.md
+python3 dev/tools/approve/check_gate.py dev/transformations/mcfm-translate
 ```
 
 Interpret it this way:
 
 - If a group is still open, you may keep working inside that same group.
-- If an earlier group is completed but unapproved, do not start a new group.
+- A completed group containing `FAILED` requires approval before the next group starts.
+- Otherwise, up to 3 completed groups may accumulate before approval is required.
 - A gate failure blocks new-group creation, not builds, fixes, or verification inside the
   current open group.
 
-Stop for human review only when a completed group blocks the next group.
+Stop for human review only when the gate blocks the next group.
 
 ## Tools
 
-Run these from the project root:
+Run these from the project root. Prefer the unified workflow interface:
 
-- `python3 dev/tools/index/build_roadmap.py --doxygen` then
-  `python3 dev/tools/index/build_roadmap.py`
+- `python3 dev/workflow.py refresh`
   - refresh the readiness map and symbol index
-- `python3 dev/tools/draft/scribe_draft.py <file.f>`
+- `python3 dev/workflow.py draft <file.f>`
   - make a rough draft and dependency hints
-- `python3 dev/tools/coverage/coverage_check.py <file.cpp> -- <process>`
+- `python3 dev/workflow.py verify <file.cpp> -- <process>`
   - decide VERIFIED vs TRANSLATED
-- `python3 dev/tools/approve/check_gate.py <agent_checklist.md>`
-  - enforce human sign-off between completed groups
+- `python3 dev/workflow.py gate mcfm-translate`
+  - enforce the human approval policy between completed groups
+- `python3 dev/workflow.py approve mcfm-translate --latest-blocking`
+  - approve the exact group currently blocking the gate
+- `python3 dev/workflow.py approve mcfm-translate --latest`
+  - approve the oldest pending completed group
+- `python3 dev/workflow.py approve mcfm-translate --list-pending`
+  - show pending completed groups waiting for approval
+- `python3 dev/workflow.py approve mcfm-translate "Group ..." --by <name>`
+  - record a human approval for a specific group in `approvals.toml`
 - `jobrunner submit tests/mcfm`
   - full MCFM build + test run; run this before verification if MCFM is not yet built
+
+The low-level scripts under `dev/tools/` remain available, but `dev/workflow.py` is the preferred interface.
 
 ## Resolution: which files to do next
 
@@ -75,7 +98,7 @@ Run these from the project root:
    - Ensure the translated `.cpp` includes its own `<base>.hpp` when such a header exists.
    - If the translated file calls another translated C++ unit and that callee has a header, include the header instead of adding a local forward declaration.
 6. After a group is completed, check the gate before opening the next one.
-7. After approval, refresh the roadmap again before picking more work.
+7. After any required approval, refresh the roadmap again before picking more work.
 
 The map exists so a file is only rewritten after its callees are already available in C++.
 
@@ -91,7 +114,7 @@ CodeScribe bash is restricted. In practice:
 Mark the statement that writes the file's main output with `// @coverage-probe`, then run:
 
 ```
-python3 dev/tools/coverage/coverage_check.py <file.cpp> -- <process>
+python3 dev/workflow.py verify <file.cpp> -- <process>
 ```
 
 Use the process mapped from the file's top-level folder in the Spec. If verification work is

@@ -14,22 +14,22 @@ Read, in order:
 
 Authority and edit boundaries:
 - `current_plan.md` and `desired_spec.md` are human-owned. Read them, but do not modify them.
-- `agent_checklist.md` is the only file in `dev/transformations/pepper-kokkos-port/` that the AI may modify.
+- `agent_log.md` is the only file in `dev/transformations/pepper-kokkos-port/` that the AI may modify.
 
 Each round:
 1. If MCFM or Pepper is not built yet, run `jobrunner submit tests/mcfm` and
    `jobrunner submit tests/pepper` once.
-2. Keep the working checklist in dev/transformations/pepper-kokkos-port/agent_checklist.md.
+2. Keep the working log in dev/transformations/pepper-kokkos-port/agent_log.md.
    Create it if missing. Follow the Plan's resolution rules.
 3. Pick only amplitudes whose step-1 dependencies are VERIFIED in
-   dev/transformations/mcfm-translate/agent_checklist.md.
+   dev/transformations/mcfm-translate/agent_log.md.
 4. Use Closure to choose and size targets. Use Kokkosify for a first draft, then finish the
    kernel from the Spec.
 5. Validate against libmcfm as you write, block by block, targeting 1e-10 relative error.
 6. Run `jobrunner submit tests/pepper`. Do not write new doctests. Mark amplitudes only as
    TRANSLATED or FAILED; note which doctests a developer should add.
 7. Before starting a new review group, enforce the gate:
-   python3 dev/tools/approve/check_gate.py dev/transformations/pepper-kokkos-port/agent_checklist.md
+   python3 dev/tools/approve/check_gate.py dev/transformations/pepper-kokkos-port
    If it fails, stop.
-8. Before stopping, update agent_checklist.md only. Do not append notes to the Plan.
+8. Before stopping, update agent_log.md only. Do not append notes to the Plan.
 '''

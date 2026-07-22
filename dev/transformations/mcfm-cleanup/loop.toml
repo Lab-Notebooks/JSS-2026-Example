@@ -14,17 +14,17 @@ Read, in order:
 
 Authority and edit boundaries:
 - `current_plan.md` and `desired_spec.md` are human-owned. Read them, but do not modify them.
-- `agent_checklist.md` is the only file in `dev/transformations/mcfm-cleanup/` that the AI may modify.
+- `agent_log.md` is the only file in `dev/transformations/mcfm-cleanup/` that the AI may modify.
 
 Operate in this order each round:
 1. Refresh readiness and the doxygen-based dependency graph:
    python3 dev/tools/index/build_roadmap.py --doxygen
    python3 dev/tools/index/build_roadmap.py
    python3 dev/tools/cleanup/analyze_cleanup.py
-2. Open or update dev/transformations/mcfm-cleanup/agent_checklist.md.
+2. Open or update dev/transformations/mcfm-cleanup/agent_log.md.
 3. Determine whether there is an existing open review group. If there is, continue working in
    that group. Do not stop just because it is not yet approved.
-4. Run `python3 dev/tools/approve/check_gate.py dev/transformations/mcfm-cleanup/agent_checklist.md`
+4. Run `python3 dev/tools/approve/check_gate.py dev/transformations/mcfm-cleanup`
    only to decide whether you may start a new group. A gate failure means: an earlier completed
    group needs human approval before any new group starts. It does NOT forbid continuing work,
    fixes, builds, or verification inside the current open group.
@@ -41,9 +41,9 @@ Operate in this order each round:
    multiple translation units or form a required interop boundary.
 8. After edits, build and verify with `jobrunner submit tests/mcfm`. If the cleanup changes call
    paths, rerun the doxygen roadmap build to confirm the updated graph is consistent.
-9. Record each target immediately in agent_checklist.md as MOVED, DELETED_SHIM, KEPT_SHIM,
+9. Record each target immediately in agent_log.md as MOVED, DELETED_SHIM, KEPT_SHIM,
    MERGED_CPP, KEPT_SPLIT, or FAILED, with a short reason.
-10. Before stopping, update agent_checklist.md only. Do not append notes to the Plan.
+10. Before stopping, update agent_log.md only. Do not append notes to the Plan.
 
 Graceful exit conditions:
 - Stop for human review only when a completed group blocks starting another group.

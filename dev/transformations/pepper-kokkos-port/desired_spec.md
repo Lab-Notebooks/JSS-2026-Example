@@ -72,7 +72,7 @@ for the final kernel.
 - **VERIFIED** — a human-added Pepper doctest reproduces frozen reference numbers.
 - **FAILED** — cannot be made to match `libmcfm`.
 
-A runner never marks `VERIFIED`. Record results in `agent_checklist.md`, not here.
+A runner never marks `VERIFIED`. Record results in `agent_log.md`, not here.
 
 ## References
 

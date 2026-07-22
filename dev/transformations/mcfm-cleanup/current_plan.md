@@ -3,9 +3,9 @@
 This file says how to run the cleanup pass after Fortran-to-C++ translation work. The cleanup
 rules and correctness bar are in `desired_spec.md`.
 
-## Checklist file
+## Log file
 
-Keep the changing worklist in `agent_checklist.md` in this folder. Create it if missing and
+Keep the changing worklist in `agent_log.md` in this folder. Create it if missing and
 keep it current. Use it for ready cleanup targets, review groups, and per-target status. Keep
 session prose notes in the log at the end of this file.
 
@@ -22,40 +22,64 @@ Use paths like `software/mcfm/src/...`.
 
 ## Approval gate
 
-Review groups live under headings starting with `Group` in `agent_checklist.md`. A person signs
-off a finished group by adding:
+Review groups live under headings starting with `Group` in `agent_log.md`. Humans do not edit
+`agent_log.md`. Human approvals live in `approvals.toml` in this folder and should normally be
+recorded with:
 
 ```
-APPROVED 2026-07-21 by <name>
+python3 dev/tools/approve/approve_group.py dev/transformations/mcfm-cleanup --latest-blocking
+```
+
+or, to approve the oldest pending completed group,
+
+```
+python3 dev/tools/approve/approve_group.py dev/transformations/mcfm-cleanup --latest
+```
+
+or, for an explicit group,
+
+```
+python3 dev/tools/approve/approve_group.py dev/transformations/mcfm-cleanup "Group ..." --by <name>
 ```
 
 Use the gate only when deciding whether to start a new group:
 
 ```
-python3 dev/tools/approve/check_gate.py dev/transformations/mcfm-cleanup/agent_checklist.md
+python3 dev/tools/approve/check_gate.py dev/transformations/mcfm-cleanup
 ```
 
 Interpret it this way:
 
 - If a group is still open, you may keep working inside that same group.
-- If an earlier group is completed but unapproved, do not start a new group.
+- A completed group containing `DELETED_SHIM`, `MERGED_CPP`, or `FAILED` requires approval before the next group starts.
+- Otherwise, up to 2 completed groups may accumulate before approval is required.
 - A gate failure blocks new-group creation, not builds, fixes, or verification inside the
   current open group.
 
-Stop for human review only when a completed group blocks the next group.
+Stop for human review only when the gate blocks the next group.
 
 ## Tools
 
-Run these from the project root:
+Run these from the project root. Prefer the unified workflow interface:
 
-- `python3 dev/tools/index/build_roadmap.py --doxygen` then
-  `python3 dev/tools/index/build_roadmap.py`
+- `python3 dev/workflow.py refresh`
   - refresh the doxygen-based dependency graph and derived readiness/index data
-- `python3 dev/tools/approve/check_gate.py <agent_checklist.md>`
-  - enforce human sign-off between completed groups
+- `python3 dev/workflow.py cleanup report`
+  - report cleanup candidates from the current index data
+- `python3 dev/workflow.py gate mcfm-cleanup`
+  - enforce the human approval policy between completed groups
+- `python3 dev/workflow.py approve mcfm-cleanup --latest-blocking`
+  - approve the exact group currently blocking the gate
+- `python3 dev/workflow.py approve mcfm-cleanup --latest`
+  - approve the oldest pending completed group
+- `python3 dev/workflow.py approve mcfm-cleanup --list-pending`
+  - show pending completed groups waiting for approval
+- `python3 dev/workflow.py approve mcfm-cleanup "Group ..." --by <name>`
+  - record a human approval for a specific group in `approvals.toml`
 - `jobrunner submit tests/mcfm`
   - full MCFM build + benchmark run after cleanup edits
 
+The low-level scripts under `dev/tools/` remain available, but `dev/workflow.py` is the preferred interface.
 Use ordinary repository inspection as needed to confirm whether a header is reused or a shim is
 still part of an active Fortran call path.
 
@@ -82,7 +106,7 @@ still part of an active Fortran call path.
    - replace translation-era local forward declarations with proper header includes when a reusable interface exists
    - update local `CMakeLists.txt` or includes as needed
 6. After a group is completed, check the gate before opening the next one.
-7. After approval, refresh the roadmap again before picking more work.
+7. After any required approval, refresh the roadmap again before picking more work.
 
 ## Decision rules
 
@@ -152,8 +176,7 @@ jobrunner submit tests/mcfm
 If the cleanup may affect call structure, rerun:
 
 ```
-python3 dev/tools/index/build_roadmap.py --doxygen
-python3 dev/tools/index/build_roadmap.py
+python3 dev/workflow.py refresh
 ```
 
 Interpret results as:
