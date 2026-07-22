@@ -50,6 +50,14 @@ Interpret it this way:
 - If a group is still open, you may keep working inside that same group.
 - A completed group containing `FAILED` requires approval before the next group starts.
 - Otherwise, up to 2 completed groups may accumulate before approval is required.
+- The gate checks only whether a group is approved; it does not interpret `approvals.toml`
+  `note` text.
+- After a group is approved, agents should read any matching approval record in
+  `approvals.toml` before continuing work related to that group.
+- Treat approval notes as binding human guidance for that group unless a later human
+  instruction supersedes them.
+- If an approval note changes scope or forbids an action, reflect that in the current work
+  and logs rather than silently ignoring it.
 
 If the gate fails, stop before opening the next group.
 

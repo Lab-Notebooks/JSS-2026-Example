@@ -55,6 +55,14 @@ Interpret it this way:
 - Otherwise, up to 2 completed groups may accumulate before approval is required.
 - A gate failure blocks new-group creation, not builds, fixes, or verification inside the
   current open group.
+- The gate checks only whether a group is approved; it does not interpret `approvals.toml`
+  `note` text.
+- After a group is approved, agents should read any matching approval record in
+  `approvals.toml` before continuing work related to that group.
+- Treat approval notes as binding human guidance for that group unless a later human
+  instruction supersedes them.
+- If an approval note changes scope or forbids an action, reflect that in the current work
+  and logs rather than silently ignoring it.
 
 Stop for human review only when the gate blocks the next group.
 
