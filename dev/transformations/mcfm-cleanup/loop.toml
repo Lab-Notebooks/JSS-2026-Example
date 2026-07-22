@@ -12,6 +12,10 @@ Read, in order:
 1. dev/transformations/mcfm-cleanup/current_plan.md
 2. dev/transformations/mcfm-cleanup/desired_spec.md
 
+Authority and edit boundaries:
+- `current_plan.md` and `desired_spec.md` are human-owned. Read them, but do not modify them.
+- `agent_checklist.md` is the only file in `dev/transformations/mcfm-cleanup/` that the AI may modify.
+
 Operate in this order each round:
 1. Refresh readiness and the doxygen-based dependency graph:
    python3 dev/tools/index/build_roadmap.py --doxygen
@@ -39,7 +43,7 @@ Operate in this order each round:
    paths, rerun the doxygen roadmap build to confirm the updated graph is consistent.
 9. Record each target immediately in agent_checklist.md as MOVED, DELETED_SHIM, KEPT_SHIM,
    MERGED_CPP, KEPT_SPLIT, or FAILED, with a short reason.
-10. Before stopping, update agent_checklist.md and append a dated session note to the Plan.
+10. Before stopping, update agent_checklist.md only. Do not append notes to the Plan.
 
 Graceful exit conditions:
 - Stop for human review only when a completed group blocks starting another group.

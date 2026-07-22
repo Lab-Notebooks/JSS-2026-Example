@@ -1,4 +1,4 @@
-// Standalone validator skeleton for the cpp-to-kokkos transformation.
+// Standalone validator skeleton for the pepper-kokkos-port transformation.
 //
 // Links the original MCFM C++ (libmcfm) AND the ported Pepper kernel headers
 // (compiled host-side via the Kokkos shim), then compares them in-process on

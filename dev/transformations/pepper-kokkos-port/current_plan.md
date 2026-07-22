@@ -29,7 +29,7 @@ APPROVED 2026-07-21 by <name>
 Do not start a new completed group while an earlier completed group is unapproved. Check with:
 
 ```
-python3 dev/tools/approve/check_gate.py dev/transformations/cpp-to-kokkos/agent_checklist.md
+python3 dev/tools/approve/check_gate.py dev/transformations/pepper-kokkos-port/agent_checklist.md
 ```
 
 If it fails, stop.
@@ -58,7 +58,7 @@ Build both codebases once before the first round if needed.
 - A target is ready only when:
   1. Closure shows its full call tree is in C++.
   2. The needed step-1 files are marked `VERIFIED` in
-     `dev/transformations/fortran-to-cpp/agent_checklist.md`.
+     `dev/transformations/mcfm-translate/agent_checklist.md`.
 - Size the closure before starting:
   - about 30 linked pieces or fewer: do it directly
   - larger trees: split by function boundary and work bottom-up

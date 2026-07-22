@@ -29,7 +29,7 @@ APPROVED 2026-07-21 by <name>
 Use the gate only when deciding whether to start a new group:
 
 ```
-python3 dev/tools/approve/check_gate.py dev/transformations/fortran-to-cpp/agent_checklist.md
+python3 dev/tools/approve/check_gate.py dev/transformations/mcfm-translate/agent_checklist.md
 ```
 
 Interpret it this way:

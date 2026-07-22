@@ -1,7 +1,7 @@
 # CodeScribe loop for Fortran -> C++.
 #
 # Run from the project root:
-#   code-scribe loop -p dev/transformations/fortran-to-cpp/loop.toml -m <model>
+#   code-scribe loop -p dev/transformations/mcfm-translate/loop.toml -m <model>
 
 [tools]
 bash = ["jobrunner", "python3"]
@@ -9,17 +9,21 @@ bash = ["jobrunner", "python3"]
 [[chat.user]]
 content = '''
 Read, in order:
-1. dev/transformations/fortran-to-cpp/current_plan.md
-2. dev/transformations/fortran-to-cpp/desired_spec.md
+1. dev/transformations/mcfm-translate/current_plan.md
+2. dev/transformations/mcfm-translate/desired_spec.md
+
+Authority and edit boundaries:
+- `current_plan.md` and `desired_spec.md` are human-owned. Read them, but do not modify them.
+- `agent_checklist.md` is the only file in `dev/transformations/mcfm-translate/` that the AI may modify.
 
 Operate in this order each round:
 1. Refresh readiness:
    python3 dev/tools/index/build_roadmap.py --doxygen
    python3 dev/tools/index/build_roadmap.py
-2. Open or update dev/transformations/fortran-to-cpp/agent_checklist.md.
+2. Open or update dev/transformations/mcfm-translate/agent_checklist.md.
 3. Determine whether there is an existing open review group. If there is, continue working in
    that group. Do not stop just because it is not yet approved.
-4. Run `python3 dev/tools/approve/check_gate.py dev/transformations/fortran-to-cpp/agent_checklist.md`
+4. Run `python3 dev/tools/approve/check_gate.py dev/transformations/mcfm-translate/agent_checklist.md`
    only to decide whether you may start a new group. A gate failure means: an earlier completed
    group needs human approval before any new group starts. It does NOT forbid continuing work,
    fixes, builds, or verification inside the current open group.
@@ -31,7 +35,7 @@ Operate in this order each round:
    because a review group exists; stop only when you are blocked waiting for human approval to
    start the next group, or when there is no ready work.
 8. Verify each file immediately with Coverage and mark it VERIFIED, TRANSLATED, or FAILED.
-9. Before stopping, update agent_checklist.md and append a dated session note to the Plan.
+9. Before stopping, update agent_checklist.md only. Do not append notes to the Plan.
 
 Graceful exit conditions:
 - Stop for human review only when a completed group blocks starting another group.
