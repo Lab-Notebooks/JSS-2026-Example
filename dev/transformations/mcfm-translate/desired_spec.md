@@ -12,7 +12,7 @@ Paths are written as `software/mcfm/src/...`.
 One Fortran file becomes one C++ translation unit set, and the folder's `CMakeLists.txt` swaps
 its `.f`/`.f90` entry for the new files:
 
-- **`<base>.cpp`** — translated code plus `extern "C" <base>_wrapper(...)`
+- **`<base>.cpp`** — translated code plus `extern "C" <base>_wrapper(...)`; when a matching header exists, this file should include `<base>.hpp>`
 - **`<base>.hpp`** — direct C++ declaration for the translated C++ entry points used outside the translation unit
 - **`<base>_fi.F90`** — Fortran shim with the original entry name calling the wrapper
 
@@ -51,11 +51,12 @@ Use the Draft tool's hints and seed examples when needed.
 
 Follow normal C++ structure for translated code.
 
-1. If a translated unit has a `<base>.hpp`, the matching `<base>.cpp` should include it.
-2. If one translated `.cpp` calls a C++ function defined in another translated `.cpp`, prefer including the callee's header rather than adding a local forward declaration.
-3. Use local forward declarations only when there is intentionally no reusable header yet and introducing one would not make the interface clearer.
-4. Put declarations for reusable cross-translation-unit C++ functions in headers before they are used from other `.cpp` files.
-5. Keep `extern "C"` declarations only for true Fortran or C interoperability boundaries, not as a substitute for ordinary C++ headers.
+1. If a translated unit has a `<base>.hpp`, the matching `<base>.cpp` should include it as the normal declaration point for that unit's C++ interface.
+2. Treat the generated header/source pair as the default structure for translated C++: declarations live in the header, definitions live in the `.cpp`, and the `.cpp` includes its own header.
+3. If one translated `.cpp` calls a C++ function defined in another translated `.cpp`, include the callee's header rather than adding a local forward declaration.
+4. Use local forward declarations only when there is intentionally no reusable header yet and introducing one would not make the interface clearer.
+5. Put declarations for reusable cross-translation-unit C++ functions in headers before they are used from other `.cpp` files.
+6. Keep `extern "C"` declarations only for true Fortran or C interoperability boundaries, not as a substitute for ordinary C++ headers.
 
 ## Silent traps
 
@@ -66,8 +67,9 @@ Check these explicitly:
 3. Wrong `FArray` sizes or bounds.
 4. Accidental 0-based indexing for 1-based Fortran arrays.
 5. Missing module or `Need.hpp` includes.
-6. Calling a translated C++ sibling without including its header when one exists.
-7. Keeping translation-era forward declarations even though a proper header interface exists.
+6. A translated `.cpp` failing to include its own matching header when one exists.
+7. Calling a translated C++ sibling without including its header when one exists.
+8. Keeping translation-era forward declarations even though a proper header interface exists.
 
 If numbers still disagree after checking, mark the file `FAILED` with the symptom.
 

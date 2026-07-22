@@ -77,7 +77,8 @@ still part of an active Fortran call path.
    - move deprecated original Fortran source into sibling `deprecated/` when a translated path
      already exists
    - decide whether the `_fi` shim must stay or can be deleted safely
-   - decide whether `.hpp` and `.cpp` should stay split or be merged
+   - decide whether translated headers and implementation files should stay as-is or be reorganized into one or more combined `.hpp` and `.cpp` files
+   - when merging, group files by coherent reusable interface and implementation ownership rather than forcing a 1:1 header/source collapse
    - replace translation-era local forward declarations with proper header includes when a reusable interface exists
    - update local `CMakeLists.txt` or includes as needed
 6. After a group is completed, check the gate before opening the next one.
@@ -102,18 +103,27 @@ Delete a `_fi` shim only when all of the following are true:
 
 If any point is uncertain, keep the shim and record why.
 
-### Merging `.hpp` and `.cpp`
+### Merging translated headers and sources
 
 Prefer fewer, more coherent C++ files when safe, but be conservative.
 
-Merge a header into its `.cpp` only when all of the following are true:
+Merging in this pass means reorganizing translation-era per-file outputs into cleaner combined
+interfaces and implementation units when that better matches ownership and reuse. This may mean:
 
-1. The declarations are local to one translation unit or are only serving trivial wrappers.
-2. No other active translation unit relies on the header as a reusable interface.
-3. The header is not needed as a stable interop boundary.
-4. The merge reduces obvious bloat without obscuring ownership or call structure.
-5. Keeping the header would not materially improve normal C++ declaration-before-use structure across translation units.
-6. `jobrunner submit tests/mcfm` passes after the merge.
+- merging several `.hpp` files into one combined reusable header
+- merging several `.cpp` files into one implementation file
+- keeping one combined `.hpp` shared by multiple `.cpp` files
+- keeping some headers separate while merging only implementations
+
+Reorganize headers/sources only when all of the following are true:
+
+1. The new layout is a clearer representation of the actual reusable interfaces or logical implementation ownership.
+2. Cross-translation-unit declarations remain available in appropriate headers.
+3. Local-only helpers can move into implementation files without harming clarity.
+4. The header is not needed to preserve a distinct stable interop boundary that would be obscured by the merge.
+5. The reorganization reduces obvious bloat without obscuring ownership or call structure.
+6. Using a combined header for multiple `.cpp` files makes interface sense and does not just create an arbitrary umbrella file.
+7. `jobrunner submit tests/mcfm` passes after the merge.
 
 Otherwise keep the split and record why.
 
@@ -168,5 +178,6 @@ Otherwise continue editing, building, testing, and verifying.
 - Bias toward fewer tiny wrapper files and a cleaner C++ structure, but never guess about active
   callers.
 - Prefer normal C++ declaration-before-use structure: reusable functions declared in headers, included before use in other `.cpp` files.
+- When merging, group code by coherent interface and ownership; several former `.hpp` files may become one reusable header referenced by multiple `.cpp` files.
 - A merged C++ layout is preferred only when it preserves current behavior and verification.
 - Add a dated note per session: what you changed, what remains, and any human decision needed.

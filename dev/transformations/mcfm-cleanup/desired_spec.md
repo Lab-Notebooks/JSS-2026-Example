@@ -15,7 +15,7 @@ This pass works only on already-translated targets and focuses on three cleanup 
 
 1. move obsolete original Fortran sources out of active source directories
 2. remove `_fi` compatibility shims that are no longer required
-3. merge header/source pairs where the split is unnecessary
+3. merge and reorganize translated headers and sources into cleaner combined C++ interfaces and implementation units where that improves ownership and structure
 4. replace translation-era local forward declarations with proper header-based C++ interfaces where appropriate
 
 The desired direction is a cleaner and more organized C++ port with fewer tiny wrapper files,
@@ -86,38 +86,47 @@ callers, keep the shim and record `KEPT_SHIM` with the reason.
 
 ---
 
-## Action 3: merge `.hpp` and `.cpp` where possible
+## Action 3: merge and reorganize translated `.hpp` and `.cpp` files
 
-The cleanup pass may merge trivial header/source pairs to reduce file count and wrapper bloat.
-This is encouraged only when the merge makes the port clearer and does not remove a genuinely
-reusable interface.
+The cleanup pass may merge several translation-era headers into a combined header and may also
+merge several implementation files into one or more coherent `.cpp` files when that produces a
+cleaner C++ structure. The goal is not simply to collapse every `.hpp` into its `.cpp`, but to
+organize related code around reusable interfaces, ownership, and cohesive implementation units.
+
+A combined header may legitimately be included by multiple `.cpp` files when it represents the
+right shared interface. Likewise, several former per-file translated implementations may be
+merged into one `.cpp` if they belong to the same logical implementation unit.
 
 ### Good merge candidates
 
-- file-local helper declarations used by one `.cpp`
-- tiny wrapper headers whose declarations are not reused elsewhere
-- translated units where the split exists only because the rewrite process emitted it by default
-- local code that becomes easier to read as one coherent implementation file
+- several tiny translated headers that collectively define one coherent reusable interface
+- several small translated `.cpp` files that implement one logical facility or tightly related set of methods/functions
+- file-local helper declarations that do not deserve a standalone reusable header
+- translated units where the per-file split exists only because the rewrite process emitted it by default
+- families of files that become easier to navigate when grouped by ownership or responsibility rather than original Fortran file boundaries
 
 ### Do not merge when
 
-- the header is included by multiple active translation units
+- the existing header split is already the clearest reusable interface boundary
+- merging would blur distinct ownership or create a less coherent API surface
 - the header forms a needed interop boundary
-- the declarations are part of a reusable module-like interface
-- merging would create circular include or build-structure problems
+- different implementation files should remain separate for clarity, dependency control, or build structure
+- merging would create circular include, initialization-order, or build-structure problems
 - the merge makes the implementation materially harder to navigate
 
 ### Merge rule
 
-Merge `.hpp` into `.cpp` only when:
+Merge or reorganize translated headers/sources only when:
 
-1. repository inspection shows the header is not an actively reused interface
-2. any necessary forward declarations or includes can be handled cleanly in the merged file
-3. local build wiring remains correct
-4. no other active translation unit benefits from the header as the proper declaration point for the C++ interface
-5. `jobrunner submit tests/mcfm` passes afterward
+1. repository inspection shows the new combined layout is a clearer representation of the reusable interfaces and implementation ownership
+2. any declarations needed across translation units remain available in one or more proper headers
+3. local-only declarations can be kept inside implementation files without harming clarity
+4. local build wiring remains correct
+5. the reorganization reduces translation-era bloat without removing a genuinely useful interface boundary
+6. any combined header still serves as the proper declaration point for all active `.cpp` users that should share that interface
+7. `jobrunner submit tests/mcfm` passes afterward
 
-If unsure, keep the split and record `KEPT_SPLIT`.
+If unsure, keep the existing split and record `KEPT_SPLIT`.
 
 ## Action 4: replace local forward declarations with headers where appropriate
 
@@ -183,7 +192,7 @@ state is consistent with the cleanup decision.
 - **MOVED** — original Fortran source archived to `deprecated/`; translated path remains active
 - **DELETED_SHIM** — `_fi` compatibility shim removed and verified unnecessary
 - **KEPT_SHIM** — shim retained because an active caller/boundary may still need it
-- **MERGED_CPP** — header/source pair merged successfully and verified
+- **MERGED_CPP** — translated headers/sources reorganized into a cleaner combined C++ layout and verified
 - **KEPT_SPLIT** — split retained because the interface is still meaningfully reused or required
 - **FAILED** — attempted cleanup broke build/test expectations or the dependency evidence was not
   sufficient to proceed safely
