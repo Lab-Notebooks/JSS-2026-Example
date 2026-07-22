@@ -45,18 +45,27 @@
 //                model / resolveModel / authorModel / integrateModel / fixModel.
 
 export const meta = {
-  name: 'transform',
-  description:
-    'Run one review group of a dev/transformations/<name> step: continue an open group or open a new one (subject to the approval gate), author its ready units in parallel, integrate and verify them serially, escalate failures, and record everything in agent_log.md. Transformation-agnostic — every rule comes from that step\'s own desired_spec.md and current_plan.md, never from this script.',
-  whenToUse:
-    'Point it at any folder under dev/transformations/ via args:{transformation:"mcfm-translate"|"mcfm-cleanup"|"pepper-kokkos-port"|...}. Honors the approval gate (dev/tools/approve/check_gate.py) before opening a new review group, and stops after one group so a human can approve via approve_group.py. Optional: scope, maxUnits, bundleSize, fixRounds, model overrides.',
-  phases: [
-    { title: 'Resolve' },
-    { title: 'Bundle' },
-    { title: 'Author' },
-    { title: 'Integrate', model: 'opus' },
-    { title: 'Fix', model: 'opus' },
-  ],
+    name: 'transform',
+    description: 'Run one review group of a dev/transformations/<name> step: continue an open group or open a new one (subject to the approval gate), author its ready units in parallel, integrate and verify them serially, escalate failures, and record everything in agent_log.md. Transformation-agnostic — every rule comes from that step\'s own desired_spec.md and current_plan.md, never from this script.',
+    whenToUse: 'Point it at any folder under dev/transformations/ via args:{transformation:"mcfm-translate"|"mcfm-cleanup"|"pepper-kokkos-port"|...}. Honors the approval gate (dev/tools/approve/check_gate.py) before opening a new review group, and stops after one group so a human can approve via approve_group.py. Optional: scope, maxUnits, bundleSize, fixRounds, model overrides.',
+    phases: [{
+            title: 'Resolve'
+        },
+        {
+            title: 'Bundle'
+        },
+        {
+            title: 'Author'
+        },
+        {
+            title: 'Integrate',
+            model: 'opus'
+        },
+        {
+            title: 'Fix',
+            model: 'opus'
+        },
+    ],
 }
 
 // ---------------------------------------------------------------------------
@@ -66,12 +75,12 @@ export const meta = {
 const cfg = typeof args === 'string' ? JSON.parse(args) : args || {}
 
 const TRANSFORMATION = (cfg.transformation || '')
-  .replace(/^dev\/transformations\//, '')
-  .replace(/\/$/, '')
+    .replace(/^dev\/transformations\//, '')
+    .replace(/\/$/, '')
 if (!TRANSFORMATION) {
-  throw new Error(
-    'args.transformation is required — a folder under dev/transformations/, e.g. "mcfm-translate"'
-  )
+    throw new Error(
+        'args.transformation is required — a folder under dev/transformations/, e.g. "mcfm-translate"'
+    )
 }
 
 const DIR = `dev/transformations/${TRANSFORMATION}`
@@ -105,87 +114,123 @@ orchestrator (CodeScribe) and has nothing to do with this run.`
 // ---------------------------------------------------------------------------
 
 const RESOLVE_SCHEMA = {
-  type: 'object',
-  properties: {
-    stop: { type: 'boolean', description: 'true if there is nothing safe to do this round' },
-    stopReason: {
-      type: 'string',
-      description: 'why: gate blocked, gate errored, no ready units, or a real blocker needing a person',
-    },
-    gateChecked: {
-      type: 'boolean',
-      description: 'true if check_gate.py was run because a new group needed to be opened',
-    },
-    gateBlocked: { type: 'boolean' },
-    opened: {
-      type: 'boolean',
-      description: 'true if this round needs to open a brand-new group (gate allowed it, or no log/groups exist yet)',
-    },
-    groupId: {
-      type: 'string',
-      description: 'the existing OPEN group heading to continue, if any (omit/empty if opening a new one)',
-    },
-    units: {
-      type: 'array',
-      items: {
-        type: 'object',
-        properties: {
-          unit: { type: 'string', description: 'path or id of the thing to work on, in the vocabulary the Spec/Plan use' },
-          verify: { type: 'string', description: 'verification handle for this unit (bench/process/oracle), per the Plan/Spec, or "" if none' },
-          notes: { type: 'string' },
+    type: 'object',
+    properties: {
+        stop: {
+            type: 'boolean',
+            description: 'true if there is nothing safe to do this round'
         },
-        required: ['unit'],
-      },
+        stopReason: {
+            type: 'string',
+            description: 'why: gate blocked, gate errored, no ready units, or a real blocker needing a person',
+        },
+        gateChecked: {
+            type: 'boolean',
+            description: 'true if check_gate.py was run because a new group needed to be opened',
+        },
+        gateBlocked: {
+            type: 'boolean'
+        },
+        opened: {
+            type: 'boolean',
+            description: 'true if this round needs to open a brand-new group (gate allowed it, or no log/groups exist yet)',
+        },
+        groupId: {
+            type: 'string',
+            description: 'the existing OPEN group heading to continue, if any (omit/empty if opening a new one)',
+        },
+        units: {
+            type: 'array',
+            items: {
+                type: 'object',
+                properties: {
+                    unit: {
+                        type: 'string',
+                        description: 'path or id of the thing to work on, in the vocabulary the Spec/Plan use'
+                    },
+                    verify: {
+                        type: 'string',
+                        description: 'verification handle for this unit (bench/process/oracle), per the Plan/Spec, or "" if none'
+                    },
+                    notes: {
+                        type: 'string'
+                    },
+                },
+                required: ['unit'],
+            },
+        },
+        layerSize: {
+            type: 'integer',
+            description: 'total ready candidates in scope before the maxUnits cap'
+        },
     },
-    layerSize: { type: 'integer', description: 'total ready candidates in scope before the maxUnits cap' },
-  },
-  required: ['stop', 'units'],
+    required: ['stop', 'units'],
 }
 
 const BUNDLE_SCHEMA = {
-  type: 'object',
-  properties: {
-    groupId: { type: 'string', description: 'the heading text now in effect for this round\'s units' },
-    written: { type: 'boolean' },
-  },
-  required: ['written', 'groupId'],
+    type: 'object',
+    properties: {
+        groupId: {
+            type: 'string',
+            description: 'the heading text now in effect for this round\'s units'
+        },
+        written: {
+            type: 'boolean'
+        },
+    },
+    required: ['written', 'groupId'],
 }
 
 const AUTHOR_SCHEMA = {
-  type: 'object',
-  properties: {
-    unit: { type: 'string' },
-    done: { type: 'string', enum: ['yes', 'deferred', 'failed'] },
-    notes: { type: 'string', description: 'missing shared symbol, deferral reason, or suspected mistake' },
-  },
-  required: ['unit', 'done'],
+    type: 'object',
+    properties: {
+        unit: {
+            type: 'string'
+        },
+        done: {
+            type: 'string',
+            enum: ['yes', 'deferred', 'failed']
+        },
+        notes: {
+            type: 'string',
+            description: 'missing shared symbol, deferral reason, or suspected mistake'
+        },
+    },
+    required: ['unit', 'done'],
 }
 
 const INTEGRATE_SCHEMA = {
-  type: 'object',
-  properties: {
-    verifyOk: { type: 'boolean', description: 'true if the Spec\'s correctness-bar command(s) passed for this round\'s units' },
-    rows: {
-      type: 'array',
-      items: {
-        type: 'object',
-        properties: {
-          unit: { type: 'string' },
-          status: {
-            type: 'string',
-            description: 'the EXACT status word from the Spec\'s own vocabulary — never invented, never a status the Spec reserves for a human',
-          },
-          notes: { type: 'string' },
+    type: 'object',
+    properties: {
+        verifyOk: {
+            type: 'boolean',
+            description: 'true if the Spec\'s correctness-bar command(s) passed for this round\'s units'
         },
-        required: ['unit', 'status'],
-      },
+        rows: {
+            type: 'array',
+            items: {
+                type: 'object',
+                properties: {
+                    unit: {
+                        type: 'string'
+                    },
+                    status: {
+                        type: 'string',
+                        description: 'the EXACT status word from the Spec\'s own vocabulary — never invented, never a status the Spec reserves for a human',
+                    },
+                    notes: {
+                        type: 'string'
+                    },
+                },
+                required: ['unit', 'status'],
+            },
+        },
+        groupClosed: {
+            type: 'boolean',
+            description: 'true only if EVERY unit in the full group (not just this round) now has a non-FAILED status',
+        },
     },
-    groupClosed: {
-      type: 'boolean',
-      description: 'true only if EVERY unit in the full group (not just this round) now has a non-FAILED status',
-    },
-  },
-  required: ['verifyOk', 'rows'],
+    required: ['verifyOk', 'rows'],
 }
 
 // ---------------------------------------------------------------------------
@@ -241,15 +286,21 @@ Return ONLY the structured object. Do not edit any file and do not author/transl
 up/port anything yet.`
 
 const resolved = await agent(resolvePrompt, {
-  label: 'resolve',
-  phase: 'Resolve',
-  schema: RESOLVE_SCHEMA,
-  model: RESOLVE_MODEL,
+    label: 'resolve',
+    phase: 'Resolve',
+    schema: RESOLVE_SCHEMA,
+    model: RESOLVE_MODEL,
 })
 
 if (!resolved || resolved.stop || !resolved.units?.length) {
-  log(`Resolve: ${resolved?.stopReason || 'nothing to do this round'}.`)
-  return { transformation: TRANSFORMATION, resolved, bundled: null, authored: [], integrated: null }
+    log(`Resolve: ${resolved?.stopReason || 'nothing to do this round'}.`)
+    return {
+        transformation: TRANSFORMATION,
+        resolved,
+        bundled: null,
+        authored: [],
+        integrated: null
+    }
 }
 
 // ---------------------------------------------------------------------------
@@ -281,18 +332,18 @@ Return the heading text now in effect as groupId, and written=true once the log 
 reflects these units.`
 
 const bundled = await agent(bundlePrompt, {
-  label: 'bundle',
-  phase: 'Bundle',
-  schema: BUNDLE_SCHEMA,
-  model: RESOLVE_MODEL,
+    label: 'bundle',
+    phase: 'Bundle',
+    schema: BUNDLE_SCHEMA,
+    model: RESOLVE_MODEL,
 })
 const GROUP = bundled?.groupId || resolved.groupId || '(unlabeled group)'
 
 log(
-  `${resolved.opened ? 'Opened' : 'Continuing'} ${GROUP}: ${resolved.units.length} unit(s) this round` +
-    (resolved.layerSize > resolved.units.length
-      ? ` (${resolved.layerSize} ready in scope "${SCOPE}" — raise maxUnits to widen)`
-      : '') +
+    `${resolved.opened ? 'Opened' : 'Continuing'} ${GROUP}: ${resolved.units.length} unit(s) this round` +
+    (resolved.layerSize > resolved.units.length ?
+        ` (${resolved.layerSize} ready in scope "${SCOPE}" — raise maxUnits to widen)` :
+        '') +
     '.'
 )
 
@@ -325,22 +376,28 @@ ${u.notes ? `Resolve notes: ${u.notes}` : ''}
 Return ONE structured row. No file contents.`
 
 const authored = await parallel(
-  resolved.units.map((u) => () =>
-    agent(authorPrompt(u), {
-      label: `author:${u.unit}`,
-      phase: 'Author',
-      schema: AUTHOR_SCHEMA,
-      model: AUTHOR_MODEL,
-    })
-  )
+    resolved.units.map((u) => () =>
+        agent(authorPrompt(u), {
+            label: `author:${u.unit}`,
+            phase: 'Author',
+            schema: AUTHOR_SCHEMA,
+            model: AUTHOR_MODEL,
+        })
+    )
 )
 const ok = authored.filter(Boolean).filter((r) => r.done === 'yes')
 const notOk = authored.filter(Boolean).filter((r) => r.done !== 'yes')
 log(`Authored ${ok.length}/${resolved.units.length}.` + (notOk.length ? ` ${notOk.length} deferred/failed.` : ''))
 
 if (!ok.length) {
-  log('Nothing authored successfully; skipping integrate.')
-  return { transformation: TRANSFORMATION, resolved, bundled, authored, integrated: null }
+    log('Nothing authored successfully; skipping integrate.')
+    return {
+        transformation: TRANSFORMATION,
+        resolved,
+        bundled,
+        authored,
+        integrated: null
+    }
 }
 
 // ---------------------------------------------------------------------------
@@ -380,11 +437,15 @@ EVERY unit currently listed under group "${GROUP}" in ${LOG} (not just this roun
 now has a non-FAILED status.`
 
 let integrated = await agent(
-  integratePrompt(
-    ok.map((r) => r.unit),
-    authored.map((r) => r?.notes).filter(Boolean)
-  ),
-  { label: 'integrate', phase: 'Integrate', schema: INTEGRATE_SCHEMA, model: INTEGRATE_MODEL }
+    integratePrompt(
+        ok.map((r) => r.unit),
+        authored.map((r) => r?.notes).filter(Boolean)
+    ), {
+        label: 'integrate',
+        phase: 'Integrate',
+        schema: INTEGRATE_SCHEMA,
+        model: INTEGRATE_MODEL
+    }
 )
 
 // ---------------------------------------------------------------------------
@@ -392,13 +453,13 @@ let integrated = await agent(
 // ---------------------------------------------------------------------------
 
 for (let round = 1; round <= FIXROUNDS; round++) {
-  const failedRows = (integrated?.rows || []).filter((r) => r.status === 'FAILED')
-  if (!failedRows.length) break
+    const failedRows = (integrated?.rows || []).filter((r) => r.status === 'FAILED')
+    if (!failedRows.length) break
 
-  phase('Fix')
-  log(`Fix round ${round}/${FIXROUNDS}: escalating ${failedRows.length} FAILED unit(s) to ${FIX_MODEL}.`)
+    phase('Fix')
+    log(`Fix round ${round}/${FIXROUNDS}: escalating ${failedRows.length} FAILED unit(s) to ${FIX_MODEL}.`)
 
-  const fixPrompt = (r) => `Repair the FAILED "${TRANSFORMATION}" unit \`${r.unit}\`. ${NOTES}
+    const fixPrompt = (r) => `Repair the FAILED "${TRANSFORMATION}" unit \`${r.unit}\`. ${NOTES}
 Integrate's symptom: ${r.notes || "(diagnose from source and the Spec's silent-traps / conservative-fallback guidance)"}.
 
 READ ${SPEC} first; compare against a verified sibling unit. Edit ONLY this unit's own
@@ -409,34 +470,39 @@ guessing.
 
 Return ONE row: unit | done(yes/deferred/failed) | notes (what changed and why).`
 
-  const repaired = (
-    await parallel(
-      failedRows.map((r) => () =>
-        agent(fixPrompt(r), { label: `fix:${r.unit}`, phase: 'Fix', schema: AUTHOR_SCHEMA, model: FIX_MODEL })
-      )
-    )
-  ).filter(Boolean)
+    const repaired = (
+        await parallel(
+            failedRows.map((r) => () =>
+                agent(fixPrompt(r), {
+                    label: `fix:${r.unit}`,
+                    phase: 'Fix',
+                    schema: AUTHOR_SCHEMA,
+                    model: FIX_MODEL
+                })
+            )
+        )
+    ).filter(Boolean)
 
-  const refixUnits = repaired.filter((r) => r.done === 'yes').map((r) => r.unit)
-  if (!refixUnits.length) {
-    log('Fix produced no repaired units; ending escalation.')
-    break
-  }
+    const refixUnits = repaired.filter((r) => r.done === 'yes').map((r) => r.unit)
+    if (!refixUnits.length) {
+        log('Fix produced no repaired units; ending escalation.')
+        break
+    }
 
-  const reInt = await agent(integratePrompt(refixUnits, []), {
-    label: `re-integrate:r${round}`,
-    phase: 'Integrate',
-    schema: INTEGRATE_SCHEMA,
-    model: INTEGRATE_MODEL,
-  })
+    const reInt = await agent(integratePrompt(refixUnits, []), {
+        label: `re-integrate:r${round}`,
+        phase: 'Integrate',
+        schema: INTEGRATE_SCHEMA,
+        model: INTEGRATE_MODEL,
+    })
 
-  const byUnit = new Map((integrated?.rows || []).map((r) => [r.unit, r]))
-  for (const r of reInt?.rows || []) byUnit.set(r.unit, r)
-  integrated = {
-    verifyOk: reInt?.verifyOk ?? integrated?.verifyOk,
-    rows: [...byUnit.values()],
-    groupClosed: reInt?.groupClosed ?? integrated?.groupClosed,
-  }
+    const byUnit = new Map((integrated?.rows || []).map((r) => [r.unit, r]))
+    for (const r of reInt?.rows || []) byUnit.set(r.unit, r)
+    integrated = {
+        verifyOk: reInt?.verifyOk ?? integrated?.verifyOk,
+        rows: [...byUnit.values()],
+        groupClosed: reInt?.groupClosed ?? integrated?.groupClosed,
+    }
 }
 
 // ---------------------------------------------------------------------------
@@ -448,18 +514,18 @@ const failed = rows.filter((r) => r.status === 'FAILED')
 const settled = rows.filter((r) => r.status !== 'FAILED')
 
 log(
-  `Round complete: ${settled.length} settled, ${failed.length} FAILED in ${GROUP}. ` +
-    (integrated?.groupClosed
-      ? `Group is complete — needs human approval (approve_group.py) before the next group can open.`
-      : 'Group still open — the next run continues it.')
+    `Round complete: ${settled.length} settled, ${failed.length} FAILED in ${GROUP}. ` +
+    (integrated?.groupClosed ?
+        `Group is complete — needs human approval (approve_group.py) before the next group can open.` :
+        'Group still open — the next run continues it.')
 )
 
 return {
-  transformation: TRANSFORMATION,
-  scope: SCOPE,
-  group: GROUP,
-  resolved,
-  bundled,
-  authored,
-  integrated,
+    transformation: TRANSFORMATION,
+    scope: SCOPE,
+    group: GROUP,
+    resolved,
+    bundled,
+    authored,
+    integrated,
 }

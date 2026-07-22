@@ -39,6 +39,31 @@ python3 dev/workflow.py kokkos validate dev/tools/kokkos/validator_skeleton.cpp
 
 The low-level scripts under `dev/tools/` still exist, but `dev/workflow.py` is the preferred human- and agent-facing entrypoint.
 
+Typical happy paths:
+
+```bash
+# Step 1: Fortran -> C++
+python3 dev/workflow.py refresh
+python3 dev/workflow.py status
+python3 dev/workflow.py next mcfm-translate
+python3 dev/workflow.py draft software/mcfm/src/.../file.f
+python3 dev/workflow.py verify software/mcfm/src/.../file.cpp -- u u~ e- e+
+python3 dev/workflow.py gate mcfm-translate
+
+# Cleanup pass
+python3 dev/workflow.py refresh
+python3 dev/workflow.py next mcfm-cleanup
+python3 dev/workflow.py cleanup report
+python3 dev/workflow.py gate mcfm-cleanup
+
+# Step 2: C++ -> Kokkos
+python3 dev/workflow.py next pepper-kokkos-port
+python3 dev/workflow.py closure qqb_z
+python3 dev/workflow.py kokkos draft software/mcfm/src/.../file.cpp
+python3 dev/workflow.py kokkos validate dev/tools/kokkos/validator_skeleton.cpp
+python3 dev/workflow.py gate pepper-kokkos-port
+```
+
 ## What the demo does
 
 The demo rewrites MCFM, a physics code, in two steps. A person checks the result after
