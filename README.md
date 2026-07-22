@@ -52,12 +52,12 @@ Plan. The same runner works for any step; you just point it at a different folde
    code-scribe loop dev/transformations/<name>/loop.toml -m <model> --<options>
    ```
 
-   - Step 1: `code-scribe loop dev/transformations/fortran-to-cpp/loop.toml -m <model>`.
+   - Step 1: `code-scribe loop dev/transformations/mcfm-translate/loop.toml -m <model>`.
      CodeScribe reads the Plan and Spec, writes its `agent_checklist.md`, finds the files that
      are ready, rewrites them one at a time, and checks its work. Check a run with
      `jobrunner submit tests/mcfm`.
 
-   - Step 2: `code-scribe loop dev/transformations/cpp-to-kokkos/loop.toml -m <model>`.
+   - Step 2: `code-scribe loop dev/transformations/pepper-kokkos-port/loop.toml -m <model>`.
      This rewrites the C++ files a person already approved in step 1. Check with
      `jobrunner submit tests/pepper`.
 
