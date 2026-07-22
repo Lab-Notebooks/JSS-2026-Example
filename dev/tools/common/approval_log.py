@@ -57,10 +57,32 @@ def load_toml(path: Path) -> dict:
     return data
 
 
-def load_approved_groups(path: Path) -> set[str]:
+def load_approval_records(path: Path) -> list[dict]:
     data = load_toml(path)
-    approved = set()
+    records = []
     for item in data.get("approval", []):
+        if item.get("group"):
+            records.append(dict(item))
+    return records
+
+
+def approvals_for_group(path: Path, group: str) -> list[dict]:
+    return [item for item in load_approval_records(path) if str(item.get("group")) == group]
+
+
+def latest_approval_for_group(path: Path, group: str) -> dict | None:
+    matches = approvals_for_group(path, group)
+    return matches[-1] if matches else None
+
+
+def latest_approved_record(path: Path) -> dict | None:
+    approved = [item for item in load_approval_records(path) if item.get("decision") == "approved"]
+    return approved[-1] if approved else None
+
+
+def load_approved_groups(path: Path) -> set[str]:
+    approved = set()
+    for item in load_approval_records(path):
         if item.get("decision") == "approved" and item.get("group"):
             approved.add(str(item["group"]))
     return approved

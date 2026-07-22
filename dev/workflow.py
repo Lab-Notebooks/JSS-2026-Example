@@ -33,7 +33,14 @@ TRANSFORMATIONS = {
 COMMON = TOOLS / "common"
 if str(COMMON) not in sys.path:
     sys.path.insert(0, str(COMMON))
-from approval_log import is_complete, is_open, load_approved_groups, parse_groups
+from approval_log import (
+    approvals_for_group,
+    is_complete,
+    is_open,
+    latest_approved_record,
+    load_approved_groups,
+    parse_groups,
+)
 
 
 def run(cmd: list[str]) -> int:
@@ -165,6 +172,17 @@ def cmd_gate(args: argparse.Namespace) -> int:
     ])
 
 
+def _print_approval_record(record: dict) -> None:
+    print(f"group: {record.get('group', '')}")
+    print(f"decision: {record.get('decision', '')}")
+    if record.get("by"):
+        print(f"by: {record['by']}")
+    if record.get("date"):
+        print(f"date: {record['date']}")
+    if record.get("review_note"):
+        print(f"review_note: {record['review_note']}")
+
+
 def cmd_approve(args: argparse.Namespace) -> int:
     cmd = [
         sys.executable,
@@ -173,6 +191,34 @@ def cmd_approve(args: argparse.Namespace) -> int:
         *args.args,
     ]
     return run(cmd)
+
+
+def cmd_approvals(args: argparse.Namespace) -> int:
+    tdir = transformation_dir(args.transformation)
+    approvals_path = tdir / "approvals.toml"
+
+    if args.group:
+        records = approvals_for_group(approvals_path, args.group)
+    elif args.latest_approved:
+        record = latest_approved_record(approvals_path)
+        records = [record] if record else []
+    else:
+        from approval_log import load_approval_records
+        records = load_approval_records(approvals_path)
+
+    if args.json:
+        print(json.dumps(records, indent=2))
+        return 0
+
+    if not records:
+        print("no matching approval records")
+        return 0
+
+    for idx, record in enumerate(records):
+        if idx:
+            print()
+        _print_approval_record(record)
+    return 0
 
 
 def cmd_draft(args: argparse.Namespace) -> int:
@@ -224,6 +270,13 @@ def build_parser() -> argparse.ArgumentParser:
     p.add_argument("transformation", choices=sorted(TRANSFORMATIONS))
     p.add_argument("args", nargs=argparse.REMAINDER, help="arguments forwarded to approve_group.py")
     p.set_defaults(func=cmd_approve)
+
+    p = sub.add_parser("approvals", help="show approval records and review notes for a transformation")
+    p.add_argument("transformation", choices=sorted(TRANSFORMATIONS))
+    p.add_argument("--group", help="show approval records for one group title")
+    p.add_argument("--latest-approved", action="store_true", help="show the most recent approved record")
+    p.add_argument("--json", action="store_true", help="emit approval records as JSON")
+    p.set_defaults(func=cmd_approvals)
 
     p = sub.add_parser("draft", help="create a stage-1 draft")
     p.add_argument("args", nargs=argparse.REMAINDER, help="arguments forwarded to scribe_draft.py")

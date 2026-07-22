@@ -27,25 +27,25 @@ Review groups live under headings starting with `Group` in `agent_log.md`. Human
 recorded with:
 
 ```
-python3 dev/tools/approve/approve_group.py dev/transformations/mcfm-cleanup --latest-blocking
+python3 dev/workflow.py approve mcfm-cleanup --latest-blocking
 ```
 
 or, to approve the oldest pending completed group,
 
 ```
-python3 dev/tools/approve/approve_group.py dev/transformations/mcfm-cleanup --latest
+python3 dev/workflow.py approve mcfm-cleanup --latest
 ```
 
 or, for an explicit group,
 
 ```
-python3 dev/tools/approve/approve_group.py dev/transformations/mcfm-cleanup "Group ..." --by <name>
+python3 dev/workflow.py approve mcfm-cleanup "Group ..." --by <name>
 ```
 
 Use the gate only when deciding whether to start a new group:
 
 ```
-python3 dev/tools/approve/check_gate.py dev/transformations/mcfm-cleanup
+python3 dev/workflow.py gate mcfm-cleanup
 ```
 
 Interpret it this way:
@@ -56,13 +56,19 @@ Interpret it this way:
 - A gate failure blocks new-group creation, not builds, fixes, or verification inside the
   current open group.
 - The gate checks only whether a group is approved; it does not interpret `approvals.toml`
-  `note` text.
+  `review_note` text.
 - After a group is approved, agents should read any matching approval record in
   `approvals.toml` before continuing work related to that group.
-- Treat approval notes as binding human guidance for that group unless a later human
+- Treat review notes as binding human guidance for that group unless a later human
   instruction supersedes them.
-- If an approval note changes scope or forbids an action, reflect that in the current work
-  and logs rather than silently ignoring it.
+- If a review note changes scope or forbids an action, revise that same approved group
+  rather than opening a replacement group just to apply the review note.
+- A revision keeps the original approval logic unchanged: the group remains the same group,
+  but the agent must update code and `agent_log.md` so the final recorded outcome matches the
+  approved human guidance.
+- If a review note conflicts with an already-logged result, treat the group as follow-up work
+  in place: fix the affected files, update that group's entries, and add a session-log note
+  describing the revision before starting unrelated new-group work.
 
 Stop for human review only when the gate blocks the next group.
 
@@ -84,6 +90,10 @@ Run these from the project root. Prefer the unified workflow interface:
   - show pending completed groups waiting for approval
 - `python3 dev/workflow.py approve mcfm-cleanup "Group ..." --by <name>`
   - record a human approval for a specific group in `approvals.toml`
+- `python3 dev/workflow.py approvals mcfm-cleanup --group "Group ..."`
+  - show the approval record, including any review note, for a specific group
+- `python3 dev/workflow.py approvals mcfm-cleanup --latest-approved`
+  - show the most recent approved group and its review note for revision follow-up
 - `jobrunner submit tests/mcfm`
   - full MCFM build + benchmark run after cleanup edits
 
@@ -114,7 +124,9 @@ still part of an active Fortran call path.
    - replace translation-era local forward declarations with proper header includes when a reusable interface exists
    - update local `CMakeLists.txt` or includes as needed
 6. After a group is completed, check the gate before opening the next one.
-7. After any required approval, refresh the roadmap again before picking more work.
+7. After any required approval, inspect the approval record for the relevant group and revise
+   that same group in place if the note changes the required outcome.
+8. After approval-driven revisions are reconciled, refresh the roadmap again before picking more work.
 
 ## Decision rules
 

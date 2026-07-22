@@ -2,16 +2,16 @@
 """Record a human approval for a completed review group.
 
 Usage:
-  python3 dev/tools/approve/approve_group.py <transformation-dir> [<group-title>] [--by <name>] [--note <text>] [--force]
-  python3 dev/tools/approve/approve_group.py <transformation-dir> --latest [--by <name>] [--note <text>] [--force]
+  python3 dev/tools/approve/approve_group.py <transformation-dir> [<group-title>] [--by <name>] [--review-note <text>] [--force]
+  python3 dev/tools/approve/approve_group.py <transformation-dir> --latest [--by <name>] [--review-note <text>] [--force]
   python3 dev/tools/approve/approve_group.py <transformation-dir> --list-pending
-  python3 dev/tools/approve/approve_group.py <transformation-dir> --latest-blocking [--by <name>] [--note <text>] [--force]
+  python3 dev/tools/approve/approve_group.py <transformation-dir> --latest-blocking [--by <name>] [--review-note <text>] [--force]
 
 Examples:
   python3 dev/tools/approve/approve_group.py dev/transformations/mcfm-cleanup --list-pending
   python3 dev/tools/approve/approve_group.py dev/transformations/mcfm-cleanup --latest
   python3 dev/tools/approve/approve_group.py dev/transformations/mcfm-cleanup --latest-blocking
-  python3 dev/tools/approve/approve_group.py dev/transformations/mcfm-cleanup "Group 1 — Mods/ Fortran bridge modules" --by Akash
+  python3 dev/tools/approve/approve_group.py dev/transformations/mcfm-cleanup "Group 1 — Mods/ Fortran bridge modules" --by Akash --review-note "revise kept header"
 """
 from __future__ import annotations
 
@@ -46,7 +46,7 @@ def parse_args() -> argparse.Namespace:
     p.add_argument("transformation_dir")
     p.add_argument("group_title", nargs="?")
     p.add_argument("--by", default=os.environ.get("USER", ""))
-    p.add_argument("--note", default="")
+    p.add_argument("--review-note", default="")
     p.add_argument("--force", action="store_true")
     p.add_argument("--latest", action="store_true", help="approve the oldest pending completed group")
     p.add_argument("--latest-blocking", action="store_true", help="approve the exact group currently blocking the gate")
@@ -77,9 +77,9 @@ def dump_toml(data: dict) -> str:
         out.append(f'date = {toml_string(item["date"])}')
         out.append(f'by = {toml_string(item["by"])}')
         out.append(f'decision = {toml_string(item.get("decision", "approved"))}')
-        note = item.get("note", "")
-        if note:
-            out.append(f'note = {toml_string(note)}')
+        review_note = item.get("review_note", "")
+        if review_note:
+            out.append(f'review_note = {toml_string(review_note)}')
         out.append("")
     return "\n".join(out).rstrip() + "\n"
 
@@ -141,7 +141,7 @@ def main() -> int:
             "date": str(date.today()),
             "by": args.by,
             "decision": "approved",
-            "note": args.note,
+            "review_note": args.review_note,
         }
     )
     approvals_path.write_text(dump_toml(data), encoding="utf-8")
