@@ -17,7 +17,7 @@ The rest of this page shows how to run the demo.
 
 ## Streamlined workflow interface
 
-The preferred interface for workflow helpers is now a single command:
+The preferred interface for workflow helpers is through a shared command line:
 
 ```
 python3 dev/workflow.py <command>
