@@ -3,6 +3,10 @@
 This file says how to run the cleanup pass after Fortran-to-C++ translation work. The cleanup
 rules and correctness bar are in `desired_spec.md`.
 
+> This Plan is the policy: it selects and orders the work over the ready set (see *When to
+> stop*). The correctness contract — objective `f`, invariants `I`, oracle `V`, and status set
+> `Σ` — lives in `desired_spec.md`; on conflict the Spec governs.
+
 ## Log file
 
 Keep the changing worklist in `agent_log.md` in this folder. Create it if missing and
@@ -207,10 +211,12 @@ Interpret results as:
 
 ## When to stop
 
-Stop only when one of these is true:
+The *ready set* is the set of ready, not-yet-settled units. Each settled unit leaves the
+ready set and the readiness graph is acyclic, so the pass terminates. Stop only when one of
+these is true:
 
 - a completed group needs human approval before the next group can start
-- there is no safe cleanup to apply
+- the ready set is empty (only `KEPT_*` fixpoints remain)
 - a real blocker requires a person
 
 Otherwise continue editing, building, testing, and verifying.

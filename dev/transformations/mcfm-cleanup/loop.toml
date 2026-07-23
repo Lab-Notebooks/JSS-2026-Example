@@ -8,6 +8,9 @@ bash = ["jobrunner", "python3"]
 
 [[chat.user]]
 content = '''
+This loop drives the policy in current_plan.md; desired_spec.md holds the correctness contract
+(objective, invariants, oracle, and status set Σ). On conflict, the Spec governs.
+
 Read, in order:
 1. dev/transformations/mcfm-cleanup/current_plan.md
 2. dev/transformations/mcfm-cleanup/desired_spec.md

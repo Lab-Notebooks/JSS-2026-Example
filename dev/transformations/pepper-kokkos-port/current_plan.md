@@ -3,6 +3,10 @@
 This file says how to run step 2. The kernel contract and correctness bar are in
 `desired_spec.md`.
 
+> This Plan is the policy: it selects and orders the work over the ready set (see *When to
+> stop*). The correctness contract — objective `f`, invariants `I`, oracle `V`, and status set
+> `Σ` — lives in `desired_spec.md`; on conflict the Spec governs.
+
 ## Log file
 
 Keep the changing worklist in `agent_log.md` in this folder. Create it if missing and
@@ -134,6 +138,16 @@ If the closure is too large for one pass:
    the join, not the frozen pieces.
 
 The desired split layout is defined in the Spec.
+
+## When to stop
+
+The *ready set* is the set of ready, not-yet-settled amplitudes (closure in C++ and its
+step-1 files `VERIFIED`). Each settled amplitude leaves the ready set and the readiness graph
+is acyclic, so the pass terminates. Stop only when one of these is true:
+
+- a completed group needs human approval before the next group can start
+- the ready set is empty (no ready amplitude to work on)
+- a real blocker requires a person
 
 ## Shell notes
 

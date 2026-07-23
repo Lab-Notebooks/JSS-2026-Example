@@ -1,8 +1,1 @@
 version = 1
-
-[[approval]]
-group = "Group 1 — ThreeJets"
-date = "2026-07-22"
-by = "akash"
-decision = "approved"
-review_note = "src/ThreeJets/qqb_thrjet_v.hpp should not be deleted"

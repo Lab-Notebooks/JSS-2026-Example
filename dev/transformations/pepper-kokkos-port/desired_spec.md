@@ -13,6 +13,35 @@ human step.
 
 ---
 
+## Contract
+
+This step advances by *settling* amplitudes one at a time: each amplitude is ported, then
+recorded in `agent_log.md` with a status `σ` once the oracle `V` confirms the invariants `I`
+still hold. An amplitude is ready when its full C++ closure is in place and step-1 verified.
+
+Objective `f`. Port every ready amplitude to a Kokkos kernel matching MCFM. Progress =
+amplitudes TRANSLATED among those whose step-1 closure is VERIFIED.
+
+Invariants `I` (hold after every settled unit):
+
+- Matches `libmcfm` to 1e-10 relative; existing Pepper tests pass.
+- Amplitude structure preserved; no independent physics revalidation is claimed.
+
+Oracle `V`. `jobrunner submit tests/pepper`, compared block-by-block against `libmcfm`.
+
+Status set `Σ`.
+
+| σ          | class | reversible | runner sets | evidence in log   |
+|------------|-------|------------|-------------|-------------------|
+| TRANSLATED | good  | yes        | yes         | maxRelErr ≤ 1e-10 |
+| VERIFIED   | good  | yes        | no          | human doctest     |
+| FAILED     | bad   | —          | yes         | symptom           |
+
+Risky `σ` = FAILED. A runner never sets VERIFIED. Up to 2 completed groups may accumulate
+before approval. The sections below elaborate this contract; on conflict the contract governs.
+
+---
+
 ## Kernel shape
 
 - Use `C = Kokkos::complex<double>` from `../math.h`; imaginary unit `C(0,1)`.
@@ -68,11 +97,8 @@ Correctness for step 2 means **matches MCFM**, not independent physics revalidat
 While authoring, compare block by block against `libmcfm` and target **1e-10** relative error
 for the final kernel.
 
-- **TRANSLATED** — matches `libmcfm`, builds, and existing Pepper tests pass.
-- **VERIFIED** — a human-added Pepper doctest reproduces frozen reference numbers.
-- **FAILED** — cannot be made to match `libmcfm`.
-
-A runner never marks `VERIFIED`. Record results in `agent_log.md`, not here.
+The status set `Σ`, its classes, reversibility, and required evidence are defined once in the
+`## Contract` above (a runner never sets `VERIFIED`). Record results in `agent_log.md`, not here.
 
 ## References
 

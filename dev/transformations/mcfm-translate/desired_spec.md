@@ -7,6 +7,36 @@ Paths are written as `software/mcfm/src/...`.
 
 ---
 
+## Contract
+
+This step advances by *settling* source files one at a time: each file is rewritten, then
+recorded in `agent_log.md` with a status `σ` once the oracle `V` confirms the invariants `I`
+still hold. A file is ready when its callees are already available in C++.
+
+Objective `f`. Translate every source file to verified C++. Progress = fraction VERIFIED of
+translatable files (`python3 dev/workflow.py status`).
+
+Invariants `I` (hold after every settled unit):
+
+- The restored build passes and matches to 1e-13.
+- No called symbol is invented; each `.cpp` includes its own header; cross-unit calls go
+  through headers, not translation-era forward declarations.
+
+Oracle `V`. `jobrunner submit tests/mcfm` + coverage probe (`python3 dev/workflow.py verify`).
+
+Status set `Σ`.
+
+| σ          | class | reversible | runner sets | evidence in log              |
+|------------|-------|------------|-------------|------------------------------|
+| VERIFIED   | good  | yes        | yes         | covered + worst Δrel ≤ 1e-13 |
+| TRANSLATED | good  | yes        | yes         | build pass (not covered)     |
+| FAILED     | bad   | —          | yes         | symptom                      |
+
+Risky `σ` = FAILED. Up to 3 completed groups may accumulate before approval. The sections
+below elaborate this contract; on conflict the contract governs.
+
+---
+
 ## Output shape
 
 One Fortran file becomes one C++ translation unit set, and the folder's `CMakeLists.txt` swaps
@@ -96,9 +126,5 @@ This mapping is also built into `dev/tools/index/build_roadmap.py`.
 A passing MCFM test must match to **1e-13**. That alone is not enough: the test must also be
 shown to exercise the rewritten file via `dev/tools/coverage/coverage_check.py`.
 
-- **VERIFIED** — the coverage check shows the test exercised the file, and the restored build
-  still matches.
-- **TRANSLATED** — the file builds, but no test has been shown to exercise it.
-- **FAILED** — the numbers disagree after checking.
-
-Record results in `agent_log.md`, not here.
+The status set `Σ`, its classes, reversibility, and required evidence are defined once in the
+`## Contract` above. Record results in `agent_log.md`, not here.

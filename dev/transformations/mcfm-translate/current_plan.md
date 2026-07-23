@@ -3,6 +3,10 @@
 This file says how to run step 1. The rewrite rules and correctness bar are in
 `desired_spec.md`.
 
+> This Plan is the policy: it selects and orders the work over the ready set (see *When to
+> stop*). The correctness contract — objective `f`, invariants `I`, oracle `V`, and status set
+> `Σ` — lives in `desired_spec.md`; on conflict the Spec governs.
+
 ## Log file
 
 Keep the changing worklist in `agent_log.md` in this folder. Create it if missing and
@@ -148,10 +152,12 @@ start of a later group.
 
 ## When to stop
 
-Stop only when one of these is true:
+The *ready set* is the set of ready, not-yet-settled files. Each settled file leaves the
+ready set and the readiness graph is acyclic, so the pass terminates. Stop only when one of
+these is true:
 
 - a completed group needs human approval before the next group can start
-- there is no ready file to work on
+- the ready set is empty (no ready file to work on)
 - a real blocker requires a person
 
 Otherwise continue editing, building, testing, and verifying.

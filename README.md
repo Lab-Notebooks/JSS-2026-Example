@@ -90,6 +90,39 @@ working file. Human approvals live separately in `approvals.toml`, which a perso
 through the approval helper command rather than by editing the agent log. The same runner
 works for any step; you just point it at a different folder.
 
+## The method, formally
+
+Each step is an optimization over a repository `R`, advanced by *settling* units `u` — the
+atoms of work (a source file, a translated family, an amplitude). Three quantities are
+computed or checked, never guessed:
+
+- Readiness `ρ(u)` — a unit is ready once its dependencies are settled (from the dependency
+  graph in `dev/tools/index/build_roadmap.py`).
+- Oracle `V(u)` — the correctness bar; the only source of truth for "correct."
+- Status `σ(u) ∈ Σ` — the outcome recorded for a settled unit. `Σ` is fixed per step (the
+  Spec's status contract); each `σ` has a class (good / bad) and a reversibility, and a bad or
+  irreversible `σ` is risky.
+
+The runner performs a constrained search over the *ready set* (ready, not-yet-settled units):
+
+> maximize progress `f(R)` — units in a good status — subject to the invariants `I` holding
+> after every settled unit, acting only on ready units, until the ready set is empty (the
+> fixpoint).
+
+Because each settled unit leaves the ready set and `ρ` is acyclic, the search terminates.
+Human review is the gate (the control law): completed groups may accumulate up to a batch
+limit before approval, and a risky `σ` requires approval at once.
+
+The three plain files are the three parts of this problem:
+
+| file | role | owner |
+|------|------|-------|
+| Spec `desired_spec.md` | objective `f`, invariants `I`, oracle `V`, status set `Σ` — the *what* | human |
+| Plan `current_plan.md` | the policy: which ready unit to act on, and how to group — the *how* | human |
+| Log `agent_log.md` | the state and its certificate: each `σ(u)` with the `V` evidence that earned it — the *record* | AI |
+
+Approvals are the gate's input, recorded in `approvals.toml`.
+
 ## How to run it
 
 1. **Set up your machine.** Put your machine's name in `config.sh`, add a

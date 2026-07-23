@@ -7,6 +7,40 @@ Paths are written as `software/mcfm/src/...`.
 
 ---
 
+## Contract
+
+This pass advances by *settling* cleanup targets one at a time: each target is edited, then
+recorded in `agent_log.md` with a status `σ` once the oracle `V` confirms the invariants `I`
+still hold. A target is ready when its dependencies are already settled.
+
+Objective `f`. Minimize translation-era bloat (original sources, `_fi` shims, tiny wrappers,
+ad hoc forward declarations) subject to `I`. Progress = the `move` / `shim-delete` / `merge`
+counts from `python3 dev/workflow.py status`.
+
+Invariants `I` (hold after every settled unit):
+
+- `jobrunner submit tests/mcfm` passes.
+- No called symbol is invented; no build reference is left dangling.
+- On insufficient dependency-graph evidence, take the conservative `KEPT_*` action.
+
+Oracle `V`. `jobrunner submit tests/mcfm`; for graph-sensitive edits, `python3 dev/workflow.py refresh`.
+
+Status set `Σ`.
+
+| σ            | class | reversible | runner sets | evidence in log        |
+|--------------|-------|------------|-------------|------------------------|
+| MOVED        | good  | yes        | yes         | build pass             |
+| KEPT_SHIM    | good  | yes        | yes         | surviving caller cited |
+| KEPT_SPLIT   | good  | yes        | yes         | reason                 |
+| DELETED_SHIM | good  | no         | yes         | graph + build pass     |
+| MERGED_CPP   | good  | no         | yes         | build pass             |
+| FAILED       | bad   | —          | yes         | symptom                |
+
+Risky `σ` (⇒ approval before the next group) = bad or irreversible: DELETED_SHIM, MERGED_CPP,
+FAILED. The sections below elaborate this contract; on conflict the contract governs.
+
+---
+
 ## Goal
 
 Reduce translation-era bloat in the MCFM port while preserving behavior and buildability.
@@ -189,12 +223,6 @@ state is consistent with the cleanup decision.
 
 ### Status meanings
 
-- **MOVED** — original Fortran source archived to `deprecated/`; translated path remains active
-- **DELETED_SHIM** — `_fi` compatibility shim removed and verified unnecessary
-- **KEPT_SHIM** — shim retained because an active caller/boundary may still need it
-- **MERGED_CPP** — translated headers/sources reorganized into a cleaner combined C++ layout and verified
-- **KEPT_SPLIT** — split retained because the interface is still meaningfully reused or required
-- **FAILED** — attempted cleanup broke build/test expectations or the dependency evidence was not
-  sufficient to proceed safely
-
-Record results in `agent_log.md`, not here.
+The status set `Σ`, its classes, reversibility, and required evidence are defined once in the
+`## Contract` above; the Action sections define when each applies. Record results in
+`agent_log.md`, not here.
