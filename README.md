@@ -37,7 +37,7 @@ python3 dev/workflow.py kokkos draft software/mcfm/src/.../file.cpp
 python3 dev/workflow.py kokkos validate dev/tools/kokkos/validator_skeleton.cpp
 ```
 
-The low-level scripts under `dev/tools/` still exist, but `dev/workflow.py` is the preferred human- and agent-facing entrypoint.
+The tooling scripts exist under `dev/tools/`, but `dev/workflow.py` is the preferred human- and agent-facing entrypoint.
 
 Typical happy paths:
 
