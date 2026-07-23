@@ -6,6 +6,18 @@ This file says how to run step 1. The rewrite rules and correctness bar are in
 > This Plan is the policy: it selects and orders the work over the ready set (see *When to
 > stop*). The correctness contract — objective `f`, invariants `I`, oracle `V`, and status set
 > `Σ` — lives in `desired_spec.md`; on conflict the Spec governs.
+>
+> Authority: the AI may modify only `agent_log.md`; `current_plan.md` and `desired_spec.md` are
+> human-owned.
+
+## Each round
+
+1. Refresh readiness (see Tools).
+2. Continue the open group if one exists. Otherwise check the gate (see Approval gate) before
+   opening a new group.
+3. Rewrite ready files and wire them in (see Resolution; the rewrite rules are the Spec).
+4. Build and verify each file (see Verify); record each result in `agent_log.md` (see Log file).
+5. Stop per When to stop; otherwise keep going.
 
 ## Log file
 
@@ -17,7 +29,7 @@ Record each finished file as:
 
 - `- [x] <file> — VERIFIED (worst Δrel <value>)`
 - `- [x] <file> — TRANSLATED (<reason>)`
-- `- [ ] <file> — FAILED (<what went wrong>)`
+- `- [x] <file> — FAILED (<what went wrong>)`
 
 Use paths like `software/mcfm/src/...`.
 
@@ -115,10 +127,9 @@ The low-level scripts under `dev/tools/` remain available, but `dev/workflow.py`
    - headings must start with `Group`
 4. If there is already an open group, keep filling and fixing that group before opening another.
 5. Rewrite the group, wire it into the folder's `CMakeLists.txt`, build, and verify each file.
-   - After converting a Fortran source into `<base>.cpp`, `<base>_fi.F90`, and `<base>.hpp`, move the deprecated original Fortran source file into `deprecated/` under the same directory.
-   - Treat `<base>.hpp` + `<base>.cpp` as the default translated C++ layout: declarations in the header, definitions in the `.cpp`.
-   - Ensure the translated `.cpp` includes its own `<base>.hpp` when such a header exists.
-   - If the translated file calls another translated C++ unit and that callee has a header, include the header instead of adding a local forward declaration.
+   - After converting a Fortran source, move the original `.f`/`.F` into `deprecated/` under the
+     same directory.
+   - Follow the Spec's Output shape and Header/source structure for the translated files.
 6. After a group is completed, check the gate before opening the next one.
 7. After any required approval, refresh the roadmap again before picking more work.
 
@@ -164,10 +175,8 @@ Otherwise continue editing, building, testing, and verifying.
 
 ## Notes / session log
 
-- Files under `Mods/Need/Inc/Procdep` have no coverage test; mark them `TRANSLATED`.
-- For reusable translated C++ functions, put declarations in headers and include those headers before use from other `.cpp` files.
-- A translated `.cpp` should normally include its own matching header when one exists.
-- Prefer proper header inclusion over translation-era ad hoc forward declarations.
+- Header/source structure and the infrastructure-folder coverage mapping (mark `TRANSLATED`)
+  follow the Spec.
 - If coverage shows no change, retry after a caller is rewritten.
 - If numbers disagree, mark `FAILED` with the symptom instead of guessing.
 - Add a dated note per session: what you changed, what remains, and any human decision needed.

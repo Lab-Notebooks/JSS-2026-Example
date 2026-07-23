@@ -6,6 +6,20 @@ This file says how to run step 2. The kernel contract and correctness bar are in
 > This Plan is the policy: it selects and orders the work over the ready set (see *When to
 > stop*). The correctness contract — objective `f`, invariants `I`, oracle `V`, and status set
 > `Σ` — lives in `desired_spec.md`; on conflict the Spec governs.
+>
+> Authority: the AI may modify only `agent_log.md`; `current_plan.md` and `desired_spec.md` are
+> human-owned.
+
+## Each round
+
+1. Build both codebases once if needed (see Tools).
+2. Continue the open group if one exists. Otherwise check the gate (see Approval gate) before
+   opening a new group.
+3. Pick a ready amplitude and author its kernel (see Resolution and Authoring steps; the kernel
+   contract is the Spec).
+4. Validate against `libmcfm` and run the Pepper tests; record each result in `agent_log.md`
+   (see Log file).
+5. Stop per When to stop; otherwise keep going.
 
 ## Log file
 
@@ -16,7 +30,7 @@ session prose in the log at the end of this file.
 Record each finished amplitude as:
 
 - `- [x] <name> — TRANSLATED (maxRelErr <value>)`
-- `- [ ] <name> — FAILED (<what went wrong>)`
+- `- [x] <name> — FAILED (<what went wrong>)`
 - `- [x] <name> — VERIFIED (<doctest>)` only by a person after a doctest lands
 
 Use paths like `software/pepper/src/mcfm_analytics/...`.

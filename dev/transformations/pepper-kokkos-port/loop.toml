@@ -8,31 +8,11 @@ bash = ["jobrunner", "python3"]
 
 [[chat.user]]
 content = '''
-This loop drives the policy in current_plan.md; desired_spec.md holds the correctness contract
-(objective, invariants, oracle, and status set Σ). On conflict, the Spec governs.
+Each round, follow the round algorithm in dev/transformations/pepper-kokkos-port/current_plan.md
+and the contract in dev/transformations/pepper-kokkos-port/desired_spec.md. Read the plan first,
+then the spec.
 
-Read, in order:
-1. dev/transformations/pepper-kokkos-port/current_plan.md
-2. dev/transformations/pepper-kokkos-port/desired_spec.md
-
-Authority and edit boundaries:
-- `current_plan.md` and `desired_spec.md` are human-owned. Read them, but do not modify them.
-- `agent_log.md` is the only file in `dev/transformations/pepper-kokkos-port/` that the AI may modify.
-
-Each round:
-1. If MCFM or Pepper is not built yet, run `jobrunner submit tests/mcfm` and
-   `jobrunner submit tests/pepper` once.
-2. Keep the working log in dev/transformations/pepper-kokkos-port/agent_log.md.
-   Create it if missing. Follow the Plan's resolution rules.
-3. Pick only amplitudes whose step-1 dependencies are VERIFIED in
-   dev/transformations/mcfm-translate/agent_log.md.
-4. Use Closure to choose and size targets. Use Kokkosify for a first draft, then finish the
-   kernel from the Spec.
-5. Validate against libmcfm as you write, block by block, targeting 1e-10 relative error.
-6. Run `jobrunner submit tests/pepper`. Do not write new doctests. Mark amplitudes only as
-   TRANSLATED or FAILED; note which doctests a developer should add.
-7. Before starting a new review group, enforce the gate:
-   python3 dev/tools/approve/check_gate.py dev/transformations/pepper-kokkos-port
-   If it fails, stop.
-8. Before stopping, update agent_log.md only. Do not append notes to the Plan.
+Authority: current_plan.md and desired_spec.md are human-owned — read, do not modify.
+agent_log.md is the only file in dev/transformations/pepper-kokkos-port/ that the AI may modify.
+On conflict, the Spec governs.
 '''

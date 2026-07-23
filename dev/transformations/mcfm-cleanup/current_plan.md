@@ -6,6 +6,18 @@ rules and correctness bar are in `desired_spec.md`.
 > This Plan is the policy: it selects and orders the work over the ready set (see *When to
 > stop*). The correctness contract — objective `f`, invariants `I`, oracle `V`, and status set
 > `Σ` — lives in `desired_spec.md`; on conflict the Spec governs.
+>
+> Authority: the AI may modify only `agent_log.md`; `current_plan.md` and `desired_spec.md` are
+> human-owned.
+
+## Each round
+
+1. Refresh readiness and the dependency graph (see Tools).
+2. Continue the open group if one exists. Otherwise check the gate and honor any approval
+   review notes (see Approval gate) before opening a new group.
+3. Pick targets and apply their actions (see Resolution; the action rules are the Spec's Actions).
+4. Build and verify (see Verify); record each result in `agent_log.md` (see Log file).
+5. Stop per When to stop; otherwise keep going.
 
 ## Log file
 
@@ -20,7 +32,7 @@ Record finished cleanup items as:
 - `- [x] <path> — KEPT_SHIM (<remaining caller or boundary>)`
 - `- [x] <path> — MERGED_CPP (<what was merged>)`
 - `- [x] <path> — KEPT_SPLIT (<why the header/source split stays>)`
-- `- [ ] <path> — FAILED (<what blocked safe cleanup>)`
+- `- [x] <path> — FAILED (<what blocked safe cleanup>)`
 
 Use paths like `software/mcfm/src/...`.
 
@@ -134,60 +146,10 @@ still part of an active Fortran call path.
 
 ## Decision rules
 
-### Moving original Fortran sources
-
-After a translated implementation exists, prefer moving the obsolete original `.f`/`.F` into a
-sibling `deprecated/` directory rather than leaving it next to active C++ sources.
-
-### Deleting `_fi` shims
-
-Delete a `_fi` shim only when all of the following are true:
-
-1. The doxygen-based dependency/caller graph and local source inspection show no remaining active
-   Fortran caller depends on the shimmed symbol.
-2. The C++ implementation is already the effective interface for all remaining call paths.
-3. Build wiring is updated so the deleted shim is not still compiled or referenced.
-4. `jobrunner submit tests/mcfm` passes after the deletion.
-
-If any point is uncertain, keep the shim and record why.
-
-### Merging translated headers and sources
-
-Prefer fewer, more coherent C++ files when safe, but be conservative.
-
-Merging in this pass means reorganizing translation-era per-file outputs into cleaner combined
-interfaces and implementation units when that better matches ownership and reuse. This may mean:
-
-- merging several `.hpp` files into one combined reusable header
-- merging several `.cpp` files into one implementation file
-- keeping one combined `.hpp` shared by multiple `.cpp` files
-- keeping some headers separate while merging only implementations
-
-Reorganize headers/sources only when all of the following are true:
-
-1. The new layout is a clearer representation of the actual reusable interfaces or logical implementation ownership.
-2. Cross-translation-unit declarations remain available in appropriate headers.
-3. Local-only helpers can move into implementation files without harming clarity.
-4. The header is not needed to preserve a distinct stable interop boundary that would be obscured by the merge.
-5. The reorganization reduces obvious bloat without obscuring ownership or call structure.
-6. Using a combined header for multiple `.cpp` files makes interface sense and does not just create an arbitrary umbrella file.
-7. `jobrunner submit tests/mcfm` passes after the merge.
-
-Otherwise keep the split and record why.
-
-### Replacing local forward declarations
-
-Prefer header-based interfaces over translation-era local forward declarations.
-
-Replace a local forward declaration with a proper header include when all of the following are true:
-
-1. the callee already has a header, or clearly should have one as the reusable interface
-2. the declaration is used across translation units rather than only inside one implementation file
-3. using the header reduces duplication or risk of signature drift
-4. include/build structure stays clean
-5. `jobrunner submit tests/mcfm` passes after the change
-
-Otherwise keep the local declaration and record why.
+The rule for each action — move original source, delete `_fi` shim, merge/reorganize headers
+and sources, replace a local forward declaration — with every safe-to-proceed condition and
+conservative fallback (`KEPT_SHIM` / `KEPT_SPLIT`), is the Spec's Action 1–4. Apply those; they
+are not restated here.
 
 ## Verify
 
