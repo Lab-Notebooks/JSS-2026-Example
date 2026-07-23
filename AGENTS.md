@@ -1,1 +1,1 @@
-IGNORE `README.md`. It is written for humans.
+- IGNORE `README.md`. It is written for humans.
