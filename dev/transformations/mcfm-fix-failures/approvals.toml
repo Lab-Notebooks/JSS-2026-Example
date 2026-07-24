@@ -1,0 +1,14 @@
+version = 1
+# Append an [[approved]] block to record a human approval for a completed review group.
+#
+# Schema:
+#   [[approved]]
+#   group       = "Group <title>"   # must match the heading in agent_log.md exactly
+#   by          = "<name>"          # approver
+#   date        = "YYYY-MM-DD"      # approval date
+#   review_note = "..."             # optional binding guidance for the agent
+#
+# Normally written by:
+#   python3 dev/workflow.py approve mcfm-fix-failures --latest-blocking
+# or:
+#   python3 dev/workflow.py approve mcfm-fix-failures "Group ..." --by <name>

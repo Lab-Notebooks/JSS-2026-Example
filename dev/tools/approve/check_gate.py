@@ -27,11 +27,13 @@ from approval_log import is_complete, is_open, item_status, load_approved_groups
 RISKY_STATUSES = {
     "mcfm-translate": {"FAILED"},
     "mcfm-cleanup": {"FAILED", "DELETED_SHIM", "MERGED_CPP"},
+    "mcfm-fix-failures": {"FAILED"},
     "pepper-kokkos-port": {"FAILED"},
 }
 BATCH_LIMITS = {
     "mcfm-translate": 3,
     "mcfm-cleanup": 2,
+    "mcfm-fix-failures": 3,
     "pepper-kokkos-port": 2,
 }
 

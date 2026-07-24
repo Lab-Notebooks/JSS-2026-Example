@@ -12,13 +12,33 @@ cmake -DCMAKE_Fortran_COMPILER=gfortran -DCMAKE_C_COMPILER=gcc -DCMAKE_CXX_COMPI
 make install
 
 # Benchmark processes, mapped to src/ directories (desired_spec.md §5).
-./test -b u d~ ve e+        # W
-./test -b u d~ ve e+ g      # W1jet
-./test -b u d~ ve e+ g g    # W2jet, BDK, loop
-./test -b u u~ e- e+        # Z
-./test -b u u~ e- e+ g      # Z1jet, loop
-./test -b u u~ e- e+ g g    # Z2jet, W2jet, BDK, loop
-./test -b -Pmodel=heft g g h   # ggH
-./test -b g g h             # ggH
-./test -b g g g g g         # ThreeJets
-./test -b g g h g g         # gghgg_dep
+#./test -b u d~ ve e+        # W
+#./test -b u d~ ve e+ g      # W1jet
+#./test -b u d~ ve e+ g g    # W2jet, BDK, loop
+#./test -b u u~ e- e+        # Z
+#./test -b u u~ e- e+ g      # Z1jet, loop
+#./test -b u u~ e- e+ g g    # Z2jet, W2jet, BDK, loop
+#./test -b -Pmodel=heft g g h   # ggH
+#./test -b g g h             # ggH
+#./test -b d d d d g         # ThreeJets
+#./test -b d d~ d d~ g
+#./test -b d d~ u u~ g
+#./test -b d d~ g g g
+#./test -b d u d u g
+#./test -b d u~ d u~ g
+#./test -b d g g d g
+#./test -b d~ d d d~ g
+#./test -b d~ d u u~ g
+#./test -b d~ d g g g
+#./test -b d~ d~ d~ d~ g
+#./test -b d~ u u d~ g
+#./test -b d~ u~ d~ u~ g
+#./test -b d~ g g d~ g
+#./test -b u d d u g
+#./test -b u~ d~ d~ u~ g
+#./test -b g d g d g
+#./test -b g d~ g d~ g
+#./test -b g g d d~ g
+#./test -b g g g g g
+#./test -b g g h g g         # gghgg_dep
+./bench

@@ -221,6 +221,10 @@ jobrunner submit tests/mcfm
 For graph-sensitive edits, also rerun the roadmap refresh and ensure the resulting dependency
 state is consistent with the cleanup decision.
 
+Each test case must explicitly show **passed** in the output. Confirming the absence of `FAILED`
+is not sufficient — a silent segfault produces no output at all and would pass that check
+incorrectly. If any test case does not show a `passed` result, treat the cleanup as `FAILED`.
+
 ### Status meanings
 
 The status set `Σ`, its classes, reversibility, and required evidence are defined once in the

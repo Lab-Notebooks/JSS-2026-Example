@@ -100,6 +100,7 @@ Check these explicitly:
 6. A translated `.cpp` failing to include its own matching header when one exists.
 7. Calling a translated C++ sibling without including its header when one exists.
 8. Keeping translation-era forward declarations even though a proper header interface exists.
+9. **Silent segfault**: the test process crashes without printing output, leaving no `FAILED` marker but also no `passed` marker. A test is only acceptable if each individual test case is confirmed **passed** in the output — the absence of `FAILED` is not sufficient.
 
 If numbers still disagree after checking, mark the file `FAILED` with the symptom.
 
@@ -109,13 +110,41 @@ If numbers still disagree after checking, mark the file `FAILED` with the sympto
 
 A file is only verified if a test actually runs it.
 
-| Directory | `./test -b` process |
-|-----------|---------------------|
-| W / W1jet / W2jet | `u d~ ve e+` (+ `g`, `g g`) |
-| Z / Z1jet / Z2jet | `u u~ e- e+` (+ `g`, `g g`) |
-| ThreeJets | `g g g g g` |
-| ggH / gghgg_dep | `g g h` / `g g h g g` |
-| Mods, Need, Inc, Procdep | infrastructure — mark `TRANSLATED` |
+The full process list from `tests/mcfm/test.sh` is the authority; this table is reproduced here
+so agents can map a src/ directory to its test process without reading the shell script.
+
+| Process | Directory |
+|---------|-----------|
+| `u d~ ve e+` | W |
+| `u d~ ve e+ g` | W1jet |
+| `u d~ ve e+ g g` | W2jet / BDK / loop |
+| `u u~ e- e+` | Z |
+| `u u~ e- e+ g` | Z1jet / loop |
+| `u u~ e- e+ g g` | Z2jet / W2jet / BDK / loop |
+| `-Pmodel=heft g g h` | ggH |
+| `g g h` | ggH |
+| `d d d d g` | ThreeJets |
+| `d d~ d d~ g` | ThreeJets |
+| `d d~ u u~ g` | ThreeJets |
+| `d d~ g g g` | ThreeJets |
+| `d u d u g` | ThreeJets |
+| `d u~ d u~ g` | ThreeJets |
+| `d g g d g` | ThreeJets |
+| `d~ d d d~ g` | ThreeJets |
+| `d~ d u u~ g` | ThreeJets |
+| `d~ d g g g` | ThreeJets |
+| `d~ d~ d~ d~ g` | ThreeJets |
+| `d~ u u d~ g` | ThreeJets |
+| `d~ u~ d~ u~ g` | ThreeJets |
+| `d~ g g d~ g` | ThreeJets |
+| `u d d u g` | ThreeJets |
+| `u~ d~ d~ u~ g` | ThreeJets |
+| `g d g d g` | ThreeJets |
+| `g d~ g d~ g` | ThreeJets |
+| `g g d d~ g` | ThreeJets |
+| `g g g g g` | ThreeJets |
+| `g g h g g` | gghgg_dep |
+| — | Mods / Need / Inc / Procdep — infrastructure, mark `TRANSLATED` |
 
 This mapping is also built into `dev/tools/index/build_roadmap.py`.
 
@@ -125,6 +154,10 @@ This mapping is also built into `dev/tools/index/build_roadmap.py`.
 
 A passing MCFM test must match to **1e-13**. That alone is not enough: the test must also be
 shown to exercise the rewritten file via `dev/tools/coverage/coverage_check.py`.
+
+Each test case must explicitly show **passed** in its output. Confirming the absence of `FAILED`
+is not sufficient — a silent segfault produces no output at all and would pass that check
+incorrectly. If any test case does not show a `passed` result, treat it as `FAILED`.
 
 The status set `Σ`, its classes, reversibility, and required evidence are defined once in the
 `## Contract` above. Record results in `agent_log.md`, not here.

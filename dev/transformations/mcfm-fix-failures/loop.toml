@@ -1,0 +1,22 @@
+# CodeScribe loop for MCFM test failure fixes.
+#
+# Run from the project root:
+#   code-scribe loop -p dev/transformations/mcfm-fix-failures/loop.toml -m <model>
+
+[tools]
+bash = ["jobrunner", "python3"]
+
+[[chat.user]]
+content = '''
+Each round, follow the round algorithm in dev/transformations/mcfm-fix-failures/current_plan.md
+and the contract in dev/transformations/mcfm-fix-failures/desired_spec.md. Read the plan first,
+then the spec.
+
+Authority: current_plan.md and desired_spec.md are human-owned — read, do not modify.
+agent_log.md is the only file in dev/transformations/mcfm-fix-failures/ that the AI may modify.
+On conflict, the Spec governs. Do not read any other loop.toml.
+
+The oracle is: jobrunner submit tests/mcfm (run from the project root).
+A process is fixed only when every test case explicitly shows "passed" — absence of FAILED is
+not sufficient. A silent segfault produces no output and would pass that check incorrectly.
+'''
