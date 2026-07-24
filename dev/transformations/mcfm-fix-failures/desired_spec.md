@@ -41,8 +41,8 @@ elaborate this contract; on conflict the contract governs.
 
 ## Test processes
 
-All processes are defined in `tests/mcfm/test.sh`. The full list is reproduced here as the
-authoritative mapping from process to src/ directory:
+One representative process per src/ directory. `software/mcfm/Bin/bench` runs many more
+variants per directory; a failing process not listed here still maps to the same directory.
 
 | Process | Directory |
 |---------|-----------|
@@ -54,26 +54,7 @@ authoritative mapping from process to src/ directory:
 | `u u~ e- e+ g g` | Z2jet / W2jet / BDK / loop |
 | `-Pmodel=heft g g h` | ggH |
 | `g g h` | ggH |
-| `d d d d g` | ThreeJets |
-| `d d~ d d~ g` | ThreeJets |
-| `d d~ u u~ g` | ThreeJets |
-| `d d~ g g g` | ThreeJets |
-| `d u d u g` | ThreeJets |
-| `d u~ d u~ g` | ThreeJets |
-| `d g g d g` | ThreeJets |
-| `d~ d d d~ g` | ThreeJets |
-| `d~ d u u~ g` | ThreeJets |
-| `d~ d g g g` | ThreeJets |
-| `d~ d~ d~ d~ g` | ThreeJets |
-| `d~ u u d~ g` | ThreeJets |
-| `d~ u~ d~ u~ g` | ThreeJets |
-| `d~ g g d~ g` | ThreeJets |
-| `u d d u g` | ThreeJets |
-| `u~ d~ d~ u~ g` | ThreeJets |
-| `g d g d g` | ThreeJets |
-| `g d~ g d~ g` | ThreeJets |
-| `g g d d~ g` | ThreeJets |
-| `g g g g g` | ThreeJets |
+| `g g g g g` | ThreeJets (any variant) |
 | `g g h g g` | gghgg_dep |
 
 Infrastructure directories (Mods, Need, Inc, Procdep) have no test process — not covered here.

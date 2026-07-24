@@ -110,8 +110,8 @@ If numbers still disagree after checking, mark the file `FAILED` with the sympto
 
 A file is only verified if a test actually runs it.
 
-The full process list from `tests/mcfm/test.sh` is the authority; this table is reproduced here
-so agents can map a src/ directory to its test process without reading the shell script.
+One representative process per directory for coverage probing. `software/mcfm/Bin/bench` is the
+exhaustive runner and covers many more variants per directory.
 
 | Process | Directory |
 |---------|-----------|
@@ -123,26 +123,7 @@ so agents can map a src/ directory to its test process without reading the shell
 | `u u~ e- e+ g g` | Z2jet / W2jet / BDK / loop |
 | `-Pmodel=heft g g h` | ggH |
 | `g g h` | ggH |
-| `d d d d g` | ThreeJets |
-| `d d~ d d~ g` | ThreeJets |
-| `d d~ u u~ g` | ThreeJets |
-| `d d~ g g g` | ThreeJets |
-| `d u d u g` | ThreeJets |
-| `d u~ d u~ g` | ThreeJets |
-| `d g g d g` | ThreeJets |
-| `d~ d d d~ g` | ThreeJets |
-| `d~ d u u~ g` | ThreeJets |
-| `d~ d g g g` | ThreeJets |
-| `d~ d~ d~ d~ g` | ThreeJets |
-| `d~ u u d~ g` | ThreeJets |
-| `d~ u~ d~ u~ g` | ThreeJets |
-| `d~ g g d~ g` | ThreeJets |
-| `u d d u g` | ThreeJets |
-| `u~ d~ d~ u~ g` | ThreeJets |
-| `g d g d g` | ThreeJets |
-| `g d~ g d~ g` | ThreeJets |
-| `g g d d~ g` | ThreeJets |
-| `g g g g g` | ThreeJets |
+| `g g g g g` | ThreeJets (any variant works) |
 | `g g h g g` | gghgg_dep |
 | — | Mods / Need / Inc / Procdep — infrastructure, mark `TRANSLATED` |
 
