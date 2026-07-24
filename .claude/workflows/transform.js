@@ -28,7 +28,7 @@
 //
 // Five phases. The two ideas worth noticing are "write the intent down before the work,
 // write the group's own outcome after it" and "write in parallel, combine one at a time":
-//   Resolve    decide what to work on (open group, or a new one if the gate allows),
+//   Triage     decide what to work on (open group, or a new one if the gate allows),
 //              following the Plan's own Resolution rule and tools — no edits yet
 //   Bundle     write the group heading + one unchecked line per unit to the log, so the
 //              intent is on disk even if a later phase fails
@@ -42,14 +42,14 @@
 //                notion of scope), maxUnits (safety cap on ready candidates fetched, 40),
 //                bundleSize (override the group size; default: use the Plan's own stated
 //                size), fixRounds (escalation rounds over FAILED units, 1),
-//                model / resolveModel / authorModel / integrateModel / fixModel.
+//                model / triageModel / authorModel / integrateModel / fixModel.
 
 export const meta = {
     name: 'transform',
     description: 'Run one review group of a dev/transformations/<name> step: continue an open group or open a new one (subject to the approval gate), author its ready units in parallel, integrate and verify them serially, escalate failures, and record everything in agent_log.md. Transformation-agnostic — every rule comes from that step\'s own desired_spec.md and current_plan.md, never from this script.',
     whenToUse: 'Point it at any folder under dev/transformations/ via args:{transformation:"mcfm-translate"|"mcfm-cleanup"|"pepper-kokkos-port"|...}. Honors the approval gate (dev/tools/approve/check_gate.py) before opening a new review group, and stops after one group so a human can approve via approve_group.py. Optional: scope, maxUnits, bundleSize, fixRounds, model overrides.',
     phases: [{
-            title: 'Resolve'
+            title: 'Triage'
         },
         {
             title: 'Bundle'
@@ -93,10 +93,10 @@ const MAXUNITS = cfg.maxUnits || 40
 const BUNDLESIZE = cfg.bundleSize || null // null => let the agent use the Plan's own stated group size
 const FIXROUNDS = cfg.fixRounds ?? 1
 
-// Resolve/Bundle/Author inherit the session model unless overridden. Integrate is the
+// Triage/Bundle/Author inherit the session model unless overridden. Integrate is the
 // serial verification trust anchor and Fix is failure escalation, so both default to a
 // stronger model — override per-phase or globally with args.model.
-const RESOLVE_MODEL = cfg.model || cfg.resolveModel
+const TRIAGE_MODEL = cfg.model || cfg.triageModel
 const AUTHOR_MODEL = cfg.model || cfg.authorModel
 const INTEGRATE_MODEL = cfg.model || cfg.integrateModel || 'opus'
 const FIX_MODEL = cfg.model || cfg.fixModel || 'opus'
@@ -113,7 +113,7 @@ orchestrator (CodeScribe) and has nothing to do with this run.`
 // Schemas
 // ---------------------------------------------------------------------------
 
-const RESOLVE_SCHEMA = {
+const TRIAGE_SCHEMA = {
     type: 'object',
     properties: {
         stop: {
@@ -234,12 +234,12 @@ const INTEGRATE_SCHEMA = {
 }
 
 // ---------------------------------------------------------------------------
-// Phase 1 — Resolve: decide what this round works on. No edits yet.
+// Phase 1 — Triage: decide what this round works on. No edits yet.
 // ---------------------------------------------------------------------------
 
-phase('Resolve')
+phase('Triage')
 
-const resolvePrompt = `You are the RESOLVE phase for the "${TRANSFORMATION}" transformation. ${NOTES}
+const triagePrompt = `You are the TRIAGE phase for the "${TRANSFORMATION}" transformation. ${NOTES}
 
 Read, in this order:
 1. ${PLAN} — how this step is run: its log conventions, its approval-gate rule, its tool
@@ -285,18 +285,18 @@ D. If there is genuinely no ready unit and no open group, set units=[], stop=tru
 Return ONLY the structured object. Do not edit any file and do not author/translate/clean
 up/port anything yet.`
 
-const resolved = await agent(resolvePrompt, {
-    label: 'resolve',
-    phase: 'Resolve',
-    schema: RESOLVE_SCHEMA,
-    model: RESOLVE_MODEL,
+const triaged = await agent(triagePrompt, {
+    label: 'triage',
+    phase: 'Triage',
+    schema: TRIAGE_SCHEMA,
+    model: TRIAGE_MODEL,
 })
 
-if (!resolved || resolved.stop || !resolved.units?.length) {
-    log(`Resolve: ${resolved?.stopReason || 'nothing to do this round'}.`)
+if (!triaged || triaged.stop || !triaged.units?.length) {
+    log(`Triage: ${triaged?.stopReason || 'nothing to do this round'}.`)
     return {
         transformation: TRANSFORMATION,
-        resolved,
+        triaged,
         bundled: null,
         authored: [],
         integrated: null
@@ -317,16 +317,16 @@ group-sizing/topic rule from its "Resolution" section${
 }).
 
 ${
-  resolved.opened
+  triaged.opened
     ? `Open a NEW group heading (must start with "Group", numbered/named after the last
 existing group per the Plan's convention) and add one UNCHECKED line per unit below,
 grouped/ordered the way the Plan's Resolution section prescribes.`
-    : `Add these units to the existing OPEN group "${resolved.groupId}" — do not open a new
+    : `Add these units to the existing OPEN group "${triaged.groupId}" — do not open a new
 heading. If a unit is already listed there, leave its line alone.`
 }
 
 Units for this round:
-${resolved.units.map((u) => `  - ${u.unit}${u.verify ? ` (verify: ${u.verify})` : ''}`).join('\n')}
+${triaged.units.map((u) => `  - ${u.unit}${u.verify ? ` (verify: ${u.verify})` : ''}`).join('\n')}
 
 Return the heading text now in effect as groupId, and written=true once the log file
 reflects these units.`
@@ -335,14 +335,14 @@ const bundled = await agent(bundlePrompt, {
     label: 'bundle',
     phase: 'Bundle',
     schema: BUNDLE_SCHEMA,
-    model: RESOLVE_MODEL,
+    model: TRIAGE_MODEL,
 })
-const GROUP = bundled?.groupId || resolved.groupId || '(unlabeled group)'
+const GROUP = bundled?.groupId || triaged.groupId || '(unlabeled group)'
 
 log(
-    `${resolved.opened ? 'Opened' : 'Continuing'} ${GROUP}: ${resolved.units.length} unit(s) this round` +
-    (resolved.layerSize > resolved.units.length ?
-        ` (${resolved.layerSize} ready in scope "${SCOPE}" — raise maxUnits to widen)` :
+    `${triaged.opened ? 'Opened' : 'Continuing'} ${GROUP}: ${triaged.units.length} unit(s) this round` +
+    (triaged.layerSize > triaged.units.length ?
+        ` (${triaged.layerSize} ready in scope "${SCOPE}" — raise maxUnits to widen)` :
         '') +
     '.'
 )
@@ -371,12 +371,12 @@ Hard constraints:
   of guessing.
 
 Verification handle for this unit, if any (per the Plan/Spec): ${u.verify || '(none reported — see Spec)'}
-${u.notes ? `Resolve notes: ${u.notes}` : ''}
+${u.notes ? `Triage notes: ${u.notes}` : ''}
 
 Return ONE structured row. No file contents.`
 
 const authored = await parallel(
-    resolved.units.map((u) => () =>
+    triaged.units.map((u) => () =>
         agent(authorPrompt(u), {
             label: `author:${u.unit}`,
             phase: 'Author',
@@ -387,13 +387,13 @@ const authored = await parallel(
 )
 const ok = authored.filter(Boolean).filter((r) => r.done === 'yes')
 const notOk = authored.filter(Boolean).filter((r) => r.done !== 'yes')
-log(`Authored ${ok.length}/${resolved.units.length}.` + (notOk.length ? ` ${notOk.length} deferred/failed.` : ''))
+log(`Authored ${ok.length}/${triaged.units.length}.` + (notOk.length ? ` ${notOk.length} deferred/failed.` : ''))
 
 if (!ok.length) {
     log('Nothing authored successfully; skipping integrate.')
     return {
         transformation: TRANSFORMATION,
-        resolved,
+        triaged,
         bundled,
         authored,
         integrated: null
@@ -524,7 +524,7 @@ return {
     transformation: TRANSFORMATION,
     scope: SCOPE,
     group: GROUP,
-    resolved,
+    triaged,
     bundled,
     authored,
     integrated,
