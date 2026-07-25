@@ -1,4 +1,5 @@
-// Workflow: transform — run one review group of any dev/transformations/<name> step.
+// Workflow: transform — run review groups of any dev/transformations/<name> step until the
+// approval gate blocks.
 //
 // This repo's transformations (mcfm-translate, mcfm-cleanup, pepper-kokkos-port, and any
 // future one) each live in dev/transformations/<name>/ as two plain files: a Spec
@@ -19,15 +20,16 @@
 // dev/transformations/*/loop.toml belongs to a different orchestrator (CodeScribe) and is
 // not used here — do not read it.
 //
-// One review group per invocation, by design. dev/tools/approve/check_gate.py decides
-// whether a new group may open: some transformations allow a small backlog of completed-
-// but-unapproved groups (see each Plan's "Approval gate" section for the exact risky-status
-// list and batch limit), but a risky completed group always blocks immediately. The
-// workflow continues an already-open group, or opens exactly one new group if the gate
-// allows, then stops. Re-invoke it (or wrap it in /loop) to keep going across sessions.
+// Groups loop until the gate blocks. dev/tools/approve/check_gate.py decides whether a new
+// group may open: some transformations allow a small backlog of completed-but-unapproved
+// groups (see each Plan's "Approval gate" section for the exact risky-status list and batch
+// limit), but a risky completed group always blocks immediately. The workflow continues an
+// already-open group, or opens a new group when the gate allows, looping until the gate
+// blocks or there is nothing left to do. After the gate blocks, a human runs approve_group.py
+// to unblock, then re-invokes this workflow.
 //
-// Five phases. The two ideas worth noticing are "write the intent down before the work,
-// write the group's own outcome after it" and "write in parallel, combine one at a time":
+// Five phases per group. The two ideas worth noticing are "write the intent down before the
+// work, write the group's own outcome after it" and "write in parallel, combine one at a time":
 //   Triage     decide what to work on (open group, or a new one if the gate allows),
 //              following the Plan's own Resolution rule and tools — no edits yet
 //   Bundle     write the group heading + one unchecked line per unit to the log, so the
@@ -46,8 +48,8 @@
 
 export const meta = {
     name: 'transform',
-    description: 'Run one review group of a dev/transformations/<name> step: continue an open group or open a new one (subject to the approval gate), author its ready units in parallel, integrate and verify them serially, escalate failures, and record everything in agent_log.md. Transformation-agnostic — every rule comes from that step\'s own desired_spec.md and current_plan.md, never from this script.',
-    whenToUse: 'Point it at any folder under dev/transformations/ via args:{transformation:"mcfm-translate"|"mcfm-cleanup"|"pepper-kokkos-port"|...}. Honors the approval gate (dev/tools/approve/check_gate.py) before opening a new review group, and stops after one group so a human can approve via approve_group.py. Optional: scope, maxUnits, bundleSize, fixRounds, model overrides.',
+    description: 'Run review groups of a dev/transformations/<name> step until the approval gate blocks: continue an open group or open new ones (subject to the gate), author units in parallel, integrate and verify them serially, escalate failures, and record everything in agent_log.md. Loops across groups until the gate blocks or work runs out. Transformation-agnostic — every rule comes from that step\'s own desired_spec.md and current_plan.md, never from this script.',
+    whenToUse: 'Point it at any folder under dev/transformations/ via args:{transformation:"mcfm-translate"|"mcfm-cleanup"|"pepper-kokkos-port"|...}. Loops across groups until the approval gate blocks (dev/tools/approve/check_gate.py). After the gate blocks, a human runs approve_group.py then re-invokes. Optional: scope, maxUnits, bundleSize, fixRounds, model overrides.',
     phases: [{
             title: 'Triage'
         },
@@ -59,11 +61,14 @@ export const meta = {
         },
         {
             title: 'Integrate',
-            model: 'opus'
+            model: 'claude-opus-4-6'
         },
         {
             title: 'Fix',
-            model: 'opus'
+            model: 'claude-opus-4-6'
+        },
+        {
+            title: 'Metadata'
         },
     ],
 }
@@ -87,6 +92,7 @@ const DIR = `dev/transformations/${TRANSFORMATION}`
 const SPEC = `${DIR}/desired_spec.md`
 const PLAN = `${DIR}/current_plan.md`
 const LOG = `${DIR}/agent_log.md`
+const METADATA_DIR = `${DIR}/metadata`
 
 const SCOPE = cfg.scope || 'all'
 const MAXUNITS = cfg.maxUnits || 40
@@ -98,8 +104,8 @@ const FIXROUNDS = cfg.fixRounds ?? 1
 // stronger model — override per-phase or globally with args.model.
 const TRIAGE_MODEL = cfg.model || cfg.triageModel
 const AUTHOR_MODEL = cfg.model || cfg.authorModel
-const INTEGRATE_MODEL = cfg.model || cfg.integrateModel || 'opus'
-const FIX_MODEL = cfg.model || cfg.fixModel || 'opus'
+const INTEGRATE_MODEL = cfg.model || cfg.integrateModel || 'claude-opus-4-6'
+const FIX_MODEL = cfg.model || cfg.fixModel || 'claude-opus-4-6'
 
 // Repeated in every prompt below: two things this repo's Plans mention that do not apply
 // to us. The Plans were written with CodeScribe (a different, more restricted runner) in
@@ -234,10 +240,10 @@ const INTEGRATE_SCHEMA = {
 }
 
 // ---------------------------------------------------------------------------
-// Phase 1 — Triage: decide what this round works on. No edits yet.
+// Prompt builders — parameterized on per-group state so the loop can call them
+// each iteration. Constants (TRANSFORMATION, SPEC, PLAN, LOG, SCOPE, …) are
+// captured from the outer scope; per-group values are explicit arguments.
 // ---------------------------------------------------------------------------
-
-phase('Triage')
 
 const triagePrompt = `You are the TRIAGE phase for the "${TRANSFORMATION}" transformation. ${NOTES}
 
@@ -285,32 +291,8 @@ D. If there is genuinely no ready unit and no open group, set units=[], stop=tru
 Return ONLY the structured object. Do not edit any file and do not author/translate/clean
 up/port anything yet.`
 
-const triaged = await agent(triagePrompt, {
-    label: 'triage',
-    phase: 'Triage',
-    schema: TRIAGE_SCHEMA,
-    model: TRIAGE_MODEL,
-})
-
-if (!triaged || triaged.stop || !triaged.units?.length) {
-    log(`Triage: ${triaged?.stopReason || 'nothing to do this round'}.`)
-    return {
-        transformation: TRANSFORMATION,
-        triaged,
-        bundled: null,
-        authored: [],
-        integrated: null
-    }
-}
-
-// ---------------------------------------------------------------------------
-// Phase 2 — Bundle: write the group + its unchecked lines before any real work starts.
-// ---------------------------------------------------------------------------
-
-phase('Bundle')
-
-const bundlePrompt = `Record this round's work in ${LOG} before any editing starts, so the
-group exists on disk even if a later step fails. ${NOTES}
+const makeBundlePrompt = (triaged) => `Record this round's work in ${LOG} before any editing
+starts, so the group exists on disk even if a later step fails. ${NOTES}
 Follow ${PLAN}'s log conventions exactly (heading style, one line per unit, and the
 group-sizing/topic rule from its "Resolution" section${
   BUNDLESIZE ? `, capped at ${BUNDLESIZE} units for this round` : ''
@@ -330,28 +312,6 @@ ${triaged.units.map((u) => `  - ${u.unit}${u.verify ? ` (verify: ${u.verify})` :
 
 Return the heading text now in effect as groupId, and written=true once the log file
 reflects these units.`
-
-const bundled = await agent(bundlePrompt, {
-    label: 'bundle',
-    phase: 'Bundle',
-    schema: BUNDLE_SCHEMA,
-    model: TRIAGE_MODEL,
-})
-const GROUP = bundled?.groupId || triaged.groupId || '(unlabeled group)'
-
-log(
-    `${triaged.opened ? 'Opened' : 'Continuing'} ${GROUP}: ${triaged.units.length} unit(s) this round` +
-    (triaged.layerSize > triaged.units.length ?
-        ` (${triaged.layerSize} ready in scope "${SCOPE}" — raise maxUnits to widen)` :
-        '') +
-    '.'
-)
-
-// ---------------------------------------------------------------------------
-// Phase 3 — Author: one agent per unit, in parallel. Each writes only its own files.
-// ---------------------------------------------------------------------------
-
-phase('Author')
 
 const authorPrompt = (u) => `You are an AUTHOR agent for ONE unit of the "${TRANSFORMATION}"
 transformation: \`${u.unit}\`. ${NOTES}
@@ -375,39 +335,8 @@ ${u.notes ? `Triage notes: ${u.notes}` : ''}
 
 Return ONE structured row. No file contents.`
 
-const authored = await parallel(
-    triaged.units.map((u) => () =>
-        agent(authorPrompt(u), {
-            label: `author:${u.unit}`,
-            phase: 'Author',
-            schema: AUTHOR_SCHEMA,
-            model: AUTHOR_MODEL,
-        })
-    )
-)
-const ok = authored.filter(Boolean).filter((r) => r.done === 'yes')
-const notOk = authored.filter(Boolean).filter((r) => r.done !== 'yes')
-log(`Authored ${ok.length}/${triaged.units.length}.` + (notOk.length ? ` ${notOk.length} deferred/failed.` : ''))
-
-if (!ok.length) {
-    log('Nothing authored successfully; skipping integrate.')
-    return {
-        transformation: TRANSFORMATION,
-        triaged,
-        bundled,
-        authored,
-        integrated: null
-    }
-}
-
-// ---------------------------------------------------------------------------
-// Phase 4 — Integrate: one serial agent owns the shared build tree and the log.
-// ---------------------------------------------------------------------------
-
-phase('Integrate')
-
-const integratePrompt = (units, notes) => `You are the SERIAL INTEGRATE phase for the
-"${TRANSFORMATION}" transformation — you alone own the shared build tree, any shared/
+const makeIntegratePrompt = (units, notes, group) => `You are the SERIAL INTEGRATE phase for
+the "${TRANSFORMATION}" transformation — you alone own the shared build tree, any shared/
 top-level build files, and ${LOG} right now; no other agent is running. ${NOTES}
 
 Units to integrate (already authored, on disk): ${units.join(', ')}
@@ -433,33 +362,10 @@ Do, in order, following ${SPEC} and ${PLAN} exactly:
 5. Leave the tree building clean whether or not every unit passed.
 
 Return the compact status table only (one row per unit). Set groupClosed=true only if
-EVERY unit currently listed under group "${GROUP}" in ${LOG} (not just this round's units)
+EVERY unit currently listed under group "${group}" in ${LOG} (not just this round's units)
 now has a non-FAILED status.`
 
-let integrated = await agent(
-    integratePrompt(
-        ok.map((r) => r.unit),
-        authored.map((r) => r?.notes).filter(Boolean)
-    ), {
-        label: 'integrate',
-        phase: 'Integrate',
-        schema: INTEGRATE_SCHEMA,
-        model: INTEGRATE_MODEL
-    }
-)
-
-// ---------------------------------------------------------------------------
-// Phase 5 — Fix: escalate FAILED units to a stronger model, then integrate again.
-// ---------------------------------------------------------------------------
-
-for (let round = 1; round <= FIXROUNDS; round++) {
-    const failedRows = (integrated?.rows || []).filter((r) => r.status === 'FAILED')
-    if (!failedRows.length) break
-
-    phase('Fix')
-    log(`Fix round ${round}/${FIXROUNDS}: escalating ${failedRows.length} FAILED unit(s) to ${FIX_MODEL}.`)
-
-    const fixPrompt = (r) => `Repair the FAILED "${TRANSFORMATION}" unit \`${r.unit}\`. ${NOTES}
+const fixPrompt = (r) => `Repair the FAILED "${TRANSFORMATION}" unit \`${r.unit}\`. ${NOTES}
 Integrate's symptom: ${r.notes || "(diagnose from source and the Spec's silent-traps / conservative-fallback guidance)"}.
 
 READ ${SPEC} first; compare against a verified sibling unit. Edit ONLY this unit's own
@@ -470,62 +376,264 @@ guessing.
 
 Return ONE row: unit | done(yes/deferred/failed) | notes (what changed and why).`
 
-    const repaired = (
-        await parallel(
-            failedRows.map((r) => () =>
-                agent(fixPrompt(r), {
-                    label: `fix:${r.unit}`,
-                    phase: 'Fix',
-                    schema: AUTHOR_SCHEMA,
-                    model: FIX_MODEL
-                })
-            )
-        )
-    ).filter(Boolean)
+// ---------------------------------------------------------------------------
+// Main loop — run groups until the gate blocks, work runs out, or nothing authors.
+// Each iteration is one full group: Triage → Bundle → Author → Integrate → Fix.
+// The gate check lives inside Triage, so the loop stops naturally when it blocks.
+// ---------------------------------------------------------------------------
 
-    const refixUnits = repaired.filter((r) => r.done === 'yes').map((r) => r.unit)
-    if (!refixUnits.length) {
-        log('Fix produced no repaired units; ending escalation.')
+const allResults = []
+
+while (true) {
+    const gNum = allResults.length + 1
+
+    // --- Phase 1: Triage -------------------------------------------------------
+    phase('Triage')
+
+    const triaged = await agent(triagePrompt, {
+        label: `triage:g${gNum}`,
+        phase: 'Triage',
+        schema: TRIAGE_SCHEMA,
+        model: TRIAGE_MODEL,
+    })
+
+    if (!triaged || triaged.stop || !triaged.units?.length) {
+        log(`Triage (g${gNum}): ${triaged?.stopReason || 'nothing to do this round'}.`)
         break
     }
 
-    const reInt = await agent(integratePrompt(refixUnits, []), {
-        label: `re-integrate:r${round}`,
-        phase: 'Integrate',
-        schema: INTEGRATE_SCHEMA,
-        model: INTEGRATE_MODEL,
-    })
+    // --- Phase 2: Bundle -------------------------------------------------------
+    phase('Bundle')
 
-    const byUnit = new Map((integrated?.rows || []).map((r) => [r.unit, r]))
-    for (const r of reInt?.rows || []) byUnit.set(r.unit, r)
-    integrated = {
-        verifyOk: reInt?.verifyOk ?? integrated?.verifyOk,
-        rows: [...byUnit.values()],
-        groupClosed: reInt?.groupClosed ?? integrated?.groupClosed,
+    const bundled = await agent(makeBundlePrompt(triaged), {
+        label: `bundle:g${gNum}`,
+        phase: 'Bundle',
+        schema: BUNDLE_SCHEMA,
+        model: TRIAGE_MODEL,
+    })
+    const GROUP = bundled?.groupId || triaged.groupId || '(unlabeled group)'
+
+    log(
+        `${triaged.opened ? 'Opened' : 'Continuing'} ${GROUP}: ${triaged.units.length} unit(s) this round` +
+        (triaged.layerSize > triaged.units.length ?
+            ` (${triaged.layerSize} ready in scope "${SCOPE}" — raise maxUnits to widen)` :
+            '') +
+        '.'
+    )
+
+    // --- Phase 3: Author -------------------------------------------------------
+    phase('Author')
+
+    const authored = await parallel(
+        triaged.units.map((u) => () =>
+            agent(authorPrompt(u), {
+                label: `author:${u.unit}`,
+                phase: 'Author',
+                schema: AUTHOR_SCHEMA,
+                model: AUTHOR_MODEL,
+            })
+        )
+    )
+    const ok = authored.filter(Boolean).filter((r) => r.done === 'yes')
+    const notOk = authored.filter(Boolean).filter((r) => r.done !== 'yes')
+    log(`Authored ${ok.length}/${triaged.units.length}.` + (notOk.length ? ` ${notOk.length} deferred/failed.` : ''))
+
+    if (!ok.length) {
+        log('Nothing authored successfully; stopping loop.')
+        allResults.push({ group: GROUP, triaged, bundled, authored, integrated: null })
+        break
     }
+
+    // --- Phase 4: Integrate ----------------------------------------------------
+    phase('Integrate')
+
+    let integrated = await agent(
+        makeIntegratePrompt(
+            ok.map((r) => r.unit),
+            authored.map((r) => r?.notes).filter(Boolean),
+            GROUP
+        ), {
+            label: `integrate:${GROUP}`,
+            phase: 'Integrate',
+            schema: INTEGRATE_SCHEMA,
+            model: INTEGRATE_MODEL,
+        }
+    )
+
+    // --- Phase 5: Fix ----------------------------------------------------------
+    for (let round = 1; round <= FIXROUNDS; round++) {
+        const failedRows = (integrated?.rows || []).filter((r) => r.status === 'FAILED')
+        if (!failedRows.length) break
+
+        phase('Fix')
+        log(`Fix round ${round}/${FIXROUNDS}: escalating ${failedRows.length} FAILED unit(s) to ${FIX_MODEL}.`)
+
+        const repaired = (
+            await parallel(
+                failedRows.map((r) => () =>
+                    agent(fixPrompt(r), {
+                        label: `fix:${r.unit}`,
+                        phase: 'Fix',
+                        schema: AUTHOR_SCHEMA,
+                        model: FIX_MODEL,
+                    })
+                )
+            )
+        ).filter(Boolean)
+
+        const refixUnits = repaired.filter((r) => r.done === 'yes').map((r) => r.unit)
+        if (!refixUnits.length) {
+            log('Fix produced no repaired units; ending escalation.')
+            break
+        }
+
+        const reInt = await agent(makeIntegratePrompt(refixUnits, [], GROUP), {
+            label: `re-integrate:r${round}`,
+            phase: 'Integrate',
+            schema: INTEGRATE_SCHEMA,
+            model: INTEGRATE_MODEL,
+        })
+
+        const byUnit = new Map((integrated?.rows || []).map((r) => [r.unit, r]))
+        for (const r of reInt?.rows || []) byUnit.set(r.unit, r)
+        integrated = {
+            verifyOk: reInt?.verifyOk ?? integrated?.verifyOk,
+            rows: [...byUnit.values()],
+            groupClosed: reInt?.groupClosed ?? integrated?.groupClosed,
+        }
+    }
+
+    // --- Per-group summary -----------------------------------------------------
+    const gRows = integrated?.rows || []
+    const gFailed = gRows.filter((r) => r.status === 'FAILED')
+    const gSettled = gRows.filter((r) => r.status !== 'FAILED')
+
+    log(
+        `${GROUP}: ${gSettled.length} settled, ${gFailed.length} FAILED. ` +
+        (integrated?.groupClosed ?
+            'Group closed — continuing to next group if gate allows.' :
+            'Group still open — next iteration continues it.')
+    )
+
+    allResults.push({ group: GROUP, triaged, bundled, authored, integrated })
 }
 
 // ---------------------------------------------------------------------------
-// Summary
+// Final summary
 // ---------------------------------------------------------------------------
 
-const rows = integrated?.rows || []
-const failed = rows.filter((r) => r.status === 'FAILED')
-const settled = rows.filter((r) => r.status !== 'FAILED')
-
-log(
-    `Round complete: ${settled.length} settled, ${failed.length} FAILED in ${GROUP}. ` +
-    (integrated?.groupClosed ?
-        `Group is complete — needs human approval (approve_group.py) before the next group can open.` :
-        'Group still open — the next run continues it.')
+const totalSettled = allResults.reduce(
+    (n, r) => n + (r.integrated?.rows || []).filter((x) => x.status !== 'FAILED').length, 0
 )
+const totalFailed = allResults.reduce(
+    (n, r) => n + (r.integrated?.rows || []).filter((x) => x.status === 'FAILED').length, 0
+)
+
+log(`Done: ${allResults.length} group(s) processed, ${totalSettled} settled, ${totalFailed} FAILED.`)
+
+// ---------------------------------------------------------------------------
+// Metadata — write per-group TOMLs + manifest, mirroring the csloop format.
+// One "author" file covers Bundle+Author; one "integrate" file covers Integrate+Fix.
+// Token counts are not available from within the workflow harness and are omitted.
+// ---------------------------------------------------------------------------
+
+if (allResults.length > 0) {
+    phase('Metadata')
+
+    const resultJson = JSON.stringify(allResults.map((r, i) => ({
+        groupIndex: i + 1,
+        group: r.group,
+        opened: r.triaged?.opened ?? true,
+        units: (r.triaged?.units || []).map((u) => u.unit),
+        authored: (r.authored || []).filter(Boolean).map((a) => ({ unit: a.unit, done: a.done, notes: a.notes || '' })),
+        integrated: (r.integrated?.rows || []).map((row) => ({ unit: row.unit, status: row.status, notes: row.notes || '' })),
+        groupClosed: r.integrated?.groupClosed ?? false,
+        verifyOk: r.integrated?.verifyOk ?? null,
+    })), null, 2)
+
+    const metadataPrompt = `Write run metadata files to ${METADATA_DIR}/ for the "${TRANSFORMATION}" transformation run that just completed.
+
+Results (JSON):
+${resultJson}
+
+Models used — triage/bundle/author: ${TRIAGE_MODEL || '(session default)'}, integrate/fix: ${INTEGRATE_MODEL}.
+
+Steps:
+1. Run \`mkdir -p ${METADATA_DIR}\` to ensure the directory exists.
+2. Run \`date -u +%Y%m%d-%H%M%S\` to get a timestamp. Use it as the run_id (e.g. "20260724-174506").
+3. Run \`date -u +%Y-%m-%dT%H:%M:%SZ\` to get created_at / updated_at.
+4. For EACH group (indexed 1, 2, …), write TWO files:
+
+   a. \`${METADATA_DIR}/group_NNN_author.toml\`  (NNN = zero-padded group index, e.g. 001)
+      This covers the Bundle + Author phase. Fields:
+        run_id = "<timestamp>"
+        group_index = <N>
+        group = "<group heading>"
+        phase = "author"
+        model = "<author model>"
+        workdir = "<absolute path of repo root — run \`pwd\` to get it>"
+        transformation = "${TRANSFORMATION}"
+        units_attempted = <count of units list>
+        units_authored = <count where done=="yes">
+        units_deferred = <count where done=="deferred">
+        units_failed_author = <count where done=="failed">
+        created_at = "<ISO timestamp>"
+
+   b. \`${METADATA_DIR}/group_NNN_integrate.toml\`
+      This covers the Integrate + Fix phase. Fields:
+        run_id = "<same timestamp>"
+        group_index = <N>
+        group = "<group heading>"
+        phase = "integrate"
+        model = "<integrate model>"
+        workdir = "<same as above>"
+        transformation = "${TRANSFORMATION}"
+        verify_ok = <true/false/null>
+        group_closed = <true/false>
+        created_at = "<ISO timestamp>"
+        [[units]]
+        unit = "<path>"
+        status = "<TRANSLATED|FAILED|…>"
+        notes = "<notes>"
+        (repeat [[units]] block for each unit in the integrated results)
+
+   Skip the integrate file for any group where integrated results are empty (nothing was authored successfully).
+
+5. Write \`${METADATA_DIR}/manifest.toml\`:
+   Read the existing manifest if it exists (\`cat ${METADATA_DIR}/manifest.toml 2>/dev/null\`) so you can merge with prior runs.
+   Write (overwriting) with:
+     updated_at = "<ISO timestamp>"
+     phase_files = [<comma-separated quoted list of all group_NNN_*.toml basenames, sorted, including any from prior runs>]
+
+     [run]
+     run_id = "<timestamp>"
+     created_at = "<ISO timestamp>"
+     workdir = "<absolute repo root>"
+     transformation = "${TRANSFORMATION}"
+     model = "<integrate model>"
+     groups_processed = <count of groups in THIS run>
+     units_settled = ${totalSettled}
+     units_failed = ${totalFailed}
+
+   If a prior manifest exists, preserve its [run] created_at and increment groups_processed by adding the prior value.
+
+Write each file atomically (write full content in one bash command using a heredoc or printf). Confirm each file path after writing it.`
+
+    await agent(metadataPrompt, {
+        label: 'write-metadata',
+        phase: 'Metadata',
+        model: TRIAGE_MODEL,
+    })
+
+    log(`Metadata written to ${METADATA_DIR}/.`)
+}
 
 return {
     transformation: TRANSFORMATION,
     scope: SCOPE,
-    group: GROUP,
-    triaged,
-    bundled,
-    authored,
-    integrated,
+    groupCount: allResults.length,
+    groups: allResults.map((r) => r.group),
+    totalSettled,
+    totalFailed,
+    results: allResults,
 }
