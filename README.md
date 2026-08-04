@@ -90,7 +90,7 @@ working file. Human approvals live separately in `approvals.toml`, which a perso
 through the approval helper command rather than by editing the agent log. The same runner
 works for any step; you just point it at a different folder.
 
-## The method, formally
+## Mathematical Representation
 
 Each step is an optimization over a repository `R`, advanced by *settling* units `u` — the
 atoms of work (a source file, a translated family, an amplitude). Three quantities are

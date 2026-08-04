@@ -49,7 +49,7 @@ This pass works only on already-translated targets and focuses on three cleanup 
 
 1. move obsolete original Fortran sources out of active source directories
 2. remove `_fi` compatibility shims that are no longer required
-3. merge and reorganize translated headers and sources into cleaner combined C++ interfaces and implementation units where that improves ownership and structure
+3. merge and reorganize translated headers into cleaner combined C++ interfaces where that improves ownership and structure, while keeping `.cpp` files aligned with the original `deprecated/*.f` organization
 4. replace translation-era local forward declarations with proper header-based C++ interfaces where appropriate
 
 The desired direction is a cleaner and more organized C++ port with fewer tiny wrapper files,
@@ -120,45 +120,46 @@ callers, keep the shim and record `KEPT_SHIM` with the reason.
 
 ---
 
-## Action 3: merge and reorganize translated `.hpp` and `.cpp` files
+## Action 3: merge and reorganize translated `.hpp` files
 
-The cleanup pass may merge several translation-era headers into a combined header and may also
-merge several implementation files into one or more coherent `.cpp` files when that produces a
-cleaner C++ structure. The goal is not simply to collapse every `.hpp` into its `.cpp`, but to
-organize related code around reusable interfaces, ownership, and cohesive implementation units.
+The cleanup pass may merge several translation-era headers into a combined header when that
+produces a cleaner C++ structure. The goal is not simply to collapse every `.hpp` into its `.cpp`,
+but to organize related declarations around reusable interfaces and ownership.
 
 A combined header may legitimately be included by multiple `.cpp` files when it represents the
-right shared interface. Likewise, several former per-file translated implementations may be
-merged into one `.cpp` if they belong to the same logical implementation unit.
+right shared interface.
+
+Header bundling is allowed; `.cpp` bundling is not. Keep `.cpp` files aligned with the original
+`deprecated/*.f` organization rather than merging translation units — one translated Fortran
+source maps to one `.cpp` implementation file.
 
 ### Good merge candidates
 
 - several tiny translated headers that collectively define one coherent reusable interface
-- several small translated `.cpp` files that implement one logical facility or tightly related set of methods/functions
 - file-local helper declarations that do not deserve a standalone reusable header
-- translated units where the per-file split exists only because the rewrite process emitted it by default
-- families of files that become easier to navigate when grouped by ownership or responsibility rather than original Fortran file boundaries
+- translated headers where the per-file split exists only because the rewrite process emitted it by default
+- header families that become easier to navigate when grouped by ownership or responsibility rather than original Fortran file boundaries
 
 ### Do not merge when
 
 - the existing header split is already the clearest reusable interface boundary
 - merging would blur distinct ownership or create a less coherent API surface
 - the header forms a needed interop boundary
-- different implementation files should remain separate for clarity, dependency control, or build structure
 - merging would create circular include, initialization-order, or build-structure problems
-- the merge makes the implementation materially harder to navigate
+- the merge makes the interface materially harder to navigate
 
 ### Merge rule
 
-Merge or reorganize translated headers/sources only when:
+Merge or reorganize translated headers only when:
 
-1. repository inspection shows the new combined layout is a clearer representation of the reusable interfaces and implementation ownership
+1. repository inspection shows the new combined header is a clearer representation of the reusable interfaces
 2. any declarations needed across translation units remain available in one or more proper headers
 3. local-only declarations can be kept inside implementation files without harming clarity
 4. local build wiring remains correct
 5. the reorganization reduces translation-era bloat without removing a genuinely useful interface boundary
-6. any combined header still serves as the proper declaration point for all active `.cpp` users that should share that interface
-7. `jobrunner submit tests/mcfm` passes afterward
+6. the combined header still serves as the proper declaration point for all active `.cpp` users that should share that interface
+7. `.cpp` files are left aligned with the original `deprecated/*.f` organization — one translated Fortran source per `.cpp`
+8. `jobrunner submit tests/mcfm` passes afterward
 
 If unsure, keep the existing split and record `KEPT_SPLIT`.
 

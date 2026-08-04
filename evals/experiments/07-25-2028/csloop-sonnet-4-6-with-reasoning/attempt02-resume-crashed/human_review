@@ -1,0 +1,5 @@
+- Author created two new tools under dev/tools instead of dev/tmp:
+	- tools/cleanup_originals.py
+	- tools/run_verify.py
+
+- Ran manual tests after crash, test_ok is TRUE

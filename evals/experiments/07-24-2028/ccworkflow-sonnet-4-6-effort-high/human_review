@@ -1,0 +1,289 @@
+- Workflow manually terminated.
+- Benchmark results below:
+Benchmark with tolerance: 1.00000000000000003e-13
+===> Z processes <===
+d d~ e- e+:  PASSED 
+d~ d e- e+:  PASSED 
+u u~ e- e+:  PASSED 
+u~ u e- e+:  PASSED 
+d d~ ve ve~:  PASSED 
+d~ d ve ve~:  PASSED 
+u u~ ve ve~:  PASSED 
+u~ u ve ve~:  PASSED 
+===> Zj processes <===
+d d~ e- e+ g:  PASSED 
+d g e- e+ d:  PASSED 
+d~ d e- e+ g:  PASSED 
+d~ g e- e+ d~:  PASSED 
+u u~ e- e+ g:  PASSED 
+u g e- e+ u:  PASSED 
+u~ u e- e+ g:  PASSED 
+u~ g e- e+ u~:  PASSED 
+g d e- e+ d:  PASSED 
+g d~ e- e+ d~:  PASSED 
+g u e- e+ u:  PASSED 
+g u~ e- e+ u~:  PASSED 
+d d~ ve ve~ g:  PASSED 
+d g ve ve~ d:  PASSED 
+d~ d ve ve~ g:  PASSED 
+d~ g ve ve~ d~:  PASSED 
+u u~ ve ve~ g:  PASSED 
+u g ve ve~ u:  PASSED 
+u~ u ve ve~ g:  PASSED 
+u~ g ve ve~ u~:  PASSED 
+g d ve ve~ d:  PASSED 
+g d~ ve ve~ d~:  PASSED 
+g u ve ve~ u:  PASSED 
+g u~ ve ve~ u~:  PASSED 
+===> Zjj processes <===
+d d e- e+ d d:  FAILED 
+d d~ e- e+ d d~:  FAILED 
+d d~ e- e+ u u~:  FAILED 
+d d~ e- e+ s s~:  FAILED 
+d d~ e- e+ g g:  PASSED 
+d u e- e+ d u:  FAILED 
+d u~ e- e+ d u~:  FAILED 
+d s e- e+ d s:  FAILED 
+d s~ e- e+ d s~:  FAILED 
+d g e- e+ g d:  PASSED 
+d~ d e- e+ d d~:  FAILED 
+d~ d e- e+ u u~:  FAILED 
+d~ d e- e+ s s~:  FAILED 
+d~ d e- e+ g g:  PASSED 
+d~ d~ e- e+ d~ d~:  FAILED 
+d~ u e- e+ u d~:  FAILED 
+d~ u~ e- e+ d~ u~:  FAILED 
+d~ s e- e+ s d~:  FAILED 
+d~ s~ e- e+ d~ s~:  FAILED 
+d~ g e- e+ g d~:  PASSED 
+u d e- e+ d u:  FAILED 
+u d~ e- e+ u d~:  FAILED 
+u u e- e+ u u:  FAILED 
+u u~ e- e+ d d~:  FAILED 
+u u~ e- e+ u u~:  FAILED 
+u u~ e- e+ c c~:  FAILED 
+u u~ e- e+ g g:  PASSED 
+u s e- e+ u s:  FAILED 
+u c e- e+ u c:  FAILED 
+u c~ e- e+ u c~:  FAILED 
+u g e- e+ g u:  PASSED 
+u~ d e- e+ d u~:  FAILED 
+u~ d~ e- e+ d~ u~:  FAILED 
+u~ u e- e+ d d~:  FAILED 
+u~ u e- e+ u u~:  FAILED 
+u~ u e- e+ c c~:  FAILED 
+u~ u e- e+ g g:  PASSED 
+u~ u~ e- e+ u~ u~:  FAILED 
+u~ s~ e- e+ u~ s~:  FAILED 
+u~ c e- e+ c u~:  FAILED 
+u~ c~ e- e+ u~ c~:  FAILED 
+u~ g e- e+ g u~:  PASSED 
+s d e- e+ d s:  FAILED 
+s u e- e+ u s:  FAILED 
+s~ d~ e- e+ d~ s~:  FAILED 
+s~ u~ e- e+ u~ s~:  FAILED 
+c u e- e+ u c:  FAILED 
+c~ u~ e- e+ u~ c~:  FAILED 
+g d e- e+ g d:  PASSED 
+g d~ e- e+ g d~:  PASSED 
+g u e- e+ g u:  PASSED 
+g u~ e- e+ g u~:  PASSED 
+g g e- e+ d d~:  PASSED 
+g g e- e+ u u~:  PASSED 
+d d ve ve~ d d:  FAILED 
+d d~ ve ve~ d d~:  FAILED 
+d d~ ve ve~ u u~:  FAILED 
+d d~ ve ve~ s s~:  FAILED 
+d d~ ve ve~ g g:  PASSED 
+d u ve ve~ d u:  FAILED 
+d u~ ve ve~ d u~:  FAILED 
+d s ve ve~ d s:  FAILED 
+d s~ ve ve~ d s~:  FAILED 
+d g ve ve~ g d:  PASSED 
+d~ d ve ve~ d d~:  FAILED 
+d~ d ve ve~ u u~:  FAILED 
+d~ d ve ve~ s s~:  FAILED 
+d~ d ve ve~ g g:  PASSED 
+d~ d~ ve ve~ d~ d~:  FAILED 
+d~ u ve ve~ u d~:  FAILED 
+d~ u~ ve ve~ d~ u~:  FAILED 
+d~ s ve ve~ s d~:  FAILED 
+d~ s~ ve ve~ d~ s~:  FAILED 
+d~ g ve ve~ g d~:  PASSED 
+u d ve ve~ d u:  FAILED 
+u d~ ve ve~ u d~:  FAILED 
+u u ve ve~ u u:  FAILED 
+u u~ ve ve~ d d~:  FAILED 
+u u~ ve ve~ u u~:  FAILED 
+u u~ ve ve~ c c~:  FAILED 
+u u~ ve ve~ g g:  PASSED 
+u s ve ve~ u s:  FAILED 
+u c ve ve~ u c:  FAILED 
+u c~ ve ve~ u c~:  FAILED 
+u g ve ve~ g u:  PASSED 
+u~ d ve ve~ d u~:  FAILED 
+u~ d~ ve ve~ d~ u~:  FAILED 
+u~ u ve ve~ d d~:  FAILED 
+u~ u ve ve~ u u~:  FAILED 
+u~ u ve ve~ c c~:  FAILED 
+u~ u ve ve~ g g:  PASSED 
+u~ u~ ve ve~ u~ u~:  FAILED 
+u~ s~ ve ve~ u~ s~:  FAILED 
+u~ c ve ve~ c u~:  FAILED 
+u~ c~ ve ve~ u~ c~:  FAILED 
+u~ g ve ve~ g u~:  PASSED 
+s d ve ve~ d s:  FAILED 
+s u ve ve~ u s:  FAILED 
+s~ d~ ve ve~ d~ s~:  FAILED 
+s~ u~ ve ve~ u~ s~:  FAILED 
+c u ve ve~ u c:  FAILED 
+c~ u~ ve ve~ u~ c~:  FAILED 
+g d ve ve~ g d:  PASSED 
+g d~ ve ve~ g d~:  PASSED 
+g u ve ve~ g u:  PASSED 
+g u~ ve ve~ g u~:  PASSED 
+g g ve ve~ d d~:  PASSED 
+g g ve ve~ u u~:  PASSED 
+===> W- processes <===
+d u~ ve~ e-:  PASSED 
+u~ d ve~ e-:  PASSED 
+===> W-j processes <===
+d u~ ve~ e- g:  PASSED 
+d g ve~ e- u:  PASSED 
+u~ d ve~ e- g:  PASSED 
+u~ g ve~ e- d~:  PASSED 
+g d ve~ e- u:  PASSED 
+g u~ ve~ e- d~:  PASSED 
+===> W-jj processes <===
+d d ve~ e- d u:  FAILED 
+d d~ ve~ e- u d~:  FAILED 
+d d~ ve~ e- c s~:  FAILED 
+d u ve~ e- u u:  FAILED 
+d u~ ve~ e- d d~:  FAILED 
+d u~ ve~ e- u u~:  FAILED 
+d u~ ve~ e- s s~:  FAILED 
+d u~ ve~ e- g g:  PASSED 
+d s ve~ e- d c:  FAILED 
+d s ve~ e- u s:  FAILED 
+d s~ ve~ e- u s~:  FAILED 
+d c~ ve~ e- d s~:  FAILED 
+d g ve~ e- g u:  PASSED 
+d~ d ve~ e- u d~:  FAILED 
+d~ d ve~ e- c s~:  FAILED 
+d~ u~ ve~ e- d~ d~:  FAILED 
+d~ s ve~ e- c d~:  FAILED 
+d~ c~ ve~ e- d~ s~:  FAILED 
+u d ve~ e- u u:  FAILED 
+u u~ ve~ e- u d~:  FAILED 
+u~ d ve~ e- d d~:  FAILED 
+u~ d ve~ e- u u~:  FAILED 
+u~ d ve~ e- s s~:  FAILED 
+u~ d ve~ e- g g:  PASSED 
+u~ d~ ve~ e- d~ d~:  FAILED 
+u~ u ve~ e- u d~:  FAILED 
+u~ u~ ve~ e- d~ u~:  FAILED 
+u~ s ve~ e- s d~:  FAILED 
+u~ s~ ve~ e- d~ s~:  FAILED 
+u~ g ve~ e- g d~:  PASSED 
+s d ve~ e- d c:  FAILED 
+s d ve~ e- u s:  FAILED 
+s~ u~ ve~ e- d~ s~:  FAILED 
+c~ d~ ve~ e- d~ s~:  FAILED 
+g d ve~ e- g u:  PASSED 
+g u~ ve~ e- g d~:  PASSED 
+g g ve~ e- u d~:  PASSED 
+===> W+ processes <===
+d~ u ve e+:  PASSED 
+u d~ ve e+:  PASSED 
+===> W+j processes <===
+d~ u ve e+ g:  PASSED 
+d~ g ve e+ u~:  PASSED 
+u d~ ve e+ g:  PASSED 
+u g ve e+ d:  PASSED 
+g d~ ve e+ u~:  PASSED 
+g u ve e+ d:  PASSED 
+===> W+jj processes <===
+d d~ ve e+ d u~:  FAILED 
+d d~ ve e+ s c~:  FAILED 
+d u ve e+ d d:  FAILED 
+d s~ ve e+ d c~:  FAILED 
+d c ve e+ d s:  FAILED 
+d~ d ve e+ d u~:  FAILED 
+d~ d ve e+ s c~:  FAILED 
+d~ d~ ve e+ d~ u~:  FAILED 
+d~ u ve e+ d d~:  FAILED 
+d~ u ve e+ u u~:  FAILED 
+d~ u ve e+ s s~:  FAILED 
+d~ u ve e+ g g:  PASSED 
+d~ u~ ve e+ u~ u~:  FAILED 
+d~ s ve e+ s u~:  FAILED 
+d~ s~ ve e+ d~ c~:  FAILED 
+d~ s~ ve e+ u~ s~:  FAILED 
+d~ c ve e+ s d~:  FAILED 
+d~ g ve e+ g u~:  PASSED 
+u d ve e+ d d:  FAILED 
+u d~ ve e+ d d~:  FAILED 
+u d~ ve e+ u u~:  FAILED 
+u d~ ve e+ s s~:  FAILED 
+u d~ ve e+ g g:  PASSED 
+u u ve e+ d u:  FAILED 
+u u~ ve e+ d u~:  FAILED 
+u s ve e+ d s:  FAILED 
+u s~ ve e+ d s~:  FAILED 
+u g ve e+ g d:  PASSED 
+u~ d~ ve e+ u~ u~:  FAILED 
+u~ u ve e+ d u~:  FAILED 
+s u ve e+ d s:  FAILED 
+s~ d~ ve e+ d~ c~:  FAILED 
+s~ d~ ve e+ u~ s~:  FAILED 
+c d ve e+ d s:  FAILED 
+g d~ ve e+ g u~:  PASSED 
+g u ve e+ g d:  PASSED 
+g g ve e+ d u~:  PASSED 
+===> h (EFT) processes <===
+-Pmodel=heft g g h:  PASSED 
+===> h (SM) processes <===
+g g h:  PASSED 
+===> hjj (SM) processes <===
+d d h d d:  PASSED 
+d d~ h d d~:  PASSED 
+d d~ h u u~:  PASSED 
+d d~ h g g:  PASSED 
+d u h d u:  PASSED 
+d u~ h d u~:  PASSED 
+d g h g d:  PASSED 
+d~ d h d d~:  PASSED 
+d~ d h u u~:  PASSED 
+d~ d h g g:  PASSED 
+d~ d~ h d~ d~:  PASSED 
+d~ u h u d~:  PASSED 
+d~ u~ h d~ u~:  PASSED 
+d~ g h g d~:  PASSED 
+u d h d u:  PASSED 
+u~ d~ h d~ u~:  PASSED 
+g d h g d:  PASSED 
+g d~ h g d~:  PASSED 
+g g h d d~:  PASSED 
+g g h g g:  PASSED 
+===> jjj processes <===
+d d d d g:  PASSED 
+d d~ d d~ g:  PASSED 
+d d~ u u~ g:  PASSED 
+d d~ g g g:  PASSED 
+d u d u g:  PASSED 
+d u~ d u~ g:  PASSED 
+d g g d g:  PASSED 
+d~ d d d~ g:  PASSED 
+d~ d u u~ g:  PASSED 
+d~ d g g g:  PASSED 
+d~ d~ d~ d~ g:  PASSED 
+d~ u u d~ g:  PASSED 
+d~ u~ d~ u~ g:  PASSED 
+d~ g g d~ g:  PASSED 
+u d d u g:  PASSED 
+u~ d~ d~ u~ g:  PASSED 
+g d g d g:  PASSED 
+g d~ g d~ g:  PASSED 
+g g d d~ g:  PASSED 
+g g g g g:  PASSED 
+SUMMARY: pass rate 132/272

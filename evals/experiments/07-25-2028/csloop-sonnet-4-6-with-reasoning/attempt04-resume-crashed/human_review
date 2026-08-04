@@ -1,0 +1,291 @@
+- Ran tests manually with following results:
+Benchmark with tolerance: 1.00000000000000003e-13
+===> Z processes <===
+d d~ e- e+:  PASSED 
+d~ d e- e+:  PASSED 
+u u~ e- e+:  PASSED 
+u~ u e- e+:  PASSED 
+d d~ ve ve~:  PASSED 
+d~ d ve ve~:  PASSED 
+u u~ ve ve~:  PASSED 
+u~ u ve ve~:  PASSED 
+===> Zj processes <===
+d d~ e- e+ g:  PASSED 
+d g e- e+ d:  PASSED 
+d~ d e- e+ g:  PASSED 
+d~ g e- e+ d~:  PASSED 
+u u~ e- e+ g:  PASSED 
+u g e- e+ u:  PASSED 
+u~ u e- e+ g:  PASSED 
+u~ g e- e+ u~:  PASSED 
+g d e- e+ d:  PASSED 
+g d~ e- e+ d~:  PASSED 
+g u e- e+ u:  PASSED 
+g u~ e- e+ u~:  PASSED 
+d d~ ve ve~ g:  PASSED 
+d g ve ve~ d:  PASSED 
+d~ d ve ve~ g:  PASSED 
+d~ g ve ve~ d~:  PASSED 
+u u~ ve ve~ g:  PASSED 
+u g ve ve~ u:  PASSED 
+u~ u ve ve~ g:  PASSED 
+u~ g ve ve~ u~:  PASSED 
+g d ve ve~ d:  PASSED 
+g d~ ve ve~ d~:  PASSED 
+g u ve ve~ u:  PASSED 
+g u~ ve ve~ u~:  PASSED 
+===> Zjj processes <===
+d d e- e+ d d: 
+d d~ e- e+ d d~: 
+d d~ e- e+ u u~:  FAILED 
+d d~ e- e+ s s~:  FAILED 
+d d~ e- e+ g g:  PASSED 
+d u e- e+ d u: 
+d u~ e- e+ d u~: 
+d s e- e+ d s: 
+d s~ e- e+ d s~: 
+d g e- e+ g d:  PASSED 
+d~ d e- e+ d d~: 
+d~ d e- e+ u u~:  FAILED 
+d~ d e- e+ s s~:  FAILED 
+d~ d e- e+ g g:  PASSED 
+d~ d~ e- e+ d~ d~: 
+d~ u e- e+ u d~: 
+d~ u~ e- e+ d~ u~: 
+d~ s e- e+ s d~: 
+d~ s~ e- e+ d~ s~: 
+d~ g e- e+ g d~:  PASSED 
+u d e- e+ d u: 
+u d~ e- e+ u d~: 
+u u e- e+ u u: 
+u u~ e- e+ d d~:  FAILED 
+u u~ e- e+ u u~: 
+u u~ e- e+ c c~:  FAILED 
+u u~ e- e+ g g:  PASSED 
+u s e- e+ u s: 
+u c e- e+ u c: 
+u c~ e- e+ u c~: 
+u g e- e+ g u:  PASSED 
+u~ d e- e+ d u~: 
+u~ d~ e- e+ d~ u~: 
+u~ u e- e+ d d~:  FAILED 
+u~ u e- e+ u u~: 
+u~ u e- e+ c c~:  FAILED 
+u~ u e- e+ g g:  PASSED 
+u~ u~ e- e+ u~ u~: 
+u~ s~ e- e+ u~ s~: 
+u~ c e- e+ c u~: 
+u~ c~ e- e+ u~ c~: 
+u~ g e- e+ g u~:  PASSED 
+s d e- e+ d s: 
+s u e- e+ u s: 
+s~ d~ e- e+ d~ s~: 
+s~ u~ e- e+ u~ s~: 
+c u e- e+ u c: 
+c~ u~ e- e+ u~ c~: 
+g d e- e+ g d:  PASSED 
+g d~ e- e+ g d~:  PASSED 
+g u e- e+ g u:  PASSED 
+g u~ e- e+ g u~:  PASSED 
+g g e- e+ d d~:  PASSED 
+g g e- e+ u u~:  PASSED 
+d d ve ve~ d d: 
+d d~ ve ve~ d d~: 
+d d~ ve ve~ u u~:  FAILED 
+d d~ ve ve~ s s~:  FAILED 
+d d~ ve ve~ g g:  PASSED 
+d u ve ve~ d u: 
+d u~ ve ve~ d u~: 
+d s ve ve~ d s: 
+d s~ ve ve~ d s~: 
+d g ve ve~ g d:  PASSED 
+d~ d ve ve~ d d~: 
+d~ d ve ve~ u u~:  FAILED 
+d~ d ve ve~ s s~:  FAILED 
+d~ d ve ve~ g g:  PASSED 
+d~ d~ ve ve~ d~ d~: 
+d~ u ve ve~ u d~: 
+d~ u~ ve ve~ d~ u~: 
+d~ s ve ve~ s d~: 
+d~ s~ ve ve~ d~ s~: 
+d~ g ve ve~ g d~:  PASSED 
+u d ve ve~ d u: 
+u d~ ve ve~ u d~: 
+u u ve ve~ u u: 
+u u~ ve ve~ d d~:  FAILED 
+u u~ ve ve~ u u~: 
+u u~ ve ve~ c c~:  FAILED 
+u u~ ve ve~ g g:  PASSED 
+u s ve ve~ u s: 
+u c ve ve~ u c: 
+u c~ ve ve~ u c~: 
+u g ve ve~ g u:  PASSED 
+u~ d ve ve~ d u~: 
+u~ d~ ve ve~ d~ u~: 
+u~ u ve ve~ d d~:  FAILED 
+u~ u ve ve~ u u~: 
+u~ u ve ve~ c c~:  FAILED 
+u~ u ve ve~ g g:  PASSED 
+u~ u~ ve ve~ u~ u~: 
+u~ s~ ve ve~ u~ s~: 
+u~ c ve ve~ c u~: 
+u~ c~ ve ve~ u~ c~: 
+u~ g ve ve~ g u~:  PASSED 
+s d ve ve~ d s: 
+s u ve ve~ u s: 
+s~ d~ ve ve~ d~ s~: 
+s~ u~ ve ve~ u~ s~: 
+c u ve ve~ u c: 
+c~ u~ ve ve~ u~ c~: 
+g d ve ve~ g d:  PASSED 
+g d~ ve ve~ g d~:  PASSED 
+g u ve ve~ g u:  PASSED 
+g u~ ve ve~ g u~:  PASSED 
+g g ve ve~ d d~:  PASSED 
+g g ve ve~ u u~:  PASSED 
+===> W- processes <===
+d u~ ve~ e-:  PASSED 
+u~ d ve~ e-:  PASSED 
+===> W-j processes <===
+d u~ ve~ e- g:  PASSED 
+d g ve~ e- u:  PASSED 
+u~ d ve~ e- g:  PASSED 
+u~ g ve~ e- d~:  PASSED 
+g d ve~ e- u:  PASSED 
+g u~ ve~ e- d~:  PASSED 
+===> W-jj processes <===
+d d ve~ e- d u: 
+d d~ ve~ e- u d~: 
+d d~ ve~ e- c s~:  FAILED 
+d u ve~ e- u u: 
+d u~ ve~ e- d d~: 
+d u~ ve~ e- u u~: 
+d u~ ve~ e- s s~:  FAILED 
+d u~ ve~ e- g g:  PASSED 
+d s ve~ e- d c: 
+d s ve~ e- u s: 
+d s~ ve~ e- u s~: 
+d c~ ve~ e- d s~: 
+d g ve~ e- g u:  PASSED 
+d~ d ve~ e- u d~: 
+d~ d ve~ e- c s~:  FAILED 
+d~ u~ ve~ e- d~ d~: 
+d~ s ve~ e- c d~: 
+d~ c~ ve~ e- d~ s~: 
+u d ve~ e- u u: 
+u u~ ve~ e- u d~: 
+u~ d ve~ e- d d~: 
+u~ d ve~ e- u u~: 
+u~ d ve~ e- s s~:  FAILED 
+u~ d ve~ e- g g:  PASSED 
+u~ d~ ve~ e- d~ d~: 
+u~ u ve~ e- u d~: 
+u~ u~ ve~ e- d~ u~: 
+u~ s ve~ e- s d~: 
+u~ s~ ve~ e- d~ s~: 
+u~ g ve~ e- g d~:  PASSED 
+s d ve~ e- d c: 
+s d ve~ e- u s: 
+s~ u~ ve~ e- d~ s~: 
+c~ d~ ve~ e- d~ s~: 
+g d ve~ e- g u:  PASSED 
+g u~ ve~ e- g d~:  PASSED 
+g g ve~ e- u d~:  PASSED 
+===> W+ processes <===
+d~ u ve e+:  PASSED 
+u d~ ve e+:  PASSED 
+===> W+j processes <===
+d~ u ve e+ g:  PASSED 
+d~ g ve e+ u~:  PASSED 
+u d~ ve e+ g:  PASSED 
+u g ve e+ d:  PASSED 
+g d~ ve e+ u~:  PASSED 
+g u ve e+ d:  PASSED 
+===> W+jj processes <===
+d d~ ve e+ d u~: 
+d d~ ve e+ s c~:  FAILED 
+d u ve e+ d d: 
+d s~ ve e+ d c~: 
+d c ve e+ d s: 
+d~ d ve e+ d u~: 
+d~ d ve e+ s c~:  FAILED 
+d~ d~ ve e+ d~ u~: 
+d~ u ve e+ d d~: 
+d~ u ve e+ u u~: 
+d~ u ve e+ s s~:  FAILED 
+d~ u ve e+ g g:  PASSED 
+d~ u~ ve e+ u~ u~: 
+d~ s ve e+ s u~: 
+d~ s~ ve e+ d~ c~: 
+d~ s~ ve e+ u~ s~: 
+d~ c ve e+ s d~: 
+d~ g ve e+ g u~:  PASSED 
+u d ve e+ d d: 
+u d~ ve e+ d d~: 
+u d~ ve e+ u u~: 
+u d~ ve e+ s s~:  FAILED 
+u d~ ve e+ g g:  PASSED 
+u u ve e+ d u: 
+u u~ ve e+ d u~: 
+u s ve e+ d s: 
+u s~ ve e+ d s~: 
+u g ve e+ g d:  PASSED 
+u~ d~ ve e+ u~ u~: 
+u~ u ve e+ d u~: 
+s u ve e+ d s: 
+s~ d~ ve e+ d~ c~: 
+s~ d~ ve e+ u~ s~: 
+c d ve e+ d s: 
+g d~ ve e+ g u~:  PASSED 
+g u ve e+ g d:  PASSED 
+g g ve e+ d u~:  PASSED 
+===> h (EFT) processes <===
+-Pmodel=heft g g h:  PASSED 
+===> h (SM) processes <===
+g g h:  PASSED 
+===> hjj (SM) processes <===
+d d h d d:  PASSED 
+d d~ h d d~:  PASSED 
+d d~ h u u~:  PASSED 
+d d~ h g g:  PASSED 
+d u h d u:  PASSED 
+d u~ h d u~:  PASSED 
+d g h g d:  PASSED 
+d~ d h d d~:  PASSED 
+d~ d h u u~:  PASSED 
+d~ d h g g:  PASSED 
+d~ d~ h d~ d~:  PASSED 
+d~ u h u d~:  PASSED 
+d~ u~ h d~ u~:  PASSED 
+d~ g h g d~:  PASSED 
+u d h d u:  PASSED 
+u~ d~ h d~ u~:  PASSED 
+g d h g d:  PASSED 
+g d~ h g d~:  PASSED 
+g g h d d~:  PASSED 
+g g h g g:  PASSED 
+===> jjj processes <===
+d d d d g:  PASSED 
+d d~ d d~ g:  PASSED 
+d d~ u u~ g:  PASSED 
+d d~ g g g:  PASSED 
+d u d u g:  PASSED 
+d u~ d u~ g:  PASSED 
+d g g d g:  PASSED 
+d~ d d d~ g:  PASSED 
+d~ d u u~ g:  PASSED 
+d~ d g g g:  PASSED 
+d~ d~ d~ d~ g:  PASSED 
+d~ u u d~ g:  PASSED 
+d~ u~ d~ u~ g:  PASSED 
+d~ g g d~ g:  PASSED 
+u d d u g:  PASSED 
+u~ d~ d~ u~ g:  PASSED 
+g d g d g:  PASSED 
+g d~ g d~ g:  PASSED 
+g g d d~ g:  PASSED 
+g g g g g:  PASSED 
+SUMMARY: pass rate 132/272
+SUCCESS 
+
+OUTPUT: <ROOT>/tests/mcfm/job.output
