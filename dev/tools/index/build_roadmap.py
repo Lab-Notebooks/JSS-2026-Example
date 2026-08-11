@@ -41,6 +41,10 @@ RECURSIVE              = YES
 FILE_PATTERNS          = *.f *.F *.f90 *.F90
 OPTIMIZE_FOR_FORTRAN   = YES
 EXTENSION_MAPPING      = f=FortranFixed F=FortranFixed f90=FortranFree F90=FortranFree
+# MCFM compiles fixed-form with unlimited line length, so past column 72 is still
+# code. Doxygen's default of 72 truncates it and can abort the run outright, so use
+# the 10000 maximum (ignored with a warning on 1.8.x).
+FORTRAN_COMMENT_AFTER  = 10000
 EXTRACT_ALL            = YES
 EXTRACT_PRIVATE        = YES
 EXTRACT_STATIC         = YES
@@ -80,6 +84,10 @@ def run_doxygen():
     r = subprocess.run(["doxygen", "-"], input=config, text=True,
                        stdout=subprocess.DEVNULL)
     n = len([x for x in glob.glob(XML + "/*.xml") if not x.endswith("index.xml")])
+    if r.returncode < 0:
+        # Aborted mid-parse; the "Error in file ... state: N" lines above are the
+        # expected *_inc.f noise, not the cause.
+        sys.exit(f"error: doxygen died on signal {-r.returncode} after parsing — no XML written")
     if r.returncode or n == 0:
         sys.exit("error: no XML produced — check doxygen output")
     print(f"wrote {n} XML file(s) to {XML}")
