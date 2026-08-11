@@ -13,7 +13,7 @@ transformation, model, submodule, or loop tool beyond what you can verify on dis
 Study the current repository organization first. In particular, inspect whichever of these are
 present and relevant for the latest run:
 - `dev/transformations`
-- `.csloop/loop`, `.csloop/logs`, `.codescribe/loop`, and `.codescribe/logs`
+- `csloop/loop`, `csloop/logs`, `codescribe/loop`, and `codescribe/logs`
 - `dev/tmp` and `dev/tools/tmp`
 - `software`
 - `evals/experiments`
