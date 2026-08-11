@@ -4,13 +4,43 @@ bash=[]
 [[chat.user]]
 content = '''
 
-Help me archive experiments I just ran. The experiments
-are organized in dev/transformations, .csloop, and software/mcfm.
-I need to archive them in evals/experiments and create a matching branch
-for mcfm submodule to commit the code. Study its current folder organization,
-make a plan, and then implement it. 
+Help me archive the latest experiment I just ran.
 
-Write the plan on disk as loop_plan.md. If it alreay exists, DO NOT
-edit it. Write logs in loop_log.md, which you can edit. Create both files
-if they don't alredy exist in the current directory.
+Use the most recent completed experiment already present in this repository as a template for
+what a good archive should contain, but keep your work generic: do not assume a particular
+transformation, model, submodule, or loop tool beyond what you can verify on disk.
+
+Study the current repository organization first. In particular, inspect whichever of these are
+present and relevant for the latest run:
+- `dev/transformations`
+- `.csloop/loop`, `.csloop/logs`, `.codescribe/loop`, and `.codescribe/logs`
+- `dev/tmp` and `dev/tools/tmp`
+- `software`
+- `evals/experiments`
+
+From the available artifacts, infer:
+- what the latest experiment was,
+- which files/logs/artifacts are important enough to preserve,
+- which code directory or submodule needs a matching archival branch/commit context,
+- and how prior archived experiments are organized in `evals/experiments`.
+
+Then make a plan and implement it.
+
+Archive the experiment under `evals/experiments` in a way that matches the existing archive
+layout and naming conventions already used in this repo. Preserve the most valuable loop logs
+and summaries you find (for example from `.csloop` / `.codescribe`, including `logs/toolusage.toml`
+when present, transformation logs, review outputs, agent logs, helper scripts, and any other
+artifacts needed to understand or reproduce the run), but avoid copying obvious noise.
+
+Write the plan on disk as `loop_plan.md`. If it already exists, DO NOT edit it.
+Write progress notes in `loop_log.md`, which you may update. Create both files if they do not
+already exist in the current directory.
+
+If the experiment modified a relevant code repository or submodule, create a matching archival
+branch for it and make the necessary commits so that the archived experiment and code state are
+traceable together.
+
+When the archive is complete, clean the git working tree so a new experiment can be run, but do
+not delete the archived record you just created.
+
 '''
