@@ -1,0 +1,16 @@
+[tools]
+bash=[]
+
+[[chat.user]]
+content = '''
+
+Help me archive experiments I just ran. The experiments
+are organized in dev/transformations, .csloop, and software/mcfm.
+I need to archive them in evals/experiments and create a matching branch
+for mcfm submodule to commit the code. Study its current folder organization,
+make a plan, and then implement it. 
+
+Write the plan on disk as loop_plan.md. If it alreay exists, DO NOT
+edit it. Write logs in loop_log.md, which you can edit. Create both files
+if they don't alredy exist in the current directory.
+'''
