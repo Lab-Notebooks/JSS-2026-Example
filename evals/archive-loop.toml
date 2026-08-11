@@ -1,5 +1,5 @@
 [tools]
-bash=[]
+bash=["mv","cp"]
 
 [[chat.user]]
 content = '''
@@ -13,7 +13,7 @@ transformation, model, submodule, or loop tool beyond what you can verify on dis
 Study the current repository organization first. In particular, inspect whichever of these are
 present and relevant for the latest run:
 - `dev/transformations`
-- `csloop/loop`, `csloop/logs`, `codescribe/loop`, and `codescribe/logs`
+- `csloop/loop`, `csloop/logs`
 - `dev/tmp` and `dev/tools/tmp`
 - `software`
 - `evals/experiments`
@@ -28,7 +28,7 @@ Then make a plan and implement it.
 
 Archive the experiment under `evals/experiments` in a way that matches the existing archive
 layout and naming conventions already used in this repo. Preserve the most valuable loop logs
-and summaries you find (for example from `.csloop` / `.codescribe`, including `logs/toolusage.toml`
+and summaries you find (for example from `csloop`), including `logs/toolusage.toml`
 when present, transformation logs, review outputs, agent logs, helper scripts, and any other
 artifacts needed to understand or reproduce the run), but avoid copying obvious noise.
 
