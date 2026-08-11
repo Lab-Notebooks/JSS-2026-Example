@@ -3,7 +3,6 @@ bash=["mv","cp"]
 
 [[chat.user]]
 content = '''
-
 Help me archive the latest experiment I just ran.
 
 Use the most recent completed experiment already present in this repository as a template for
@@ -12,28 +11,29 @@ transformation, model, submodule, or loop tool beyond what you can verify on dis
 
 Study the current repository organization first. In particular, inspect whichever of these are
 present and relevant for the latest run:
-- `dev/transformations`
-- `csloop/loop`, `csloop/logs`
-- `dev/tmp` and `dev/tools/tmp`
-- `software`
-- `evals/experiments`
+-  `dev/transformations`
+-  `csloop-saved/loop`, `csloop-saved/logs`
+-  `dev/tmp` and `dev/tools/tmp`
+-  `software`
+-  `evals/experiments`
 
 From the available artifacts, infer:
-- what the latest experiment was,
-- which files/logs/artifacts are important enough to preserve,
-- which code directory or submodule needs a matching archival branch/commit context,
-- and how prior archived experiments are organized in `evals/experiments`.
+-  what the latest experiment was,
+-  which files/logs/artifacts are important enough to preserve,
+-  which code directory or submodule needs a matching archival branch/commit context,
+-  and how prior archived experiments are organized in `evals/experiments`.
 
 Then make a plan and implement it.
 
 Archive the experiment under `evals/experiments` in a way that matches the existing archive
 layout and naming conventions already used in this repo. Preserve the most valuable loop logs
-and summaries you find (for example from `csloop`), including `logs/toolusage.toml`
+and summaries you find from csloop-saved, including `csloop-saved/logs/toolusage.toml`
 when present, transformation logs, review outputs, agent logs, helper scripts, and any other
 artifacts needed to understand or reproduce the run), but avoid copying obvious noise.
 
-Write the plan on disk as `loop_plan.md`. If it already exists, DO NOT edit it.
-Write progress notes in `loop_log.md`, which you may update. Create both files if they do not
+Write the plan on disk as `evals/archive_loop_plan.md`. If it already exists, DO NOT edit it.
+Write progress notes in `evals/archive_loop_log.md`, which you may update. Create both files if they
+do not
 already exist in the current directory.
 
 If the experiment modified a relevant code repository or submodule, create a matching archival
