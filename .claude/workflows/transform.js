@@ -61,11 +61,11 @@ export const meta = {
         },
         {
             title: 'Integrate',
-            model: 'claude-opus-4-6'
+            model: 'claude-opus-5'
         },
         {
             title: 'Fix',
-            model: 'claude-opus-4-6'
+            model: 'claude-opus-5'
         },
         {
             title: 'Metadata'
@@ -104,8 +104,8 @@ const FIXROUNDS = cfg.fixRounds ?? 1
 // stronger model — override per-phase or globally with args.model.
 const TRIAGE_MODEL = cfg.model || cfg.triageModel
 const AUTHOR_MODEL = cfg.model || cfg.authorModel
-const INTEGRATE_MODEL = cfg.model || cfg.integrateModel || 'claude-opus-4-6'
-const FIX_MODEL = cfg.model || cfg.fixModel || 'claude-opus-4-6'
+const INTEGRATE_MODEL = cfg.model || cfg.integrateModel || 'claude-opus-5'
+const FIX_MODEL = cfg.model || cfg.fixModel || 'claude-opus-5'
 
 // Repeated in every prompt below: two things this repo's Plans mention that do not apply
 // to us. The Plans were written with CodeScribe (a different, more restricted runner) in
