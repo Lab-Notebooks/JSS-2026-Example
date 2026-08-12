@@ -1,0 +1,12 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.14.0" xml:lang="en-US">
+  <compounddef id="dir_978e088f1c9dc389c3c8ce9fb804277e" kind="dir">
+    <compoundname>dev/tmp</compoundname>
+    <innerfile refid="doxy__min__test_8f">doxy_min_test.f</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="dev/tmp/"/>
+  </compounddef>
+</doxygen>

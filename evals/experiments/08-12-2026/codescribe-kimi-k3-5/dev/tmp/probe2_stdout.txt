@@ -1,0 +1,67 @@
+=== aqqb_zbb_new references ===
+-- software/mcfm/src/Z2jet/atreez.f
+    6:       function atreez(i1,i2,i3,j1,j2,j3,j4,j5,j6,za,zb)
+    14:       complex(dp):: atreez
+    25:         atreez=+atree('pm',j1,j2,j3,j4,j5,j6,zb,za)
+    27:         atreez=+atree('pp',j1,j2,j3,j4,j6,j5,za,zb)
+    29:         atreez=+atree('pp',j1,j2,j3,j4,j5,j6,zb,za)
+    31:         atreez=+atree('pm',j1,j2,j3,j4,j6,j5,za,zb)
+    33:         atreez=+atree('pm',j1,j2,j3,j4,j6,j5,zb,za)
+    35:         atreez=+atree('pp',j1,j2,j3,j4,j5,j6,za,zb)
+    37:         atreez=+atree('pp',j1,j2,j3,j4,j6,j5,zb,za)
+    39:         atreez=+atree('pm',j1,j2,j3,j4,j5,j6,za,zb)
+-- software/mcfm/src/W2jet/aqqb_zbb.f
+    35:       function aqqb_zbb_new(i1,i2,i3,i4,i5,i6)
+    51: c     Conjg(aqqb_zbb_new(i1,i2,i3,i4,i5,i6))=
+    52: c          -aqqb_zbb_new(i4,i3,i2,i1,i6,i5)
+    57:       complex(dp):: aqqb_zbb_new
+    68:       aqqb_zbb_new=
+=== who calls the 6 group-1 symbols ===
+software/mcfm/src/Z2jet/Bdiff.f ['Bdiff']
+software/mcfm/src/Z2jet/a61z.f []
+software/mcfm/src/Z2jet/a62z.f []
+software/mcfm/src/Z2jet/a63.f []
+software/mcfm/src/Z2jet/a63z.f []
+software/mcfm/src/Z2jet/a6ax.f ['fmt', 'fzip']
+software/mcfm/src/Z2jet/ampqqb_qqb.f ['ampqqb_qqb']
+software/mcfm/src/Z2jet/atreez.f []
+software/mcfm/src/Z2jet/fmt.f ['fmt']
+software/mcfm/src/Z2jet/fmtfull.f []
+software/mcfm/src/Z2jet/fzip.f ['fzip']
+software/mcfm/src/Z2jet/msq_z2jetx.f ['msq_qq', 'msq_qqb']
+software/mcfm/src/Z2jet/qqb_z2jet_v.f []
+software/mcfm/src/Z2jet/qqb_z2jetx_new.f ['ampqqb_qqb', 'msq_qq', 'msq_qqb', 'storecsz']
+software/mcfm/src/Z2jet/storecsz.f ['storecsz']
+software/mcfm/src/Z2jet/z2jetsq.f []
+=== mmsq_cs include file ===
+=== masses_mod mt decl ===
+    60:   extern double md, mu, ms, mc, mb, mt;
+=== cplx2 / i3m in Need ===
+software/mcfm/src/Need/cplx.f90
+software/mcfm/src/Need/i3m.f90
+=== Loop.hpp ===
+missing
+found: software/mcfm/src/loop/Loop.hpp
+#ifndef LOOP_H
+#define LOOP_H
+
+#include <complex>
+
+typedef std::complex<double> complex;
+
+extern "C" {
+  extern complex qli2(double const& p1, double const& m1, double const& m2, double const& mu2, int const& ep);
+  extern complex qli2c(double const& p1, complex const& m1, complex const& m2, double const& mu2, int const& ep);
+  extern complex qli3(double const& p1, double const& p2, double const& p3, double const& m1, double const& m2, double const& m3, double const& mu2, int const& ep);
+  extern complex qli3c(double const& p1, double const& p2, double const& p3, complex const& m1, complex const& m2, complex const& m3, double const& mu2, int const& ep);
+ 
+}
+
+extern complex loopI2(double p1, double m1, double m2, double mu2, int ep);
+extern complex loopI2(double p1, complex m1, complex m2, double mu2, int ep);
+
+extern complex loopI3(double p1, double p2, double p3, double m1, double m2, double m3, double mu2, int ep);
+extern complex loopI3(double p1, double p2, double p3, complex m1, complex m2, complex m3, double mu2, int ep);
+
+#endif
+

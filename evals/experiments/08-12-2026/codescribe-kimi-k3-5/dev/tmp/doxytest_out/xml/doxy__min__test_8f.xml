@@ -1,0 +1,45 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.14.0" xml:lang="en-US">
+  <compounddef id="doxy__min__test_8f" kind="file" language="Fortran">
+    <compoundname>doxy_min_test.f</compoundname>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="doxy__min__test_8f_1a403076012947797a5348e53e02b8f65a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>subroutine real *8</type>
+        <definition>subroutine real*8 smalltest1</definition>
+        <argsstring>(n)</argsstring>
+        <name>smalltest1</name>
+        <param>
+          <type>integer</type>
+          <defname>n</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="dev/tmp/doxy_min_test.f" line="2" column="1" bodyfile="dev/tmp/doxy_min_test.f" bodystart="3" bodyend="12"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="comment">c<sp/>Test<sp/>file<sp/>to<sp/>isolate<sp/>the<sp/>Doxygen<sp/>1.14.0<sp/>Fortran-fixed<sp/>parser<sp/>crash</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">subroutine<sp/></highlight><highlight class="normal"><ref refid="doxy__min__test_8f_1a403076012947797a5348e53e02b8f65a" kindref="member">smalltest1</ref>(n)</highlight></codeline>
+<codeline lineno="3"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">implicit<sp/>none</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="4"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">integer</highlight><highlight class="normal"><sp/>n</highlight></codeline>
+<codeline lineno="5"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">complex*16</highlight><highlight class="normal"><sp/>z(2,2,2)</highlight></codeline>
+<codeline lineno="6"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>real*8<sp/>x</highlight></codeline>
+<codeline lineno="7"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>real*8<sp/><ref refid="doxy__min__test_8f_1a403076012947797a5348e53e02b8f65a" kindref="member">smalltest1</ref></highlight></codeline>
+<codeline lineno="8"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>x<sp/>=<sp/>dble(</highlight></codeline>
+<codeline lineno="9"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/>&amp;<sp/><sp/>z(1,1,1)*z(2,2,2)</highlight></codeline>
+<codeline lineno="10"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/>&amp;<sp/>,kind=8)</highlight></codeline>
+<codeline lineno="11"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="doxy__min__test_8f_1a403076012947797a5348e53e02b8f65a" kindref="member">smalltest1</ref><sp/>=<sp/>x</highlight></codeline>
+<codeline lineno="12"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">end</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="dev/tmp/doxy_min_test.f"/>
+  </compounddef>
+</doxygen>

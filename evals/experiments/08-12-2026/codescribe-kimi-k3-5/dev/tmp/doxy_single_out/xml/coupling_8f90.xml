@@ -1,0 +1,37 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.14.0" xml:lang="en-US">
+  <compounddef id="coupling_8f90" kind="file" language="Fortran">
+    <compoundname>coupling.f90</compoundname>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="coupling_8f90_1aa1d23cbbb5ce9b7a7c9f11d88c548baa" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>subroutine</type>
+        <definition>subroutine coupling</definition>
+        <argsstring></argsstring>
+        <name>coupling</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="software/mcfm/src/Need/coupling.f90" line="2" column="1" bodyfile="software/mcfm/src/Need/coupling.f90" bodystart="3" bodyend="8"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="comment">!!<sp/>(post-llm-modified)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2" refid="coupling_8f90_1aa1d23cbbb5ce9b7a7c9f11d88c548baa" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">subroutine<sp/></highlight><highlight class="normal"><ref refid="coupling_8f90_1aa1d23cbbb5ce9b7a7c9f11d88c548baa" kindref="member">coupling</ref></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordtype">implicit<sp/>none</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="4"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">interface</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="5"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">subroutine<sp/></highlight><highlight class="normal">coupling_wrapper()<sp/></highlight><highlight class="keyword">bind(C,<sp/>name=&quot;coupling_wrapper&quot;)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="6"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">end<sp/>subroutine<sp/></highlight><highlight class="normal">coupling_wrapper</highlight></codeline>
+<codeline lineno="7"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">end<sp/>interface</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="8"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">call<sp/></highlight><highlight class="normal">coupling_wrapper()</highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight><highlight class="keyword">end<sp/>subroutine<sp/></highlight><highlight class="normal"><ref refid="coupling_8f90_1aa1d23cbbb5ce9b7a7c9f11d88c548baa" kindref="member">coupling</ref></highlight></codeline>
+    </programlisting>
+    <location file="software/mcfm/src/Need/coupling.f90"/>
+  </compounddef>
+</doxygen>

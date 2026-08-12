@@ -1,0 +1,9 @@
+== coverage check: software/mcfm/src/Z2jet/msq_z2jetx.cpp ==
+process : u u~ e- e+ g g
+factor  : 1.5
+-- baseline build + test --
+-- scaling the marked output by 1.5 --
+-- probed build + test --
+
+RESULT: NOT COVERED — the numbers did not change, so the test never ran this file.
+  Mark it TRANSLATED. Check again after a routine that calls it is rewritten.

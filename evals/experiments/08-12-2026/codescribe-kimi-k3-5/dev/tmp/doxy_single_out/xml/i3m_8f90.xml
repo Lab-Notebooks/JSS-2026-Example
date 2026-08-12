@@ -1,0 +1,61 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.14.0" xml:lang="en-US">
+  <compounddef id="i3m_8f90" kind="file" language="Fortran">
+    <compoundname>i3m.f90</compoundname>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="i3m_8f90_1a36b4744dbbb1bf2a7f09ace4d0f96b36" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>complex(c_double_complex) function</type>
+        <definition>complex(c_double_complex) function i3m</definition>
+        <argsstring>(s1, s2, s3)</argsstring>
+        <name>i3m</name>
+        <param>
+          <type>real(c_double), intent(in)</type>
+          <defname>s1</defname>
+        </param>
+        <param>
+          <type>real(c_double), intent(in)</type>
+          <defname>s2</defname>
+        </param>
+        <param>
+          <type>real(c_double), intent(in)</type>
+          <defname>s3</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="software/mcfm/src/Need/i3m.f90" line="1" column="1" bodyfile="software/mcfm/src/Need/i3m.f90" bodystart="2" bodyend="18"/>
+        <references refid="i3m_8f90_1a36b4744dbbb1bf2a7f09ace4d0f96b36" compoundref="i3m_8f90" startline="2" endline="18">i3m</references>
+        <referencedby refid="i3m_8f90_1a36b4744dbbb1bf2a7f09ace4d0f96b36" compoundref="i3m_8f90" startline="2" endline="18">i3m</referencedby>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1" refid="i3m_8f90_1a36b4744dbbb1bf2a7f09ace4d0f96b36" refkind="member"><highlight class="keyword">function<sp/></highlight><highlight class="normal"><ref refid="i3m_8f90_1a36b4744dbbb1bf2a7f09ace4d0f96b36" kindref="member">i3m</ref>(s1,<sp/>s2,<sp/>s3)</highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"><sp/><sp/><sp/><sp/>use,<sp/></highlight><highlight class="keywordtype">intrinsic</highlight><highlight class="normal"><sp/>::<sp/>iso_c_binding</highlight></codeline>
+<codeline lineno="4"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">implicit<sp/>none</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight><highlight class="keywordtype"><sp/><sp/><sp/><sp/>real</highlight><highlight class="normal">(c_double),<sp/></highlight><highlight class="keywordtype">intent(in)</highlight><highlight class="normal"><sp/>::<sp/>s1,<sp/>s2,<sp/>s3</highlight></codeline>
+<codeline lineno="7"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">complex(c_double_complex)</highlight><highlight class="normal">::<sp/><ref refid="i3m_8f90_1a36b4744dbbb1bf2a7f09ace4d0f96b36" kindref="member">i3m</ref></highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight></codeline>
+<codeline lineno="9"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">interface</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">function<sp/></highlight><highlight class="normal">i3m_wrapper(s1,<sp/>s2,<sp/>s3)<sp/></highlight><highlight class="keyword">bind(C,<sp/>name=&quot;i3m_wrapper&quot;)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">import<sp/></highlight><highlight class="normal">::<sp/>c_double,<sp/>c_double_complex</highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="keywordtype"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>real</highlight><highlight class="normal">(c_double),<sp/></highlight><highlight class="keywordtype">value</highlight><highlight class="normal"><sp/>::<sp/>s1,<sp/>s2,<sp/>s3</highlight></codeline>
+<codeline lineno="13"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">complex(c_double_complex)</highlight><highlight class="normal"><sp/>::<sp/>i3m_wrapper</highlight></codeline>
+<codeline lineno="14"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">end<sp/>function<sp/></highlight><highlight class="normal">i3m_wrapper</highlight></codeline>
+<codeline lineno="15"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">end<sp/>interface</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="i3m_8f90_1a36b4744dbbb1bf2a7f09ace4d0f96b36" kindref="member">i3m</ref><sp/>=<sp/>i3m_wrapper(s1,<sp/>s2,<sp/>s3)</highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="keyword">end<sp/>function</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="software/mcfm/src/Need/i3m.f90"/>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,1 @@
+GATE: OK — completed groups do not yet require approval (1 waiting, limit 3).

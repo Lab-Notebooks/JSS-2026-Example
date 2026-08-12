@@ -1,0 +1,8 @@
+software/mcfm/src/Mods/ggZZ_mod.cpp
+software/mcfm/src/Mods/ggZZcomputemp_mod.cpp
+software/mcfm/src/Mods/ggZZintegrals_mod.cpp
+software/mcfm/src/Z/qqb_z.cpp
+software/mcfm/src/Z/qqb_z_v.cpp
+software/mcfm/src/Z1jet/F1anom.cpp
+software/mcfm/src/Z1jet/qqb_z1jet.cpp
+software/mcfm/src/Z1jet/qqb_z1jet_v.cpp

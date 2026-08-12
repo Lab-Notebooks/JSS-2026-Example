@@ -1,0 +1,12 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.14.0" xml:lang="en-US">
+  <compounddef id="dir_c8fa76d8dc1b9e06ff8aeb3121608b1b" kind="dir">
+    <compoundname>software</compoundname>
+    <innerdir refid="dir_e418259f8437f313de3c2abe81607d8c">software/mcfm</innerdir>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="software/"/>
+  </compounddef>
+</doxygen>

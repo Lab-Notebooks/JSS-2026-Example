@@ -1,0 +1,17 @@
+
+PROJECT_NAME = Single
+OPTIMIZE_FOR_FORTRAN = YES
+RECURSIVE = YES
+EXCLUDE_PATTERNS = */deprecated/* */Store/* */working/*
+EXTENSION_MAPPING = f=FortranFixed F=FortranFixed f90=FortranFree F90=FortranFree
+FILE_PATTERNS = *.f *.F *.f90 *.F90
+EXTRACT_ALL = YES
+REFERENCED_BY_RELATION = YES
+REFERENCES_RELATION = YES
+GENERATE_HTML = NO
+GENERATE_LATEX = NO
+GENERATE_XML = YES
+XML_OUTPUT = xml
+QUIET = NO
+INPUT = /home/adubey/JSS-2026-Example/software/mcfm/src/Need
+OUTPUT_DIRECTORY = /home/adubey/JSS-2026-Example/dev/tmp/doxy_single_out

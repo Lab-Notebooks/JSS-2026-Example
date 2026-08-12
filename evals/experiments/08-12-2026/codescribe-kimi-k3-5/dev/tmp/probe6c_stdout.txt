@@ -1,0 +1,12 @@
+fmt.cpp: markers=1 scalable_assignment=True
+   line: std::complex<double> fmt_res = ((1.0)/(24.0*pow(mt,2)));  // @coverage-probe
+fzip.cpp: markers=1 scalable_assignment=True
+   line: fzip_res = fzip_res + cplx2(0.0,zip);  // @coverage-probe
+storecsz.cpp: markers=1 scalable_assignment=True
+   line: mcs(i,j,k) = mmsq_cs(i,j,k);  // @coverage-probe
+ampqqb_qqb.cpp: markers=1 scalable_assignment=True
+   line: qqbA(1,1,1) = +aqqb_zbb_new_(&i1,&i6,&i5,&i2,&three,&four);  // @coverage-probe
+Bdiff.cpp: markers=1 scalable_assignment=True
+   line: std::complex<double> Bdiff_res = loopI2(s34,msq,msq,musq,0)-loopI2(s12,msq,msq,musq,0);  // @coverag
+msq_z2jetx.cpp: markers=1 scalable_assignment=True
+   line: msq2=zip;  // @coverage-probe

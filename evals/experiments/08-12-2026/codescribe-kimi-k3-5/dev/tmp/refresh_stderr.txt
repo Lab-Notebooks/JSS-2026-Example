@@ -1,0 +1,462 @@
+********************************************************************
+Error in file /home/adubey/JSS-2026-Example/software/mcfm/src/gghgg_dep/Inc/aqaqH_inc.f line: 19, state: 10(ModuleBody)
+********************************************************************
+********************************************************************
+Error in file /home/adubey/JSS-2026-Example/software/mcfm/src/gghgg_dep/Inc/aqaqHamp_inc.f line: 32, state: 10(ModuleBody)
+********************************************************************
+********************************************************************
+Error in file /home/adubey/JSS-2026-Example/software/mcfm/src/gghgg_dep/Inc/aqmpB12_inc.f line: 17, state: 10(ModuleBody)
+********************************************************************
+********************************************************************
+Error in file /home/adubey/JSS-2026-Example/software/mcfm/src/gghgg_dep/Inc/aqmpB12_unsym_inc.f line: 37, state: 10(ModuleBody)
+********************************************************************
+********************************************************************
+Error in file /home/adubey/JSS-2026-Example/software/mcfm/src/gghgg_dep/Inc/aqmpC12x34_inc.f line: 15, state: 10(ModuleBody)
+********************************************************************
+********************************************************************
+Error in file /home/adubey/JSS-2026-Example/software/mcfm/src/gghgg_dep/Inc/aqmpC12x34m0_inc.f line: 51, state: 10(ModuleBody)
+********************************************************************
+********************************************************************
+Error in file /home/adubey/JSS-2026-Example/software/mcfm/src/gghgg_dep/Inc/aqmpC12x34m0unsym_inc.f line: 35, state: 10(ModuleBody)
+********************************************************************
+********************************************************************
+Error in file /home/adubey/JSS-2026-Example/software/mcfm/src/gghgg_dep/Inc/aqmpC12x34m2_inc.f line: 13, state: 10(ModuleBody)
+********************************************************************
+********************************************************************
+Error in file /home/adubey/JSS-2026-Example/software/mcfm/src/gghgg_dep/Inc/aqmpC12x34m2unsym_inc.f line: 34, state: 10(ModuleBody)
+********************************************************************
+********************************************************************
+Error in file /home/adubey/JSS-2026-Example/software/mcfm/src/gghgg_dep/Inc/aqmpC3x12_inc.f line: 21, state: 10(ModuleBody)
+********************************************************************
+********************************************************************
+Error in file /home/adubey/JSS-2026-Example/software/mcfm/src/gghgg_dep/Inc/aqmpC3x4_inc.f line: 29, state: 10(ModuleBody)
+********************************************************************
+********************************************************************
+Error in file /home/adubey/JSS-2026-Example/software/mcfm/src/gghgg_dep/Inc/aqmpC4x123_inc.f line: 19, state: 10(ModuleBody)
+********************************************************************
+********************************************************************
+Error in file /home/adubey/JSS-2026-Example/software/mcfm/src/gghgg_dep/Inc/aqmpC4x123m0_inc.f line: 36, state: 10(ModuleBody)
+********************************************************************
+********************************************************************
+Error in file /home/adubey/JSS-2026-Example/software/mcfm/src/gghgg_dep/Inc/aqmpC4x123m2_inc.f line: 24, state: 10(ModuleBody)
+********************************************************************
+********************************************************************
+Error in file /home/adubey/JSS-2026-Example/software/mcfm/src/gghgg_dep/Inc/aqmpD3x21x4_inc.f line: 22, state: 10(ModuleBody)
+********************************************************************
+********************************************************************
+Error in file /home/adubey/JSS-2026-Example/software/mcfm/src/gghgg_dep/Inc/aqmpD4x3x21_inc.f line: 30, state: 10(ModuleBody)
+********************************************************************
+********************************************************************
+Error in file /home/adubey/JSS-2026-Example/software/mcfm/src/gghgg_dep/Inc/aqpmC4x123_inc.f line: 19, state: 10(ModuleBody)
+********************************************************************
+********************************************************************
+Error in file /home/adubey/JSS-2026-Example/software/mcfm/src/gghgg_dep/Inc/aqpmC4x123m0_inc.f line: 36, state: 10(ModuleBody)
+********************************************************************
+********************************************************************
+Error in file /home/adubey/JSS-2026-Example/software/mcfm/src/gghgg_dep/Inc/aqpmC4x123m2_inc.f line: 26, state: 10(ModuleBody)
+********************************************************************
+********************************************************************
+Error in file /home/adubey/JSS-2026-Example/software/mcfm/src/gghgg_dep/Inc/aqpmmmB123_inc.f line: 28, state: 10(ModuleBody)
+********************************************************************
+********************************************************************
+Error in file /home/adubey/JSS-2026-Example/software/mcfm/src/gghgg_dep/Inc/aqpmmpB123_inc.f line: 32, state: 10(ModuleBody)
+********************************************************************
+********************************************************************
+Error in file /home/adubey/JSS-2026-Example/software/mcfm/src/gghgg_dep/Inc/aqpmmpB34_inc.f line: 36, state: 10(ModuleBody)
+********************************************************************
+********************************************************************
+Error in file /home/adubey/JSS-2026-Example/software/mcfm/src/gghgg_dep/Inc/aqpmmpB412_inc.f line: 32, state: 10(ModuleBody)
+********************************************************************
+********************************************************************
+Error in file /home/adubey/JSS-2026-Example/software/mcfm/src/gghgg_dep/Inc/aqpmpmB123_inc.f line: 33, state: 10(ModuleBody)
+********************************************************************
+********************************************************************
+Error in file /home/adubey/JSS-2026-Example/software/mcfm/src/gghgg_dep/Inc/aqpmppB123_inc.f line: 28, state: 10(ModuleBody)
+********************************************************************
+********************************************************************
+Error in file /home/adubey/JSS-2026-Example/software/mcfm/src/gghgg_dep/Inc/aqpmppB412_inc.f line: 31, state: 10(ModuleBody)
+********************************************************************
+********************************************************************
+Error in file /home/adubey/JSS-2026-Example/software/mcfm/src/gghgg_dep/Inc/aqppB12_inc.f line: 15, state: 10(ModuleBody)
+********************************************************************
+********************************************************************
+Error in file /home/adubey/JSS-2026-Example/software/mcfm/src/gghgg_dep/Inc/aqppC12x34_inc.f line: 18, state: 10(ModuleBody)
+********************************************************************
+********************************************************************
+Error in file /home/adubey/JSS-2026-Example/software/mcfm/src/gghgg_dep/Inc/aqppC12x34m0_inc.f line: 36, state: 10(ModuleBody)
+********************************************************************
+********************************************************************
+Error in file /home/adubey/JSS-2026-Example/software/mcfm/src/gghgg_dep/Inc/aqppC12x34m2_inc.f line: 20, state: 10(ModuleBody)
+********************************************************************
+********************************************************************
+Error in file /home/adubey/JSS-2026-Example/software/mcfm/src/gghgg_dep/Inc/aqppC3x12_inc.f line: 13, state: 10(ModuleBody)
+********************************************************************
+********************************************************************
+Error in file /home/adubey/JSS-2026-Example/software/mcfm/src/gghgg_dep/Inc/aqppC3x412_inc.f line: 17, state: 10(ModuleBody)
+********************************************************************
+********************************************************************
+Error in file /home/adubey/JSS-2026-Example/software/mcfm/src/gghgg_dep/Inc/aqppC3x412m0_inc.f line: 42, state: 10(ModuleBody)
+********************************************************************
+********************************************************************
+Error in file /home/adubey/JSS-2026-Example/software/mcfm/src/gghgg_dep/Inc/aqppC3x412m2_inc.f line: 33, state: 10(ModuleBody)
+********************************************************************
+********************************************************************
+Error in file /home/adubey/JSS-2026-Example/software/mcfm/src/gghgg_dep/Inc/aqppC4x123_inc.f line: 20, state: 10(ModuleBody)
+********************************************************************
+********************************************************************
+Error in file /home/adubey/JSS-2026-Example/software/mcfm/src/gghgg_dep/Inc/aqppC4x123m0_inc.f line: 37, state: 10(ModuleBody)
+********************************************************************
+********************************************************************
+Error in file /home/adubey/JSS-2026-Example/software/mcfm/src/gghgg_dep/Inc/aqppC4x123m2_inc.f line: 33, state: 10(ModuleBody)
+********************************************************************
+********************************************************************
+Error in file /home/adubey/JSS-2026-Example/software/mcfm/src/gghgg_dep/Inc/aqppD3x21x4_inc.f line: 30, state: 10(ModuleBody)
+********************************************************************
+********************************************************************
+Error in file /home/adubey/JSS-2026-Example/software/mcfm/src/gghgg_dep/Inc/aqppD4x3x21_inc.f line: 32, state: 10(ModuleBody)
+********************************************************************
+********************************************************************
+Error in file /home/adubey/JSS-2026-Example/software/mcfm/src/gghgg_dep/Inc/consts.f line: 75, state: 10(ModuleBody)
+********************************************************************
+********************************************************************
+Error in file /home/adubey/JSS-2026-Example/software/mcfm/src/gghgg_dep/Inc/Cred.f line: 6, state: 10(ModuleBody)
+********************************************************************
+********************************************************************
+Error in file /home/adubey/JSS-2026-Example/software/mcfm/src/gghgg_dep/Inc/fillformfactor_inc.f line: 59, state: 10(ModuleBody)
+********************************************************************
+********************************************************************
+Error in file /home/adubey/JSS-2026-Example/software/mcfm/src/gghgg_dep/Inc/fillformfactor_qp_inc.f line: 59, state: 10(ModuleBody)
+********************************************************************
+********************************************************************
+Error in file /home/adubey/JSS-2026-Example/software/mcfm/src/gghgg_dep/Inc/fillpenttobox_inc.f line: 27, state: 10(ModuleBody)
+********************************************************************
+********************************************************************
+Error in file /home/adubey/JSS-2026-Example/software/mcfm/src/gghgg_dep/Inc/haqaq_mass_inc.f line: 42, state: 10(ModuleBody)
+********************************************************************
+********************************************************************
+Error in file /home/adubey/JSS-2026-Example/software/mcfm/src/gghgg_dep/Inc/haqaq_mass_tb_inc.f line: 69, state: 10(ModuleBody)
+********************************************************************
+********************************************************************
+Error in file /home/adubey/JSS-2026-Example/software/mcfm/src/gghgg_dep/Inc/haqgg_mass_inc.f line: 83, state: 10(ModuleBody)
+********************************************************************
+********************************************************************
+Error in file /home/adubey/JSS-2026-Example/software/mcfm/src/gghgg_dep/Inc/haqgg_mass_tb_inc.f line: 113, state: 10(ModuleBody)
+********************************************************************
+********************************************************************
+Error in file /home/adubey/JSS-2026-Example/software/mcfm/src/gghgg_dep/Inc/haqgg_pmmm_inc.f line: 67, state: 10(ModuleBody)
+********************************************************************
+********************************************************************
+Error in file /home/adubey/JSS-2026-Example/software/mcfm/src/gghgg_dep/Inc/haqgg_pmmp_inc.f line: 70, state: 10(ModuleBody)
+********************************************************************
+********************************************************************
+Error in file /home/adubey/JSS-2026-Example/software/mcfm/src/gghgg_dep/Inc/haqgg_pmpm_inc.f line: 73, state: 10(ModuleBody)
+********************************************************************
+********************************************************************
+Error in file /home/adubey/JSS-2026-Example/software/mcfm/src/gghgg_dep/Inc/haqgg_pmpp_inc.f line: 68, state: 10(ModuleBody)
+********************************************************************
+********************************************************************
+Error in file /home/adubey/JSS-2026-Example/software/mcfm/src/gghgg_dep/Inc/hdecaymode.f line: 8, state: 10(ModuleBody)
+********************************************************************
+********************************************************************
+Error in file /home/adubey/JSS-2026-Example/software/mcfm/src/gghgg_dep/Inc/hdecaymode_inc.f line: 18, state: 10(ModuleBody)
+********************************************************************
+********************************************************************
+Error in file /home/adubey/JSS-2026-Example/software/mcfm/src/gghgg_dep/Inc/hgggg_assemble_inc.f line: 33, state: 10(ModuleBody)
+********************************************************************
+********************************************************************
+Error in file /home/adubey/JSS-2026-Example/software/mcfm/src/gghgg_dep/Inc/hgggg_integralfill_inc.f line: 99, state: 10(ModuleBody)
+********************************************************************
+********************************************************************
+Error in file /home/adubey/JSS-2026-Example/software/mcfm/src/gghgg_dep/Inc/hgggg_integralfillqp_inc.f line: 94, state: 10(ModuleBody)
+********************************************************************
+********************************************************************
+Error in file /home/adubey/JSS-2026-Example/software/mcfm/src/gghgg_dep/Inc/hgggg_mass_inc.f line: 119, state: 10(ModuleBody)
+********************************************************************
+********************************************************************
+Error in file /home/adubey/JSS-2026-Example/software/mcfm/src/gghgg_dep/Inc/hgggg_mass_tb_inc.f line: 145, state: 10(ModuleBody)
+********************************************************************
+********************************************************************
+Error in file /home/adubey/JSS-2026-Example/software/mcfm/src/gghgg_dep/Inc/hgggg_pmpm_inc.f line: 101, state: 10(ModuleBody)
+********************************************************************
+********************************************************************
+Error in file /home/adubey/JSS-2026-Example/software/mcfm/src/gghgg_dep/Inc/hgggg_ppmm_inc.f line: 91, state: 10(ModuleBody)
+********************************************************************
+********************************************************************
+Error in file /home/adubey/JSS-2026-Example/software/mcfm/src/gghgg_dep/Inc/hgggg_pppm_inc.f line: 110, state: 10(ModuleBody)
+********************************************************************
+********************************************************************
+Error in file /home/adubey/JSS-2026-Example/software/mcfm/src/gghgg_dep/Inc/hgggg_pppp_inc.f line: 61, state: 10(ModuleBody)
+********************************************************************
+********************************************************************
+Error in file /home/adubey/JSS-2026-Example/software/mcfm/src/gghgg_dep/Inc/hgggglabels.f line: 27, state: 10(ModuleBody)
+********************************************************************
+********************************************************************
+Error in file /home/adubey/JSS-2026-Example/software/mcfm/src/gghgg_dep/Inc/hgggglabels_inc.f line: 27, state: 10(ModuleBody)
+********************************************************************
+********************************************************************
+Error in file /home/adubey/JSS-2026-Example/software/mcfm/src/gghgg_dep/Inc/I5to4.f line: 8, state: 10(ModuleBody)
+********************************************************************
+********************************************************************
+Error in file /home/adubey/JSS-2026-Example/software/mcfm/src/gghgg_dep/Inc/IntResults.f line: 6, state: 10(ModuleBody)
+********************************************************************
+********************************************************************
+Error in file /home/adubey/JSS-2026-Example/software/mcfm/src/gghgg_dep/Inc/pentbox_inc.f line: 38, state: 10(ModuleBody)
+********************************************************************
+********************************************************************
+Error in file /home/adubey/JSS-2026-Example/software/mcfm/src/gghgg_dep/Inc/pmcfm_convert_inc.f line: 30, state: 10(ModuleBody)
+********************************************************************
+********************************************************************
+Error in file /home/adubey/JSS-2026-Example/software/mcfm/src/gghgg_dep/Inc/pmpmB234_inc.f line: 40, state: 10(ModuleBody)
+********************************************************************
+********************************************************************
+Error in file /home/adubey/JSS-2026-Example/software/mcfm/src/gghgg_dep/Inc/pmpmB34_inc.f line: 17, state: 10(ModuleBody)
+********************************************************************
+********************************************************************
+Error in file /home/adubey/JSS-2026-Example/software/mcfm/src/gghgg_dep/Inc/pmpmB34symm_inc.f line: 52, state: 10(ModuleBody)
+********************************************************************
+********************************************************************
+Error in file /home/adubey/JSS-2026-Example/software/mcfm/src/gghgg_dep/Inc/pmpmC12x34_inc.f line: 25, state: 10(ModuleBody)
+********************************************************************
+********************************************************************
+Error in file /home/adubey/JSS-2026-Example/software/mcfm/src/gghgg_dep/Inc/pmpmC12x34m0diff_inc.f line: 19, state: 10(ModuleBody)
+********************************************************************
+********************************************************************
+Error in file /home/adubey/JSS-2026-Example/software/mcfm/src/gghgg_dep/Inc/pmpmC12x34m2_inc.f line: 20, state: 10(ModuleBody)
+********************************************************************
+********************************************************************
+Error in file /home/adubey/JSS-2026-Example/software/mcfm/src/gghgg_dep/Inc/pmpmC12x34m2part_inc.f line: 35, state: 10(ModuleBody)
+********************************************************************
+********************************************************************
+Error in file /home/adubey/JSS-2026-Example/software/mcfm/src/gghgg_dep/Inc/pmpmC1x234_inc.f line: 20, state: 10(ModuleBody)
+********************************************************************
+********************************************************************
+Error in file /home/adubey/JSS-2026-Example/software/mcfm/src/gghgg_dep/Inc/pmpmC1x234m0_inc.f line: 44, state: 10(ModuleBody)
+********************************************************************
+********************************************************************
+Error in file /home/adubey/JSS-2026-Example/software/mcfm/src/gghgg_dep/Inc/pmpmC1x234m2_inc.f line: 37, state: 10(ModuleBody)
+********************************************************************
+********************************************************************
+Error in file /home/adubey/JSS-2026-Example/software/mcfm/src/gghgg_dep/Inc/pmpmC2x34_inc.f line: 21, state: 10(ModuleBody)
+********************************************************************
+********************************************************************
+Error in file /home/adubey/JSS-2026-Example/software/mcfm/src/gghgg_dep/Inc/pmpmC3x4_inc.f line: 41, state: 10(ModuleBody)
+********************************************************************
+********************************************************************
+Error in file /home/adubey/JSS-2026-Example/software/mcfm/src/gghgg_dep/Inc/pmpmD1x23x4_inc.f line: 35, state: 10(ModuleBody)
+********************************************************************
+********************************************************************
+Error in file /home/adubey/JSS-2026-Example/software/mcfm/src/gghgg_dep/Inc/pmpmD1x2x3_inc.f line: 55, state: 10(ModuleBody)
+********************************************************************
+********************************************************************
+Error in file /home/adubey/JSS-2026-Example/software/mcfm/src/gghgg_dep/Inc/pmpmD4x3x21_inc.f line: 44, state: 10(ModuleBody)
+********************************************************************
+********************************************************************
+Error in file /home/adubey/JSS-2026-Example/software/mcfm/src/gghgg_dep/Inc/ppmmB234_inc.f line: 29, state: 10(ModuleBody)
+********************************************************************
+********************************************************************
+Error in file /home/adubey/JSS-2026-Example/software/mcfm/src/gghgg_dep/Inc/ppmmB23_inc.f line: 17, state: 10(ModuleBody)
+********************************************************************
+********************************************************************
+Error in file /home/adubey/JSS-2026-Example/software/mcfm/src/gghgg_dep/Inc/ppmmB23symm_inc.f line: 54, state: 10(ModuleBody)
+********************************************************************
+********************************************************************
+Error in file /home/adubey/JSS-2026-Example/software/mcfm/src/gghgg_dep/Inc/ppmmC1x234_inc.f line: 17, state: 10(ModuleBody)
+********************************************************************
+********************************************************************
+Error in file /home/adubey/JSS-2026-Example/software/mcfm/src/gghgg_dep/Inc/ppmmC1x234m0_inc.f line: 34, state: 10(ModuleBody)
+********************************************************************
+********************************************************************
+Error in file /home/adubey/JSS-2026-Example/software/mcfm/src/gghgg_dep/Inc/ppmmC1x234m2_inc.f line: 33, state: 10(ModuleBody)
+********************************************************************
+********************************************************************
+Error in file /home/adubey/JSS-2026-Example/software/mcfm/src/gghgg_dep/Inc/ppmmC1x23_inc.f line: 24, state: 10(ModuleBody)
+********************************************************************
+********************************************************************
+Error in file /home/adubey/JSS-2026-Example/software/mcfm/src/gghgg_dep/Inc/ppmmC23x41_inc.f line: 29, state: 10(ModuleBody)
+********************************************************************
+********************************************************************
+Error in file /home/adubey/JSS-2026-Example/software/mcfm/src/gghgg_dep/Inc/ppmmC23x41m0diff_inc.f line: 19, state: 10(ModuleBody)
+********************************************************************
+********************************************************************
+Error in file /home/adubey/JSS-2026-Example/software/mcfm/src/gghgg_dep/Inc/ppmmC23x41m2_inc.f line: 20, state: 10(ModuleBody)
+********************************************************************
+********************************************************************
+Error in file /home/adubey/JSS-2026-Example/software/mcfm/src/gghgg_dep/Inc/ppmmC23x41m2_unsym_inc.f line: 34, state: 10(ModuleBody)
+********************************************************************
+********************************************************************
+Error in file /home/adubey/JSS-2026-Example/software/mcfm/src/gghgg_dep/Inc/ppmmC2x3_inc.f line: 32, state: 10(ModuleBody)
+********************************************************************
+********************************************************************
+Error in file /home/adubey/JSS-2026-Example/software/mcfm/src/gghgg_dep/Inc/ppmmD1x23x4_inc.f line: 36, state: 10(ModuleBody)
+********************************************************************
+********************************************************************
+Error in file /home/adubey/JSS-2026-Example/software/mcfm/src/gghgg_dep/Inc/ppmmD1x2x34_inc.f line: 18, state: 10(ModuleBody)
+********************************************************************
+********************************************************************
+Error in file /home/adubey/JSS-2026-Example/software/mcfm/src/gghgg_dep/Inc/ppmmD1x2x3_inc.f line: 31, state: 10(ModuleBody)
+********************************************************************
+********************************************************************
+Error in file /home/adubey/JSS-2026-Example/software/mcfm/src/gghgg_dep/Inc/ppmmD1x4x32_inc.f line: 46, state: 10(ModuleBody)
+********************************************************************
+********************************************************************
+Error in file /home/adubey/JSS-2026-Example/software/mcfm/src/gghgg_dep/Inc/ppmmD2x34x1_inc.f line: 27, state: 10(ModuleBody)
+********************************************************************
+********************************************************************
+Error in file /home/adubey/JSS-2026-Example/software/mcfm/src/gghgg_dep/Inc/pppmB1234_inc.f line: 19, state: 10(ModuleBody)
+********************************************************************
+********************************************************************
+Error in file /home/adubey/JSS-2026-Example/software/mcfm/src/gghgg_dep/Inc/pppmB234_inc.f line: 31, state: 10(ModuleBody)
+********************************************************************
+********************************************************************
+Error in file /home/adubey/JSS-2026-Example/software/mcfm/src/gghgg_dep/Inc/pppmB341_inc.f line: 15, state: 10(ModuleBody)
+********************************************************************
+********************************************************************
+Error in file /home/adubey/JSS-2026-Example/software/mcfm/src/gghgg_dep/Inc/pppmB34_inc.f line: 23, state: 10(ModuleBody)
+********************************************************************
+********************************************************************
+Error in file /home/adubey/JSS-2026-Example/software/mcfm/src/gghgg_dep/Inc/pppmC12x34_inc.f line: 18, state: 10(ModuleBody)
+********************************************************************
+********************************************************************
+Error in file /home/adubey/JSS-2026-Example/software/mcfm/src/gghgg_dep/Inc/pppmC12x34m0_inc.f line: 50, state: 10(ModuleBody)
+********************************************************************
+********************************************************************
+Error in file /home/adubey/JSS-2026-Example/software/mcfm/src/gghgg_dep/Inc/pppmC12x34m2_inc.f line: 32, state: 10(ModuleBody)
+********************************************************************
+********************************************************************
+Error in file /home/adubey/JSS-2026-Example/software/mcfm/src/gghgg_dep/Inc/pppmC1x234_inc.f line: 17, state: 10(ModuleBody)
+********************************************************************
+********************************************************************
+Error in file /home/adubey/JSS-2026-Example/software/mcfm/src/gghgg_dep/Inc/pppmC1x234m0_inc.f line: 45, state: 10(ModuleBody)
+********************************************************************
+********************************************************************
+Error in file /home/adubey/JSS-2026-Example/software/mcfm/src/gghgg_dep/Inc/pppmC1x234m2_inc.f line: 45, state: 10(ModuleBody)
+********************************************************************
+********************************************************************
+Error in file /home/adubey/JSS-2026-Example/software/mcfm/src/gghgg_dep/Inc/pppmC1x43_inc.f line: 21, state: 10(ModuleBody)
+********************************************************************
+********************************************************************
+Error in file /home/adubey/JSS-2026-Example/software/mcfm/src/gghgg_dep/Inc/pppmC2x341_inc.f line: 20, state: 10(ModuleBody)
+********************************************************************
+********************************************************************
+Error in file /home/adubey/JSS-2026-Example/software/mcfm/src/gghgg_dep/Inc/pppmC2x341m0_inc.f line: 52, state: 10(ModuleBody)
+********************************************************************
+********************************************************************
+Error in file /home/adubey/JSS-2026-Example/software/mcfm/src/gghgg_dep/Inc/pppmC2x341m2_inc.f line: 42, state: 10(ModuleBody)
+********************************************************************
+********************************************************************
+Error in file /home/adubey/JSS-2026-Example/software/mcfm/src/gghgg_dep/Inc/pppmC2x34_inc.f line: 21, state: 10(ModuleBody)
+********************************************************************
+********************************************************************
+Error in file /home/adubey/JSS-2026-Example/software/mcfm/src/gghgg_dep/Inc/pppmC3x4_inc.f line: 17, state: 10(ModuleBody)
+********************************************************************
+********************************************************************
+Error in file /home/adubey/JSS-2026-Example/software/mcfm/src/gghgg_dep/Inc/pppmC4x123_inc.f line: 19, state: 10(ModuleBody)
+********************************************************************
+********************************************************************
+Error in file /home/adubey/JSS-2026-Example/software/mcfm/src/gghgg_dep/Inc/pppmC4x123m0_inc.f line: 27, state: 10(ModuleBody)
+********************************************************************
+********************************************************************
+Error in file /home/adubey/JSS-2026-Example/software/mcfm/src/gghgg_dep/Inc/pppmC4x123m2_inc.f line: 25, state: 10(ModuleBody)
+********************************************************************
+********************************************************************
+Error in file /home/adubey/JSS-2026-Example/software/mcfm/src/gghgg_dep/Inc/pppmD1x23x4_inc.f line: 23, state: 10(ModuleBody)
+********************************************************************
+********************************************************************
+Error in file /home/adubey/JSS-2026-Example/software/mcfm/src/gghgg_dep/Inc/pppmD1x2x34_inc.f line: 40, state: 10(ModuleBody)
+********************************************************************
+********************************************************************
+Error in file /home/adubey/JSS-2026-Example/software/mcfm/src/gghgg_dep/Inc/pppmD1x2x3_inc.f line: 32, state: 10(ModuleBody)
+********************************************************************
+********************************************************************
+Error in file /home/adubey/JSS-2026-Example/software/mcfm/src/gghgg_dep/Inc/pppmD1x4x32_inc.f line: 32, state: 10(ModuleBody)
+********************************************************************
+********************************************************************
+Error in file /home/adubey/JSS-2026-Example/software/mcfm/src/gghgg_dep/Inc/pppmD2x1x43_inc.f line: 34, state: 10(ModuleBody)
+********************************************************************
+********************************************************************
+Error in file /home/adubey/JSS-2026-Example/software/mcfm/src/gghgg_dep/Inc/pppmD2x34x1_inc.f line: 38, state: 10(ModuleBody)
+********************************************************************
+********************************************************************
+Error in file /home/adubey/JSS-2026-Example/software/mcfm/src/gghgg_dep/Inc/pppmD2x3x4_inc.f line: 37, state: 10(ModuleBody)
+********************************************************************
+********************************************************************
+Error in file /home/adubey/JSS-2026-Example/software/mcfm/src/gghgg_dep/Inc/pppmD3x4x1_inc.f line: 37, state: 10(ModuleBody)
+********************************************************************
+********************************************************************
+Error in file /home/adubey/JSS-2026-Example/software/mcfm/src/gghgg_dep/Inc/pppmD4x3x21_inc.f line: 29, state: 10(ModuleBody)
+********************************************************************
+********************************************************************
+Error in file /home/adubey/JSS-2026-Example/software/mcfm/src/gghgg_dep/Inc/ppppC1x234_inc.f line: 18, state: 10(ModuleBody)
+********************************************************************
+********************************************************************
+Error in file /home/adubey/JSS-2026-Example/software/mcfm/src/gghgg_dep/Inc/ppppC1x234m0_inc.f line: 21, state: 10(ModuleBody)
+********************************************************************
+********************************************************************
+Error in file /home/adubey/JSS-2026-Example/software/mcfm/src/gghgg_dep/Inc/ppppC1x234m2_inc.f line: 17, state: 10(ModuleBody)
+********************************************************************
+********************************************************************
+Error in file /home/adubey/JSS-2026-Example/software/mcfm/src/gghgg_dep/Inc/ppppD1x23x4_inc.f line: 25, state: 10(ModuleBody)
+********************************************************************
+********************************************************************
+Error in file /home/adubey/JSS-2026-Example/software/mcfm/src/gghgg_dep/Inc/ppppD1x2x34_inc.f line: 28, state: 10(ModuleBody)
+********************************************************************
+********************************************************************
+Error in file /home/adubey/JSS-2026-Example/software/mcfm/src/gghgg_dep/Inc/ppppD1x2x3_inc.f line: 30, state: 10(ModuleBody)
+********************************************************************
+********************************************************************
+Error in file /home/adubey/JSS-2026-Example/software/mcfm/src/gghgg_dep/Inc/scpmpmC12x34_inc.f line: 19, state: 10(ModuleBody)
+********************************************************************
+********************************************************************
+Error in file /home/adubey/JSS-2026-Example/software/mcfm/src/gghgg_dep/Inc/scpmpmC12x34m0_inc.f line: 17, state: 10(ModuleBody)
+********************************************************************
+********************************************************************
+Error in file /home/adubey/JSS-2026-Example/software/mcfm/src/gghgg_dep/Inc/scpmpmC12x34m0_unsym_inc.f line: 75, state: 10(ModuleBody)
+********************************************************************
+********************************************************************
+Error in file /home/adubey/JSS-2026-Example/software/mcfm/src/gghgg_dep/Inc/scppmmC23x41_inc.f line: 23, state: 10(ModuleBody)
+********************************************************************
+********************************************************************
+Error in file /home/adubey/JSS-2026-Example/software/mcfm/src/gghgg_dep/Inc/scppmmC23x41m0_inc.f line: 30, state: 10(ModuleBody)
+********************************************************************
+********************************************************************
+Error in file /home/adubey/JSS-2026-Example/software/mcfm/src/gghgg_dep/Inc/setreal_mcfm_inc.f line: 166, state: 10(ModuleBody)
+********************************************************************
+********************************************************************
+Error in file /home/adubey/JSS-2026-Example/software/mcfm/src/gghgg_dep/Inc/spinor_inc.f line: 53, state: 10(ModuleBody)
+********************************************************************
+********************************************************************
+Error in file /home/adubey/JSS-2026-Example/software/mcfm/src/gghgg_dep/Inc/testReal_inc.f line: 111, state: 10(ModuleBody)
+********************************************************************
+********************************************************************
+Error in file /home/adubey/JSS-2026-Example/software/mcfm/src/gghgg_dep/Inc/zprods_decl.f line: 18, state: 10(ModuleBody)
+********************************************************************
+********************************************************************
+Error in file /home/adubey/JSS-2026-Example/software/mcfm/src/Inc/ppmax.f line: 4, state: 10(ModuleBody)
+********************************************************************
+********************************************************************
+Error in file /home/adubey/JSS-2026-Example/software/mcfm/src/Inc/tri123x4x56coeffs.f line: 315, state: 10(ModuleBody)
+********************************************************************
+********************************************************************
+Error in file /home/adubey/JSS-2026-Example/software/mcfm/src/loop/loopI1_inc.f line: 38, state: 10(ModuleBody)
+********************************************************************
+********************************************************************
+Error in file /home/adubey/JSS-2026-Example/software/mcfm/src/loop/loopI1c_inc.f line: 42, state: 10(ModuleBody)
+********************************************************************
+********************************************************************
+Error in file /home/adubey/JSS-2026-Example/software/mcfm/src/loop/loopI2p_inc.f line: 40, state: 10(ModuleBody)
+********************************************************************
+********************************************************************
+Error in file /home/adubey/JSS-2026-Example/software/mcfm/src/loop/loopI2pc_inc.f line: 40, state: 10(ModuleBody)
+********************************************************************
+********************************************************************
+Error in file /home/adubey/JSS-2026-Example/software/mcfm/src/loop/loopI4_inc.f line: 39, state: 10(ModuleBody)
+********************************************************************
+********************************************************************
+Error in file /home/adubey/JSS-2026-Example/software/mcfm/src/loop/loopI4c_inc.f line: 39, state: 10(ModuleBody)
+********************************************************************
+********************************************************************
+Error in file /home/adubey/JSS-2026-Example/software/mcfm/src/ThreeJets/A5NLO4qg.f line: 85, state: 4(SubprogBody)
+********************************************************************
+terminate called after throwing an instance of 'std::length_error'
+  what():  basic_string::_M_replace_aux
+error: no XML produced — check doxygen output

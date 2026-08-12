@@ -1,0 +1,13 @@
+[95mROOT:[0m /home/adubey/JSS-2026-Example
+[95mNODE:[0m <ROOT>/tests/mcfm
+
+[95mSCRIPTS: [0m
+    - <ROOT>/config.sh
+    - <ROOT>/environment.sh
+    - <ROOT>/tests/mcfm/test.sh
+
+[95mEXECUTE:[0m <ROOT>/tests/mcfm/job.submit
+in 2:00.8 
+[92mSUCCESS [0m
+
+[95mOUTPUT:[0m <ROOT>/tests/mcfm/job.output

@@ -1,0 +1,14 @@
+[
+  {
+    "path": "software/mcfm",
+    "head": "1abdcddaad89582552edc41de68e4a6e1ac75f1d",
+    "branch": "HEAD",
+    "status": "## HEAD (no branch)\n M src/W2jet/CMakeLists.txt\n D src/W2jet/fpm.f\n D src/W2jet/fpp.f\n D src/W2jet/fsl.f\n D src/W2jet/fvf.f\n D src/W2jet/vv.f\n?? Bin/lib/\n?? Bin/test\n?? doxygen_dep/\n?? install/\n?? src/W2jet/deprecated/\n?? src/W2jet/fpm.cpp\n?? src/W2jet/fpm.hpp\n?? src/W2jet/fpm_fi.F90\n?? src/W2jet/fpp.cpp\n?? src/W2jet/fpp.hpp\n?? src/W2jet/fpp_fi.F90\n?? src/W2jet/fsl.cpp\n?? src/W2jet/fsl.hpp\n?? src/W2jet/fsl_fi.F90\n?? src/W2jet/fvf.cpp\n?? src/W2jet/fvf.hpp\n?? src/W2jet/fvf_fi.F90\n?? src/W2jet/vv.cpp\n?? src/W2jet/vv.hpp\n?? src/W2jet/vv_fi.F90\n"
+  },
+  {
+    "path": "software/qcdloop",
+    "head": "c8a05202351ca2e803158e99ae8a1c5c05f1437d",
+    "branch": "master",
+    "status": "## master...origin/master\n"
+  }
+]

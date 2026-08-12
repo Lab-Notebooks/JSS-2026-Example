@@ -1,0 +1,62 @@
+=== where is Bdiff called ===
+software/mcfm/src/Z2jet/Bdiff.f (definition+maybe call)
+=== mmsq_cs dimension declaration in Fortran ===
+software/mcfm/src/Inc/deprecated/mmsq_cs.f
+    2       real(dp):: mmsq_cs(0:2,2,2)
+    4 !$omp threadprivate(/mmsq_cs/)
+software/mcfm/src/Mods/mmsq_cs_mod.cpp
+    5   FArray3D<double> mmsq_cs(3, 2, 2, 0, 1, 1); // 3D array for mmsq_cs
+    9   double* mmsq_cs_mod_mmsq_cs() { // Function to access mmsq_cs
+software/mcfm/src/Mods/mmsq_cs_mod.f90
+    8       function get_mmsq_cs() bind(C, name="mmsq_cs_mod_mmsq_cs")
+    10         type(c_ptr) :: get_mmsq_cs
+    15   real(c_double), pointer, dimension(:,:,:) :: mmsq_cs => null()  ! Pointer for mmsq_cs
+    18   subroutine mmsq_cs_mod_init()
+    23     allocate(mmsq_cs(0:2,1:2,1:2))
+    24     call c_f_pointer(get_mmsq_cs(), fptr, [3, 2, 2])  ! Initialize mmsq_cs
+    25     mmsq_cs(0:,1:,1:) => fptr
+    29   subroutine mmsq_cs_mod_finalize()
+    31     nullify(mmsq_cs)  ! Nullify pointer for mmsq_cs
+software/mcfm/src/Mods/mmsq_cs_mod.hpp
+software/mcfm/src/Mods/deprecated/mmsq_cs_mod.f90
+    8     real(dp):: mmsq_cs(0:2,2,2)
+    12 !!!omp threadprivate(/mmsq_cs/)
+=== qqb_z2jetx_new.f head (mmsq_cs usage) ===
+    110         call storecsz(qqbZgg2_cs)
+    112         call storecsz(qgZqg2_cs)
+    114         call storecsz(gqZqg2_cs)
+    116         call storecsz(qgZgq2_cs)
+    118         call storecsz(gqZgq2_cs)
+    122         call storecsz(ggZqbq2_cs)
+    144 c        call storecsz(qbqZgg2_cs)
+    146 c        call storecsz(qbgZqbg2_cs)
+    148 c        call storecsz(gqbZqbg2_cs)
+    150 c        call storecsz(qbgZgqb2_cs)
+    152 c        call storecsz(gqbZgqb2_cs)
+    155 c        call storecsz(ggZqqb2_cs)
+    210       call ampqqb_qqb(1,5,2,6,qRb_a,qRb_b)
+    212 c instead of calling ampqqb_qqb(1,5,6,2,qR_a,qR_b)
+    222       call ampqqb_qqb(6,1,5,2,qbR_a,qbR_b)
+    225 c instead of calling ampqqb_qqb(5,1,2,6,qbRb_a,qbRb_b)
+    236       call ampqqb_qqb(1,2,5,6,qqb_a,qqb_b)
+    238 c instead of calling ampqqb_qqb(2,1,5,6,qbq_a,qbq_b)
+    249       call ampqqb_qqb(1,6,5,2,qq_a,qq_b)
+    251 c instead of calling ampqqb_qqb(6,1,2,5,qbqb_a,qbqb_b)
+    264 c instead of calling ampqqb_qqb(1,6,2,5,qRb_ax,qRb_bx)
+    275 c instead of calling ampqqb_qqb(1,2,6,5,qqb_ax,qqb_bx)
+    286 c instead of calling ampqqb_qqb(5,1,6,2,qbR_ax,qbR_bx)
+    297 c instead of calling ampqqb_qqb(2,1,6,5,qbq_ax,qbq_bx)
+    467           call msq_qq(j,k,qR_a,qR_b,qq_a,qq_b,prop,msq0,msq1,msq2)
+    476               call msq_qq(j,k,qq_a,qq_b,qR_a,qR_b,prop,msq0,msq1,msq2)
+    485           call msq_qq(-j,-k,qbRb_a,qbRb_b,qbqb_a,qbqb_b,prop,
+    495               call msq_qq(-j,-k,qbqb_a,qbqb_b,qbRb_a,qbRb_b,prop,
+    505           call msq_qqb(j,k,qRb_a,qRb_b,qqb_a,qqb_b,prop,
+    546             call msq_qqb(j,k,qRb_ax,qRb_bx,qqb_ax,qqb_bx,prop,
+    573           call msq_qqb(-j,-k,qbR_a,qbR_b,qbq_a,qbq_b,prop,
+    614            call msq_qqb(-j,-k,qbR_ax,qbR_bx,qbq_ax,qbq_bx,prop,
+=== nf_mod.hpp / ewcharge_mod.hpp / zcouple headers ===
+-- software/mcfm/src/Mods/nf_mod.hpp exists: True
+-- software/mcfm/src/Mods/ewcharge_mod.hpp exists: True
+-- software/mcfm/src/Mods/zcouple_mod.hpp exists: True
+-- software/mcfm/src/Mods/zcouple_cms_mod.hpp exists: True
+-- software/mcfm/src/Mods/masses_mod.hpp exists: True

@@ -1,0 +1,55 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.14.0" xml:lang="en-US">
+  <compounddef id="fixcms_8f90" kind="file" language="Fortran">
+    <compoundname>fixcms.f90</compoundname>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="fixcms_8f90_1a0dcf7dffcbd06f3917ccb01edb3d74d5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>subroutine</type>
+        <definition>subroutine fixcms</definition>
+        <argsstring>(xx, zz)</argsstring>
+        <name>fixcms</name>
+        <param>
+          <type>real(c_double)</type>
+          <defname>xx</defname>
+        </param>
+        <param>
+          <type>complex(c_double_complex)</type>
+          <defname>zz</defname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="software/mcfm/src/Need/fixcms.f90" line="2" column="1" bodyfile="software/mcfm/src/Need/fixcms.f90" bodystart="3" bodyend="18"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="comment">!!<sp/>(post-llm-modified)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2" refid="fixcms_8f90_1a0dcf7dffcbd06f3917ccb01edb3d74d5" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">subroutine<sp/></highlight><highlight class="normal"><ref refid="fixcms_8f90_1a0dcf7dffcbd06f3917ccb01edb3d74d5" kindref="member">fixcms</ref>(xx,zz)</highlight></codeline>
+<codeline lineno="3"><highlight class="normal"><sp/><sp/>use,<sp/></highlight><highlight class="keywordtype">intrinsic</highlight><highlight class="normal"><sp/>::<sp/>iso_c_binding</highlight></codeline>
+<codeline lineno="4"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordtype">implicit<sp/>none</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight><highlight class="keywordtype"><sp/><sp/>real</highlight><highlight class="normal">(c_double)<sp/>::<sp/>xx</highlight></codeline>
+<codeline lineno="7"><highlight class="normal"><sp/><sp/></highlight><highlight class="keywordtype">complex(c_double_complex)</highlight><highlight class="normal"><sp/>::<sp/>zz</highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight></codeline>
+<codeline lineno="9"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">interface</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">subroutine<sp/></highlight><highlight class="normal">fixcms_wrapper(xx,zz)<sp/></highlight><highlight class="keyword">bind(C,<sp/>name=&quot;fixcms_wrapper&quot;)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">import<sp/></highlight><highlight class="normal">::<sp/>c_double,<sp/>c_double_complex</highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="keywordtype"><sp/><sp/><sp/><sp/><sp/><sp/>real</highlight><highlight class="normal">(c_double),<sp/></highlight><highlight class="keywordtype">value</highlight><highlight class="normal"><sp/>::<sp/>xx</highlight></codeline>
+<codeline lineno="13"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">complex(c_double_complex)</highlight><highlight class="normal"><sp/>::<sp/>zz</highlight></codeline>
+<codeline lineno="14"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">end<sp/>subroutine<sp/></highlight><highlight class="normal">fixcms_wrapper</highlight></codeline>
+<codeline lineno="15"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">end<sp/>interface</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"><sp/><sp/></highlight><highlight class="keyword">call<sp/></highlight><highlight class="normal">fixcms_wrapper(xx,zz)</highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="keyword">end<sp/>subroutine<sp/></highlight><highlight class="normal"><ref refid="fixcms_8f90_1a0dcf7dffcbd06f3917ccb01edb3d74d5" kindref="member">fixcms</ref></highlight></codeline>
+    </programlisting>
+    <location file="software/mcfm/src/Need/fixcms.f90"/>
+  </compounddef>
+</doxygen>

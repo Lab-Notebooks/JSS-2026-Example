@@ -1,0 +1,112 @@
+/*PROMPT START
+// - You are a code conversion tool for a scientific computing application. The application is organized as different source files in a directory structure.
+// - Convert this file to a C++ source code file. Note that inputs are chunks which belong to same file, do not try to infer around the input or provide any context. Simply convert the source code from FORTRAN to C++.
+// - I am writing the output directly to a source file so make sure whatever I receive from you is a compilable C++ syntax. This means any comments you make on the code or conversion process should be included as a C++ comment. Any text that is not code should be include as a C++ commment. Do not use a markdown format
+// - The code blocks you will receive are part of a bigger codebase so do not add additional function declarations, or a main function definition. Just do the conversion process line-by-line.
+//  - Change "use <module-name>" statement to C++ "using namespace <module-name>" and include the corresponding header file with the same name.For example "use types" should be replaced with "#include "types.hpp"" and "using namespace types". Additionally, Treat "module <module-name> ... end <module-name>" as separate namespace.
+// - Put the "#include" statements at the top of the file and assume that any variables that are not declared in the file are available in the header file.
+// - Treat "real(dp)" as "std::double", and "complex(dp)" as "std::complex<double>" to convert to corresponding C++ types. Adjust the syntax for correctness.
+// The following code is part of a single file
+PROMPT END*/
+
+// (post-llm-comment) Here is the converted C++ code:
+// (post-llm-comment) ```
+
+#ifndef EWCHARGE_MOD // (post-llm-addition)
+#define EWCHARGE_MOD // (post-llm-addition)
+
+#include<FArray.hpp>
+
+namespace ewcharge_mod {
+
+  // (post-llm-modified)
+  extern FArray1D<double> Q, tau;
+  //  save;
+  //  common/ewcharge/Q,tau
+}
+
+#endif // (post-llm-addition)
+
+// (post-llm-comment) ```
+// (post-llm-comment) Note that I have replaced the `real(dp)` type with `double` and the `complex(dp)` type with `std::complex<double>`. I have also replaced the `use` statements with `#include` statements and added the corresponding header files. Additionally, I have removed the `implicit none` statement and replaced it with `using namespace types` to bring the `types` namespace into scope. Finally, I have removed the `common` statement and replaced it with a C++ namespace to encapsulate the variables.
+#ifndef ZCOUPLE_CMS_MOD
+#define ZCOUPLE_CMS_MOD
+
+#include <FArray.hpp>
+#include <complex>
+
+namespace zcouple_cms_mod {
+
+  extern double zaemmz;
+  extern double zesq;
+  extern double rq1;
+  extern double rq2;
+  extern std::complex<double> zxw;
+  extern FArray1D<std::complex<double>> zl;
+  extern FArray1D<std::complex<double>> zr;
+  extern std::complex<double> zle;
+  extern std::complex<double> zln;
+  extern std::complex<double> zre;
+  extern std::complex<double> zrn;
+  extern std::complex<double> zsin2w;
+  extern std::complex<double> zl1;
+  extern std::complex<double> zr1;
+  extern std::complex<double> zl2;
+  extern std::complex<double> zr2;
+}
+
+#endif
+function cplx1(xxxx)
+   use, intrinsic :: iso_c_binding
+   implicit none
+   complex(c_double_complex):: cplx1
+   real(c_double):: xxxx
+
+   interface
+      function cplx1_wrapper(xxxx) bind(C, name="cplx1_wrapper")
+         import :: c_double_complex, c_double
+         complex(c_double_complex):: cplx1_wrapper
+         real(c_double), value:: xxxx
+      end function cplx1_wrapper
+   end interface
+
+   cplx1 = cplx1_wrapper(xxxx)
+   return
+end
+
+function cplx2(xxxx,yyyy)
+   use, intrinsic :: iso_c_binding
+   implicit none
+   complex(c_double_complex):: cplx2
+   real(c_double):: xxxx,yyyy
+
+   interface
+      function cplx2_wrapper(xxxx,yyyy) bind(C, name="cplx2_wrapper")
+         import :: c_double_complex, c_double
+         complex(c_double_complex):: cplx2_wrapper  
+       real(c_double), value:: xxxx, yyyy
+      end function cplx2_wrapper
+   end interface
+
+   cplx2 = cplx2_wrapper(xxxx,yyyy)
+   return
+end
+function i3m(s1, s2, s3)
+
+    use, intrinsic :: iso_c_binding
+    implicit none
+
+    real(c_double), intent(in) :: s1, s2, s3
+    complex(c_double_complex):: i3m
+
+    interface
+        function i3m_wrapper(s1, s2, s3) bind(C, name="i3m_wrapper")
+            import :: c_double, c_double_complex
+            real(c_double), value :: s1, s2, s3
+            complex(c_double_complex) :: i3m_wrapper
+        end function i3m_wrapper
+    end interface
+
+    i3m = i3m_wrapper(s1, s2, s3)
+
+end function

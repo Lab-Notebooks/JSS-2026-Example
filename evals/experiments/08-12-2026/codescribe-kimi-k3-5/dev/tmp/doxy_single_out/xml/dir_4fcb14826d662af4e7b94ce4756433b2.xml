@@ -1,0 +1,21 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.14.0" xml:lang="en-US">
+  <compounddef id="dir_4fcb14826d662af4e7b94ce4756433b2" kind="dir">
+    <compoundname>software/mcfm/src/Need</compoundname>
+    <innerfile refid="ckmfill_8f90">ckmfill.f90</innerfile>
+    <innerfile refid="coupling_8f90">coupling.f90</innerfile>
+    <innerfile refid="cplx_8f90">cplx.f90</innerfile>
+    <innerfile refid="dot_8f90">dot.f90</innerfile>
+    <innerfile refid="dotem_8f90">dotem.f90</innerfile>
+    <innerfile refid="fixcms_8f90">fixcms.f90</innerfile>
+    <innerfile refid="i3m_8f90">i3m.f90</innerfile>
+    <innerfile refid="lfunctions_8f90">lfunctions.f90</innerfile>
+    <innerfile refid="lnrat_8f90">lnrat.f90</innerfile>
+    <innerfile refid="spinoru_8f90">spinoru.f90</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="software/mcfm/src/Need/"/>
+  </compounddef>
+</doxygen>

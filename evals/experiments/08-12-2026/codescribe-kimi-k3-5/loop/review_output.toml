@@ -1,0 +1,18 @@
+loop = 5
+summary = "Loop 5 ratified the completed Group W2jet-1: the approval gate (dev/workflow.py gate mcfm-translate) and roadmap refresh both exited 0, and the baseline restored-build test for 'u d~ ve e+ g g' re-passed (exit 0). The agent then performed read-only reconnaissance for the next W2jet group — atree, fax, faxsl, fsc, fcc — reading the Fortran sources, the existing .scribe drafts, prior translations (vv/fsl) as reference patterns, CMakeLists.txt, and symbol references in Need/Need.hpp and Mods/heldefs_mod.hpp. However, no translations were actually produced: software/mcfm/src/W2jet still contains only the five prior .cpp files (vv, fpm, fpp, fsl, fvf), CMakeLists.txt is unchanged for the new candidates, and agent_log.md has no Loop 5 entry or new group heading. One grep for hqpqbmgmgp in Mods/heldefs_mod.cpp failed (exit 2) because only the .hpp exists, and a large number of bash calls were blocked by the shell-syntax policy (pipes/redirects/compound commands)."
+blocker = "Next-group work was not started: Group W2jet-2 (atree/fax/faxsl/fsc/fcc) remains only scouted — no .cpp/.hpp/_fi.F90 written, no CMake wiring, no agent_log.md update. Progress is additionally slowed by repeated blocked shell syntax (no pipes/redirects allowed)."
+
+[[pending]]
+item = "Open 'Group W2jet-2' in agent_log.md listing software/mcfm/src/W2jet/{atree,fax,faxsl,fsc,fcc}.f with per-file status placeholders, then translate each to .cpp/.hpp plus _fi.F90 per the Spec's output shape (drafts already exist under dev/tmp/drafts/W2jet/)."
+
+[[pending]]
+item = "Wire the five new translation pairs into software/mcfm/src/W2jet/CMakeLists.txt and move the originals (atree.f, fax.f, faxsl.f, fsc.f, fcc.f) into software/mcfm/src/W2jet/deprecated/ using dev/tmp/move_deprecated.py."
+
+[[pending]]
+item = "Build with 'jobrunner submit tests/mcfm', add inline trailing '// @coverage-probe' markers, and run the coverage verify for each new file (dev/tmp/verify_all.py wrapper sets MCFM_HOME) plus the restored-build test 'python3 dev/tmp/run_test.py u d~ ve e+ g g'."
+
+[[pending]]
+item = "Record each file's outcome (VERIFIED/TRANSLATED/FAILED with evidence) in the Group W2jet-2 section of agent_log.md and add a Loop 6 session-log note."
+
+[[pending]]
+item = "Avoid blocked shell syntax (no pipes, redirects, or semicolon-chained commands); when resolving hq-pqb-mgm-gp-style symbols use Mods/heldefs_mod.hpp — there is no heldefs_mod.cpp."

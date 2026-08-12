@@ -1,0 +1,8 @@
+## main...origin/main
+ M config.sh
+ m software/mcfm
+?? .codescribe/
+?? dev/tmp/
+?? dev/transformations/mcfm-translate/agent_log.md
+?? evals/experiments/08-12-2026/
+?? sites/supercomp01a/

@@ -1,0 +1,46 @@
+=== roadmap rows for group-1 files ===
+{'rel': 'Z2jet/fmt.f', 'top': 'Z2jet', 'deps': '0', 'blind': '0', 'fanin': '1', 'bench': 'u u~ e- e+ g g'}
+{'rel': 'Z2jet/fzip.f', 'top': 'Z2jet', 'deps': '0', 'blind': '0', 'fanin': '1', 'bench': 'u u~ e- e+ g g'}
+{'rel': 'Z2jet/storecsz.f', 'top': 'Z2jet', 'deps': '0', 'blind': '0', 'fanin': '1', 'bench': 'u u~ e- e+ g g'}
+{'rel': 'Z2jet/msq_z2jetx.f', 'top': 'Z2jet', 'deps': '0', 'blind': '0', 'fanin': '1', 'bench': 'u u~ e- e+ g g'}
+{'rel': 'Z2jet/Bdiff.f', 'top': 'Z2jet', 'deps': '0', 'blind': '0', 'fanin': '1', 'bench': 'u u~ e- e+ g g'}
+{'rel': 'Z2jet/ampqqb_qqb.f', 'top': 'Z2jet', 'deps': '0', 'blind': '0', 'fanin': '1', 'bench': 'u u~ e- e+ g g'}
+=== module headers ===
+masses_mod ['software/mcfm/src/Mods/masses_mod.cpp', 'software/mcfm/src/Mods/masses_mod.hpp']
+constants_mod ['software/mcfm/src/Mods/constants_mod.hpp']
+mmsq_cs_mod ['software/mcfm/src/Mods/mmsq_cs_mod.cpp', 'software/mcfm/src/Mods/mmsq_cs_mod.hpp']
+loopI2_generic ['software/mcfm/src/loop/loopI2_generic.cpp']
+scale_mod ['software/mcfm/src/Mods/scale_mod.cpp', 'software/mcfm/src/Mods/scale_mod.hpp']
+scalarselect_mod ['software/mcfm/src/Mods/scalarselect_mod.cpp', 'software/mcfm/src/Mods/scalarselect_mod.hpp']
+nf_mod ['software/mcfm/src/Mods/nf_mod.hpp']
+ewcharge_mod ['software/mcfm/src/Mods/ewcharge_mod.cpp', 'software/mcfm/src/Mods/ewcharge_mod.hpp']
+zcouple_mod ['software/mcfm/src/Mods/zcouple_mod.cpp', 'software/mcfm/src/Mods/zcouple_mod.hpp']
+zcouple_cms_mod ['software/mcfm/src/Mods/zcouple_cms_mod.cpp', 'software/mcfm/src/Mods/zcouple_cms_mod.hpp']
+=== callees ===
+aqqb_zbb_new []
+atreez ['software/mcfm/src/Z2jet/atreez.f']
+lnrat ['software/mcfm/src/Need/lnrat.cpp', 'software/mcfm/src/Need/lnrat.f90', 'software/mcfm/src/Need/deprecated/lnrat.f']
+I3m []
+cplx2 []
+loopI2 []
+spinoru ['software/mcfm/src/Need/spinoru.cpp', 'software/mcfm/src/Need/spinoru.f90', 'software/mcfm/src/Need/deprecated/spinoru.f']
+=== _fi shims present ===
+software/mcfm/src/ThreeJets/working/gpt-4o-conversions/A51mpmpp5g_fi.f90
+software/mcfm/src/W1jet/t_fi.f90
+software/mcfm/src/W1jet/deprecated/A51_fi.f90
+software/mcfm/src/W1jet/deprecated/A52_fi.f90
+software/mcfm/src/W1jet/deprecated/A53_fi.f90
+software/mcfm/src/W1jet/deprecated/A5NLO_fi.f90
+software/mcfm/src/W1jet/deprecated/virt5_fi.f90
+software/mcfm/src/W1jet/gpt-4o-conversions/A51_fi.f90
+software/mcfm/src/W1jet/gpt-4o-conversions/A52_fi.f90
+software/mcfm/src/W1jet/gpt-4o-conversions/A53_fi.f90
+software/mcfm/src/W1jet/gpt-4o-conversions/A5NLO_fi.f90
+software/mcfm/src/W1jet/gpt-4o-conversions/qqb_w1jet_v_fi.f90
+software/mcfm/src/W1jet/gpt-4o-conversions/t_fi.f90
+software/mcfm/src/W1jet/gpt-4o-conversions/virt5_fi.f90
+software/mcfm/src/Z1jet/deprecated/F1anom_fi.f90
+software/mcfm/src/Z1jet/deprecated/qqb_z1jet_fi.f90
+software/mcfm/src/loop/loopI2_generic_fi.f90
+software/mcfm/src/loop/loopI3_generic_fi.f90
+count 18
