@@ -92,7 +92,8 @@ const DIR = `dev/transformations/${TRANSFORMATION}`
 const SPEC = `${DIR}/desired_spec.md`
 const PLAN = `${DIR}/current_plan.md`
 const LOG = `${DIR}/agent_log.md`
-const METADATA_DIR = `${DIR}/metadata`
+const ARCHIVE_SPEC = `evals/archive.toml`
+const ARCHIVE_TOOL = `evals/tools/archive_experiment.py`
 
 const SCOPE = cfg.scope || 'all'
 const MAXUNITS = cfg.maxUnits || 40
@@ -532,9 +533,8 @@ const totalFailed = allResults.reduce(
 log(`Done: ${allResults.length} group(s) processed, ${totalSettled} settled, ${totalFailed} FAILED.`)
 
 // ---------------------------------------------------------------------------
-// Metadata — write per-group TOMLs + manifest, mirroring the csloop format.
-// One "author" file covers Bundle+Author; one "integrate" file covers Integrate+Fix.
-// Token counts are not available from within the workflow harness and are omitted.
+// Metadata / archive handoff — delegate to the agentic layer in evals/archive.toml
+// so updates to that file and its Python tool automatically affect this phase.
 // ---------------------------------------------------------------------------
 
 if (allResults.length > 0) {
@@ -551,81 +551,55 @@ if (allResults.length > 0) {
         verifyOk: r.integrated?.verifyOk ?? null,
     })), null, 2)
 
-    const metadataPrompt = `Write run metadata files to ${METADATA_DIR}/ for the "${TRANSFORMATION}" transformation run that just completed.
+    // A string distinctive enough to grep this run's own transcripts out of the sibling
+    // sessions under ~/.claude/projects/<slug>/. Workflow scripts have no clock or RNG, so
+    // it is built from facts unique to this run instead.
+    const MARKER = `ARCHIVE-RUN-MARKER/${TRANSFORMATION}/${allResults.length}g-${totalSettled}s-${totalFailed}f/${
+        String(allResults[0].group || 'group').replace(/[^A-Za-z0-9]+/g, '-').slice(0, 48)
+    }`
 
-Results (JSON):
+    const metadataPrompt = `You are the metadata/archive agent for the just-completed "${TRANSFORMATION}" transform run. ${NOTES}
+
+Read ${ARCHIVE_SPEC} and follow its workflow exactly. It is harness-agnostic and is the source of
+truth for this phase; ${ARCHIVE_TOOL} is the deterministic layer it calls. Do not reimplement
+either one — changes to them take effect here automatically.
+
+Everything below is what ${ARCHIVE_SPEC} cannot know: the Claude-specific facts about this run.
+
+Transform-run context to consider while applying the archive workflow:
+- transformation: ${TRANSFORMATION}
+- groups processed this run: ${allResults.length}
+- units settled this run: ${totalSettled}
+- units failed this run: ${totalFailed}
+- triage/bundle/author model: ${TRIAGE_MODEL || '(session default)'}
+- integrate/fix model: ${INTEGRATE_MODEL}
+
+Per-group results (JSON):
 ${resultJson}
 
-Models used — triage/bundle/author: ${TRIAGE_MODEL || '(session default)'}, integrate/fix: ${INTEGRATE_MODEL}.
+Use repository state to make the archive workflow's decisions, with the run context above as
+supporting evidence for identifying the transformation. Three of those decisions are already fixed
+by the fact that a Claude workflow ran this:
+- --loop-dir is .claude — .csloop and .codescribe may still be lying around from earlier runs
+- the experiment name starts with "ccworkflow-" (the tool rejects anything else)
+- --session-logs is this run's session directory, described next
 
-Steps:
-1. Run \`mkdir -p ${METADATA_DIR}\` to ensure the directory exists.
-2. Run \`date -u +%Y%m%d-%H%M%S\` to get a timestamp. Use it as the run_id (e.g. "20260724-174506").
-3. Run \`date -u +%Y-%m-%dT%H:%M:%SZ\` to get created_at / updated_at.
-4. For EACH group (indexed 1, 2, …), write TWO files:
+This run's logs are jsonl transcripts under ~/.claude/projects/, not files in the repo, and they
+must reach the archive. You are a subagent of this run, so your own transcript is being written
+right now to <session-id>/subagents/workflows/<workflow-id>/agent-<your-id>.jsonl. Find it by
+grepping that project's log tree for this run's marker, ${MARKER}, and pass the <session-id>
+directory (three levels above the match) as --session-logs. If the grep finds no match, say so and
+stop rather than picking a session by timestamp.
 
-   a. \`${METADATA_DIR}/group_NNN_author.toml\`  (NNN = zero-padded group index, e.g. 001)
-      This covers the Bundle + Author phase. Fields:
-        run_id = "<timestamp>"
-        group_index = <N>
-        group = "<group heading>"
-        phase = "author"
-        model = "<author model>"
-        workdir = "<absolute path of repo root — run \`pwd\` to get it>"
-        transformation = "${TRANSFORMATION}"
-        units_attempted = <count of units list>
-        units_authored = <count where done=="yes">
-        units_deferred = <count where done=="deferred">
-        units_failed_author = <count where done=="failed">
-        created_at = "<ISO timestamp>"
-
-   b. \`${METADATA_DIR}/group_NNN_integrate.toml\`
-      This covers the Integrate + Fix phase. Fields:
-        run_id = "<same timestamp>"
-        group_index = <N>
-        group = "<group heading>"
-        phase = "integrate"
-        model = "<integrate model>"
-        workdir = "<same as above>"
-        transformation = "${TRANSFORMATION}"
-        verify_ok = <true/false/null>
-        group_closed = <true/false>
-        created_at = "<ISO timestamp>"
-        [[units]]
-        unit = "<path>"
-        status = "<TRANSLATED|FAILED|…>"
-        notes = "<notes>"
-        (repeat [[units]] block for each unit in the integrated results)
-
-   Skip the integrate file for any group where integrated results are empty (nothing was authored successfully).
-
-5. Write \`${METADATA_DIR}/manifest.toml\`:
-   Read the existing manifest if it exists (\`cat ${METADATA_DIR}/manifest.toml 2>/dev/null\`) so you can merge with prior runs.
-   Write (overwriting) with:
-     updated_at = "<ISO timestamp>"
-     phase_files = [<comma-separated quoted list of all group_NNN_*.toml basenames, sorted, including any from prior runs>]
-
-     [run]
-     run_id = "<timestamp>"
-     created_at = "<ISO timestamp>"
-     workdir = "<absolute repo root>"
-     transformation = "${TRANSFORMATION}"
-     model = "<integrate model>"
-     groups_processed = <count of groups in THIS run>
-     units_settled = ${totalSettled}
-     units_failed = ${totalFailed}
-
-   If a prior manifest exists, preserve its [run] created_at and increment groups_processed by adding the prior value.
-
-Write each file atomically (write full content in one bash command using a heredoc or printf). Confirm each file path after writing it.`
+Then execute the archive workflow described by ${ARCHIVE_SPEC}.`
 
     await agent(metadataPrompt, {
-        label: 'write-metadata',
+        label: 'archive-metadata',
         phase: 'Metadata',
         model: TRIAGE_MODEL,
     })
 
-    log(`Metadata written to ${METADATA_DIR}/.`)
+    log(`Metadata/archive phase completed via ${ARCHIVE_SPEC}.`)
 }
 
 return {

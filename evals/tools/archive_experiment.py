@@ -127,36 +127,26 @@ def drop_excluded_paths_from_worktree(repo: Path, excludes: list[str]) -> None:
         run(["git", "clean", "-fd", "--", path], cwd=repo, check=False)
 
 
-def validate_claude_log_path(path_str: str) -> Path:
+def validate_session_logs(path_str: str) -> Path:
+    """Checked before anything is written, so a bad path leaves no partial archive."""
     path = Path(path_str).expanduser().resolve()
-    allowed_root = (Path.home() / ".claude").resolve()
-    try:
-        path.relative_to(allowed_root)
-    except ValueError as exc:
-        raise SystemExit(f"Claude log path must be under {allowed_root}: {path_str}") from exc
-    if not path.exists() or not path.is_file():
-        raise SystemExit(f"Claude log file does not exist: {path_str}")
+    if not sorted(path.glob("subagents/workflows/wf_*")):
+        raise SystemExit(f"no workflow logs under {path}/subagents/workflows/wf_*")
     return path
 
 
-def copy_claude_logs(logs: list[Path], archive_dir: Path) -> None:
-    if not logs:
-        return
-    base = archive_dir / ".claude" / "logs"
-    home_dir = Path.home().resolve()
-    for src in logs:
-        rel = src.relative_to(home_dir)
-        copy_file(src, base / rel)
+def copy_session_logs(session_dir: Path, archive_dir: Path) -> None:
+    """Flatten a session's out-of-repo logs into the layout evals/analysis reads:
+    parse_ccworkflow.py wants <run>/workflow-wf_<id>/{journal.jsonl,agent-*.jsonl}."""
+    for wf_dir in sorted(session_dir.glob("subagents/workflows/wf_*")):
+        copy_tree(wf_dir, archive_dir / f"workflow-{wf_dir.name}")
+    for script in sorted(session_dir.glob("workflows/scripts/*.js")):
+        copy_file(script, archive_dir / script.name)
 
 
-def copy_loop_artifacts(loop_dir: Path, archive_dir: Path, claude_logs: list[Path]) -> None:
+def copy_loop_artifacts(loop_dir: Path, archive_dir: Path) -> None:
     if loop_dir.name == ".claude":
-        claude_archive = archive_dir / ".claude"
-        workflows = loop_dir / "workflows"
-        if workflows.exists() and workflows.is_dir():
-            copy_tree(workflows, claude_archive / "workflows")
-        copy_claude_logs(claude_logs, archive_dir)
-        return
+        return  # tracked in git; this run's real artifacts come from --session-logs
 
     files = [
         "logs/toolusage.toml",
@@ -208,7 +198,7 @@ def write_summary(
     submodule_results: list[dict[str, object]],
     included_dev_tmp: bool,
     cleanup_performed: bool,
-    claude_logs: list[Path],
+    session_logs: Path | None,
 ) -> None:
     summary = {
         "experiment_name": experiment_name,
@@ -218,7 +208,7 @@ def write_summary(
         "submodules": [str(path.relative_to(ROOT)) for path in submodules],
         "archive_branch": branch,
         "submodule_results": submodule_results,
-        "claude_logs": [str(path) for path in claude_logs],
+        "session_logs": str(session_logs) if session_logs else None,
         "included_dev_tmp": included_dev_tmp,
         "cleanup_performed": cleanup_performed,
     }
@@ -231,7 +221,7 @@ def main() -> int:
     parser.add_argument("--transformation", required=True, help="path like dev/transformations/<name>")
     parser.add_argument("--loop-dir", required=True, help="path like .csloop or .codescribe")
     parser.add_argument("--submodule", action="append", default=[], help="path like software/<name>; may be repeated")
-    parser.add_argument("--claude-log", action="append", default=[], help="absolute path to a Claude Code log/artifact file under ~/.claude; may be repeated")
+    parser.add_argument("--session-logs", help="agent session log dir to archive, for harnesses that log outside the repo")
     parser.add_argument("--include-dev-tmp", action="store_true", help="copy dev/tmp into archive")
     args = parser.parse_args()
 
@@ -241,14 +231,21 @@ def main() -> int:
     if loop_dir.name not in {".claude", ".csloop", ".codescribe"}:
         raise SystemExit("--loop-dir must point to .claude, .csloop, or .codescribe")
     submodules = [validate_relative_dir(path, "software") for path in args.submodule]
-    claude_logs = [validate_claude_log_path(path) for path in args.claude_log]
+
+    # evals/analysis finds runs by globbing ccworkflow-*; a mismatched name parses as zero
+    # rows rather than failing, so the prefix is enforced here instead.
+    if loop_dir.name == ".claude" and not experiment.startswith("ccworkflow-"):
+        raise SystemExit(f"a .claude experiment name must start with 'ccworkflow-' (got: {experiment})")
+    session_logs = validate_session_logs(args.session_logs) if args.session_logs else None
 
     date_dir = dt.datetime.now().strftime("%m-%d-%Y")
     archive_dir = ROOT / "evals" / "experiments" / date_dir / experiment
     archive_dir.mkdir(parents=True, exist_ok=True)
 
     copy_tree(transformation_dir, archive_dir / transformation_dir.relative_to(ROOT))
-    copy_loop_artifacts(loop_dir, archive_dir, claude_logs)
+    copy_loop_artifacts(loop_dir, archive_dir)
+    if session_logs:
+        copy_session_logs(session_logs, archive_dir)
     if args.include_dev_tmp:
         dev_tmp = ROOT / "dev" / "tmp"
         if dev_tmp.exists() and dev_tmp.is_dir():
@@ -279,7 +276,7 @@ def main() -> int:
         submodule_results,
         args.include_dev_tmp,
         cleanup_performed,
-        claude_logs,
+        session_logs,
     )
 
     print(f"Archived experiment to {archive_dir.relative_to(ROOT)}")
