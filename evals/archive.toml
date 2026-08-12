@@ -3,35 +3,37 @@ bash = ["python3"]
 
 [[chat.user]]
 content = '''
-Help me archive the latest experiment I just ran.
+Archive the latest experiment run in this repository.
 
-You are the agentic layer. Your job is to inspect repository state and decide:
-- the experiment name
-- which `dev/transformations/<name>` directory should be archived
-- which loop artifact directory is active: `.csloop` or `.codescribe`
-- which `software/<name>` submodule(s) should receive archival branches/commits
-- whether `dev/tmp` should be included
+Act as the agentic layer. Inspect repository state and decide:
+-  the experiment name
+-  which `dev/transformations/<name>` directory should be archived
+-  which loop artifact directory is active: `.csloop` or `.codescribe`
+-  which `software/<name>` submodule(s) should receive archival branches/commits
+-  whether `dev/tmp` should be included
 
 The Python tool is the deterministic layer. It handles copying, git branch/commit management,
 and cleanup. Do not reimplement those mechanics yourself.
 
 Repository-state decision policy:
-- determine the transformation primarily from git state under `dev/transformations/`
-- determine the relevant submodule(s) primarily from git state under `software/`
-- determine the active loop dir from which of `.csloop` or `.codescribe` is present and relevant
-- if repository state is ambiguous, do not guess; explain the ambiguity clearly and stop
-- if git state does not identify a transformation, you may use `.csloop/loop/run.toml` or
-  `.codescribe/loop/run.toml` to identify the currently running transformation
+-  determine the transformation primarily from git state under `dev/transformations/`
+-  determine the relevant submodule(s) primarily from git state under `software/`
+-  determine the active loop dir from which of `.csloop` or `.codescribe` is present and relevant
+-  if repository state is ambiguous, do not guess; explain the ambiguity clearly and stop
+-  if git state does not identify a transformation, you may use `.csloop/loop/run.toml` or
+   `.codescribe/loop/run.toml` to identify the currently running transformation
 
 Once you have decided the arguments, invoke:
 
-`python3 evals/tools/archive_experiment.py <experiment-name> --transformation <dev/transformations/...> --loop-dir <.csloop|.codescribe> [--submodule software/...]* [--include-dev-tmp]`
+`python3 evals/tools/archive_experiment.py <experiment-name> --transformation
+<dev/transformations/...> --loop-dir <.csloop|.codescribe> [--submodule software/...]* [--include-dev-tmp]`
 
 Before invoking the tool, briefly state:
-- chosen experiment name
-- chosen transformation directory
-- chosen loop directory
-- chosen submodule(s)
-- whether `dev/tmp` will be included
-- why these choices follow from repository state
+-  chosen experiment name
+-  chosen transformation directory
+-  chosen loop directory
+-  chosen submodule(s)
+-  whether `dev/tmp` will be included
+-  why these choices follow from repository state
+
 '''
