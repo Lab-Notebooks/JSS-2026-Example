@@ -29,7 +29,7 @@ run_id = "20260811-205110-8fa78e"
 iteration = 1
 tool = "read"
 args = "{\"path\": \"dev/transformations/mcfm-translate/current_plan.md\"}"
-model_reasoning = "I'll start by reading the plan and spec, plus the agent log and workspace structure."
+model_text = "I'll start by reading the plan and spec, plus the agent log and workspace structure."
 ts = "2026-08-12T01:51:14.461718+00:00"
 
 [[event]]
@@ -59,7 +59,7 @@ run_id = "20260811-205110-8fa78e"
 iteration = 1
 tool = "read"
 args = "{\"path\": \"dev/transformations/mcfm-translate/desired_spec.md\"}"
-model_reasoning = "I'll start by reading the plan and spec, plus the agent log and workspace structure."
+model_text = "I'll start by reading the plan and spec, plus the agent log and workspace structure."
 ts = "2026-08-12T01:51:14.462286+00:00"
 
 [[event]]
@@ -93,7 +93,7 @@ run_id = "20260811-205110-8fa78e"
 iteration = 1
 tool = "bash"
 args = "{\"command\": \"ls -la; ls -la dev/transformations/mcfm-translate/\"}"
-model_reasoning = "I'll start by reading the plan and spec, plus the agent log and workspace structure."
+model_text = "I'll start by reading the plan and spec, plus the agent log and workspace structure."
 ts = "2026-08-12T01:51:14.462779+00:00"
 
 [[event]]
@@ -229,7 +229,7 @@ run_id = "20260811-205110-8fa78e"
 iteration = 3
 tool = "bash"
 args = "{\"command\": \"python3 dev/workflow.py refresh\", \"timeout\": 600}"
-model_reasoning = '''
+model_text = '''
 **PLAN**
 - Refresh readiness map + status, inspect `roadmap_metrics.tsv` for ready files (deps==0, blind==0, no .cpp).
 - Create `agent_log.md` and open a first group (~5 ready files from one folder).
@@ -264,7 +264,7 @@ run_id = "20260811-205110-8fa78e"
 iteration = 3
 tool = "bash"
 args = "{\"command\": \"python3 dev/workflow.py status\", \"timeout\": 600}"
-model_reasoning = '''
+model_text = '''
 **PLAN**
 - Refresh readiness map + status, inspect `roadmap_metrics.tsv` for ready files (deps==0, blind==0, no .cpp).
 - Create `agent_log.md` and open a first group (~5 ready files from one folder).
@@ -2662,7 +2662,7 @@ run_id = "20260811-205110-8fa78e"
 iteration = 23
 tool = "write"
 args = "{\"path\": \"software/mcfm/src/Z2jet/fmt.hpp\", \"content\": \"#ifndef FMT_H\\n#define FMT_H\\n\\n#include <complex>\\n\\nextern std::complex<double> fmt(double s12, double s34, double s56);\\n\\nextern \\\"C\\\" {\\n  extern std::complex<double> fmt_wrapper(double s12, double s34, double s56);\\n}\\n\\n#endif\\n\"}"
-model_reasoning = "Now I'll write the translated C++ files, headers, and Fortran shims for the first Z2jet group."
+model_text = "Now I'll write the translated C++ files, headers, and Fortran shims for the first Z2jet group."
 ts = "2026-08-12T01:55:27.103936+00:00"
 
 [[event]]
@@ -2682,7 +2682,7 @@ run_id = "20260811-205110-8fa78e"
 iteration = 23
 tool = "write"
 args = "{\"path\": \"software/mcfm/src/Z2jet/fmt.cpp\", \"content\": \"//\\n//  SPDX-License-Identifier: GPL-3.0-or-later\\n//  Copyright (C) 2019-2022, respective authors of MCFM.\\n//\\n\\n#include \\\"fmt.hpp\\\"\\n\\n#include <cmath>\\n#include <complex>\\n#include <masses_mod.hpp>\\n\\nusing namespace masses_mod;\\n\\nstd::complex<double> fmt(double s12, double s34, double s56) {\\n  std::complex<double> fmt_res;\\n  // The full BDK expression keeps terms up to 1/mt^4 (II.15) but here we\\n  // we will only use up to 1/mt^2, as done elsewhere\\n  //      fmt=((1._dp+(2._dp*s34+s12+s56)/15._dp/mt**2)/(24._dp*mt**2))\\n  fmt_res = std::complex<double>((1.0) / (24.0 * pow(mt, 2)), 0.0); // @coverage-probe\\n  return fmt_res;\\n}\\n\\nextern \\\"C\\\" {\\n  std::complex<double> fmt_wrapper(double s12, double s34, double s56) {\\n    return fmt(s12, s34, s56);\\n  }\\n}\\n\"}"
-model_reasoning = "Now I'll write the translated C++ files, headers, and Fortran shims for the first Z2jet group."
+model_text = "Now I'll write the translated C++ files, headers, and Fortran shims for the first Z2jet group."
 ts = "2026-08-12T01:55:27.104723+00:00"
 
 [[event]]
@@ -2702,7 +2702,7 @@ run_id = "20260811-205110-8fa78e"
 iteration = 23
 tool = "write"
 args = "{\"path\": \"software/mcfm/src/Z2jet/fmt_fi.F90\", \"content\": \"function fmt(s12,s34,s56)\\n   use, intrinsic :: iso_c_binding\\n   implicit none\\n   complex(c_double_complex):: fmt\\n   real(c_double):: s12,s34,s56\\n\\n   interface\\n      function fmt_wrapper(s12,s34,s56) bind(C, name=\\\"fmt_wrapper\\\")\\n         import :: c_double_complex, c_double\\n         complex(c_double_complex):: fmt_wrapper\\n         real(c_double), value:: s12,s34,s56\\n      end function fmt_wrapper\\n   end interface\\n\\n   fmt = fmt_wrapper(s12,s34,s56)\\n   return\\nend\\n\"}"
-model_reasoning = "Now I'll write the translated C++ files, headers, and Fortran shims for the first Z2jet group."
+model_text = "Now I'll write the translated C++ files, headers, and Fortran shims for the first Z2jet group."
 ts = "2026-08-12T01:55:27.105417+00:00"
 
 [[event]]
@@ -2722,7 +2722,7 @@ run_id = "20260811-205110-8fa78e"
 iteration = 23
 tool = "write"
 args = "{\"path\": \"software/mcfm/src/Z2jet/fzip.hpp\", \"content\": \"#ifndef FZIP_H\\n#define FZIP_H\\n\\n#include <complex>\\n\\nextern std::complex<double> fzip(double s12, double s34, double s56);\\n\\nextern \\\"C\\\" {\\n  extern std::complex<double> fzip_wrapper(double s12, double s34, double s56);\\n}\\n\\n#endif\\n\"}"
-model_reasoning = "Now I'll write the translated C++ files, headers, and Fortran shims for the first Z2jet group."
+model_text = "Now I'll write the translated C++ files, headers, and Fortran shims for the first Z2jet group."
 ts = "2026-08-12T01:55:27.106100+00:00"
 
 [[event]]
@@ -2742,7 +2742,7 @@ run_id = "20260811-205110-8fa78e"
 iteration = 23
 tool = "write"
 args = "{\"path\": \"software/mcfm/src/Z2jet/fzip.cpp\", \"content\": \"//\\n//  SPDX-License-Identifier: GPL-3.0-or-later\\n//  Copyright (C) 2019-2022, respective authors of MCFM.\\n//\\n\\n#include \\\"fzip.hpp\\\"\\n\\n#include <cmath>\\n#include <complex>\\n#include <constants_mod.hpp>\\n#include <Need.hpp>\\n\\nusing namespace constants_mod;\\n\\nstd::complex<double> fzip(double s12, double s34, double s56) {\\n  std::complex<double> fzip_res;\\n  double Del12, Del34, Del56, Del3;\\n\\n  // Implementation of BDKW Nucl Phys. 513, 3 (1998)\\n  // Eqn. (B15).\\n  Del12 = s12 - s34 - s56;\\n  Del34 = s34 - s12 - s56;\\n  Del56 = s56 - s12 - s34;\\n  Del3 = s12*Del12 + s34*Del34 + s56*Del56;\\n\\n  fzip_res = ((3.0*s34*Del34/pow(Del3, 2) - 1.0/Del3)*s12*s56)*i3m(s12, s34, s56)\\n           + ((3.0*s56*Del56/pow(Del3, 2) - 0.5/Del3)*s12)*lnrat(-s12, -s34)\\n           + ((3.0*s12*Del12/pow(Del3, 2) - 0.5/Del3)*s56)*lnrat(-s56, -s34)\\n           - cplx2(0.5*Del34/Del3, zip); // @coverage-probe\\n  return fzip_res;\\n}\\n\\nextern \\\"C\\\" {\\n  std::complex<double> fzip_wrapper(double s12, double s34, double s56) {\\n    return fzip(s12, s34, s56);\\n  }\\n}\\n\"}"
-model_reasoning = "Now I'll write the translated C++ files, headers, and Fortran shims for the first Z2jet group."
+model_text = "Now I'll write the translated C++ files, headers, and Fortran shims for the first Z2jet group."
 ts = "2026-08-12T01:55:27.106806+00:00"
 
 [[event]]
@@ -2762,7 +2762,7 @@ run_id = "20260811-205110-8fa78e"
 iteration = 23
 tool = "write"
 args = "{\"path\": \"software/mcfm/src/Z2jet/fzip_fi.F90\", \"content\": \"function fzip(s12,s34,s56)\\n   use, intrinsic :: iso_c_binding\\n   implicit none\\n   complex(c_double_complex):: fzip\\n   real(c_double):: s12,s34,s56\\n\\n   interface\\n      function fzip_wrapper(s12,s34,s56) bind(C, name=\\\"fzip_wrapper\\\")\\n         import :: c_double_complex, c_double\\n         complex(c_double_complex):: fzip_wrapper\\n         real(c_double), value:: s12,s34,s56\\n      end function fzip_wrapper\\n   end interface\\n\\n   fzip = fzip_wrapper(s12,s34,s56)\\n   return\\nend\\n\"}"
-model_reasoning = "Now I'll write the translated C++ files, headers, and Fortran shims for the first Z2jet group."
+model_text = "Now I'll write the translated C++ files, headers, and Fortran shims for the first Z2jet group."
 ts = "2026-08-12T01:55:27.107505+00:00"
 
 [[event]]
@@ -2782,7 +2782,7 @@ run_id = "20260811-205110-8fa78e"
 iteration = 23
 tool = "write"
 args = "{\"path\": \"software/mcfm/src/Z2jet/Bdiff.hpp\", \"content\": \"#ifndef BDIFF_H\\n#define BDIFF_H\\n\\n#include <complex>\\n\\nextern std::complex<double> Bdiff(double s34, double s12, double msq);\\n\\nextern \\\"C\\\" {\\n  extern std::complex<double> Bdiff_wrapper(double s34, double s12, double msq);\\n}\\n\\n#endif\\n\"}"
-model_reasoning = "Now I'll write the translated C++ files, headers, and Fortran shims for the first Z2jet group."
+model_text = "Now I'll write the translated C++ files, headers, and Fortran shims for the first Z2jet group."
 ts = "2026-08-12T01:55:27.108177+00:00"
 
 [[event]]
@@ -2802,7 +2802,7 @@ run_id = "20260811-205110-8fa78e"
 iteration = 23
 tool = "write"
 args = "{\"path\": \"software/mcfm/src/Z2jet/Bdiff.cpp\", \"content\": \"//\\n//  SPDX-License-Identifier: GPL-3.0-or-later\\n//  Copyright (C) 2019-2022, respective authors of MCFM.\\n//\\n\\n#include \\\"Bdiff.hpp\\\"\\n\\n#include <complex>\\n#include <Loop.hpp>\\n#include <scalarselect_mod.hpp>\\n#include <scale_mod.hpp>\\n\\nusing namespace scalarselect_mod;\\nusing namespace scale_mod;\\n\\nstd::complex<double> Bdiff(double s34, double s12, double msq) {\\n  std::complex<double> Bdiff_res;\\n\\n  Bdiff_res = loopI2(s34, msq, msq, musq, 0) - loopI2(s12, msq, msq, musq, 0); // @coverage-probe\\n  return Bdiff_res;\\n}\\n\\nextern \\\"C\\\" {\\n  std::complex<double> Bdiff_wrapper(double s34, double s12, double msq) {\\n    return Bdiff(s34, s12, msq);\\n  }\\n}\\n\"}"
-model_reasoning = "Now I'll write the translated C++ files, headers, and Fortran shims for the first Z2jet group."
+model_text = "Now I'll write the translated C++ files, headers, and Fortran shims for the first Z2jet group."
 ts = "2026-08-12T01:55:27.108865+00:00"
 
 [[event]]
@@ -2822,7 +2822,7 @@ run_id = "20260811-205110-8fa78e"
 iteration = 23
 tool = "write"
 args = "{\"path\": \"software/mcfm/src/Z2jet/Bdiff_fi.F90\", \"content\": \"function Bdiff(s34,s12,msq)\\n   use, intrinsic :: iso_c_binding\\n   implicit none\\n   complex(c_double_complex):: Bdiff\\n   real(c_double):: s34,s12,msq\\n\\n   interface\\n      function Bdiff_wrapper(s34,s12,msq) bind(C, name=\\\"Bdiff_wrapper\\\")\\n         import :: c_double_complex, c_double\\n         complex(c_double_complex):: Bdiff_wrapper\\n         real(c_double), value:: s34,s12,msq\\n      end function Bdiff_wrapper\\n   end interface\\n\\n   Bdiff = Bdiff_wrapper(s34,s12,msq)\\n   return\\nend\\n\"}"
-model_reasoning = "Now I'll write the translated C++ files, headers, and Fortran shims for the first Z2jet group."
+model_text = "Now I'll write the translated C++ files, headers, and Fortran shims for the first Z2jet group."
 ts = "2026-08-12T01:55:27.109551+00:00"
 
 [[event]]
@@ -2842,7 +2842,7 @@ run_id = "20260811-205110-8fa78e"
 iteration = 23
 tool = "write"
 args = "{\"path\": \"software/mcfm/src/Z2jet/storecsz.hpp\", \"content\": \"#ifndef STORECSZ_H\\n#define STORECSZ_H\\n\\n#include <FArray.hpp>\\n\\nextern void storecsz(FArray3D<double>& mcs);\\n\\nextern \\\"C\\\" {\\n  extern void storecsz_wrapper(double* fmcs);\\n}\\n\\n#endif\\n\"}"
-model_reasoning = "Now I'll write the translated C++ files, headers, and Fortran shims for the first Z2jet group."
+model_text = "Now I'll write the translated C++ files, headers, and Fortran shims for the first Z2jet group."
 ts = "2026-08-12T01:55:27.110225+00:00"
 
 [[event]]
@@ -2931,7 +2931,7 @@ run_id = "20260811-205110-8fa78e"
 iteration = 24
 tool = "write"
 args = "{\"path\": \"software/mcfm/src/Z2jet/storecsz.cpp\", \"content\": \"//\\n//  SPDX-License-Identifier: GPL-3.0-or-later\\n//  Copyright (C) 2019-2022, respective authors of MCFM.\\n//\\n\\n#include \\\"storecsz.hpp\\\"\\n\\n#include <FArray.hpp>\\n#include <mmsq_cs_mod.hpp>\\n\\nusing namespace mmsq_cs_mod;\\n\\n// this routine transfers the information on the colour structure\\n// for the Z2jet matrix elements into separate arrays for each\\n// incoming parton case\\nvoid storecsz(FArray3D<double>& mcs) {\\n  int i, j, k;\\n\\n  for (i = 0; i <= 2; i++) {\\n    for (j = 1; j <= 2; j++) {\\n      for (k = 1; k <= 2; k++) {\\n        mcs(i, j, k) = mmsq_cs(i, j, k); // @coverage-probe\\n      }\\n    }\\n  }\\n  return;\\n}\\n\\nextern \\\"C\\\" {\\n  void storecsz_wrapper(double* fmcs) {\\n    FArray3D<double> mcs(fmcs, 3, 2, 2, 0, 1, 1);\\n    storecsz(mcs);\\n  }\\n}\\n\"}"
-model_reasoning = "Continuing with the remaining group files (storecsz, ampqqb_qqb) and the CMake wiring."
+model_text = "Continuing with the remaining group files (storecsz, ampqqb_qqb) and the CMake wiring."
 ts = "2026-08-12T01:55:55.335984+00:00"
 
 [[event]]
@@ -2951,7 +2951,7 @@ run_id = "20260811-205110-8fa78e"
 iteration = 24
 tool = "write"
 args = "{\"path\": \"software/mcfm/src/Z2jet/storecsz_fi.F90\", \"content\": \"subroutine storecsz(mcs)\\n   use, intrinsic :: iso_c_binding\\n   implicit none\\n   real(c_double):: mcs(0:2,2,2)\\n\\n   interface\\n      subroutine storecsz_wrapper(mcs) bind(C, name=\\\"storecsz_wrapper\\\")\\n         import :: c_double\\n         real(c_double):: mcs(0:2,2,2)\\n      end subroutine storecsz_wrapper\\n   end interface\\n\\n   call storecsz_wrapper(mcs)\\n   return\\nend subroutine storecsz\\n\"}"
-model_reasoning = "Continuing with the remaining group files (storecsz, ampqqb_qqb) and the CMake wiring."
+model_text = "Continuing with the remaining group files (storecsz, ampqqb_qqb) and the CMake wiring."
 ts = "2026-08-12T01:55:55.336748+00:00"
 
 [[event]]
@@ -2971,7 +2971,7 @@ run_id = "20260811-205110-8fa78e"
 iteration = 24
 tool = "write"
 args = "{\"path\": \"software/mcfm/src/Z2jet/ampqqb_qqb.hpp\", \"content\": \"#ifndef AMPQQB_QQB_H\\n#define AMPQQB_QQB_H\\n\\n#include <FArray.hpp>\\n#include <complex>\\n\\nextern void ampqqb_qqb(int i1, int i2, int i5, int i6,\\n                       FArray3D<std::complex<double>>& qqbA,\\n                       FArray3D<std::complex<double>>& qqbB);\\n\\nextern \\\"C\\\" {\\n  extern void ampqqb_qqb_wrapper(int i1, int i2, int i5, int i6,\\n                                 std::complex<double>* fqqbA,\\n                                 std::complex<double>* fqqbB);\\n}\\n\\n#endif\\n\"}"
-model_reasoning = "Continuing with the remaining group files (storecsz, ampqqb_qqb) and the CMake wiring."
+model_text = "Continuing with the remaining group files (storecsz, ampqqb_qqb) and the CMake wiring."
 ts = "2026-08-12T01:55:55.337450+00:00"
 
 [[event]]
@@ -2991,7 +2991,7 @@ run_id = "20260811-205110-8fa78e"
 iteration = 24
 tool = "write"
 args = "{\"path\": \"software/mcfm/src/Z2jet/ampqqb_qqb.cpp\", \"content\": \"//\\n//  SPDX-License-Identifier: GPL-3.0-or-later\\n//  Copyright (C) 2019-2022, respective authors of MCFM.\\n//\\n\\n#include \\\"ampqqb_qqb.hpp\\\"\\n\\n#include <FArray.hpp>\\n#include <complex>\\n\\nextern \\\"C\\\" {\\n  // still-Fortran callee (W2jet/aqqb_zbb.f)\\n  std::complex<double> aqqb_zbb_new_(int* i1, int* i2, int* i3, int* i4, int* i5, int* i6);\\n}\\n\\nvoid ampqqb_qqb(int i1, int i2, int i5, int i6,\\n                FArray3D<std::complex<double>>& qqbA,\\n                FArray3D<std::complex<double>>& qqbB) {\\n  int j, k;\\n  const int swap[2] = {2, 1};\\n  int three = 3, four = 4;\\n\\n  // also include diagrams where the Z is attached to b-bbar line\\n  // notation: (qqb hel, bbb hel, outgoing lepton helicity is left-handed\\n\\n  // Z to qqb, L L L\\n  qqbA(1,1,1) = +aqqb_zbb_new_(&i1, &i6, &i5, &i2, &three, &four); // @coverage-probe\\n  // Z to bbb, L L\\n  qqbB(1,1,1) = +aqqb_zbb_new_(&i6, &i1, &i2, &i5, &three, &four);\\n\\n  // Z to qqb, R R\\n  qqbA(2,2,1) = -aqqb_zbb_new_(&i2, &i5, &i6, &i1, &three, &four);\\n  // Z to bbb, R R\\n  qqbB(2,2,1) = -aqqb_zbb_new_(&i5, &i2, &i1, &i6, &three, &four);\\n\\n  // Z to qqb, L R\\n  qqbA(1,2,1) = +aqqb_zbb_new_(&i1, &i5, &i6, &i2, &three, &four);\\n  // Z to bbb, L R\\n  qqbB(1,2,1) = -aqqb_zbb_new_(&i5, &i1, &i2, &i6, &three, &four);\\n\\n  // Z to qqb, R L\\n  qqbA(2,1,1) = -aqqb_zbb_new_(&i2, &i6, &i5, &i1, &three, &four);\\n  // Z to bbb, R L\\n  qqbB(2,1,1) = +aqqb_zbb_new_(&i6, &i2, &i1, &i5, &three, &four);\\n\\n  for (j = 1; j <= 2; j++) {\\n    for (k = 1; k <= 2; k++) {\\n      qqbA(j,k,2) = std::conj(qqbA(swap[j-1], swap[k-1], 1));\\n      qqbB(j,k,2) = std::conj(qqbB(swap[j-1], swap[k-1], 1));\\n    }\\n  }\\n  return;\\n}\\n\\nextern \\\"C\\\" {\\n  void ampqqb_qqb_wrapper(int i1, int i2, int i5, int i6,\\n                          std::complex<double>* fqqbA,\\n                          std::complex<double>* fqqbB) {\\n    FArray3D<std::complex<double>> qqbA(fqqbA, 2, 2, 2);\\n    FArray3D<std::complex<double>> qqbB(fqqbB, 2, 2, 2);\\n    ampqqb_qqb(i1, i2, i5, i6, qqbA, qqbB);\\n  }\\n}\\n\"}"
-model_reasoning = "Continuing with the remaining group files (storecsz, ampqqb_qqb) and the CMake wiring."
+model_text = "Continuing with the remaining group files (storecsz, ampqqb_qqb) and the CMake wiring."
 ts = "2026-08-12T01:55:55.338175+00:00"
 
 [[event]]
@@ -3011,7 +3011,7 @@ run_id = "20260811-205110-8fa78e"
 iteration = 24
 tool = "write"
 args = "{\"path\": \"software/mcfm/src/Z2jet/ampqqb_qqb_fi.F90\", \"content\": \"subroutine ampqqb_qqb(i1,i2,i5,i6,qqbA,qqbB)\\n   use, intrinsic :: iso_c_binding\\n   implicit none\\n   integer(c_int):: i1,i2,i5,i6\\n   complex(c_double_complex):: qqbA(2,2,2),qqbB(2,2,2)\\n\\n   interface\\n      subroutine ampqqb_qqb_wrapper(i1,i2,i5,i6,qqbA,qqbB) bind(C, name=\\\"ampqqb_qqb_wrapper\\\")\\n         import :: c_int, c_double_complex\\n         integer(c_int), value:: i1,i2,i5,i6\\n         complex(c_double_complex):: qqbA(2,2,2),qqbB(2,2,2)\\n      end subroutine ampqqb_qqb_wrapper\\n   end interface\\n\\n   call ampqqb_qqb_wrapper(i1,i2,i5,i6,qqbA,qqbB)\\n   return\\nend subroutine ampqqb_qqb\\n\"}"
-model_reasoning = "Continuing with the remaining group files (storecsz, ampqqb_qqb) and the CMake wiring."
+model_text = "Continuing with the remaining group files (storecsz, ampqqb_qqb) and the CMake wiring."
 ts = "2026-08-12T01:55:55.338883+00:00"
 
 [[event]]
@@ -3031,7 +3031,7 @@ run_id = "20260811-205110-8fa78e"
 iteration = 24
 tool = "write"
 args = "{\"path\": \"software/mcfm/src/Z2jet/CMakeLists.txt\", \"content\": \"target_sources(objlib PRIVATE\\na61z.f\\na62z.f\\na63.f\\na63z.f\\na6ax.f\\nampqqb_qqb.cpp\\nampqqb_qqb_fi.F90\\natreez.f\\nBdiff.cpp\\nBdiff_fi.F90\\nfmt.cpp\\nfmt_fi.F90\\nfmtfull.f\\nfzip.cpp\\nfzip_fi.F90\\nmsq_z2jetx.f\\nqqb_z2jet_v.f\\nqqb_z2jetx_new.f\\nstorecsz.cpp\\nstorecsz_fi.F90\\nz2jetsq.f\\n)\\n\\n\\n\"}"
-model_reasoning = "Continuing with the remaining group files (storecsz, ampqqb_qqb) and the CMake wiring."
+model_text = "Continuing with the remaining group files (storecsz, ampqqb_qqb) and the CMake wiring."
 ts = "2026-08-12T01:55:55.339594+00:00"
 
 [[event]]
@@ -3051,7 +3051,7 @@ run_id = "20260811-205110-8fa78e"
 iteration = 24
 tool = "bash"
 args = "{\"command\": \"mkdir -p software/mcfm/src/Z2jet/deprecated && git mv software/mcfm/src/Z2jet/ampqqb_qqb.f software/mcfm/src/Z2jet/Bdiff.f software/mcfm/src/Z2jet/fmt.f software/mcfm/src/Z2jet/fzip.f software/mcfm/src/Z2jet/storecsz.f software/mcfm/src/Z2jet/deprecated/\"}"
-model_reasoning = "Continuing with the remaining group files (storecsz, ampqqb_qqb) and the CMake wiring."
+model_text = "Continuing with the remaining group files (storecsz, ampqqb_qqb) and the CMake wiring."
 ts = "2026-08-12T01:55:55.340347+00:00"
 
 [[event]]
@@ -3462,7 +3462,7 @@ run_id = "20260811-205930-bd7c2f"
 iteration = 1
 tool = "read"
 args = "{\"path\": \"dev/transformations/mcfm-translate/current_plan.md\"}"
-model_reasoning = "I'll start by reading the plan and spec as instructed, plus the current agent log."
+model_text = "I'll start by reading the plan and spec as instructed, plus the current agent log."
 ts = "2026-08-12T01:59:33.111920+00:00"
 
 [[event]]
@@ -3492,7 +3492,7 @@ run_id = "20260811-205930-bd7c2f"
 iteration = 1
 tool = "read"
 args = "{\"path\": \"dev/transformations/mcfm-translate/desired_spec.md\"}"
-model_reasoning = "I'll start by reading the plan and spec as instructed, plus the current agent log."
+model_text = "I'll start by reading the plan and spec as instructed, plus the current agent log."
 ts = "2026-08-12T01:59:33.112773+00:00"
 
 [[event]]
@@ -3526,7 +3526,7 @@ run_id = "20260811-205930-bd7c2f"
 iteration = 1
 tool = "read"
 args = "{\"path\": \"dev/transformations/mcfm-translate/agent_log.md\"}"
-model_reasoning = "I'll start by reading the plan and spec as instructed, plus the current agent log."
+model_text = "I'll start by reading the plan and spec as instructed, plus the current agent log."
 ts = "2026-08-12T01:59:33.113531+00:00"
 
 [[event]]
@@ -3582,7 +3582,7 @@ run_id = "20260811-205930-bd7c2f"
 iteration = 2
 tool = "read"
 args = "{\"path\": \"dev/transformations/mcfm-translate/current_plan.md\", \"offset\": 160}"
-model_reasoning = "Reading the truncated tail of the plan, then running refresh."
+model_text = "Reading the truncated tail of the plan, then running refresh."
 ts = "2026-08-12T01:59:38.856175+00:00"
 
 [[event]]
@@ -3613,7 +3613,7 @@ run_id = "20260811-205930-bd7c2f"
 iteration = 2
 tool = "bash"
 args = "{\"command\": \"python3 dev/workflow.py refresh\", \"timeout\": 600}"
-model_reasoning = "Reading the truncated tail of the plan, then running refresh."
+model_text = "Reading the truncated tail of the plan, then running refresh."
 ts = "2026-08-12T01:59:38.857061+00:00"
 
 [[event]]
@@ -3667,7 +3667,7 @@ run_id = "20260811-205930-bd7c2f"
 iteration = 3
 tool = "bash"
 args = "{\"command\": \"python3 dev/workflow.py verify software/mcfm/src/Z2jet/fmt.cpp -- u u~ e- e+ g g\", \"timeout\": 3600}"
-model_reasoning = "Refresh done. Now verifying the five translated Z2jet files with the coverage probe."
+model_text = "Refresh done. Now verifying the five translated Z2jet files with the coverage probe."
 ts = "2026-08-12T01:59:43.721311+00:00"
 
 [[event]]
@@ -4108,7 +4108,7 @@ run_id = "20260811-205930-bd7c2f"
 iteration = 10
 tool = "bash"
 args = "{\"command\": \"python3 dev/tmp/verify_group.py software/mcfm/src/Z2jet/fzip.cpp\", \"timeout\": 3600}"
-model_reasoning = "Re-running verify for fzip now that the probe statement is a single line."
+model_text = "Re-running verify for fzip now that the probe statement is a single line."
 ts = "2026-08-12T02:00:33.385480+00:00"
 
 [[event]]
@@ -6019,7 +6019,7 @@ run_id = "20260811-205930-bd7c2f"
 iteration = 25
 tool = "write"
 args = "{\"path\": \"software/mcfm/src/Z2jet/fmtfull.hpp\", \"content\": \"#ifndef FMTFULL_H\\n#define FMTFULL_H\\n\\n#include <complex>\\n\\nextern std::complex<double> fmtfull(double s12, double s34, double s56);\\n\\nextern \\\"C\\\" {\\n  extern std::complex<double> fmtfull_wrapper(double s12, double s34, double s56);\\n}\\n\\n#endif\\n\"}"
-model_reasoning = "Now I will write the new translation units for Group 2 (fmtfull + the three loop generic modules)."
+model_text = "Now I will write the new translation units for Group 2 (fmtfull + the three loop generic modules)."
 ts = "2026-08-12T02:06:02.325534+00:00"
 
 [[event]]
@@ -6039,7 +6039,7 @@ run_id = "20260811-205930-bd7c2f"
 iteration = 25
 tool = "write"
 args = "{\"path\": \"software/mcfm/src/Z2jet/fmtfull.cpp\", \"content\": \"//\\n//  SPDX-License-Identifier: GPL-3.0-or-later\\n//  Copyright (C) 2019-2022, respective authors of MCFM.\\n//\\n\\n#include \\\"fmtfull.hpp\\\"\\n\\n#include \\\"Bdiff.hpp\\\"\\n\\n#include <cmath>\\n#include <complex>\\n#include <Loop.hpp>\\n#include <Need.hpp>\\n#include <constants_mod.hpp>\\n#include <masses_mod.hpp>\\n#include <scalarselect_mod.hpp>\\n#include <scale_mod.hpp>\\n\\nusing namespace constants_mod;\\nusing namespace masses_mod;\\nusing namespace scalarselect_mod;\\nusing namespace scale_mod;\\n\\nstd::complex<double> fmtfull(double s12, double s34, double s56) {\\n  std::complex<double> fmtfull_res;\\n  double mtsq, Del12, Del34, Del56, Del3;\\n\\n  // Implementation of BDKW Nucl Phys. 513, 3 (1998)\\n  // Eqn. (B.15) upgraded so that is gives the full mass\\n  // dependence.\\n  Del12 = s12 - s34 - s56;\\n  Del34 = s34 - s12 - s56;\\n  Del56 = s56 - s12 - s34;\\n  Del3 = s12*Del12 + s34*Del34 + s56*Del56;\\n  mtsq = pow(mt, 2);\\n\\n  fmtfull_res = ((three*s12*s56*s34*Del34/pow(Del3, 2) - (s12*s56 - mtsq*Del34)/Del3))*(-loopI3(s12, s34, s56, mtsq, mtsq, mtsq, musq, 0)) + ((three*s56*Del56/pow(Del3, 2) - half/Del3)*s12)*Bdiff(s34, s12, mtsq) + ((three*s12*Del12/pow(Del3, 2) - half/Del3)*s56)*Bdiff(s34, s56, mtsq) - cplx2(half*Del34/Del3, zip); // @coverage-probe\\n  return fmtfull_res;\\n}\\n\\nextern \\\"C\\\" {\\n  std::complex<double> fmtfull_wrapper(double s12, double s34, double s56) {\\n    return fmtfull(s12, s34, s56);\\n  }\\n}\\n\"}"
-model_reasoning = "Now I will write the new translation units for Group 2 (fmtfull + the three loop generic modules)."
+model_text = "Now I will write the new translation units for Group 2 (fmtfull + the three loop generic modules)."
 ts = "2026-08-12T02:06:02.326577+00:00"
 
 [[event]]
@@ -6059,7 +6059,7 @@ run_id = "20260811-205930-bd7c2f"
 iteration = 25
 tool = "write"
 args = "{\"path\": \"software/mcfm/src/Z2jet/fmtfull_fi.F90\", \"content\": \"function fmtfull(s12,s34,s56)\\n   use, intrinsic :: iso_c_binding\\n   implicit none\\n   complex(c_double_complex):: fmtfull\\n   real(c_double):: s12,s34,s56\\n\\n   interface\\n      function fmtfull_wrapper(s12,s34,s56) bind(C, name=\\\"fmtfull_wrapper\\\")\\n         import :: c_double_complex, c_double\\n         complex(c_double_complex):: fmtfull_wrapper\\n         real(c_double), value:: s12,s34,s56\\n      end function fmtfull_wrapper\\n   end interface\\n\\n   fmtfull = fmtfull_wrapper(s12,s34,s56)\\n   return\\nend\\n\"}"
-model_reasoning = "Now I will write the new translation units for Group 2 (fmtfull + the three loop generic modules)."
+model_text = "Now I will write the new translation units for Group 2 (fmtfull + the three loop generic modules)."
 ts = "2026-08-12T02:06:02.327547+00:00"
 
 [[event]]
@@ -6079,7 +6079,7 @@ run_id = "20260811-205930-bd7c2f"
 iteration = 25
 tool = "write"
 args = "{\"path\": \"software/mcfm/src/loop/loopI1_generic.cpp\", \"content\": \"#include <Loop.hpp>\\n#include <cmath>\\n#include <complex>\\n#include <cstdlib>\\n#include <iostream>\\n#include <scalarselect_mod.hpp>\\n\\nusing namespace scalarselect_mod;\\n\\ncomplex loopI1(double m1, double mu2, int ep) {\\n\\n  complex loopI1_res, resQCDLoop, resOneLOop;\\n  complex result[3];\\n\\n  // this is a switchyard routine: depending on value of\\n  // integer variable, this routine either:\\n  //  scalarselect = 1    calls QCDLoop for scalar integral\\n  //  scalarselect = 2    calls OneLOop for scalar integral\\n  //  scalarselect = 3    calls both routines and compares results\\n\\n  if (scalarselect == 1 || scalarselect == 3) {\\n    resQCDLoop = qli1(m1, mu2, ep);\\n  }\\n\\n  if (scalarselect == 1) {\\n    loopI1_res = resQCDLoop; // @coverage-probe\\n    return loopI1_res;\\n  }\\n\\n  if (scalarselect == 3) {\\n    if (std::abs(resOneLOop) > 1e-9 && std::abs(resQCDLoop / resOneLOop - 1.0) > 1e-9) {\\n      std::cout << \\\"loopI1: \\\" << m1 << \\\", \\\" << ep << std::endl;\\n      std::cout << \\\"QCDLoop: \\\" << resQCDLoop << std::endl;\\n      std::cout << \\\"OneLOop: \\\" << resOneLOop << std::endl;\\n      std::cout << \\\"->ratio: \\\" << resQCDLoop / resOneLOop << std::endl;\\n    }\\n  }\\n\\n  return loopI1_res;\\n}\\n\\ncomplex loopI1(complex m1, double mu2, int ep) {\\n\\n  complex loopI1_res, resQCDLoop, resOneLOop;\\n  complex result[3];\\n\\n  if (scalarselect == 1 || scalarselect == 3) {\\n    resQCDLoop = qli1c(m1, mu2, ep);\\n  }\\n\\n  if (scalarselect == 1) {\\n    loopI1_res = resQCDLoop;\\n    return loopI1_res;\\n  }\\n\\n  resOneLOop = result[std::abs(ep)];\\n  loopI1_res = resOneLOop;\\n\\n  if (scalarselect == 3) {\\n    if (std::abs(resOneLOop) > 1e-12 && std::abs(resQCDLoop / resOneLOop - 1.0) > 1e-12) {\\n      std::cout << \\\"loopI1: \\\" << m1 << \\\", \\\" << ep << std::endl;\\n      std::cout << \\\"QCDLoop: \\\" << resQCDLoop << std::endl;\\n      std::cout << \\\"OneLOop: \\\" << resOneLOop << std::endl;\\n      std::cout << \\\"->ratio: \\\" << resQCDLoop / resOneLOop << std::endl;\\n    }\\n  }\\n\\n  return loopI1_res;\\n}\\n\\nextern \\\"C\\\" {\\n  complex loopI1_wrapper(double m1, double mu2, int ep) {\\n    return loopI1(m1, mu2, ep);\\n  }\\n\\n  complex loopI1c_wrapper(complex m1, double mu2, int ep) {\\n    return loopI1(m1, mu2, ep);\\n  }\\n}\\n\"}"
-model_reasoning = "Now I will write the new translation units for Group 2 (fmtfull + the three loop generic modules)."
+model_text = "Now I will write the new translation units for Group 2 (fmtfull + the three loop generic modules)."
 ts = "2026-08-12T02:06:02.328491+00:00"
 
 [[event]]
@@ -6099,7 +6099,7 @@ run_id = "20260811-205930-bd7c2f"
 iteration = 25
 tool = "write"
 args = "{\"path\": \"software/mcfm/src/loop/loopI1_generic_fi.f90\", \"content\": \"\\nmodule loopI1_generic\\n  use, intrinsic :: iso_c_binding\\n  implicit none\\n  private\\n  public :: loopI1, loopI1c\\n\\n  interface loopI1\\n     module procedure loopI1,loopI1c\\n  end interface\\n\\ncontains\\n\\n  function loopI1(m1, mu2, ep) result(loopI1_res)\\n\\n    real(c_double), value :: m1\\n    real(c_double), value :: mu2\\n    integer(c_int), value :: ep\\n    complex(c_double_complex) :: loopI1_res\\n\\n    interface\\n      function loopI1_wrapper(m1, mu2, ep) result(loopI1_res) bind(C, name=\\\"loopI1_wrapper\\\")\\n        use, intrinsic :: iso_c_binding\\n        real(c_double), value :: m1, mu2\\n        integer(c_int), value :: ep\\n        complex(c_double_complex) :: loopI1_res\\n      end function loopI1_wrapper\\n    end interface\\n\\n    loopI1_res = loopI1_wrapper(m1, mu2, ep)\\n  end function loopI1\\n\\n  function loopI1c(m1, mu2, ep) result(loopI1_res)\\n    complex(c_double_complex), value :: m1\\n    real(c_double), value :: mu2\\n    integer(c_int), value :: ep\\n    complex(c_double_complex) :: loopI1_res\\n\\n    interface\\n      function loopI1c_wrapper(m1, mu2, ep) result(loopI1_res) bind(C, name=\\\"loopI1c_wrapper\\\")\\n        use, intrinsic :: iso_c_binding\\n        complex(c_double_complex), value :: m1\\n        real(c_double), value :: mu2\\n        integer(c_int), value :: ep\\n        complex(c_double_complex) :: loopI1_res\\n      end function loopI1c_wrapper\\n    end interface\\n\\n    loopI1_res = loopI1c_wrapper(m1, mu2, ep)\\n  end function loopI1c\\n\\nend module loopI1_generic\\n\"}"
-model_reasoning = "Now I will write the new translation units for Group 2 (fmtfull + the three loop generic modules)."
+model_text = "Now I will write the new translation units for Group 2 (fmtfull + the three loop generic modules)."
 ts = "2026-08-12T02:06:02.329474+00:00"
 
 [[event]]
@@ -6119,7 +6119,7 @@ run_id = "20260811-205930-bd7c2f"
 iteration = 25
 tool = "write"
 args = "{\"path\": \"software/mcfm/src/loop/loopI2p_generic.cpp\", \"content\": \"#include <Loop.hpp>\\n#include <cmath>\\n#include <complex>\\n#include <iostream>\\n#include <scalarselect_mod.hpp>\\n\\nusing namespace scalarselect_mod;\\n\\ncomplex loopI2p(double p1, double m1, double m2, double mu2, int ep) {\\n\\n  complex loopI2p_res, resQCDLoop, resOneLOop;\\n  complex result[3];\\n\\n  // this is a switchyard routine: depending on value of\\n  // integer variable, this routine either:\\n  //  scalarselect = 1    calls QCDLoop for scalar integral\\n  //  scalarselect = 2    calls OneLOop for scalar integral\\n  //  scalarselect = 3    calls both routines and compares results\\n\\n  if (scalarselect == 1 || scalarselect == 3) {\\n    resQCDLoop = qli2p(p1, m1, m2, mu2, ep);\\n  }\\n\\n  if (scalarselect == 1) {\\n    loopI2p_res = resQCDLoop; // @coverage-probe\\n    return loopI2p_res;\\n  }\\n\\n  if (scalarselect == 3) {\\n    if (std::abs(resOneLOop) > 1e-9 && std::abs(resQCDLoop / resOneLOop - 1.0) > 1e-9) {\\n      std::cout << \\\"loopI2p: \\\" << p1 << \\\", \\\" << m1 << \\\", \\\" << m2 << \\\", \\\" << mu2 << \\\", \\\" << ep << std::endl;\\n      std::cout << \\\"QCDLoop: \\\" << resQCDLoop << std::endl;\\n      std::cout << \\\"OneLOop: \\\" << resOneLOop << std::endl;\\n      std::cout << \\\"->ratio: \\\" << resQCDLoop / resOneLOop << std::endl;\\n    }\\n  }\\n\\n  return loopI2p_res;\\n}\\n\\ncomplex loopI2p(double p1, complex m1, complex m2, double mu2, int ep) {\\n\\n  complex loopI2p_res, resQCDLoop, resOneLOop;\\n  complex result[3];\\n\\n  if (scalarselect == 1 || scalarselect == 3) {\\n    resQCDLoop = qli2pc(p1, m1, m2, mu2, ep);\\n  }\\n\\n  if (scalarselect == 1) {\\n    loopI2p_res = resQCDLoop;\\n    return loopI2p_res;\\n  }\\n\\n  if (scalarselect == 3) {\\n    if (std::abs(resOneLOop) > 1e-12 && std::abs(resQCDLoop / resOneLOop - 1.0) > 1e-12) {\\n      std::cout << \\\"loopI2p: \\\" << p1 << \\\", \\\" << m1 << \\\", \\\" << m2 << \\\", \\\" << mu2 << \\\", \\\" << ep << std::endl;\\n      std::cout << \\\"QCDLoop: \\\" << resQCDLoop << std::endl;\\n      std::cout << \\\"OneLOop: \\\" << resOneLOop << std::endl;\\n      std::cout << \\\"->ratio: \\\" << resQCDLoop / resOneLOop << std::endl;\\n    }\\n  }\\n\\n  return loopI2p_res;\\n}\\n\\nextern \\\"C\\\" {\\n  complex loopI2p_wrapper(double p1, double m1, double m2, double mu2, int ep) {\\n    return loopI2p(p1, m1, m2, mu2, ep);\\n  }\\n\\n  complex loopI2pc_wrapper(double p1, complex m1, complex m2, double mu2, int ep) {\\n    return loopI2p(p1, m1, m2, mu2, ep);\\n  }\\n}\\n\"}"
-model_reasoning = "Now I will write the new translation units for Group 2 (fmtfull + the three loop generic modules)."
+model_text = "Now I will write the new translation units for Group 2 (fmtfull + the three loop generic modules)."
 ts = "2026-08-12T02:06:02.330442+00:00"
 
 [[event]]
@@ -6139,7 +6139,7 @@ run_id = "20260811-205930-bd7c2f"
 iteration = 25
 tool = "write"
 args = "{\"path\": \"software/mcfm/src/loop/loopI2p_generic_fi.f90\", \"content\": \"\\nmodule loopI2p_generic\\n  use, intrinsic :: iso_c_binding\\n  implicit none\\n  private\\n  public :: loopI2p, loopI2pc\\n\\n  interface loopI2p\\n     module procedure loopI2p,loopI2pc\\n  end interface\\n\\ncontains\\n\\n  function loopI2p(p1, m1, m2, mu2, ep) result(loopI2p_res)\\n\\n    real(c_double), value :: p1\\n    real(c_double), value :: m1\\n    real(c_double), value :: m2\\n    real(c_double), value :: mu2\\n    integer(c_int), value :: ep\\n    complex(c_double_complex) :: loopI2p_res\\n\\n    interface\\n      function loopI2p_wrapper(p1, m1, m2, mu2, ep) result(loopI2p_res) bind(C, name=\\\"loopI2p_wrapper\\\")\\n        use, intrinsic :: iso_c_binding\\n        real(c_double), value :: p1, m1, m2, mu2\\n        integer(c_int), value :: ep\\n        complex(c_double_complex) :: loopI2p_res\\n      end function loopI2p_wrapper\\n    end interface\\n\\n    loopI2p_res = loopI2p_wrapper(p1, m1, m2, mu2, ep)\\n  end function loopI2p\\n\\n  function loopI2pc(p1, m1, m2, mu2, ep) result(loopI2p_res)\\n    real(c_double), value :: p1\\n    complex(c_double_complex), value :: m1\\n    complex(c_double_complex), value :: m2\\n    real(c_double), value :: mu2\\n    integer(c_int), value :: ep\\n    complex(c_double_complex) :: loopI2p_res\\n\\n    interface\\n      function loopI2pc_wrapper(p1, m1, m2, mu2, ep) result(loopI2p_res) bind(C, name=\\\"loopI2pc_wrapper\\\")\\n        use, intrinsic :: iso_c_binding\\n        real(c_double), value :: p1\\n        complex(c_double_complex), value :: m1, m2\\n        real(c_double), value :: mu2\\n        integer(c_int), value :: ep\\n        complex(c_double_complex) :: loopI2p_res\\n      end function loopI2pc_wrapper\\n    end interface\\n\\n    loopI2p_res = loopI2pc_wrapper(p1, m1, m2, mu2, ep)\\n  end function loopI2pc\\n\\nend module loopI2p_generic\\n\"}"
-model_reasoning = "Now I will write the new translation units for Group 2 (fmtfull + the three loop generic modules)."
+model_text = "Now I will write the new translation units for Group 2 (fmtfull + the three loop generic modules)."
 ts = "2026-08-12T02:06:02.331418+00:00"
 
 [[event]]
@@ -6159,7 +6159,7 @@ run_id = "20260811-205930-bd7c2f"
 iteration = 25
 tool = "write"
 args = "{\"path\": \"software/mcfm/src/loop/loopI4_generic.cpp\", \"content\": \"#include <Loop.hpp>\\n#include <cmath>\\n#include <complex>\\n#include <iostream>\\n#include <scalarselect_mod.hpp>\\n\\nusing namespace scalarselect_mod;\\n\\ncomplex loopI4(double p1, double p2, double p3, double p4, double s12, double s23,\\n               double m1, double m2, double m3, double m4, double mu2, int ep) {\\n\\n  complex loopI4_res, resQCDLoop, resOneLOop;\\n  complex result[3];\\n\\n  // this is a switchyard routine: depending on value of\\n  // integer variable, this routine either:\\n  //  scalarselect = 1    calls QCDLoop for scalar integral\\n  //  scalarselect = 2    calls OneLOop for scalar integral\\n  //  scalarselect = 3    calls both routines and compares results\\n\\n  if (scalarselect == 1 || scalarselect == 3) {\\n    resQCDLoop = qli4(p1, p2, p3, p4, s12, s23, m1, m2, m3, m4, mu2, ep);\\n  }\\n\\n  if (scalarselect == 1) {\\n    loopI4_res = resQCDLoop; // @coverage-probe\\n    return loopI4_res;\\n  }\\n\\n  if (scalarselect == 3) {\\n    if (std::abs(resOneLOop) > 1e-9 && std::abs(resQCDLoop / resOneLOop - 1.0) > 1e-9) {\\n      std::cout << \\\"loopI4: \\\" << p1 << \\\", \\\" << p2 << \\\", \\\" << p3 << \\\", \\\" << p4 << \\\", \\\" << s12 << \\\", \\\" << s23 << \\\", \\\" << m1 << \\\", \\\" << m2 << \\\", \\\" << m3 << \\\", \\\" << m4 << \\\", \\\" << mu2 << \\\", \\\" << ep << std::endl;\\n      std::cout << \\\"QCDLoop: \\\" << resQCDLoop << std::endl;\\n      std::cout << \\\"OneLOop: \\\" << resOneLOop << std::endl;\\n      std::cout << \\\"->ratio: \\\" << resQCDLoop / resOneLOop << std::endl;\\n    }\\n  }\\n\\n  return loopI4_res;\\n}\\n\\ncomplex loopI4(double p1, double p2, double p3, double p4, double s12, double s23,\\n               complex m1, complex m2, complex m3, complex m4, double mu2, int ep) {\\n\\n  complex loopI4_res, resQCDLoop, resOneLOop;\\n  complex result[3];\\n\\n  if (scalarselect == 1 || scalarselect == 3) {\\n    resQCDLoop = qli4c(p1, p2, p3, p4, s12, s23, m1, m2, m3, m4, mu2, ep);\\n  }\\n\\n  if (scalarselect == 1) {\\n    loopI4_res = resQCDLoop;\\n    return loopI4_res;\\n  }\\n\\n  if (scalarselect == 3) {\\n    if (std::abs(resOneLOop) > 1e-12 && std::abs(resQCDLoop / resOneLOop - 1.0) > 1e-12) {\\n      std::cout << \\\"loopI4: \\\" << p1 << \\\", \\\" << p2 << \\\", \\\" << p3 << \\\", \\\" << p4 << \\\", \\\" << s12 << \\\", \\\" << s23 << \\\", \\\" << m1 << \\\", \\\" << m2 << \\\", \\\" << m3 << \\\", \\\" << m4 << \\\", \\\" << mu2 << \\\", \\\" << ep << std::endl;\\n      std::cout << \\\"QCDLoop: \\\" << resQCDLoop << std::endl;\\n      std::cout << \\\"OneLOop: \\\" << resOneLOop << std::endl;\\n      std::cout << \\\"->ratio: \\\" << resQCDLoop / resOneLOop << std::endl;\\n    }\\n  }\\n\\n  return loopI4_res;\\n}\\n\\nextern \\\"C\\\" {\\n  complex loopI4_wrapper(double p1, double p2, double p3, double p4, double s12, double s23,\\n                         double m1, double m2, double m3, double m4, double mu2, int ep) {\\n    return loopI4(p1, p2, p3, p4, s12, s23, m1, m2, m3, m4, mu2, ep);\\n  }\\n\\n  complex loopI4c_wrapper(double p1, double p2, double p3, double p4, double s12, double s23,\\n                          complex m1, complex m2, complex m3, complex m4, double mu2, int ep) {\\n    return loopI4(p1, p2, p3, p4, s12, s23, m1, m2, m3, m4, mu2, ep);\\n  }\\n}\\n\"}"
-model_reasoning = "Now I will write the new translation units for Group 2 (fmtfull + the three loop generic modules)."
+model_text = "Now I will write the new translation units for Group 2 (fmtfull + the three loop generic modules)."
 ts = "2026-08-12T02:06:02.332415+00:00"
 
 [[event]]
@@ -6179,7 +6179,7 @@ run_id = "20260811-205930-bd7c2f"
 iteration = 25
 tool = "write"
 args = "{\"path\": \"software/mcfm/src/loop/loopI4_generic_fi.f90\", \"content\": \"\\nmodule loopI4_generic\\n  use, intrinsic :: iso_c_binding\\n  implicit none\\n  private\\n  public :: loopI4, loopI4c\\n\\n  interface loopI4\\n     module procedure loopI4,loopI4c\\n  end interface\\n\\ncontains\\n\\n  function loopI4(p1, p2, p3, p4, s12, s23, m1, m2, m3, m4, mu2, ep) result(loopI4_res)\\n\\n    real(c_double), value :: p1, p2, p3, p4, s12, s23\\n    real(c_double), value :: m1, m2, m3, m4\\n    real(c_double), value :: mu2\\n    integer(c_int), value :: ep\\n    complex(c_double_complex) :: loopI4_res\\n\\n    interface\\n      function loopI4_wrapper(p1, p2, p3, p4, s12, s23, m1, m2, m3, m4, mu2, ep) result(loopI4_res) &\\n           bind(C, name=\\\"loopI4_wrapper\\\")\\n        use, intrinsic :: iso_c_binding\\n        real(c_double), value :: p1, p2, p3, p4, s12, s23\\n        real(c_double), value :: m1, m2, m3, m4, mu2\\n        integer(c_int), value :: ep\\n        complex(c_double_complex) :: loopI4_res\\n      end function loopI4_wrapper\\n    end interface\\n\\n    loopI4_res = loopI4_wrapper(p1, p2, p3, p4, s12, s23, m1, m2, m3, m4, mu2, ep)\\n  end function loopI4\\n\\n  function loopI4c(p1, p2, p3, p4, s12, s23, m1, m2, m3, m4, mu2, ep) result(loopI4_res)\\n    real(c_double), value :: p1, p2, p3, p4, s12, s23\\n    complex(c_double_complex), value :: m1, m2, m3, m4\\n    real(c_double), value :: mu2\\n    integer(c_int), value :: ep\\n    complex(c_double_complex) :: loopI4_res\\n\\n    interface\\n      function loopI4c_wrapper(p1, p2, p3, p4, s12, s23, m1, m2, m3, m4, mu2, ep) result(loopI4_res) &\\n           bind(C, name=\\\"loopI4c_wrapper\\\")\\n        use, intrinsic :: iso_c_binding\\n        real(c_double), value :: p1, p2, p3, p4, s12, s23\\n        complex(c_double_complex), value :: m1, m2, m3, m4\\n        real(c_double), value :: mu2\\n        integer(c_int), value :: ep\\n        complex(c_double_complex) :: loopI4_res\\n      end function loopI4c_wrapper\\n    end interface\\n\\n    loopI4_res = loopI4c_wrapper(p1, p2, p3, p4, s12, s23, m1, m2, m3, m4, mu2, ep)\\n  end function loopI4c\\n\\nend module loopI4_generic\\n\"}"
-model_reasoning = "Now I will write the new translation units for Group 2 (fmtfull + the three loop generic modules)."
+model_text = "Now I will write the new translation units for Group 2 (fmtfull + the three loop generic modules)."
 ts = "2026-08-12T02:06:02.333406+00:00"
 
 [[event]]
@@ -6199,7 +6199,7 @@ run_id = "20260811-205930-bd7c2f"
 iteration = 25
 tool = "edit"
 args = "{\"path\": \"software/mcfm/src/loop/Loop.hpp\", \"edits\": [{\"oldText\": \"extern \\\"C\\\" {\\n  extern complex qli2(double const& p1, double const& m1, double const& m2, double const& mu2, int const& ep);\", \"newText\": \"extern \\\"C\\\" {\\n  extern complex qli1(double const& m1, double const& mu2, int const& ep);\\n  extern complex qli1c(complex const& m1, double const& mu2, int const& ep);\\n  extern complex qli2(double const& p1, double const& m1, double const& m2, double const& mu2, int const& ep);\"}, {\"oldText\": \"  extern complex qli3c(double const& p1, double const& p2, double const& p3, complex const& m1, complex const& m2, complex const& m3, double const& mu2, int const& ep);\\n \\n}\", \"newText\": \"  extern complex qli3c(double const& p1, double const& p2, double const& p3, complex const& m1, complex const& m2, complex const& m3, double const& mu2, int const& ep);\\n  extern complex qli2p(double const& p1, double const& m1, double const& m2, double const& mu2, int const& ep);\\n  extern complex qli2pc(double const& p1, complex const& m1, complex const& m2, double const& mu2, int const& ep);\\n  extern complex qli4(double const& p1, double const& p2, double const& p3, double const& p4, double const& s12, double const& s23, double const& m1, double const& m2, double const& m3, double const& m4, double const& mu2, int const& ep);\\n  extern complex qli4c(double const& p1, double const& p2, double const& p3, double const& p4, double const& s12, double const& s23, complex const& m1, complex const& m2, complex const& m3, complex const& m4, double const& mu2, int const& ep);\\n \\n}\"}, {\"oldText\": \"extern complex loopI3(double p1, double p2, double p3, complex m1, complex m2, complex m3, double mu2, int ep);\\n\\n#endif\", \"newText\": \"extern complex loopI3(double p1, double p2, double p3, complex m1, complex m2, complex m3, double mu2, int ep);\\n\\nextern complex loopI1(double m1, double mu2, int ep);\\nextern complex loopI1(complex m1, double mu2, int ep);\\n\\nextern complex loopI2p(double p1, double m1, double m2, double mu2, int ep);\\nextern complex loopI2p(double p1, complex m1, complex m2, double mu2, int ep);\\n\\nextern complex loopI4(double p1, double p2, double p3, double p4, double s12, double s23, double m1, double m2, double m3, double m4, double mu2, int ep);\\nextern complex loopI4(double p1, double p2, double p3, double p4, double s12, double s23, complex m1, complex m2, complex m3, complex m4, double mu2, int ep);\\n\\n#endif\"}]}"
-model_reasoning = "Now I will write the new translation units for Group 2 (fmtfull + the three loop generic modules)."
+model_text = "Now I will write the new translation units for Group 2 (fmtfull + the three loop generic modules)."
 ts = "2026-08-12T02:06:02.334389+00:00"
 
 [[event]]
@@ -6656,7 +6656,7 @@ run_id = "20260811-205930-bd7c2f"
 iteration = 30
 tool = "edit"
 args = "{\"path\": \"dev/transformations/mcfm-translate/agent_log.md\", \"edits\": [{\"oldText\": \"## Notes / session log\", \"newText\": \"## Group Z2jet-loop-2 (remaining `u u~ e- e+ g g` leaves) — COMPLETED\\n\\nCoverage process for `Z2jet` and `loop`: `u u~ e- e+ g g`.\\n\\n- [x] software/mcfm/src/Z2jet/fmtfull.cpp — TRANSLATED (not covered by u u~ e- e+ g g)\\n- [x] software/mcfm/src/loop/loopI1_generic.cpp — TRANSLATED (not covered by u u~ e- e+ g g)\\n- [x] software/mcfm/src/loop/loopI2p_generic.cpp — TRANSLATED (not covered by u u~ e- e+ g g)\\n- [x] software/mcfm/src/loop/loopI4_generic.cpp — TRANSLATED (not covered by u u~ e- e+ g g)\\n\\nEvidence: `jobrunner submit tests/mcfm` → `SUCCESS`, `SUMMARY: pass rate 272/272`, 272 explicit\\n`PASSED` markers, 0 `FAILED`, no `error` lines in `tests/mcfm/job.output`; each file then probed\\nwith `python3 dev/workflow.py verify <file>.cpp -- u u~ e- e+ g g` → `RESULT: NOT COVERED`\\n(exit 1).\\n\\nStill open in `Z2jet`: `msq_z2jetx.f` (ready leaf, two subroutines with `(2,2,2)` complex\\namp arrays and `-nf:nf` indexed `Q`/`zL`/`zR` module arrays — deliberately deferred, not\\nstarted).\\n\\n## Notes / session log\"}, {\"oldText\": \"  once a Z2jet caller of these leaves is rewritten.\", \"newText\": \"  once a Z2jet caller of these leaves is rewritten.\\n- 2024 session (loop 2, cont.): gate was `OK` (1 completed group waiting, limit 3), so opened\\n  `Group Z2jet-loop-2` and translated `Z2jet/fmtfull`, `loop/loopI1_generic`,\\n  `loop/loopI2p_generic`, `loop/loopI4_generic`.\\n  - `fmtfull` → `fmtfull.cpp` + `fmtfull.hpp` + `fmtfull_fi.F90`; it calls the translated\\n    `Bdiff` through `\\\"Bdiff.hpp\\\"`, `loopI3` through `<Loop.hpp>`, `cplx2` through `<Need.hpp>`.\\n  - The three `loop` modules follow the folder's existing module pattern\\n    (`loopI2_generic` / `loopI3_generic`): `<base>.cpp` with overloaded real/complex C++\\n    entry points plus `extern \\\"C\\\"` wrappers, `<base>_fi.f90` re-creating the Fortran module\\n    (generic interface preserved), and declarations added to the shared `loop/Loop.hpp`\\n    (`loopI1`, `loopI2p`, `loopI4` overloads and the `qli1/qli1c/qli2p/qli2pc/qli4/qli4c`\\n    Fortran-boundary `extern \\\"C\\\"` declarations). No symbol invented.\\n  - Originals plus their `_inc.f` include bodies moved to the respective `deprecated/`\\n    folders; both `CMakeLists.txt` files now list the `.cpp` / `_fi` pairs.\\n  - Whole-suite check after the rewrite: 272/272 cases `PASSED`; all four probes\\n    `NOT COVERED`, so all four are `TRANSLATED`.\\n  - Next: `Z2jet/msq_z2jetx.f` is the remaining ready `Z2jet` leaf; then W2jet / BDK /\\n    ThreeJets / gghgg_dep leaves. Gate must be checked again before opening group 3.\"}]}"
-model_reasoning = "Final iteration: recording Group Z2jet/loop-2 results in the agent log."
+model_text = "Final iteration: recording Group Z2jet/loop-2 results in the agent log."
 ts = "2026-08-12T02:08:34.187037+00:00"
 
 [[event]]
@@ -6731,7 +6731,7 @@ run_id = "20260811-210918-7cda7c"
 iteration = 1
 tool = "read"
 args = "{\"path\": \"dev/transformations/mcfm-translate/current_plan.md\"}"
-model_reasoning = "I'll start by reading the plan and spec as instructed."
+model_text = "I'll start by reading the plan and spec as instructed."
 ts = "2026-08-12T02:09:22.245808+00:00"
 
 [[event]]
@@ -6761,7 +6761,7 @@ run_id = "20260811-210918-7cda7c"
 iteration = 1
 tool = "read"
 args = "{\"path\": \"dev/transformations/mcfm-translate/desired_spec.md\"}"
-model_reasoning = "I'll start by reading the plan and spec as instructed."
+model_text = "I'll start by reading the plan and spec as instructed."
 ts = "2026-08-12T02:09:22.246884+00:00"
 
 [[event]]
@@ -6820,7 +6820,7 @@ run_id = "20260811-210918-7cda7c"
 iteration = 2
 tool = "read"
 args = "{\"path\": \"dev/transformations/mcfm-translate/current_plan.md\", \"offset\": 160}"
-model_reasoning = "Reading the tail of the plan and the current agent log to see group state."
+model_text = "Reading the tail of the plan and the current agent log to see group state."
 ts = "2026-08-12T02:09:26.188920+00:00"
 
 [[event]]
@@ -6851,7 +6851,7 @@ run_id = "20260811-210918-7cda7c"
 iteration = 2
 tool = "read"
 args = "{\"path\": \"dev/transformations/mcfm-translate/agent_log.md\"}"
-model_reasoning = "Reading the tail of the plan and the current agent log to see group state."
+model_text = "Reading the tail of the plan and the current agent log to see group state."
 ts = "2026-08-12T02:09:26.189791+00:00"
 
 [[event]]
@@ -6913,7 +6913,7 @@ run_id = "20260811-210918-7cda7c"
 iteration = 3
 tool = "bash"
 args = "{\"command\": \"python3 dev/workflow.py refresh; echo \\\"---GATE---\\\"; python3 dev/workflow.py gate mcfm-translate; echo \\\"exit=$?\\\"\", \"timeout\": 600}"
-model_reasoning = '''
+model_text = '''
 PLAN:
 - Refresh readiness and check the approval gate (2 completed groups pending; limit 3).
 - If the gate allows, open Group 3 and translate the remaining ready `Z2jet` leaf `msq_z2jetx.f` plus a few more ready leaves from one folder (~5 files).
@@ -6972,7 +6972,7 @@ run_id = "20260811-210918-7cda7c"
 iteration = 4
 tool = "bash"
 args = "{\"command\": \"python3 dev/workflow.py refresh\", \"timeout\": 900}"
-model_reasoning = '''
+model_text = '''
 PLAN:
 - Refresh readiness; check the approval gate before opening group 3.
 - Open a new group and translate the remaining ready `Z2jet` leaf `msq_z2jetx.f` plus ~4 other ready leaves (same folder/topic).
@@ -7036,7 +7036,7 @@ run_id = "20260811-210918-7cda7c"
 iteration = 5
 tool = "bash"
 args = "{\"command\": \"python3 dev/workflow.py gate mcfm-translate\", \"timeout\": 300}"
-model_reasoning = '''
+model_text = '''
 PLAN:
 - Refresh readiness (done) and check the approval gate before opening group 3.
 - Open Group 3 with ~5 ready leaves (starting with the remaining Z2jet leaf `msq_z2jetx.f`, plus additional leaves from a single folder, e.g. W2jet).
@@ -7068,7 +7068,7 @@ run_id = "20260811-210918-7cda7c"
 iteration = 5
 tool = "bash"
 args = "{\"command\": \"grep -P \\\"\\\\tZ2jet/|\\\\tW2jet/\\\" dev/tmp/assets/roadmap_metrics.tsv | head -50\"}"
-model_reasoning = '''
+model_text = '''
 PLAN:
 - Refresh readiness (done) and check the approval gate before opening group 3.
 - Open Group 3 with ~5 ready leaves (starting with the remaining Z2jet leaf `msq_z2jetx.f`, plus additional leaves from a single folder, e.g. W2jet).
@@ -8800,7 +8800,7 @@ run_id = "20260811-210918-7cda7c"
 iteration = 19
 tool = "write"
 args = "{\"path\": \"software/mcfm/src/W2jet/A6texact.hpp\", \"content\": \"#ifndef A6TEXACT_H\\n#define A6TEXACT_H\\n\\n#include <complex>\\n\\nextern std::complex<double> A6texact(double s23, double mt2);\\n\\nextern \\\"C\\\" {\\n  extern std::complex<double> A6texact_wrapper(double s23, double mt2);\\n}\\n\\n#endif\\n\"}"
-model_reasoning = "Now creating the five W2jet translation unit sets (header, cpp, Fortran shim)."
+model_text = "Now creating the five W2jet translation unit sets (header, cpp, Fortran shim)."
 ts = "2026-08-12T02:12:42.200003+00:00"
 
 [[event]]
@@ -8820,7 +8820,7 @@ run_id = "20260811-210918-7cda7c"
 iteration = 19
 tool = "write"
 args = "{\"path\": \"software/mcfm/src/W2jet/A6texact.cpp\", \"content\": \"//\\n//  SPDX-License-Identifier: GPL-3.0-or-later\\n//  Copyright (C) 2019-2022, respective authors of MCFM.\\n//\\n\\n#include \\\"A6texact.hpp\\\"\\n\\n#include <complex>\\n#include <Loop.hpp>\\n#include <constants_mod.hpp>\\n#include <scalarselect_mod.hpp>\\n\\nusing namespace constants_mod;\\nusing namespace scalarselect_mod;\\n\\nstd::complex<double> A6texact(double s23, double mt2) {\\n  std::complex<double> A6texact_res;\\n  double musq;\\n\\n  // musq is irrelevant, set it to some value\\n  musq = mt2; // abs(s23)\\n\\n  // this is the form of the top loop vacuum polarization obtained\\n  // after renormalization by subtraction at zero momentum transfer\\n  // note: typo in Eq. (B12) of arXiv:1610.02189, sign of final term is wrong\\n  A6texact_res = -two/three*(\\n    (one+two*mt2/s23)*(loopI2(s23,mt2,mt2,musq,0)-loopI2(0.0,mt2,mt2,musq,0))\\n     -one/three); // @coverage-probe\\n\\n  return A6texact_res;\\n}\\n\\nextern \\\"C\\\" {\\n  std::complex<double> A6texact_wrapper(double s23, double mt2) {\\n    return A6texact(s23, mt2);\\n  }\\n}\\n\"}"
-model_reasoning = "Now creating the five W2jet translation unit sets (header, cpp, Fortran shim)."
+model_text = "Now creating the five W2jet translation unit sets (header, cpp, Fortran shim)."
 ts = "2026-08-12T02:12:42.200828+00:00"
 
 [[event]]
@@ -8840,7 +8840,7 @@ run_id = "20260811-210918-7cda7c"
 iteration = 19
 tool = "write"
 args = "{\"path\": \"software/mcfm/src/W2jet/A6texact_fi.F90\", \"content\": \"function A6texact(s23,mt2)\\n   use, intrinsic :: iso_c_binding\\n   implicit none\\n   complex(c_double_complex):: A6texact\\n   real(c_double):: s23,mt2\\n\\n   interface\\n      function A6texact_wrapper(s23,mt2) bind(C, name=\\\"A6texact_wrapper\\\")\\n         import :: c_double_complex, c_double\\n         complex(c_double_complex):: A6texact_wrapper\\n         real(c_double), value:: s23,mt2\\n      end function A6texact_wrapper\\n   end interface\\n\\n   A6texact = A6texact_wrapper(s23,mt2)\\n   return\\nend\\n\"}"
-model_reasoning = "Now creating the five W2jet translation unit sets (header, cpp, Fortran shim)."
+model_text = "Now creating the five W2jet translation unit sets (header, cpp, Fortran shim)."
 ts = "2026-08-12T02:12:42.201534+00:00"
 
 [[event]]
@@ -8860,7 +8860,7 @@ run_id = "20260811-210918-7cda7c"
 iteration = 19
 tool = "write"
 args = "{\"path\": \"software/mcfm/src/W2jet/Ftexact.hpp\", \"content\": \"#ifndef FTEXACT_H\\n#define FTEXACT_H\\n\\n#include <complex>\\n\\nextern std::complex<double> Ftexact(double s23, double mt2);\\n\\nextern \\\"C\\\" {\\n  extern std::complex<double> Ftexact_wrapper(double s23, double mt2);\\n}\\n\\n#endif\\n\"}"
-model_reasoning = "Now creating the five W2jet translation unit sets (header, cpp, Fortran shim)."
+model_text = "Now creating the five W2jet translation unit sets (header, cpp, Fortran shim)."
 ts = "2026-08-12T02:12:42.202223+00:00"
 
 [[event]]
@@ -8880,7 +8880,7 @@ run_id = "20260811-210918-7cda7c"
 iteration = 19
 tool = "write"
 args = "{\"path\": \"software/mcfm/src/W2jet/Ftexact.cpp\", \"content\": \"//\\n//  SPDX-License-Identifier: GPL-3.0-or-later\\n//  Copyright (C) 2019-2022, respective authors of MCFM.\\n//\\n\\n#include \\\"Ftexact.hpp\\\"\\n\\n#include <cmath>\\n#include <complex>\\n#include <Loop.hpp>\\n#include <constants_mod.hpp>\\n#include <scalarselect_mod.hpp>\\n\\nusing namespace constants_mod;\\nusing namespace scalarselect_mod;\\n\\nstd::complex<double> Ftexact(double s23, double mt2) {\\n  std::complex<double> Ftexact_res, bb1;\\n  double musq, s;\\n\\n  // musq is irrelevant, set it to some value\\n  musq = mt2;\\n\\n  bb1 = loopI2(s23,mt2,mt2,musq,0);\\n  if (s23/mt2 < 0.25) {\\n    s = s23/mt2;\\n    bb1 = std::log(musq/mt2)+s/6.0*(1.0+s/10.0*(1.0+s/7.0*(1.0+s/6.0)));\\n  }\\n  Ftexact_res =\\n    -(one+six*mt2*loopI3(s23,0.0,0.0,mt2,mt2,mt2,musq,0)\\n      +12.0*mt2/s23*(bb1-loopI2(0.0,mt2,mt2,musq,0))); // @coverage-probe\\n\\n  // expansion of entire contribution\\n  if (s23/mt2 < 0.25) {\\n    s = s23/mt2;\\n    Ftexact_res = s/20.0*(1.0+2.0/21.0*s*(1.0+s/8.0));\\n  }\\n\\n  return Ftexact_res;\\n}\\n\\nextern \\\"C\\\" {\\n  std::complex<double> Ftexact_wrapper(double s23, double mt2) {\\n    return Ftexact(s23, mt2);\\n  }\\n}\\n\"}"
-model_reasoning = "Now creating the five W2jet translation unit sets (header, cpp, Fortran shim)."
+model_text = "Now creating the five W2jet translation unit sets (header, cpp, Fortran shim)."
 ts = "2026-08-12T02:12:42.203075+00:00"
 
 [[event]]
@@ -8900,7 +8900,7 @@ run_id = "20260811-210918-7cda7c"
 iteration = 19
 tool = "write"
 args = "{\"path\": \"software/mcfm/src/W2jet/Ftexact_fi.F90\", \"content\": \"function Ftexact(s23,mt2)\\n   use, intrinsic :: iso_c_binding\\n   implicit none\\n   complex(c_double_complex):: Ftexact\\n   real(c_double):: s23,mt2\\n\\n   interface\\n      function Ftexact_wrapper(s23,mt2) bind(C, name=\\\"Ftexact_wrapper\\\")\\n         import :: c_double_complex, c_double\\n         complex(c_double_complex):: Ftexact_wrapper\\n         real(c_double), value:: s23,mt2\\n      end function Ftexact_wrapper\\n   end interface\\n\\n   Ftexact = Ftexact_wrapper(s23,mt2)\\n   return\\nend\\n\"}"
-model_reasoning = "Now creating the five W2jet translation unit sets (header, cpp, Fortran shim)."
+model_text = "Now creating the five W2jet translation unit sets (header, cpp, Fortran shim)."
 ts = "2026-08-12T02:12:42.203797+00:00"
 
 [[event]]
@@ -9331,7 +9331,7 @@ run_id = "20260811-210918-7cda7c"
 iteration = 23
 tool = "bash"
 args = "{\"command\": \"python3 dev/tmp/move_deprecated.py software/mcfm/src/W2jet A6texact.f Ftexact.f Ltfunctions.f atree.f fvf.f\"}"
-model_reasoning = "Moving the five originals into `deprecated/` and updating the W2jet CMakeLists."
+model_text = "Moving the five originals into `deprecated/` and updating the W2jet CMakeLists."
 ts = "2026-08-12T02:13:55.943058+00:00"
 
 [[event]]
@@ -9385,7 +9385,7 @@ run_id = "20260811-210918-7cda7c"
 iteration = 24
 tool = "edit"
 args = "{\"path\": \"software/mcfm/src/W2jet/CMakeLists.txt\", \"edits\": [{\"oldText\": \"atree.f\\n\", \"newText\": \"atree.cpp\\natree_fi.F90\\n\"}, {\"oldText\": \"A6texact.f\\n\", \"newText\": \"A6texact.cpp\\nA6texact_fi.F90\\n\"}, {\"oldText\": \"fvf.f\\nFtexact.f\\n\", \"newText\": \"fvf.cpp\\nfvf_fi.F90\\nFtexact.cpp\\nFtexact_fi.F90\\n\"}, {\"oldText\": \"Ltfunctions.f\\n\", \"newText\": \"Ltfunctions.cpp\\nLtfunctions_fi.F90\\n\"}]}"
-model_reasoning = "Now update the W2jet CMakeLists to swap the five Fortran entries for the new `.cpp` / `_fi.F90` pairs."
+model_text = "Now update the W2jet CMakeLists to swap the five Fortran entries for the new `.cpp` / `_fi.F90` pairs."
 ts = "2026-08-12T02:14:00.726226+00:00"
 
 [[event]]
@@ -9758,7 +9758,7 @@ run_id = "20260811-210918-7cda7c"
 iteration = 30
 tool = "edit"
 args = "{\"path\": \"software/mcfm/src/W2jet/A6texact.cpp\", \"edits\": [{\"oldText\": \"  A6texact_res = -two/three*(\\n    (one+two*mt2/s23)*(loopI2(s23,mt2,mt2,musq,0)-loopI2(0.0,mt2,mt2,musq,0))\\n     -one/three); // @coverage-probe\", \"newText\": \"  A6texact_res = -two/three*((one+two*mt2/s23)*(loopI2(s23,mt2,mt2,musq,0)-loopI2(0.0,mt2,mt2,musq,0))-one/three); // @coverage-probe\"}]}"
-model_reasoning = "Three probes failed mechanically because the marked assignment spans several lines. I'll join those assignments onto one physical line (no numeric change) and re-run the probes."
+model_text = "Three probes failed mechanically because the marked assignment spans several lines. I'll join those assignments onto one physical line (no numeric change) and re-run the probes."
 ts = "2026-08-12T02:16:28.760060+00:00"
 
 [[event]]
@@ -9789,7 +9789,7 @@ run_id = "20260811-210918-7cda7c"
 iteration = 30
 tool = "edit"
 args = "{\"path\": \"software/mcfm/src/W2jet/Ftexact.cpp\", \"edits\": [{\"oldText\": \"  Ftexact_res =\\n    -(one+six*mt2*loopI3(s23,0.0,0.0,mt2,mt2,mt2,musq,0)\\n      +12.0*mt2/s23*(bb1-loopI2(0.0,mt2,mt2,musq,0))); // @coverage-probe\", \"newText\": \"  Ftexact_res = -(one+six*mt2*loopI3(s23,0.0,0.0,mt2,mt2,mt2,musq,0)+12.0*mt2/s23*(bb1-loopI2(0.0,mt2,mt2,musq,0))); // @coverage-probe\"}]}"
-model_reasoning = "Three probes failed mechanically because the marked assignment spans several lines. I'll join those assignments onto one physical line (no numeric change) and re-run the probes."
+model_text = "Three probes failed mechanically because the marked assignment spans several lines. I'll join those assignments onto one physical line (no numeric change) and re-run the probes."
 ts = "2026-08-12T02:16:28.761434+00:00"
 
 [[event]]
@@ -9820,7 +9820,7 @@ run_id = "20260811-210918-7cda7c"
 iteration = 30
 tool = "edit"
 args = "{\"path\": \"software/mcfm/src/W2jet/fvf.cpp\", \"edits\": [{\"oldText\": \"    Fvf_res =\\n      -std::pow(zab2(j5,j2,j4,j1),2)/(za(j5,j6)*zb(j1,j2)*std::pow(zab2(j3,j1,j2,j4),2))\\n      *Lsm1_2mh(s(j3,j4),t(j1,j2,j4),s(j1,j2),s(j5,j6))\\n      -std::pow(zab2(j2,j1,j3,j6),2)/(za(j1,j2)*zb(j5,j6)*std::pow(zab2(j3,j1,j2,j4),2))\\n      *Lsm1_2mh(s(j3,j4),t(j1,j2,j3),s(j1,j2),s(j5,j6))\\n\\n      -I3m123456*za(j4,j5)*zb(j1,j3)\\n      *zab2(j2,j1,j3,j6)/(2.0*zab2(j3,j1,j2,j4)*t(j1,j2,j3))\\n\\n      -I3m123456*za(j2,j4)*zb(j3,j6)\\n      *zab2(j5,j2,j4,j1)/(2.0*zab2(j3,j1,j2,j4)*t(j1,j2,j4))\\n\\n      +I3m563412*za(j2,j4)*zb(j3,j6)\\n      *zab2(j5,j3,j6,j1)/(2.0*zab2(j3,j1,j2,j4)*t(j3,j5,j6))\\n\\n      +I3m563412*za(j4,j5)*zb(j1,j3)\\n      *zab2(j2,j4,j5,j6)/(2.0*zab2(j3,j1,j2,j4)*t(j4,j5,j6)); // @coverage-probe\", \"newText\": \"    Fvf_res = -std::pow(zab2(j5,j2,j4,j1),2)/(za(j5,j6)*zb(j1,j2)*std::pow(zab2(j3,j1,j2,j4),2))*Lsm1_2mh(s(j3,j4),t(j1,j2,j4),s(j1,j2),s(j5,j6)) -std::pow(zab2(j2,j1,j3,j6),2)/(za(j1,j2)*zb(j5,j6)*std::pow(zab2(j3,j1,j2,j4),2))*Lsm1_2mh(s(j3,j4),t(j1,j2,j3),s(j1,j2),s(j5,j6)) -I3m123456*za(j4,j5)*zb(j1,j3)*zab2(j2,j1,j3,j6)/(2.0*zab2(j3,j1,j2,j4)*t(j1,j2,j3)) -I3m123456*za(j2,j4)*zb(j3,j6)*zab2(j5,j2,j4,j1)/(2.0*zab2(j3,j1,j2,j4)*t(j1,j2,j4)) +I3m563412*za(j2,j4)*zb(j3,j6)*zab2(j5,j3,j6,j1)/(2.0*zab2(j3,j1,j2,j4)*t(j3,j5,j6)) +I3m563412*za(j4,j5)*zb(j1,j3)*zab2(j2,j4,j5,j6)/(2.0*zab2(j3,j1,j2,j4)*t(j4,j5,j6)); // @coverage-probe\"}]}"
-model_reasoning = "Three probes failed mechanically because the marked assignment spans several lines. I'll join those assignments onto one physical line (no numeric change) and re-run the probes."
+model_text = "Three probes failed mechanically because the marked assignment spans several lines. I'll join those assignments onto one physical line (no numeric change) and re-run the probes."
 ts = "2026-08-12T02:16:28.762685+00:00"
 
 [[event]]
@@ -9894,7 +9894,7 @@ run_id = "20260811-211717-a59eb4"
 iteration = 1
 tool = "read"
 args = "{\"path\": \"dev/transformations/mcfm-translate/current_plan.md\"}"
-model_reasoning = "I'll start by reading the plan and spec as instructed, plus the current agent log."
+model_text = "I'll start by reading the plan and spec as instructed, plus the current agent log."
 ts = "2026-08-12T02:17:21.371044+00:00"
 
 [[event]]
@@ -9924,7 +9924,7 @@ run_id = "20260811-211717-a59eb4"
 iteration = 1
 tool = "read"
 args = "{\"path\": \"dev/transformations/mcfm-translate/desired_spec.md\"}"
-model_reasoning = "I'll start by reading the plan and spec as instructed, plus the current agent log."
+model_text = "I'll start by reading the plan and spec as instructed, plus the current agent log."
 ts = "2026-08-12T02:17:21.371681+00:00"
 
 [[event]]
@@ -9958,7 +9958,7 @@ run_id = "20260811-211717-a59eb4"
 iteration = 1
 tool = "read"
 args = "{\"path\": \"dev/transformations/mcfm-translate/agent_log.md\"}"
-model_reasoning = "I'll start by reading the plan and spec as instructed, plus the current agent log."
+model_text = "I'll start by reading the plan and spec as instructed, plus the current agent log."
 ts = "2026-08-12T02:17:21.372161+00:00"
 
 [[event]]
@@ -10014,7 +10014,7 @@ run_id = "20260811-211717-a59eb4"
 iteration = 2
 tool = "read"
 args = "{\"path\": \"dev/transformations/mcfm-translate/current_plan.md\", \"offset\": 160}"
-model_reasoning = "Reading the tail of the plan and the verification wrapper, plus checking W2jet state."
+model_text = "Reading the tail of the plan and the verification wrapper, plus checking W2jet state."
 ts = "2026-08-12T02:17:29.339288+00:00"
 
 [[event]]
@@ -10045,7 +10045,7 @@ run_id = "20260811-211717-a59eb4"
 iteration = 2
 tool = "read"
 args = "{\"path\": \"dev/tmp/verify_group_w2jet.py\"}"
-model_reasoning = "Reading the tail of the plan and the verification wrapper, plus checking W2jet state."
+model_text = "Reading the tail of the plan and the verification wrapper, plus checking W2jet state."
 ts = "2026-08-12T02:17:29.339784+00:00"
 
 [[event]]
@@ -10078,7 +10078,7 @@ run_id = "20260811-211717-a59eb4"
 iteration = 2
 tool = "bash"
 args = "{\"command\": \"ls software/mcfm/src/W2jet/ software/mcfm/src/W2jet/deprecated/ 2>&1 | head -60; echo ---; ls dev/transformations/mcfm-translate/\"}"
-model_reasoning = "Reading the tail of the plan and the verification wrapper, plus checking W2jet state."
+model_text = "Reading the tail of the plan and the verification wrapper, plus checking W2jet state."
 ts = "2026-08-12T02:17:29.340154+00:00"
 
 [[event]]
@@ -10130,7 +10130,7 @@ run_id = "20260811-211717-a59eb4"
 iteration = 3
 tool = "bash"
 args = "{\"command\": \"ls software/mcfm/src/W2jet/\"}"
-model_reasoning = '''
+model_text = '''
 PLAN:
 - Confirm the W2jet group files exist and originals are in `deprecated/`.
 - Run `python3 dev/workflow.py refresh` and the W2jet verification wrapper to get COVERED/NOT COVERED verdicts for all five files.
@@ -10203,7 +10203,7 @@ run_id = "20260811-211717-a59eb4"
 iteration = 3
 tool = "bash"
 args = "{\"command\": \"ls software/mcfm/src/W2jet/deprecated/\"}"
-model_reasoning = '''
+model_text = '''
 PLAN:
 - Confirm the W2jet group files exist and originals are in `deprecated/`.
 - Run `python3 dev/workflow.py refresh` and the W2jet verification wrapper to get COVERED/NOT COVERED verdicts for all five files.
@@ -10239,7 +10239,7 @@ run_id = "20260811-211717-a59eb4"
 iteration = 3
 tool = "bash"
 args = "{\"command\": \"ls dev/transformations/mcfm-translate/\"}"
-model_reasoning = '''
+model_text = '''
 PLAN:
 - Confirm the W2jet group files exist and originals are in `deprecated/`.
 - Run `python3 dev/workflow.py refresh` and the W2jet verification wrapper to get COVERED/NOT COVERED verdicts for all five files.
@@ -10308,7 +10308,7 @@ run_id = "20260811-211717-a59eb4"
 iteration = 4
 tool = "bash"
 args = "{\"command\": \"python3 dev/workflow.py refresh\", \"timeout\": 600}"
-model_reasoning = '''
+model_text = '''
 PLAN:
 1. Refresh readiness, then run the W2jet coverage probes for all five translated `.cpp` files (via the MCFM_HOME wrapper) to capture per-file verdicts.
 2. Confirm the restored build/test suite still passes (`jobrunner submit tests/mcfm`) as evidence.
@@ -10343,7 +10343,7 @@ run_id = "20260811-211717-a59eb4"
 iteration = 4
 tool = "bash"
 args = "{\"command\": \"python3 dev/tmp/verify_group_w2jet.py software/mcfm/src/W2jet/A6texact.cpp software/mcfm/src/W2jet/Ftexact.cpp software/mcfm/src/W2jet/Ltfunctions.cpp software/mcfm/src/W2jet/atree.cpp software/mcfm/src/W2jet/fvf.cpp\", \"timeout\": 3600}"
-model_reasoning = '''
+model_text = '''
 PLAN:
 1. Refresh readiness, then run the W2jet coverage probes for all five translated `.cpp` files (via the MCFM_HOME wrapper) to capture per-file verdicts.
 2. Confirm the restored build/test suite still passes (`jobrunner submit tests/mcfm`) as evidence.
@@ -10410,7 +10410,7 @@ run_id = "20260811-211717-a59eb4"
 iteration = 5
 tool = "edit"
 args = "{\"path\": \"dev/transformations/mcfm-translate/agent_log.md\", \"edits\": [{\"oldText\": \"## Notes / session log\\n\", \"newText\": \"## Group W2jet-3 (small W2jet leaves) — COMPLETED\\n\\nCoverage process for `W2jet`: `u d~ ve e+ g g`.\\n\\n- [x] software/mcfm/src/W2jet/A6texact.cpp — TRANSLATED (not covered by u d~ ve e+ g g)\\n- [x] software/mcfm/src/W2jet/Ftexact.cpp — TRANSLATED (not covered by u d~ ve e+ g g)\\n- [x] software/mcfm/src/W2jet/Ltfunctions.cpp — TRANSLATED (not covered by u d~ ve e+ g g)\\n- [x] software/mcfm/src/W2jet/atree.cpp — TRANSLATED (not covered by u d~ ve e+ g g)\\n- [x] software/mcfm/src/W2jet/fvf.cpp — TRANSLATED (not covered by u d~ ve e+ g g)\\n\\nEvidence: `jobrunner submit tests/mcfm` after the rewrite → `SUCCESS`, `SUMMARY: pass rate 272/272`,\\n272 explicit `PASSED` markers, 0 `FAILED`; each file then probed with\\n`python3 dev/workflow.py verify <file>.cpp -- u d~ ve e+ g g` (run through\\n`dev/tmp/verify_group_w2jet.py`, which exports `MCFM_HOME`) →\\n`RESULT: NOT COVERED — the numbers did not change, so the test never ran this file.` (exit 1)\\nfor all five.\\n\\n## Notes / session log\\n\"}, {\"oldText\": \"  - Next: `Z2jet/msq_z2jetx.f` is the remaining ready `Z2jet` leaf; then W2jet / BDK /\\n    ThreeJets / gghgg_dep leaves. Gate must be checked again before opening group 3.\", \"newText\": \"  - Next: `Z2jet/msq_z2jetx.f` is the remaining ready `Z2jet` leaf; then W2jet / BDK /\\n    ThreeJets / gghgg_dep leaves. Gate must be checked again before opening group 3.\\n- 2024 session (loop 3): gate was `OK` (2 completed groups waiting, limit 3), so opened\\n  `Group W2jet-3` and translated five small ready leaves of `software/mcfm/src/W2jet`:\\n  `A6texact`, `Ftexact`, `Ltfunctions`, `atree`, `fvf`. Each became `<base>.cpp` +\\n  `<base>.hpp` + `<base>_fi.F90`, and each `.cpp` includes its own header.\\n  - Callee wiring: `loopI2` / `loopI3` come from `<Loop.hpp>`; `lnrat`, `cplx2` and the other\\n    small helpers come from `<Need.hpp>`; kinematic invariants and helicity conventions come\\n    from the `sprods` / `heldefs` modules via their generated headers. Where a callee is still\\n    Fortran it is declared in `extern \\\"C\\\"` and called with pointer arguments. No symbol\\n    invented.\\n  - The five original `.f` files were moved to `software/mcfm/src/W2jet/deprecated/`, and\\n    `software/mcfm/src/W2jet/CMakeLists.txt` now lists the `.cpp` / `_fi.F90` pairs instead.\\n  - One `// @coverage-probe` marker per translated `.cpp`.\\n  - Whole-suite check after the rewrite: 272/272 cases `PASSED`, 0 `FAILED`.\\n- 2024 session (loop 4): recorded the `Group W2jet-3` results above. Re-ran all five coverage\\n  probes; every one reports `NOT COVERED`, so all five are `TRANSLATED` (no `u d~ ve e+ g g`\\n  caller of these leaves is rewritten yet — re-check once one is).\\n  - Environment note: `python3 dev/workflow.py verify <file>.cpp -- u d~ ve e+ g g` exits 2 when\\n    `MCFM_HOME` is unset in the shell environment; the probe needs `MCFM_HOME` pointing at\\n    `software/mcfm`. `dev/tmp/verify_group_w2jet.py` sets it before delegating to\\n    `dev/workflow.py verify`, which is why the wrapper succeeds where the direct call fails.\\n    Later loops should either export `MCFM_HOME` or use the wrapper.\\n  - `python3 dev/workflow.py refresh` after the rewrite: 511 source files, 86 translated,\\n    425 untranslated, 223 ready leaves.\\n  - Three completed groups (`Z2jet-1`, `Z2jet-loop-2`, `W2jet-3`) are now waiting for human\\n    approval; per the Approval gate this blocks opening a fourth group, so the pass stops here\\n    for human review.\"}]}"
-model_reasoning = "All five probes returned NOT COVERED. Now I'll add the `Group W2jet-3` section plus session-log notes to agent_log.md."
+model_text = "All five probes returned NOT COVERED. Now I'll add the `Group W2jet-3` section plus session-log notes to agent_log.md."
 ts = "2026-08-12T02:18:22.877047+00:00"
 
 [[event]]

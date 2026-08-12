@@ -29,7 +29,7 @@ run_id = "20260811-223522-fb5bc4"
 iteration = 1
 tool = "read"
 args = "{\"path\": \"dev/transformations/mcfm-translate/current_plan.md\"}"
-model_reasoning = "I'll start by reading the plan and spec files, plus the agent log."
+model_text = "I'll start by reading the plan and spec files, plus the agent log."
 ts = "2026-08-12T03:35:26.952479+00:00"
 
 [[event]]
@@ -59,7 +59,7 @@ run_id = "20260811-223522-fb5bc4"
 iteration = 1
 tool = "read"
 args = "{\"path\": \"dev/transformations/mcfm-translate/desired_spec.md\"}"
-model_reasoning = "I'll start by reading the plan and spec files, plus the agent log."
+model_text = "I'll start by reading the plan and spec files, plus the agent log."
 ts = "2026-08-12T03:35:26.953603+00:00"
 
 [[event]]
@@ -93,7 +93,7 @@ run_id = "20260811-223522-fb5bc4"
 iteration = 1
 tool = "bash"
 args = "{\"command\": \"ls dev/transformations/mcfm-translate/ && echo \\\"---\\\" && ls\"}"
-model_reasoning = "I'll start by reading the plan and spec files, plus the agent log."
+model_text = "I'll start by reading the plan and spec files, plus the agent log."
 ts = "2026-08-12T03:35:26.954565+00:00"
 
 [[event]]
@@ -223,7 +223,7 @@ run_id = "20260811-223522-fb5bc4"
 iteration = 3
 tool = "bash"
 args = "{\"command\": \"python3 dev/workflow.py refresh\", \"timeout\": 600}"
-model_reasoning = '''
+model_text = '''
 PLAN:
 - Run `python3 dev/workflow.py refresh` to build the readiness map, then inspect `dev/tmp/assets/roadmap_metrics.tsv` for the ready set.
 - Create `agent_log.md` (missing) and open the first review group (~5 ready files from one folder).
@@ -258,7 +258,7 @@ run_id = "20260811-223522-fb5bc4"
 iteration = 3
 tool = "bash"
 args = "{\"command\": \"cat dev/transformations/mcfm-translate/approvals.toml\"}"
-model_reasoning = '''
+model_text = '''
 PLAN:
 - Run `python3 dev/workflow.py refresh` to build the readiness map, then inspect `dev/tmp/assets/roadmap_metrics.tsv` for the ready set.
 - Create `agent_log.md` (missing) and open the first review group (~5 ready files from one folder).
@@ -315,7 +315,7 @@ run_id = "20260811-223522-fb5bc4"
 iteration = 4
 tool = "read"
 args = "{\"path\": \"dev/transformations/mcfm-translate/approvals.toml\"}"
-model_reasoning = '''
+model_text = '''
 PLAN:
 - Refresh readiness (done), inspect approvals/gate/status and the roadmap ready set.
 - Create `agent_log.md` (missing) with a new review group of ~5 ready files from one folder.
@@ -345,7 +345,7 @@ run_id = "20260811-223522-fb5bc4"
 iteration = 4
 tool = "bash"
 args = "{\"command\": \"python3 dev/workflow.py gate mcfm-translate\"}"
-model_reasoning = '''
+model_text = '''
 PLAN:
 - Refresh readiness (done), inspect approvals/gate/status and the roadmap ready set.
 - Create `agent_log.md` (missing) with a new review group of ~5 ready files from one folder.
@@ -377,7 +377,7 @@ run_id = "20260811-223522-fb5bc4"
 iteration = 4
 tool = "bash"
 args = "{\"command\": \"python3 dev/workflow.py status\"}"
-model_reasoning = '''
+model_text = '''
 PLAN:
 - Refresh readiness (done), inspect approvals/gate/status and the roadmap ready set.
 - Create `agent_log.md` (missing) with a new review group of ~5 ready files from one folder.
@@ -416,7 +416,7 @@ run_id = "20260811-223522-fb5bc4"
 iteration = 4
 tool = "bash"
 args = "{\"command\": \"head -3 dev/tmp/assets/roadmap_metrics.tsv\"}"
-model_reasoning = '''
+model_text = '''
 PLAN:
 - Refresh readiness (done), inspect approvals/gate/status and the roadmap ready set.
 - Create `agent_log.md` (missing) with a new review group of ~5 ready files from one folder.
@@ -2748,7 +2748,7 @@ run_id = "20260811-223522-fb5bc4"
 iteration = 21
 tool = "write"
 args = "{\"path\": \"software/mcfm/src/W2jet/fpp.hpp\", \"content\": \"#ifndef FPP_H\\n#define FPP_H\\n\\n#include <FArray.hpp>\\n#include <complex>\\n\\nextern std::complex<double> fpp(int j1, int j2, int j3, int j4, int j5, int j6,\\n                                FArray2D<std::complex<double>>& za,\\n                                FArray2D<std::complex<double>>& zb);\\n\\n#endif\\n\"}"
-model_reasoning = '''
+model_text = '''
 Now I'll write the translated C++ units for the W2jet group (fpp, faxsl, fvf, Ltfunctions, Ftexact).
 
 **PLAN**
@@ -2776,7 +2776,7 @@ run_id = "20260811-223522-fb5bc4"
 iteration = 21
 tool = "write"
 args = "{\"path\": \"software/mcfm/src/W2jet/fpp.cpp\", \"content\": \"//\\n//  SPDX-License-Identifier: GPL-3.0-or-later\\n//  Copyright (C) 2019-2022, respective authors of MCFM.\\n//\\n#include \\\"fpp.hpp\\\"\\n\\n#include <cmath>\\n#include <complex>\\n#include <FArray.hpp>\\n#include <Need.hpp>\\n#include <W1jet.hpp>\\n#include <mxpart_mod.hpp>\\n#include <sprods_com_mod.hpp>\\n\\nusing namespace mxpart_mod;\\nusing namespace sprods_com_mod;\\n\\nstd::complex<double> fpp(int j1, int j2, int j3, int j4, int j5, int j6,\\n                         FArray2D<std::complex<double>>& za,\\n                         FArray2D<std::complex<double>>& zb) {\\n  std::complex<double> fpp_result;\\n  std::complex<double> t0, s1, s2, s3;\\n\\n  s2 = -2.0 * (-za(j1, j3) * zb(j1, j6) - za(j2, j3) * zb(j2, j6)) /\\n       (za(j1, j2) * zb(j2, j4) + za(j1, j3) * zb(j3, j4)) / zb(j5, j6) *\\n       (L0(-s(j2, j3), -t(j1, j2, j3)) * zb(j1, j2) *\\n            (za(j1, j2) * zb(j2, j6) + za(j1, j3) * zb(j3, j6)) /\\n            std::pow(t(j1, j2, j3), 2) +\\n        L0(-s(j5, j6), -t(j1, j2, j3)) / za(j2, j3) * za(j3, j4) * zb(j4, j6) /\\n            t(j1, j2, j3));\\n\\n  s3 = (Lsm1(-s(j1, j2), -t(j1, j2, j3), -s(j2, j3), -t(j1, j2, j3)) +\\n        Lsm1_2mht(s(j3, j4), t(j1, j2, j3), s(j1, j2), s(j5, j6))) *\\n           (-std::pow(za(j4, j5), 2) / za(j5, j6) * std::pow(zb(j1, j2), 2) /\\n                (za(j2, j4) * zb(j1, j2) + za(j3, j4) * zb(j1, j3)) /\\n                zb(j2, j3) / t(j1, j2, j3) +\\n            1.0 / za(j2, j3) *\\n                std::pow(-za(j1, j3) * zb(j1, j6) - za(j2, j3) * zb(j2, j6), 2) /\\n                (za(j1, j2) * zb(j2, j4) + za(j1, j3) * zb(j3, j4)) /\\n                zb(j5, j6) / t(j1, j2, j3)) -\\n       1.0 / za(j2, j3) /\\n           (za(j1, j2) * zb(j2, j4) + za(j1, j3) * zb(j3, j4)) *\\n           (L1(-t(j1, j2, j3), -s(j2, j3)) / std::pow(s(j2, j3), 2) *\\n                std::pow(za(j2, j3), 2) * std::pow(zb(j1, j2), 2) *\\n                std::pow(za(j1, j2) * zb(j2, j6) + za(j1, j3) * zb(j3, j6), 2) +\\n            L1(-s(j5, j6), -t(j1, j2, j3)) * std::pow(za(j3, j4), 2) *\\n                std::pow(zb(j4, j6), 2)) /\\n           zb(j5, j6) / t(j1, j2, j3) / 2.0;\\n\\n  s1 = s2 + s3;\\n\\n  s2 = s1 -\\n       2.0 / za(j5, j6) * (za(j3, j5) * zb(j2, j3) + za(j4, j5) * zb(j2, j4)) /\\n           (za(j1, j2) * zb(j2, j4) + za(j1, j3) * zb(j3, j4)) *\\n           (-L0(-s(j2, j3), -t(j2, j3, j4)) * za(j3, j4) *\\n                (-za(j2, j5) * zb(j2, j4) - za(j3, j5) * zb(j3, j4)) /\\n                std::pow(t(j2, j3, j4), 2) +\\n            L0(-s(j5, j6), -t(j2, j3, j4)) * za(j1, j5) * zb(j1, j2) /\\n                zb(j2, j3) / t(j2, j3, j4));\\n\\n  t0 = s2 -\\n       (Lsm1(-s(j3, j4), -t(j2, j3, j4), -s(j2, j3), -t(j2, j3, j4)) +\\n        Lsm1_2mht(s(j1, j2), t(j2, j3, j4), s(j3, j4), s(j5, j6))) *\\n           (1.0 / za(j5, j6) / zb(j2, j3) *\\n                std::pow(za(j3, j5) * zb(j2, j3) + za(j4, j5) * zb(j2, j4), 2) /\\n                (za(j1, j2) * zb(j2, j4) + za(j1, j3) * zb(j3, j4)) /\\n                t(j2, j3, j4) -\\n            1.0 / za(j2, j3) * std::pow(za(j3, j4), 2) /\\n                (za(j2, j4) * zb(j1, j2) + za(j3, j4) * zb(j1, j3)) *\\n                std::pow(zb(j1, j6), 2) / zb(j5, j6) / t(j2, j3, j4)) +\\n       1.0 / za(j5, j6) / zb(j2, j3) /\\n           (za(j1, j2) * zb(j2, j4) + za(j1, j3) * zb(j3, j4)) *\\n           (L1(-s(j5, j6), -t(j2, j3, j4)) * std::pow(za(j1, j5), 2) *\\n                std::pow(zb(j1, j2), 2) +\\n            L1(-t(j2, j3, j4), -s(j2, j3)) / std::pow(s(j2, j3), 2) *\\n                std::pow(za(j3, j4), 2) * std::pow(zb(j2, j3), 2) *\\n                std::pow(-za(j2, j5) * zb(j2, j4) - za(j3, j5) * zb(j3, j4),\\n                         2)) /\\n           t(j2, j3, j4) / 2.0;\\n\\n  fpp_result = t0;  // @coverage-probe\\n  return fpp_result;\\n}\\n\\nextern \\\"C\\\" {\\nstd::complex<double> fpp_wrapper(int j1, int j2, int j3, int j4, int j5, int j6,\\n                                 std::complex<double>* fza,\\n                                 std::complex<double>* fzb) {\\n  FArray2D<std::complex<double>> za(fza, mxpart, mxpart);\\n  FArray2D<std::complex<double>> zb(fzb, mxpart, mxpart);\\n  return fpp(j1, j2, j3, j4, j5, j6, za, zb);\\n}\\n}\\n\"}"
-model_reasoning = '''
+model_text = '''
 Now I'll write the translated C++ units for the W2jet group (fpp, faxsl, fvf, Ltfunctions, Ftexact).
 
 **PLAN**
@@ -2804,7 +2804,7 @@ run_id = "20260811-223522-fb5bc4"
 iteration = 21
 tool = "write"
 args = "{\"path\": \"software/mcfm/src/W2jet/fpp_fi.F90\", \"content\": \"\\nfunction fpp(j1,j2,j3,j4,j5,j6,za,zb) result(res)\\n  use, intrinsic :: iso_c_binding\\n  use mxpart_mod\\n  use sprods_com_mod\\n\\n  implicit none\\n\\n  complex(c_double_complex) :: res\\n  complex(c_double_complex), dimension(mxpart,mxpart), intent(inout) :: za, zb\\n  integer(c_int), intent(in) :: j1, j2, j3, j4, j5, j6\\n\\n  interface\\n    function fpp_wrapper(j1,j2,j3,j4,j5,j6,za,zb) bind(C, name=\\\"fpp_wrapper\\\")\\n      import :: c_int, c_double_complex, mxpart\\n      integer(c_int), value :: j1, j2, j3, j4, j5, j6\\n      complex(c_double_complex) :: za(mxpart,mxpart), zb(mxpart,mxpart)\\n      complex(c_double_complex) :: fpp_wrapper\\n    end function fpp_wrapper\\n  end interface\\n\\n  res = fpp_wrapper(j1,j2,j3,j4,j5,j6,za,zb)\\nend function fpp\\n\"}"
-model_reasoning = '''
+model_text = '''
 Now I'll write the translated C++ units for the W2jet group (fpp, faxsl, fvf, Ltfunctions, Ftexact).
 
 **PLAN**
@@ -2832,7 +2832,7 @@ run_id = "20260811-223522-fb5bc4"
 iteration = 21
 tool = "write"
 args = "{\"path\": \"software/mcfm/src/W2jet/faxsl.hpp\", \"content\": \"#ifndef FAXSL_H\\n#define FAXSL_H\\n\\n#include <FArray.hpp>\\n#include <complex>\\n\\nextern std::complex<double> Faxsl(int st, int j1, int j2, int j3, int j4, int j5,\\n                                  int j6, FArray2D<std::complex<double>>& za,\\n                                  FArray2D<std::complex<double>>& zb);\\n\\n#endif\\n\"}"
-model_reasoning = '''
+model_text = '''
 Now I'll write the translated C++ units for the W2jet group (fpp, faxsl, fvf, Ltfunctions, Ftexact).
 
 **PLAN**
@@ -2860,7 +2860,7 @@ run_id = "20260811-223522-fb5bc4"
 iteration = 21
 tool = "write"
 args = "{\"path\": \"software/mcfm/src/W2jet/faxsl.cpp\", \"content\": \"//\\n//  SPDX-License-Identifier: GPL-3.0-or-later\\n//  Copyright (C) 2019-2022, respective authors of MCFM.\\n//\\n#include \\\"faxsl.hpp\\\"\\n\\n#include <cmath>\\n#include <complex>\\n#include <FArray.hpp>\\n#include <Need.hpp>\\n#include <W1jet.hpp>\\n#include <heldefs_mod.hpp>\\n#include <masses_mod.hpp>\\n#include <mxpart_mod.hpp>\\n#include <sprods_com_mod.hpp>\\n\\nusing namespace mxpart_mod;\\nusing namespace sprods_com_mod;\\nusing namespace masses_mod;\\nusing namespace heldefs_mod;\\n\\nstd::complex<double> Faxsl(int st, int j1, int j2, int j3, int j4, int j5,\\n                           int j6, FArray2D<std::complex<double>>& za,\\n                           FArray2D<std::complex<double>>& zb) {\\n  std::complex<double> Faxsl_result(0.0, 0.0);\\n  double mtsq;\\n\\n  mtsq = std::pow(mt, 2);\\n\\n  if (st == hqpqbmgpgm) {\\n    Faxsl_result =\\n        (2.0 * (1.0 / (24.0 * mtsq) -\\n                L1(-t(j1, j2, j4), -s(j5, j6)) / (2.0 * s(j5, j6))) *\\n         zb(j1, j3) * (za(j2, j5) * zb(j1, j2) + za(j4, j5) * zb(j1, j4)) *\\n         zb(j3, j6)) /\\n            (s(j5, j6) * zb(j1, j4) * zb(j2, j4)) +\\n        (2.0 * (1.0 / (24.0 * mtsq) -\\n                L1(-t(j1, j2, j3), -s(j5, j6)) / (2.0 * s(j5, j6))) *\\n         za(j2, j4) * za(j4, j5) *\\n         (-(za(j1, j2) * zb(j1, j6)) + za(j2, j3) * zb(j3, j6))) /\\n            (s(j5, j6) * za(j1, j3) * za(j2, j3));\\n  } else if (st == hqpqbmgpgp) {\\n    Faxsl_result =\\n        (2.0 * (1.0 / (24.0 * mtsq) -\\n                L1(-t(j1, j2, j4), -s(j5, j6)) / (2.0 * s(j5, j6))) *\\n         za(j2, j5) *\\n         (-(za(j1, j2) * zb(j1, j3)) - za(j2, j4) * zb(j3, j4)) * zb(j3, j6)) /\\n            (s(j5, j6) * za(j1, j4) * za(j2, j4)) +\\n        (2.0 * (1.0 / (24.0 * mtsq) -\\n                L1(-t(j1, j2, j3), -s(j5, j6)) / (2.0 * s(j5, j6))) *\\n         za(j2, j5) *\\n         (-(za(j1, j2) * zb(j1, j4)) + za(j2, j3) * zb(j3, j4)) * zb(j4, j6)) /\\n            (s(j5, j6) * za(j1, j3) * za(j2, j3));  // @coverage-probe\\n  }\\n  return Faxsl_result;\\n}\\n\\nextern \\\"C\\\" {\\nstd::complex<double> Faxsl_wrapper(int st, int j1, int j2, int j3, int j4,\\n                                   int j5, int j6, std::complex<double>* fza,\\n                                   std::complex<double>* fzb) {\\n  FArray2D<std::complex<double>> za(fza, mxpart, mxpart);\\n  FArray2D<std::complex<double>> zb(fzb, mxpart, mxpart);\\n  return Faxsl(st, j1, j2, j3, j4, j5, j6, za, zb);\\n}\\n}\\n\"}"
-model_reasoning = '''
+model_text = '''
 Now I'll write the translated C++ units for the W2jet group (fpp, faxsl, fvf, Ltfunctions, Ftexact).
 
 **PLAN**
@@ -2888,7 +2888,7 @@ run_id = "20260811-223522-fb5bc4"
 iteration = 21
 tool = "write"
 args = "{\"path\": \"software/mcfm/src/W2jet/faxsl_fi.F90\", \"content\": \"\\nfunction Faxsl(st,j1,j2,j3,j4,j5,j6,za,zb) result(res)\\n  use, intrinsic :: iso_c_binding\\n  use mxpart_mod\\n  use sprods_com_mod\\n  use masses_mod\\n  use heldefs_mod\\n\\n  implicit none\\n\\n  complex(c_double_complex) :: res\\n  complex(c_double_complex), dimension(mxpart,mxpart), intent(inout) :: za, zb\\n  integer(c_int), intent(in) :: st, j1, j2, j3, j4, j5, j6\\n\\n  interface\\n    function Faxsl_wrapper(st,j1,j2,j3,j4,j5,j6,za,zb) bind(C, name=\\\"Faxsl_wrapper\\\")\\n      import :: c_int, c_double_complex, mxpart\\n      integer(c_int), value :: st, j1, j2, j3, j4, j5, j6\\n      complex(c_double_complex) :: za(mxpart,mxpart), zb(mxpart,mxpart)\\n      complex(c_double_complex) :: Faxsl_wrapper\\n    end function Faxsl_wrapper\\n  end interface\\n\\n  res = Faxsl_wrapper(st,j1,j2,j3,j4,j5,j6,za,zb)\\nend function Faxsl\\n\"}"
-model_reasoning = '''
+model_text = '''
 Now I'll write the translated C++ units for the W2jet group (fpp, faxsl, fvf, Ltfunctions, Ftexact).
 
 **PLAN**
@@ -3580,7 +3580,7 @@ run_id = "20260811-223522-fb5bc4"
 iteration = 30
 tool = "write"
 args = "{\"path\": \"dev/transformations/mcfm-translate/agent_log.md\", \"content\": \"# mcfm-translate — agent log\\n\\nWorklist for the Fortran → C++ pass. Statuses follow `desired_spec.md` (`VERIFIED` /\\n`TRANSLATED` / `FAILED`).\\n\\n## Ready set snapshot (2024 refresh)\\n\\n`python3 dev/workflow.py refresh` → 531 source files, 86 translated, 445 untranslated,\\n229 ready leaves (deps = 0, blind = 0).\\n\\n## Group W2jet-helpers-1 (open)\\n\\nReady leaves from `software/mcfm/src/W2jet` (coverage process `u d~ ve e+ g g`).\\nEach file was rewritten as `<base>.cpp` + `<base>.hpp` + `<base>_fi.F90`, wired into\\n`software/mcfm/src/W2jet/CMakeLists.txt`, and the original `.f` moved to\\n`software/mcfm/src/W2jet/deprecated/`.\\n\\n- [x] software/mcfm/src/W2jet/fpp.f — TRANSLATED (build + full MCFM suite pass 272/272; coverage probe not yet run)\\n- [x] software/mcfm/src/W2jet/faxsl.f — TRANSLATED (build + full MCFM suite pass 272/272; coverage probe not yet run)\\n- [x] software/mcfm/src/W2jet/fvf.f — TRANSLATED (build + full MCFM suite pass 272/272; coverage probe not yet run)\\n- [x] software/mcfm/src/W2jet/Ltfunctions.f — TRANSLATED (build + full MCFM suite pass 272/272; coverage probe not yet run)\\n- [x] software/mcfm/src/W2jet/Ftexact.f — TRANSLATED (build + full MCFM suite pass 272/272; coverage probe not yet run)\\n\\nEvidence: `jobrunner submit tests/mcfm` → SUCCESS, `tests/mcfm/job.output` ends with\\n`SUMMARY: pass rate 272/272`, every listed case printing `PASSED`.\\n\\nEach `.cpp` carries exactly one `// @coverage-probe` marker on a single-line assignment\\nof its main output, ready for `python3 dev/workflow.py verify <file.cpp> -- u d~ ve e+ g g`.\\n\\n## Session notes\\n\\n- Session 1 (this session): first pass on this transformation; `agent_log.md` created.\\n  Gate reported \\\"no log found — nothing to gate\\\", so group `W2jet-helpers-1` was opened.\\n  Translation details:\\n  - `fpp.cpp` — calls `L0`, `L1`, `Lsm1`, `Lsm1_2mht` through `<Need.hpp>` and the already\\n    translated `t` through `<W1jet.hpp>`; no forward declarations added.\\n  - `faxsl.cpp` / `fvf.cpp` — `st` selectors come from `<heldefs_mod.hpp>`; `fvf`'s `zab2`\\n    statement function became a lambda; `I3m` maps to `i3m` from `<Need.hpp>`.\\n  - `Ltfunctions.cpp` — three entry points (`Ltm1`, `Lt0`, `Lt1`) in one translation unit,\\n    all declared in `Ltfunctions.hpp`; `Lt0`/`Lt1` call their siblings directly.\\n  - `Ftexact.cpp` — `loopI2` / `loopI3` come from `<Loop.hpp>`.\\n  - Every `.cpp` includes its own header; `extern \\\"C\\\"` is used only for the\\n    `<name>_wrapper` Fortran boundary.\\n- Remaining for the next session: run the coverage probe for each of the five files\\n  (`python3 dev/workflow.py verify ... -- u d~ ve e+ g g`, needs `MCFM_HOME` exported from\\n  `environment.sh`) and promote `COVERED` files from `TRANSLATED` to `VERIFIED`; then\\n  refresh the roadmap and continue with the next W2jet ready leaves.\\n- No human decision is needed yet: the group is still open, so the approval gate does not\\n  block further work.\\n\"}"
-model_reasoning = "Iteration budget is nearly exhausted — writing the required log now, then attempting verification."
+model_text = "Iteration budget is nearly exhausted — writing the required log now, then attempting verification."
 ts = "2026-08-12T03:44:32.049028+00:00"
 
 [[event]]
@@ -3643,7 +3643,7 @@ run_id = "20260811-224512-c86bba"
 iteration = 1
 tool = "read"
 args = "{\"path\": \"dev/transformations/mcfm-translate/current_plan.md\"}"
-model_reasoning = "I'll start by reading the plan and spec as instructed, plus the workflow tooling needed to diagnose the verify failure."
+model_text = "I'll start by reading the plan and spec as instructed, plus the workflow tooling needed to diagnose the verify failure."
 ts = "2026-08-12T03:45:16.877671+00:00"
 
 [[event]]
@@ -3673,7 +3673,7 @@ run_id = "20260811-224512-c86bba"
 iteration = 1
 tool = "read"
 args = "{\"path\": \"dev/transformations/mcfm-translate/desired_spec.md\"}"
-model_reasoning = "I'll start by reading the plan and spec as instructed, plus the workflow tooling needed to diagnose the verify failure."
+model_text = "I'll start by reading the plan and spec as instructed, plus the workflow tooling needed to diagnose the verify failure."
 ts = "2026-08-12T03:45:16.878743+00:00"
 
 [[event]]
@@ -3707,7 +3707,7 @@ run_id = "20260811-224512-c86bba"
 iteration = 1
 tool = "read"
 args = "{\"path\": \"dev/transformations/mcfm-translate/agent_log.md\"}"
-model_reasoning = "I'll start by reading the plan and spec as instructed, plus the workflow tooling needed to diagnose the verify failure."
+model_text = "I'll start by reading the plan and spec as instructed, plus the workflow tooling needed to diagnose the verify failure."
 ts = "2026-08-12T03:45:16.879736+00:00"
 
 [[event]]
@@ -3740,7 +3740,7 @@ run_id = "20260811-224512-c86bba"
 iteration = 1
 tool = "read"
 args = "{\"path\": \"dev/workflow.py\"}"
-model_reasoning = "I'll start by reading the plan and spec as instructed, plus the workflow tooling needed to diagnose the verify failure."
+model_text = "I'll start by reading the plan and spec as instructed, plus the workflow tooling needed to diagnose the verify failure."
 ts = "2026-08-12T03:45:16.880556+00:00"
 
 [[event]]
@@ -3802,7 +3802,7 @@ run_id = "20260811-224512-c86bba"
 iteration = 2
 tool = "read"
 args = "{\"path\": \"dev/workflow.py\", \"offset\": 190}"
-model_reasoning = '''
+model_text = '''
 PLAN:
 - Read the `verify` implementation in `dev/workflow.py` and `dev/tools/coverage/coverage_check.py` to determine the exact invocation/environment needed.
 - Run the coverage probe for all five W2jet files with process `u d~ ve e+ g g`.
@@ -3844,7 +3844,7 @@ run_id = "20260811-224512-c86bba"
 iteration = 2
 tool = "read"
 args = "{\"path\": \"dev/tools/coverage/coverage_check.py\"}"
-model_reasoning = '''
+model_text = '''
 PLAN:
 - Read the `verify` implementation in `dev/workflow.py` and `dev/tools/coverage/coverage_check.py` to determine the exact invocation/environment needed.
 - Run the coverage probe for all five W2jet files with process `u d~ ve e+ g g`.
@@ -3912,7 +3912,7 @@ run_id = "20260811-224512-c86bba"
 iteration = 3
 tool = "bash"
 args = "{\"command\": \"ls software/mcfm; echo \\\"---\\\"; ls software/mcfm/Bin | head -20; echo \\\"---\\\"; find . -maxdepth 2 -name \\\"environment.sh\\\"\"}"
-model_reasoning = '''
+model_text = '''
 PLAN:
 - Determine the MCFM_HOME setup the coverage probe needs (environment.sh, Bin dir) and run the probe for all five W2jet files.
 - Record COVERED/NOT COVERED per file; restore build and re-run the MCFM suite.
@@ -3967,7 +3967,7 @@ run_id = "20260811-224512-c86bba"
 iteration = 4
 tool = "bash"
 args = "{\"command\": \"ls software/mcfm\"}"
-model_reasoning = '''
+model_text = '''
 PLAN:
 1. Locate `MCFM_HOME` / the built `Bin` dir so the coverage probe can run (env passed inline, not via `environment.sh`).
 2. Run `dev/workflow.py verify` for all five W2jet `.cpp` files with process `u d~ ve e+ g g`, recording COVERED / NOT COVERED.
@@ -4006,7 +4006,7 @@ run_id = "20260811-224512-c86bba"
 iteration = 4
 tool = "bash"
 args = "{\"command\": \"ls software/mcfm/Bin\"}"
-model_reasoning = '''
+model_text = '''
 PLAN:
 1. Locate `MCFM_HOME` / the built `Bin` dir so the coverage probe can run (env passed inline, not via `environment.sh`).
 2. Run `dev/workflow.py verify` for all five W2jet `.cpp` files with process `u d~ ve e+ g g`, recording COVERED / NOT COVERED.
@@ -4051,7 +4051,7 @@ run_id = "20260811-224512-c86bba"
 iteration = 4
 tool = "bash"
 args = "{\"command\": \"find . -maxdepth 3 -name \\\"environment.sh\\\" -not -path \\\"./.git/*\\\"\"}"
-model_reasoning = '''
+model_text = '''
 PLAN:
 1. Locate `MCFM_HOME` / the built `Bin` dir so the coverage probe can run (env passed inline, not via `environment.sh`).
 2. Run `dev/workflow.py verify` for all five W2jet `.cpp` files with process `u d~ ve e+ g g`, recording COVERED / NOT COVERED.
@@ -4113,7 +4113,7 @@ run_id = "20260811-224512-c86bba"
 iteration = 5
 tool = "bash"
 args = "{\"command\": \"grep -n \\\"MCFM_HOME\\\" environment.sh\"}"
-model_reasoning = '''
+model_text = '''
 PLAN:
 1. Confirm `MCFM_HOME` value and that the coverage probe runs (env prefix invocation).
 2. Run the coverage probe for all five W2jet files with process `u d~ ve e+ g g`.
@@ -4146,7 +4146,7 @@ run_id = "20260811-224512-c86bba"
 iteration = 5
 tool = "bash"
 args = "{\"command\": \"grep -rn \\\"@coverage-probe\\\" software/mcfm/src/W2jet/\"}"
-model_reasoning = '''
+model_text = '''
 PLAN:
 1. Confirm `MCFM_HOME` value and that the coverage probe runs (env prefix invocation).
 2. Run the coverage probe for all five W2jet files with process `u d~ ve e+ g g`.
@@ -4204,7 +4204,7 @@ run_id = "20260811-224512-c86bba"
 iteration = 6
 tool = "bash"
 args = "{\"command\": \"MCFM_HOME=/home/akash/Desktop/Akash/Projects/JSS-Paper-Example/software/mcfm python3 dev/workflow.py verify software/mcfm/src/W2jet/fpp.cpp -- u d~ ve e+ g g\", \"timeout\": 3000}"
-model_reasoning = '''
+model_text = '''
 PLAN:
 1. Run the coverage probe (`MCFM_HOME=... python3 dev/workflow.py verify <file>.cpp -- u d~ ve e+ g g`) for all five W2jet files.
 2. Re-run `jobrunner submit tests/mcfm` after the probes to confirm the restored build still gives 272/272.
@@ -4297,7 +4297,7 @@ run_id = "20260811-224512-c86bba"
 iteration = 8
 tool = "bash"
 args = "{\"command\": \"python3 dev/tmp/run_probe.py software/mcfm/src/W2jet/fpp.cpp -- u d~ ve e+ g g\", \"timeout\": 3600}"
-model_reasoning = "Now running the coverage probe for fpp.cpp."
+model_text = "Now running the coverage probe for fpp.cpp."
 ts = "2026-08-12T03:46:08.981575+00:00"
 
 [[event]]
@@ -6745,7 +6745,7 @@ run_id = "20260811-224512-c86bba"
 iteration = 30
 tool = "write"
 args = "{\"path\": \"software/mcfm/src/W2jet/atree.hpp\", \"content\": \"#ifndef ATREE_H\\n#define ATREE_H\\n\\n#include <FArray.hpp>\\n#include <complex>\\n#include <string>\\n\\nextern std::complex<double> atree(const std::string& st, int j1, int j2, int j3,\\n                                  int j4, int j5, int j6,\\n                                  FArray2D<std::complex<double>>& za,\\n                                  FArray2D<std::complex<double>>& zb);\\n\\n#endif\\n\"}"
-model_reasoning = "Now writing the five new translations (group W2jet-helpers-2): atree, a6treeg, subqcd, A6texact, Acalc."
+model_text = "Now writing the five new translations (group W2jet-helpers-2): atree, a6treeg, subqcd, A6texact, Acalc."
 ts = "2026-08-12T03:52:06.837909+00:00"
 
 [[event]]
@@ -6765,7 +6765,7 @@ run_id = "20260811-224512-c86bba"
 iteration = 30
 tool = "write"
 args = "{\"path\": \"software/mcfm/src/W2jet/atree.cpp\", \"content\": \"//\\n//  SPDX-License-Identifier: GPL-3.0-or-later\\n//  Copyright (C) 2019-2022, respective authors of MCFM.\\n//\\n#include \\\"atree.hpp\\\"\\n\\n#include <complex>\\n#include <string>\\n#include <FArray.hpp>\\n#include <W1jet.hpp>\\n#include <mxpart_mod.hpp>\\n#include <sprods_com_mod.hpp>\\n\\nusing namespace mxpart_mod;\\nusing namespace sprods_com_mod;\\n\\n//***********************************************************************\\n//     Author: R.K. Ellis                                               *\\n//     July, 1998.                                                      *\\n//***********************************************************************\\n//---- the basic process is atreepp which is the amplitude for\\n//---- q-(p4)+Q(-p2)+l-(-p5) ---> q+(p1)+Q-(p3)+l+(p6)\\n//---- All outgoing particles are right-handed,\\n//---- except Q(p3) which is left-handed\\nstd::complex<double> atree(const std::string& st, int j1, int j2, int j3,\\n                           int j4, int j5, int j6,\\n                           FArray2D<std::complex<double>>& za,\\n                           FArray2D<std::complex<double>>& zb) {\\n  std::complex<double> atree_result(0.0, 0.0);\\n\\n  //-----Note all tree amplitudes divided by im wrt to BDKW paper\\n  //-----Statement function for pp (others derived by crossing)\\n  //-----This is an implementation of BDKW Eq.(3.10)\\n  auto tree = [&za, &zb](int k1, int k2, int k3, int k4, int k5, int k6) {\\n    return +zb(k1, k2) * za(k5, k4) *\\n               (za(k3, k1) * zb(k1, k6) + za(k3, k2) * zb(k2, k6)) /\\n               (s(k2, k3) * s(k5, k6) * t(k1, k2, k3)) +\\n           za(k3, k4) * zb(k6, k1) *\\n               (za(k5, k3) * zb(k3, k2) + za(k5, k4) * zb(k4, k2)) /\\n               (s(k2, k3) * s(k5, k6) * t(k2, k3, k4));\\n  };\\n\\n  if (st == \\\"pp\\\") {\\n    atree_result = +tree(j1, j2, j3, j4, j5, j6);  // @coverage-probe\\n  } else if (st == \\\"pm\\\") {\\n    atree_result = -tree(j1, j3, j2, j4, j5, j6);\\n  } else if (st == \\\"sl\\\") {\\n    //---this is not a real tree amplitude but it is an auxiliary quantity.\\n    atree_result = -tree(j3, j1, j2, j4, j5, j6);\\n  }\\n\\n  return atree_result;\\n}\\n\\nextern \\\"C\\\" {\\nstd::complex<double> atree_wrapper(const char* st, int j1, int j2, int j3,\\n                                   int j4, int j5, int j6,\\n                                   std::complex<double>* fza,\\n                                   std::complex<double>* fzb) {\\n  FArray2D<std::complex<double>> za(fza, mxpart, mxpart);\\n  FArray2D<std::complex<double>> zb(fzb, mxpart, mxpart);\\n  return atree(std::string(st, 2), j1, j2, j3, j4, j5, j6, za, zb);\\n}\\n}\\n\"}"
-model_reasoning = "Now writing the five new translations (group W2jet-helpers-2): atree, a6treeg, subqcd, A6texact, Acalc."
+model_text = "Now writing the five new translations (group W2jet-helpers-2): atree, a6treeg, subqcd, A6texact, Acalc."
 ts = "2026-08-12T03:52:06.838544+00:00"
 
 [[event]]
@@ -6785,7 +6785,7 @@ run_id = "20260811-224512-c86bba"
 iteration = 30
 tool = "write"
 args = "{\"path\": \"software/mcfm/src/W2jet/atree_fi.F90\", \"content\": \"\\nfunction atree(st,j1,j2,j3,j4,j5,j6,za,zb) result(res)\\n  use, intrinsic :: iso_c_binding\\n  use mxpart_mod\\n  use sprods_com_mod\\n\\n  implicit none\\n\\n  complex(c_double_complex) :: res\\n  character(len=2), intent(in) :: st\\n  complex(c_double_complex), dimension(mxpart,mxpart), intent(inout) :: za, zb\\n  integer(c_int), intent(in) :: j1, j2, j3, j4, j5, j6\\n\\n  interface\\n    function atree_wrapper(st,j1,j2,j3,j4,j5,j6,za,zb) bind(C, name=\\\"atree_wrapper\\\")\\n      import :: c_int, c_char, c_double_complex, mxpart\\n      character(kind=c_char) :: st(2)\\n      integer(c_int), value :: j1, j2, j3, j4, j5, j6\\n      complex(c_double_complex) :: za(mxpart,mxpart), zb(mxpart,mxpart)\\n      complex(c_double_complex) :: atree_wrapper\\n    end function atree_wrapper\\n  end interface\\n\\n  res = atree_wrapper([st(1:1),st(2:2)],j1,j2,j3,j4,j5,j6,za,zb)\\nend function atree\\n\"}"
-model_reasoning = "Now writing the five new translations (group W2jet-helpers-2): atree, a6treeg, subqcd, A6texact, Acalc."
+model_text = "Now writing the five new translations (group W2jet-helpers-2): atree, a6treeg, subqcd, A6texact, Acalc."
 ts = "2026-08-12T03:52:06.839023+00:00"
 
 [[event]]
@@ -6805,7 +6805,7 @@ run_id = "20260811-224512-c86bba"
 iteration = 30
 tool = "write"
 args = "{\"path\": \"software/mcfm/src/W2jet/A6texact.hpp\", \"content\": \"#ifndef A6TEXACT_H\\n#define A6TEXACT_H\\n\\n#include <complex>\\n\\nextern std::complex<double> A6texact(double s23, double mt2);\\n\\n#endif\\n\"}"
-model_reasoning = "Now writing the five new translations (group W2jet-helpers-2): atree, a6treeg, subqcd, A6texact, Acalc."
+model_text = "Now writing the five new translations (group W2jet-helpers-2): atree, a6treeg, subqcd, A6texact, Acalc."
 ts = "2026-08-12T03:52:06.839436+00:00"
 
 [[event]]
@@ -6825,7 +6825,7 @@ run_id = "20260811-224512-c86bba"
 iteration = 30
 tool = "write"
 args = "{\"path\": \"software/mcfm/src/W2jet/A6texact.cpp\", \"content\": \"//\\n//  SPDX-License-Identifier: GPL-3.0-or-later\\n//  Copyright (C) 2019-2022, respective authors of MCFM.\\n//\\n#include \\\"A6texact.hpp\\\"\\n\\n#include <complex>\\n#include <Loop.hpp>\\n#include <constants_mod.hpp>\\n#include <scalarselect_mod.hpp>\\n\\nusing namespace constants_mod;\\nusing namespace scalarselect_mod;\\n\\nstd::complex<double> A6texact(double s23, double mt2) {\\n  std::complex<double> A6texact_result;\\n  double musq;\\n\\n  // musq is irrelevant, set it to some value\\n  musq = mt2;\\n\\n  // this is the form of the top loop vacuum polarization obtained\\n  // after renormalization by subtraction at zero momentum transfer\\n  // note: typo in Eq. (B12) of arXiv:1610.02189, sign of final term is wrong\\n  A6texact_result = -two / three * ((one + two * mt2 / s23) * (loopI2(s23, mt2, mt2, musq, 0) - loopI2(0.0, mt2, mt2, musq, 0)) - one / three);  // @coverage-probe\\n\\n  return A6texact_result;\\n}\\n\\nextern \\\"C\\\" {\\nstd::complex<double> A6texact_wrapper(double s23, double mt2) {\\n  return A6texact(s23, mt2);\\n}\\n}\\n\"}"
-model_reasoning = "Now writing the five new translations (group W2jet-helpers-2): atree, a6treeg, subqcd, A6texact, Acalc."
+model_text = "Now writing the five new translations (group W2jet-helpers-2): atree, a6treeg, subqcd, A6texact, Acalc."
 ts = "2026-08-12T03:52:06.839858+00:00"
 
 [[event]]
@@ -6845,7 +6845,7 @@ run_id = "20260811-224512-c86bba"
 iteration = 30
 tool = "write"
 args = "{\"path\": \"software/mcfm/src/W2jet/A6texact_fi.F90\", \"content\": \"\\nfunction A6texact(s23,mt2) result(res)\\n  use, intrinsic :: iso_c_binding\\n\\n  implicit none\\n\\n  real(c_double), intent(in) :: s23, mt2\\n  complex(c_double_complex) :: res\\n\\n  interface\\n    function A6texact_wrapper(s23,mt2) bind(C, name=\\\"A6texact_wrapper\\\")\\n      import :: c_double, c_double_complex\\n      real(c_double), value :: s23, mt2\\n      complex(c_double_complex) :: A6texact_wrapper\\n    end function A6texact_wrapper\\n  end interface\\n\\n  res = A6texact_wrapper(s23,mt2)\\nend function A6texact\\n\"}"
-model_reasoning = "Now writing the five new translations (group W2jet-helpers-2): atree, a6treeg, subqcd, A6texact, Acalc."
+model_text = "Now writing the five new translations (group W2jet-helpers-2): atree, a6treeg, subqcd, A6texact, Acalc."
 ts = "2026-08-12T03:52:06.840281+00:00"
 
 [[event]]
@@ -6908,7 +6908,7 @@ run_id = "20260811-225251-0c6a67"
 iteration = 1
 tool = "read"
 args = "{\"path\": \"dev/transformations/mcfm-translate/current_plan.md\"}"
-model_reasoning = "I'll start by reading the plan and spec as instructed, plus the current agent log and CMakeLists."
+model_text = "I'll start by reading the plan and spec as instructed, plus the current agent log and CMakeLists."
 ts = "2026-08-12T03:52:55.067284+00:00"
 
 [[event]]
@@ -6938,7 +6938,7 @@ run_id = "20260811-225251-0c6a67"
 iteration = 1
 tool = "read"
 args = "{\"path\": \"dev/transformations/mcfm-translate/desired_spec.md\"}"
-model_reasoning = "I'll start by reading the plan and spec as instructed, plus the current agent log and CMakeLists."
+model_text = "I'll start by reading the plan and spec as instructed, plus the current agent log and CMakeLists."
 ts = "2026-08-12T03:52:55.067984+00:00"
 
 [[event]]
@@ -6972,7 +6972,7 @@ run_id = "20260811-225251-0c6a67"
 iteration = 1
 tool = "read"
 args = "{\"path\": \"dev/transformations/mcfm-translate/agent_log.md\"}"
-model_reasoning = "I'll start by reading the plan and spec as instructed, plus the current agent log and CMakeLists."
+model_text = "I'll start by reading the plan and spec as instructed, plus the current agent log and CMakeLists."
 ts = "2026-08-12T03:52:55.068510+00:00"
 
 [[event]]
@@ -7005,7 +7005,7 @@ run_id = "20260811-225251-0c6a67"
 iteration = 1
 tool = "read"
 args = "{\"path\": \"software/mcfm/src/W2jet/CMakeLists.txt\"}"
-model_reasoning = "I'll start by reading the plan and spec as instructed, plus the current agent log and CMakeLists."
+model_text = "I'll start by reading the plan and spec as instructed, plus the current agent log and CMakeLists."
 ts = "2026-08-12T03:52:55.068921+00:00"
 
 [[event]]
@@ -7076,7 +7076,7 @@ run_id = "20260811-225251-0c6a67"
 iteration = 2
 tool = "read"
 args = "{\"path\": \"dev/transformations/mcfm-translate/current_plan.md\", \"offset\": 164}"
-model_reasoning = "Reading the rest of the plan, checking the gate, and inspecting the already-created atree/A6texact files plus the move helper."
+model_text = "Reading the rest of the plan, checking the gate, and inspecting the already-created atree/A6texact files plus the move helper."
 ts = "2026-08-12T03:53:03.235725+00:00"
 
 [[event]]
@@ -7106,7 +7106,7 @@ run_id = "20260811-225251-0c6a67"
 iteration = 2
 tool = "bash"
 args = "{\"command\": \"python3 dev/workflow.py gate mcfm-translate\"}"
-model_reasoning = "Reading the rest of the plan, checking the gate, and inspecting the already-created atree/A6texact files plus the move helper."
+model_text = "Reading the rest of the plan, checking the gate, and inspecting the already-created atree/A6texact files plus the move helper."
 ts = "2026-08-12T03:53:03.236170+00:00"
 
 [[event]]
@@ -7132,7 +7132,7 @@ run_id = "20260811-225251-0c6a67"
 iteration = 2
 tool = "bash"
 args = "{\"command\": \"ls -la software/mcfm/src/W2jet/deprecated; ls -la software/mcfm/src/W2jet/atree.cpp software/mcfm/src/W2jet/atree.hpp software/mcfm/src/W2jet/atree_fi.F90 software/mcfm/src/W2jet/A6texact.cpp software/mcfm/src/W2jet/A6texact.hpp software/mcfm/src/W2jet/A6texact_fi.F90 software/mcfm/src/W2jet/atree.f software/mcfm/src/W2jet/A6texact.f\"}"
-model_reasoning = "Reading the rest of the plan, checking the gate, and inspecting the already-created atree/A6texact files plus the move helper."
+model_text = "Reading the rest of the plan, checking the gate, and inspecting the already-created atree/A6texact files plus the move helper."
 ts = "2026-08-12T03:53:03.328435+00:00"
 
 [[event]]
@@ -7153,7 +7153,7 @@ run_id = "20260811-225251-0c6a67"
 iteration = 2
 tool = "read"
 args = "{\"path\": \"dev/tmp/_move_w2jet.py\"}"
-model_reasoning = "Reading the rest of the plan, checking the gate, and inspecting the already-created atree/A6texact files plus the move helper."
+model_text = "Reading the rest of the plan, checking the gate, and inspecting the already-created atree/A6texact files plus the move helper."
 ts = "2026-08-12T03:53:03.328875+00:00"
 
 [[event]]
@@ -7186,7 +7186,7 @@ run_id = "20260811-225251-0c6a67"
 iteration = 2
 tool = "read"
 args = "{\"path\": \"dev/tmp/run_probe.py\"}"
-model_reasoning = "Reading the rest of the plan, checking the gate, and inspecting the already-created atree/A6texact files plus the move helper."
+model_text = "Reading the rest of the plan, checking the gate, and inspecting the already-created atree/A6texact files plus the move helper."
 ts = "2026-08-12T03:53:03.329556+00:00"
 
 [[event]]
@@ -7250,7 +7250,7 @@ run_id = "20260811-225251-0c6a67"
 iteration = 3
 tool = "bash"
 args = "{\"command\": \"ls software/mcfm/src/W2jet/deprecated\"}"
-model_reasoning = '''
+model_text = '''
 PLAN:
 - Inspect the already-created atree/A6texact C++ files and their Fortran originals for correctness.
 - Wire atree + A6texact into `software/mcfm/src/W2jet/CMakeLists.txt`, move originals to `deprecated/`.
@@ -7286,7 +7286,7 @@ run_id = "20260811-225251-0c6a67"
 iteration = 3
 tool = "bash"
 args = "{\"command\": \"ls -la software/mcfm/src/W2jet/atree.cpp software/mcfm/src/W2jet/atree.hpp software/mcfm/src/W2jet/atree_fi.F90 software/mcfm/src/W2jet/A6texact.cpp software/mcfm/src/W2jet/A6texact.hpp software/mcfm/src/W2jet/A6texact_fi.F90 software/mcfm/src/W2jet/atree.f software/mcfm/src/W2jet/A6texact.f\"}"
-model_reasoning = '''
+model_text = '''
 PLAN:
 - Inspect the already-created atree/A6texact C++ files and their Fortran originals for correctness.
 - Wire atree + A6texact into `software/mcfm/src/W2jet/CMakeLists.txt`, move originals to `deprecated/`.
@@ -7321,7 +7321,7 @@ run_id = "20260811-225251-0c6a67"
 iteration = 3
 tool = "read"
 args = "{\"path\": \"software/mcfm/src/W2jet/atree.cpp\"}"
-model_reasoning = '''
+model_text = '''
 PLAN:
 - Inspect the already-created atree/A6texact C++ files and their Fortran originals for correctness.
 - Wire atree + A6texact into `software/mcfm/src/W2jet/CMakeLists.txt`, move originals to `deprecated/`.
@@ -7364,7 +7364,7 @@ run_id = "20260811-225251-0c6a67"
 iteration = 3
 tool = "read"
 args = "{\"path\": \"software/mcfm/src/W2jet/A6texact.cpp\"}"
-model_reasoning = '''
+model_text = '''
 PLAN:
 - Inspect the already-created atree/A6texact C++ files and their Fortran originals for correctness.
 - Wire atree + A6texact into `software/mcfm/src/W2jet/CMakeLists.txt`, move originals to `deprecated/`.
@@ -7438,7 +7438,7 @@ run_id = "20260811-225251-0c6a67"
 iteration = 4
 tool = "read"
 args = "{\"path\": \"software/mcfm/src/W2jet/atree.f\"}"
-model_reasoning = '''
+model_text = '''
 PLAN:
 1. Verify the already-drafted `atree`/`A6texact` C++ pairs against the original Fortran (signatures, shims, headers).
 2. Wire both into `software/mcfm/src/W2jet/CMakeLists.txt` and move the `.f` originals to `deprecated/`.
@@ -7478,7 +7478,7 @@ run_id = "20260811-225251-0c6a67"
 iteration = 4
 tool = "read"
 args = "{\"path\": \"software/mcfm/src/W2jet/A6texact.f\"}"
-model_reasoning = '''
+model_text = '''
 PLAN:
 1. Verify the already-drafted `atree`/`A6texact` C++ pairs against the original Fortran (signatures, shims, headers).
 2. Wire both into `software/mcfm/src/W2jet/CMakeLists.txt` and move the `.f` originals to `deprecated/`.
@@ -7521,7 +7521,7 @@ run_id = "20260811-225251-0c6a67"
 iteration = 4
 tool = "read"
 args = "{\"path\": \"software/mcfm/src/W2jet/atree_fi.F90\"}"
-model_reasoning = '''
+model_text = '''
 PLAN:
 1. Verify the already-drafted `atree`/`A6texact` C++ pairs against the original Fortran (signatures, shims, headers).
 2. Wire both into `software/mcfm/src/W2jet/CMakeLists.txt` and move the `.f` originals to `deprecated/`.
@@ -7562,7 +7562,7 @@ run_id = "20260811-225251-0c6a67"
 iteration = 4
 tool = "read"
 args = "{\"path\": \"software/mcfm/src/W2jet/A6texact_fi.F90\"}"
-model_reasoning = '''
+model_text = '''
 PLAN:
 1. Verify the already-drafted `atree`/`A6texact` C++ pairs against the original Fortran (signatures, shims, headers).
 2. Wire both into `software/mcfm/src/W2jet/CMakeLists.txt` and move the `.f` originals to `deprecated/`.
@@ -7604,7 +7604,7 @@ run_id = "20260811-225251-0c6a67"
 iteration = 4
 tool = "read"
 args = "{\"path\": \"software/mcfm/src/W2jet/atree.hpp\"}"
-model_reasoning = '''
+model_text = '''
 PLAN:
 1. Verify the already-drafted `atree`/`A6texact` C++ pairs against the original Fortran (signatures, shims, headers).
 2. Wire both into `software/mcfm/src/W2jet/CMakeLists.txt` and move the `.f` originals to `deprecated/`.
@@ -7644,7 +7644,7 @@ run_id = "20260811-225251-0c6a67"
 iteration = 4
 tool = "read"
 args = "{\"path\": \"software/mcfm/src/W2jet/A6texact.hpp\"}"
-model_reasoning = '''
+model_text = '''
 PLAN:
 1. Verify the already-drafted `atree`/`A6texact` C++ pairs against the original Fortran (signatures, shims, headers).
 2. Wire both into `software/mcfm/src/W2jet/CMakeLists.txt` and move the `.f` originals to `deprecated/`.
@@ -7807,7 +7807,7 @@ run_id = "20260811-225251-0c6a67"
 iteration = 6
 tool = "edit"
 args = "{\"path\": \"software/mcfm/src/W2jet/CMakeLists.txt\", \"edits\": [{\"oldText\": \"atree.f\\n\", \"newText\": \"atree.cpp\\natree_fi.F90\\n\"}, {\"oldText\": \"A6texact.f\\n\", \"newText\": \"A6texact.cpp\\nA6texact_fi.F90\\n\"}]}"
-model_reasoning = "Wiring the two new translation units into CMakeLists and moving the originals to `deprecated/`, then refreshing readiness to pick more W2jet leaves."
+model_text = "Wiring the two new translation units into CMakeLists and moving the originals to `deprecated/`, then refreshing readiness to pick more W2jet leaves."
 ts = "2026-08-12T03:53:39.806519+00:00"
 
 [[event]]
@@ -7839,7 +7839,7 @@ run_id = "20260811-225251-0c6a67"
 iteration = 6
 tool = "write"
 args = "{\"path\": \"dev/tmp/_move_w2jet.py\", \"content\": \"import os, shutil, sys\\n\\nd = \\\"software/mcfm/src/W2jet\\\"\\ndep = os.path.join(d, \\\"deprecated\\\")\\nos.makedirs(dep, exist_ok=True)\\nfor f in sys.argv[1:]:\\n    src = os.path.join(d, f)\\n    if os.path.isfile(src):\\n        shutil.move(src, os.path.join(dep, f))\\nprint(sorted(os.listdir(dep)))\\n\"}"
-model_reasoning = "Wiring the two new translation units into CMakeLists and moving the originals to `deprecated/`, then refreshing readiness to pick more W2jet leaves."
+model_text = "Wiring the two new translation units into CMakeLists and moving the originals to `deprecated/`, then refreshing readiness to pick more W2jet leaves."
 ts = "2026-08-12T03:53:39.807401+00:00"
 
 [[event]]
@@ -7883,7 +7883,7 @@ run_id = "20260811-225251-0c6a67"
 iteration = 7
 tool = "bash"
 args = "{\"command\": \"python3 dev/tmp/_move_w2jet.py atree.f A6texact.f\"}"
-model_reasoning = "Now moving the two originals into deprecated/ and running the full build+test."
+model_text = "Now moving the two originals into deprecated/ and running the full build+test."
 ts = "2026-08-12T03:53:42.342541+00:00"
 
 [[event]]
@@ -9405,7 +9405,7 @@ run_id = "20260811-225251-0c6a67"
 iteration = 22
 tool = "write"
 args = "{\"path\": \"software/mcfm/src/W2jet/atrLLL.hpp\", \"content\": \"#ifndef ATRLLL_H\\n#define ATRLLL_H\\n\\n#include <FArray.hpp>\\n#include <complex>\\n\\nextern std::complex<double> atrLLL(int j1, int j2, int j3, int j4, int j5,\\n                                   int j6, FArray2D<std::complex<double>>& za,\\n                                   FArray2D<std::complex<double>>& zb);\\n\\n#endif\\n\"}"
-model_reasoning = "Now I'll create the three new translations (atrLLL, atrLRL, vv) for group W2jet-helpers-2."
+model_text = "Now I'll create the three new translations (atrLLL, atrLRL, vv) for group W2jet-helpers-2."
 ts = "2026-08-12T03:57:42.438727+00:00"
 
 [[event]]
@@ -9425,7 +9425,7 @@ run_id = "20260811-225251-0c6a67"
 iteration = 22
 tool = "write"
 args = "{\"path\": \"software/mcfm/src/W2jet/atrLLL.cpp\", \"content\": \"//\\n//  SPDX-License-Identifier: GPL-3.0-or-later\\n//  Copyright (C) 2019-2022, respective authors of MCFM.\\n//\\n#include \\\"atrLLL.hpp\\\"\\n\\n#include <cmath>\\n#include <complex>\\n#include <FArray.hpp>\\n#include <atree.hpp>\\n#include <masses_mod.hpp>\\n#include <mxpart_mod.hpp>\\n#include <sprods_com_mod.hpp>\\n\\nusing namespace mxpart_mod;\\nusing namespace sprods_com_mod;\\nusing namespace masses_mod;\\n\\n//---atrLLL is the amplitude for\\n//---q+(-p4)+Q+(-p2)+l+(-p5) ---> q-(p1)+Q-(p3)+l-(p6)\\n//---All outgoing particles are left-handed,\\n//---(obtained from atree(pm) all right-handed)\\nstd::complex<double> atrLLL(int j1, int j2, int j3, int j4, int j5, int j6,\\n                            FArray2D<std::complex<double>>& za,\\n                            FArray2D<std::complex<double>>& zb) {\\n  std::complex<double> atrLLL_result;\\n  double prop;\\n\\n  prop = s(5, 6) / std::sqrt(std::pow(s(5, 6) - std::pow(wmass, 2), 2) +\\n                             std::pow(wmass * wwidth, 2));\\n  //---Note interchange of za,zb to effect complex conjugation\\n  //---to get from all right-handed to all left-handed\\n\\n  atrLLL_result = atree(\\\"pm\\\", j1, j2, j3, j4, j5, j6, zb, za) * prop;  // @coverage-probe\\n  return atrLLL_result;\\n}\\n\\nextern \\\"C\\\" {\\nstd::complex<double> atrLLL_wrapper(int j1, int j2, int j3, int j4, int j5,\\n                                    int j6, std::complex<double>* fza,\\n                                    std::complex<double>* fzb) {\\n  FArray2D<std::complex<double>> za(fza, mxpart, mxpart);\\n  FArray2D<std::complex<double>> zb(fzb, mxpart, mxpart);\\n  return atrLLL(j1, j2, j3, j4, j5, j6, za, zb);\\n}\\n}\\n\"}"
-model_reasoning = "Now I'll create the three new translations (atrLLL, atrLRL, vv) for group W2jet-helpers-2."
+model_text = "Now I'll create the three new translations (atrLLL, atrLRL, vv) for group W2jet-helpers-2."
 ts = "2026-08-12T03:57:42.439756+00:00"
 
 [[event]]
@@ -9445,7 +9445,7 @@ run_id = "20260811-225251-0c6a67"
 iteration = 22
 tool = "write"
 args = "{\"path\": \"software/mcfm/src/W2jet/atrLLL_fi.F90\", \"content\": \"\\nfunction atrLLL(j1,j2,j3,j4,j5,j6,za,zb) result(res)\\n  use, intrinsic :: iso_c_binding\\n  use mxpart_mod\\n  use sprods_com_mod\\n\\n  implicit none\\n\\n  complex(c_double_complex) :: res\\n  complex(c_double_complex), dimension(mxpart,mxpart), intent(inout) :: za, zb\\n  integer(c_int), intent(in) :: j1, j2, j3, j4, j5, j6\\n\\n  interface\\n    function atrLLL_wrapper(j1,j2,j3,j4,j5,j6,za,zb) bind(C, name=\\\"atrLLL_wrapper\\\")\\n      import :: c_int, c_double_complex, mxpart\\n      integer(c_int), value :: j1, j2, j3, j4, j5, j6\\n      complex(c_double_complex) :: za(mxpart,mxpart), zb(mxpart,mxpart)\\n      complex(c_double_complex) :: atrLLL_wrapper\\n    end function atrLLL_wrapper\\n  end interface\\n\\n  res = atrLLL_wrapper(j1,j2,j3,j4,j5,j6,za,zb)\\nend function atrLLL\\n\"}"
-model_reasoning = "Now I'll create the three new translations (atrLLL, atrLRL, vv) for group W2jet-helpers-2."
+model_text = "Now I'll create the three new translations (atrLLL, atrLRL, vv) for group W2jet-helpers-2."
 ts = "2026-08-12T03:57:42.440662+00:00"
 
 [[event]]
@@ -9465,7 +9465,7 @@ run_id = "20260811-225251-0c6a67"
 iteration = 22
 tool = "write"
 args = "{\"path\": \"software/mcfm/src/W2jet/atrLRL.hpp\", \"content\": \"#ifndef ATRLRL_H\\n#define ATRLRL_H\\n\\n#include <FArray.hpp>\\n#include <complex>\\n\\nextern std::complex<double> atrLRL(int j1, int j2, int j3, int j4, int j5,\\n                                   int j6, FArray2D<std::complex<double>>& za,\\n                                   FArray2D<std::complex<double>>& zb);\\n\\n#endif\\n\"}"
-model_reasoning = "Now I'll create the three new translations (atrLLL, atrLRL, vv) for group W2jet-helpers-2."
+model_text = "Now I'll create the three new translations (atrLLL, atrLRL, vv) for group W2jet-helpers-2."
 ts = "2026-08-12T03:57:42.441546+00:00"
 
 [[event]]
@@ -9485,7 +9485,7 @@ run_id = "20260811-225251-0c6a67"
 iteration = 22
 tool = "write"
 args = "{\"path\": \"software/mcfm/src/W2jet/atrLRL.cpp\", \"content\": \"//\\n//  SPDX-License-Identifier: GPL-3.0-or-later\\n//  Copyright (C) 2019-2022, respective authors of MCFM.\\n//\\n#include \\\"atrLRL.hpp\\\"\\n\\n#include <cmath>\\n#include <complex>\\n#include <FArray.hpp>\\n#include <atree.hpp>\\n#include <masses_mod.hpp>\\n#include <mxpart_mod.hpp>\\n#include <sprods_com_mod.hpp>\\n\\nusing namespace mxpart_mod;\\nusing namespace sprods_com_mod;\\nusing namespace masses_mod;\\n\\n//---atrLRL is the amplitude for\\n//---q+(-p4)+Q-(-p2)+l+(-p5) ---> q-(p1)+Q+(p3)+l-(p6)\\n//---All outgoing particles are except p3 left-handed\\nstd::complex<double> atrLRL(int j1, int j2, int j3, int j4, int j5, int j6,\\n                            FArray2D<std::complex<double>>& za,\\n                            FArray2D<std::complex<double>>& zb) {\\n  std::complex<double> atrLRL_result;\\n  double prop;\\n\\n  prop = s(5, 6) / std::sqrt(std::pow(s(5, 6) - std::pow(wmass, 2), 2) +\\n                             std::pow(wmass * wwidth, 2));\\n  //---Note interchange of za,zb to effect complex conjugation\\n  atrLRL_result = atree(\\\"pp\\\", j1, j2, j3, j4, j5, j6, zb, za) * prop;  // @coverage-probe\\n  return atrLRL_result;\\n}\\n\\nextern \\\"C\\\" {\\nstd::complex<double> atrLRL_wrapper(int j1, int j2, int j3, int j4, int j5,\\n                                    int j6, std::complex<double>* fza,\\n                                    std::complex<double>* fzb) {\\n  FArray2D<std::complex<double>> za(fza, mxpart, mxpart);\\n  FArray2D<std::complex<double>> zb(fzb, mxpart, mxpart);\\n  return atrLRL(j1, j2, j3, j4, j5, j6, za, zb);\\n}\\n}\\n\"}"
-model_reasoning = "Now I'll create the three new translations (atrLLL, atrLRL, vv) for group W2jet-helpers-2."
+model_text = "Now I'll create the three new translations (atrLLL, atrLRL, vv) for group W2jet-helpers-2."
 ts = "2026-08-12T03:57:42.442438+00:00"
 
 [[event]]
@@ -9505,7 +9505,7 @@ run_id = "20260811-225251-0c6a67"
 iteration = 22
 tool = "write"
 args = "{\"path\": \"software/mcfm/src/W2jet/atrLRL_fi.F90\", \"content\": \"\\nfunction atrLRL(j1,j2,j3,j4,j5,j6,za,zb) result(res)\\n  use, intrinsic :: iso_c_binding\\n  use mxpart_mod\\n  use sprods_com_mod\\n\\n  implicit none\\n\\n  complex(c_double_complex) :: res\\n  complex(c_double_complex), dimension(mxpart,mxpart), intent(inout) :: za, zb\\n  integer(c_int), intent(in) :: j1, j2, j3, j4, j5, j6\\n\\n  interface\\n    function atrLRL_wrapper(j1,j2,j3,j4,j5,j6,za,zb) bind(C, name=\\\"atrLRL_wrapper\\\")\\n      import :: c_int, c_double_complex, mxpart\\n      integer(c_int), value :: j1, j2, j3, j4, j5, j6\\n      complex(c_double_complex) :: za(mxpart,mxpart), zb(mxpart,mxpart)\\n      complex(c_double_complex) :: atrLRL_wrapper\\n    end function atrLRL_wrapper\\n  end interface\\n\\n  res = atrLRL_wrapper(j1,j2,j3,j4,j5,j6,za,zb)\\nend function atrLRL\\n\"}"
-model_reasoning = "Now I'll create the three new translations (atrLLL, atrLRL, vv) for group W2jet-helpers-2."
+model_text = "Now I'll create the three new translations (atrLLL, atrLRL, vv) for group W2jet-helpers-2."
 ts = "2026-08-12T03:57:42.443375+00:00"
 
 [[event]]
@@ -9525,7 +9525,7 @@ run_id = "20260811-225251-0c6a67"
 iteration = 22
 tool = "write"
 args = "{\"path\": \"software/mcfm/src/W2jet/vv.hpp\", \"content\": \"#ifndef VV_H\\n#define VV_H\\n\\n#include <complex>\\n#include <string>\\n\\nextern std::complex<double> vv(const std::string& st, int j1, int j2, int j3,\\n                               int j4, int j5, int j6);\\n\\n#endif\\n\"}"
-model_reasoning = "Now I'll create the three new translations (atrLLL, atrLRL, vv) for group W2jet-helpers-2."
+model_text = "Now I'll create the three new translations (atrLLL, atrLRL, vv) for group W2jet-helpers-2."
 ts = "2026-08-12T03:57:42.444145+00:00"
 
 [[event]]
@@ -9545,7 +9545,7 @@ run_id = "20260811-225251-0c6a67"
 iteration = 22
 tool = "write"
 args = "{\"path\": \"software/mcfm/src/W2jet/vv.cpp\", \"content\": \"//\\n//  SPDX-License-Identifier: GPL-3.0-or-later\\n//  Copyright (C) 2019-2022, respective authors of MCFM.\\n//\\n#include \\\"vv.hpp\\\"\\n\\n#include <cmath>\\n#include <complex>\\n#include <string>\\n#include <Need.hpp>\\n#include <constants_mod.hpp>\\n#include <epinv2_mod.hpp>\\n#include <epinv_mod.hpp>\\n#include <mxpart_mod.hpp>\\n#include <scale_mod.hpp>\\n#include <sprods_com_mod.hpp>\\n\\nusing namespace constants_mod;\\nusing namespace mxpart_mod;\\nusing namespace sprods_com_mod;\\nusing namespace scale_mod;\\nusing namespace epinv_mod;\\nusing namespace epinv2_mod;\\n\\n//***********************************************************************\\n//     Author: R.K. Ellis                                               *\\n//     July, 1998.                                                      *\\n//***********************************************************************\\nstd::complex<double> vv(const std::string& st, int j1, int j2, int j3, int j4,\\n                        int j5, int j6) {\\n  std::complex<double> vv_result(0.0, 0.0);\\n  std::complex<double> xl12, xl34, xl23, xl56;\\n\\n  xl12 = lnrat(musq, -s(j1, j2));\\n  xl34 = lnrat(musq, -s(j3, j4));\\n\\n  if ((st == \\\"pp\\\") || (st == \\\"pm\\\")) {\\n    //   Vpm =Vpp=\\n    //     - 2*epinv^2   + epinv* ( 2/3 - xlog12 - xlog34 )\\n    //     + 10/9 - 1/2*xlog12^2 - 1/2*xlog34^2 + 13/6*xlog23 - 3/2*xlog56\\n    //   Vsl =\\n    //    -2*epinv^2 + epinv* ( - 3 - xlog12 - xlog34 )\\n    //    -15/2 - 3/2*xlog12 - 1/2*xlog12^2 - 3/2*xlog34 - 1/2*xlog34^2\\n\\n    xl23 = lnrat(musq, -s(j2, j3));\\n    xl56 = lnrat(musq, -s(j5, j6));\\n    vv_result = -epinv * (two * epinv2 - two / three + xl12 + xl34) + 10.0 / 9.0 - 0.5 * (std::pow(xl12, 2) + std::pow(xl34, 2)) + 13.0 / 6.0 * xl23 - 1.5 * xl56;  // @coverage-probe\\n\\n  } else if (st == \\\"sl\\\") {\\n    vv_result = -epinv * (two * epinv2 + three + xl12 + xl34) - 7.5 - 1.5 * (xl12 + xl34) - 0.5 * (std::pow(xl12, 2) + std::pow(xl34, 2));\\n  }\\n\\n  return vv_result;\\n}\\n\\nextern \\\"C\\\" {\\nstd::complex<double> vv_wrapper(const char* st, int j1, int j2, int j3, int j4,\\n                                int j5, int j6) {\\n  return vv(std::string(st, 2), j1, j2, j3, j4, j5, j6);\\n}\\n}\\n\"}"
-model_reasoning = "Now I'll create the three new translations (atrLLL, atrLRL, vv) for group W2jet-helpers-2."
+model_text = "Now I'll create the three new translations (atrLLL, atrLRL, vv) for group W2jet-helpers-2."
 ts = "2026-08-12T03:57:42.444870+00:00"
 
 [[event]]
@@ -9565,7 +9565,7 @@ run_id = "20260811-225251-0c6a67"
 iteration = 22
 tool = "write"
 args = "{\"path\": \"software/mcfm/src/W2jet/vv_fi.F90\", \"content\": \"\\nfunction vv(st,j1,j2,j3,j4,j5,j6) result(res)\\n  use, intrinsic :: iso_c_binding\\n\\n  implicit none\\n\\n  complex(c_double_complex) :: res\\n  character(len=2), intent(in) :: st\\n  integer(c_int), intent(in) :: j1, j2, j3, j4, j5, j6\\n\\n  interface\\n    function vv_wrapper(st,j1,j2,j3,j4,j5,j6) bind(C, name=\\\"vv_wrapper\\\")\\n      import :: c_int, c_char, c_double_complex\\n      character(kind=c_char) :: st(2)\\n      integer(c_int), value :: j1, j2, j3, j4, j5, j6\\n      complex(c_double_complex) :: vv_wrapper\\n    end function vv_wrapper\\n  end interface\\n\\n  res = vv_wrapper([st(1:1),st(2:2)],j1,j2,j3,j4,j5,j6)\\nend function vv\\n\"}"
-model_reasoning = "Now I'll create the three new translations (atrLLL, atrLRL, vv) for group W2jet-helpers-2."
+model_text = "Now I'll create the three new translations (atrLLL, atrLRL, vv) for group W2jet-helpers-2."
 ts = "2026-08-12T03:57:42.445590+00:00"
 
 [[event]]
@@ -10133,7 +10133,7 @@ run_id = "20260811-230142-fd1418"
 iteration = 1
 tool = "read"
 args = "{\"path\": \"dev/transformations/mcfm-translate/current_plan.md\"}"
-model_reasoning = "I'll start by reading the plan and spec as instructed."
+model_text = "I'll start by reading the plan and spec as instructed."
 ts = "2026-08-12T04:01:50.203742+00:00"
 
 [[event]]
@@ -10163,7 +10163,7 @@ run_id = "20260811-230142-fd1418"
 iteration = 1
 tool = "read"
 args = "{\"path\": \"dev/transformations/mcfm-translate/desired_spec.md\"}"
-model_reasoning = "I'll start by reading the plan and spec as instructed."
+model_text = "I'll start by reading the plan and spec as instructed."
 ts = "2026-08-12T04:01:50.204822+00:00"
 
 [[event]]
@@ -10311,7 +10311,7 @@ run_id = "20260811-230142-fd1418"
 iteration = 3
 tool = "bash"
 args = "{\"command\": \"ls software/mcfm/src/W2jet/deprecated; echo ---; ls software/mcfm/src/W2jet; echo ---; cat dev/tmp/run_probe.py\"}"
-model_reasoning = '''
+model_text = '''
 PLAN:
 - Inspect current W2jet tree state (CMakeLists wiring, deprecated `.f` moves, probe script).
 - Run coverage probes for `atrLRL.cpp` and `vv.cpp`.
@@ -10338,7 +10338,7 @@ run_id = "20260811-230142-fd1418"
 iteration = 3
 tool = "bash"
 args = "{\"command\": \"cat software/mcfm/src/W2jet/CMakeLists.txt\"}"
-model_reasoning = '''
+model_text = '''
 PLAN:
 - Inspect current W2jet tree state (CMakeLists wiring, deprecated `.f` moves, probe script).
 - Run coverage probes for `atrLRL.cpp` and `vv.cpp`.
@@ -10597,7 +10597,7 @@ run_id = "20260811-230142-fd1418"
 iteration = 5
 tool = "bash"
 args = "{\"command\": \"python3 dev/tmp/run_probe.py software/mcfm/src/W2jet/atrLRL.cpp -- u d~ ve e+ g g\", \"timeout\": 3600}"
-model_reasoning = '''
+model_text = '''
 PLAN:
 1. Run the coverage probe for `atrLRL.cpp` and `vv.cpp` (process `u d~ ve e+ g g`) and record COVERED/NOT COVERED.
 2. Add `## Group W2jet-helpers-2` to `agent_log.md` with status lines for atree, A6texact, atrLLL, atrLRL, vv.
@@ -10671,7 +10671,7 @@ run_id = "20260811-230142-fd1418"
 iteration = 6
 tool = "bash"
 args = "{\"command\": \"python3 dev/tmp/run_probe.py software/mcfm/src/W2jet/vv.cpp -- u d~ ve e+ g g\", \"timeout\": 3600}"
-model_reasoning = '''
+model_text = '''
 PLAN:
 1. Probe `atrLRL.cpp` (done → NOT COVERED) and `vv.cpp` with the coverage wrapper.
 2. Add `## Group W2jet-helpers-2` to agent_log.md with status lines for atree, A6texact, atrLLL, atrLRL, vv.
@@ -10737,7 +10737,7 @@ run_id = "20260811-230142-fd1418"
 iteration = 7
 tool = "bash"
 args = "{\"command\": \"jobrunner submit tests/mcfm\", \"timeout\": 7200}"
-model_reasoning = "Both probes report NOT COVERED. Now re-running the full MCFM test suite to re-validate invariant I after the probes restored the tree."
+model_text = "Both probes report NOT COVERED. Now re-running the full MCFM test suite to re-validate invariant I after the probes restored the tree."
 ts = "2026-08-12T04:02:25.151362+00:00"
 
 [[event]]
@@ -12310,7 +12310,7 @@ run_id = "20260811-230142-fd1418"
 iteration = 22
 tool = "write"
 args = "{\"path\": \"software/mcfm/src/W2jet/a6treeg.hpp\", \"content\": \"#ifndef A6TREEG_H\\n#define A6TREEG_H\\n\\n#include <FArray.hpp>\\n#include <complex>\\n\\nextern std::complex<double> a6treeg(int st, int j1, int j2, int j3, int j4,\\n                                    int j5, int j6,\\n                                    FArray2D<std::complex<double>>& za,\\n                                    FArray2D<std::complex<double>>& zb);\\n\\n#endif\\n\"}"
-model_reasoning = "Now I'll write the five new translations (a6treeg, vvg, subqcd, Acalc, LRcalc) as `.hpp`/`.cpp`/`_fi.F90` triples."
+model_text = "Now I'll write the five new translations (a6treeg, vvg, subqcd, Acalc, LRcalc) as `.hpp`/`.cpp`/`_fi.F90` triples."
 ts = "2026-08-12T04:08:46.158694+00:00"
 
 [[event]]
@@ -12330,7 +12330,7 @@ run_id = "20260811-230142-fd1418"
 iteration = 22
 tool = "write"
 args = "{\"path\": \"software/mcfm/src/W2jet/a6treeg.cpp\", \"content\": \"//\\n//  SPDX-License-Identifier: GPL-3.0-or-later\\n//  Copyright (C) 2019-2022, respective authors of MCFM.\\n//\\n#include \\\"a6treeg.hpp\\\"\\n\\n#include <cmath>\\n#include <complex>\\n#include <cstdlib>\\n#include <iostream>\\n#include <FArray.hpp>\\n#include <W1jet.hpp>\\n#include <heldefs_mod.hpp>\\n#include <mxpart_mod.hpp>\\n#include <sprods_com_mod.hpp>\\n\\nusing namespace mxpart_mod;\\nusing namespace sprods_com_mod;\\nusing namespace heldefs_mod;\\n\\n//----hep-ph/9708239, Eqs(8.4,8.8,8.14,9.2,9.7,10.1) Multiplied by (-i)\\nstd::complex<double> a6treeg(int st, int j1, int j2, int j3, int j4, int j5,\\n                             int j6, FArray2D<std::complex<double>>& za,\\n                             FArray2D<std::complex<double>>& zb) {\\n  std::complex<double> a6treeg_result(0.0, 0.0);\\n\\n  if (st == hqpgmgpqbm) {\\n    a6treeg_result = ((za(j2, j4) * za(j4, j5) * zb(j1, j3) * zb(j1, j6)) / (s(j2, j3) * s(j5, j6) * za(j3, j4) * zb(j1, j2)) - (za(j4, j5) * std::pow(zb(j1, j3), 2) * (-(za(j1, j2) * zb(j1, j6)) + za(j2, j3) * zb(j3, j6))) / (s(j2, j3) * s(j5, j6) * zb(j1, j2) * t(j1, j2, j3)) + (std::pow(za(j2, j4), 2) * zb(j1, j6) * (-(za(j2, j5) * zb(j2, j3)) + za(j4, j5) * zb(j3, j4))) / (s(j2, j3) * s(j5, j6) * za(j3, j4) * t(j2, j3, j4)));  // @coverage-probe\\n  } else if (st == hqpgpgmqbm) {\\n    a6treeg_result = (-(((za(j3, j5) * zb(j2, j3) + za(j4, j5) * zb(j2, j4)) * (-(za(j1, j3) * zb(j1, j6)) - za(j2, j3) * zb(j2, j6))) / (s(j2, j3) * s(j5, j6) * za(j1, j2) * zb(j3, j4))) - (za(j1, j3) * za(j4, j5) * zb(j1, j2) * (-(za(j1, j3) * zb(j1, j6)) - za(j2, j3) * zb(j2, j6))) / (s(j2, j3) * s(j5, j6) * za(j1, j2) * t(j1, j2, j3)) + (za(j3, j4) * zb(j1, j6) * zb(j2, j4) * (za(j3, j5) * zb(j2, j3) + za(j4, j5) * zb(j2, j4))) / (s(j2, j3) * s(j5, j6) * zb(j3, j4) * t(j2, j3, j4)));\\n  } else if (st == hqpgpgpqbm) {\\n    //---This amplitude corresponds to\\n    //    q(4)+l(5) --> q_R(1)+l_R(6)+g_R(2)+g_R(3)\\n    a6treeg_result = (-std::pow(za(j4, j5), 2)) / (za(j1, j2) * za(j2, j3) * za(j3, j4) * za(j5, j6));\\n  } else if (st == hqpgpqbmgm) {\\n    a6treeg_result = (((za(j3, j5) * zb(j1, j3) + za(j4, j5) * zb(j1, j4)) * (-(za(j1, j3) * zb(j1, j6)) - za(j2, j3) * zb(j2, j6))) / (s(j5, j6) * za(j1, j2) * za(j2, j3) * zb(j1, j4) * zb(j3, j4)) + (za(j3, j5) * zb(j1, j2) * (-(za(j1, j4) * zb(j1, j6)) - za(j2, j4) * zb(j2, j6))) / (s(j5, j6) * za(j1, j2) * zb(j1, j4) * t(j1, j2, j4)) - (za(j3, j4) * zb(j1, j6) * (za(j3, j5) * zb(j2, j3) + za(j4, j5) * zb(j2, j4))) / (s(j5, j6) * za(j2, j3) * zb(j3, j4) * t(j2, j3, j4)));\\n  } else if (st == hqpgpqbmgp) {\\n    a6treeg_result = (-za(j1, j3) * std::pow(za(j3, j5), 2)) / (za(j1, j2) * za(j1, j4) * za(j2, j3) * za(j3, j4) * za(j5, j6));\\n  } else if (st == hqpqbmgmgp) {\\n    a6treeg_result = (((-(za(j2, j5) * zb(j2, j4)) - za(j3, j5) * zb(j3, j4)) * (-(za(j1, j3) * zb(j1, j6)) + za(j3, j4) * zb(j4, j6))) / (s(j3, j4) * s(j5, j6) * za(j1, j4) * zb(j2, j3)) - (za(j1, j3) * za(j2, j5) * zb(j1, j4) * (-(za(j1, j3) * zb(j1, j6)) + za(j3, j4) * zb(j4, j6))) / (s(j3, j4) * s(j5, j6) * za(j1, j4) * t(j1, j3, j4)) - (za(j2, j3) * zb(j1, j6) * zb(j2, j4) * (-(za(j2, j5) * zb(j2, j4)) - za(j3, j5) * zb(j3, j4))) / (s(j3, j4) * s(j5, j6) * zb(j2, j3) * t(j2, j3, j4)));\\n  } else if (st == hqpqbmgpgm) {\\n    a6treeg_result = -(-((za(j2, j4) * za(j2, j5) * zb(j1, j3) * zb(j1, j6)) / (s(j3, j4) * s(j5, j6) * za(j2, j3) * zb(j1, j4))) + (za(j2, j5) * std::pow(zb(j1, j3), 2) * (-(za(j1, j4) * zb(j1, j6)) - za(j3, j4) * zb(j3, j6))) / (s(j3, j4) * s(j5, j6) * zb(j1, j4) * t(j1, j3, j4)) + (std::pow(za(j2, j4), 2) * zb(j1, j6) * (-(za(j2, j5) * zb(j2, j3)) + za(j4, j5) * zb(j3, j4))) / (s(j3, j4) * s(j5, j6) * za(j2, j3) * t(j2, j3, j4)));\\n  } else if (st == hqpqbmgpgp) {\\n    a6treeg_result = (-std::pow(za(j2, j5), 2)) / (za(j1, j4) * za(j2, j3) * za(j3, j4) * za(j5, j6));\\n  } else {\\n    std::cout << \\\" unimplemented st \\\" << st << std::endl;\\n    std::exit(1);\\n  }\\n  return a6treeg_result;\\n}\\n\\nextern \\\"C\\\" {\\nstd::complex<double> a6treeg_wrapper(int st, int j1, int j2, int j3, int j4,\\n                                     int j5, int j6,\\n                                     std::complex<double>* fza,\\n                                     std::complex<double>* fzb) {\\n  FArray2D<std::complex<double>> za(fza, mxpart, mxpart);\\n  FArray2D<std::complex<double>> zb(fzb, mxpart, mxpart);\\n  return a6treeg(st, j1, j2, j3, j4, j5, j6, za, zb);\\n}\\n}\\n\"}"
-model_reasoning = "Now I'll write the five new translations (a6treeg, vvg, subqcd, Acalc, LRcalc) as `.hpp`/`.cpp`/`_fi.F90` triples."
+model_text = "Now I'll write the five new translations (a6treeg, vvg, subqcd, Acalc, LRcalc) as `.hpp`/`.cpp`/`_fi.F90` triples."
 ts = "2026-08-12T04:08:46.159404+00:00"
 
 [[event]]
@@ -12350,7 +12350,7 @@ run_id = "20260811-230142-fd1418"
 iteration = 22
 tool = "write"
 args = "{\"path\": \"software/mcfm/src/W2jet/a6treeg_fi.F90\", \"content\": \"\\nfunction a6treeg(st,j1,j2,j3,j4,j5,j6,za,zb) result(res)\\n  use, intrinsic :: iso_c_binding\\n  use mxpart_mod\\n  use sprods_com_mod\\n  use heldefs_mod\\n\\n  implicit none\\n\\n  complex(c_double_complex) :: res\\n  complex(c_double_complex), dimension(mxpart,mxpart), intent(inout) :: za, zb\\n  integer(c_int), intent(in) :: st, j1, j2, j3, j4, j5, j6\\n\\n  interface\\n    function a6treeg_wrapper(st,j1,j2,j3,j4,j5,j6,za,zb) bind(C, name=\\\"a6treeg_wrapper\\\")\\n      import :: c_int, c_double_complex, mxpart\\n      integer(c_int), value :: st, j1, j2, j3, j4, j5, j6\\n      complex(c_double_complex) :: za(mxpart,mxpart), zb(mxpart,mxpart)\\n      complex(c_double_complex) :: a6treeg_wrapper\\n    end function a6treeg_wrapper\\n  end interface\\n\\n  res = a6treeg_wrapper(st,j1,j2,j3,j4,j5,j6,za,zb)\\nend function a6treeg\\n\"}"
-model_reasoning = "Now I'll write the five new translations (a6treeg, vvg, subqcd, Acalc, LRcalc) as `.hpp`/`.cpp`/`_fi.F90` triples."
+model_text = "Now I'll write the five new translations (a6treeg, vvg, subqcd, Acalc, LRcalc) as `.hpp`/`.cpp`/`_fi.F90` triples."
 ts = "2026-08-12T04:08:46.159895+00:00"
 
 [[event]]
@@ -12394,7 +12394,7 @@ run_id = "20260811-230142-fd1418"
 iteration = 23
 tool = "write"
 args = "{\"path\": \"software/mcfm/src/W2jet/vvg.hpp\", \"content\": \"#ifndef VVG_H\\n#define VVG_H\\n\\n#include <complex>\\n\\nextern std::complex<double> vvg(int st, int j1, int j2, int j3, int j4, int j5,\\n                                int j6);\\n\\n#endif\\n\"}"
-model_reasoning = "Now writing vvg and subqcd translations."
+model_text = "Now writing vvg and subqcd translations."
 ts = "2026-08-12T04:09:39.559389+00:00"
 
 [[event]]
@@ -12414,7 +12414,7 @@ run_id = "20260811-230142-fd1418"
 iteration = 23
 tool = "write"
 args = "{\"path\": \"software/mcfm/src/W2jet/vvg.cpp\", \"content\": \"//\\n//  SPDX-License-Identifier: GPL-3.0-or-later\\n//  Copyright (C) 2019-2022, respective authors of MCFM.\\n//\\n\\n// ADJUSTED TO REMOVE ALL 1/eps**2 PIECES IF EPINV2 IN EPINV2.F = 0._dp\\n// ADJUSTED TO REMOVE ALL 1/eps**2 PIECES IF EPINV2 IN EPINV2.F = 0._dp\\n// ADJUSTED TO REMOVE ALL 1/eps**2 PIECES IF EPINV2 IN EPINV2.F = 0._dp\\n#include \\\"vvg.hpp\\\"\\n\\n#include <cmath>\\n#include <complex>\\n#include <cstdlib>\\n#include <iostream>\\n#include <Need.hpp>\\n#include <constants_mod.hpp>\\n#include <epinv2_mod.hpp>\\n#include <epinv_mod.hpp>\\n#include <heldefs_mod.hpp>\\n#include <mxpart_mod.hpp>\\n#include <scale_mod.hpp>\\n#include <sprods_com_mod.hpp>\\n\\nusing namespace constants_mod;\\nusing namespace mxpart_mod;\\nusing namespace sprods_com_mod;\\nusing namespace epinv_mod;\\nusing namespace scale_mod;\\nusing namespace epinv2_mod;\\nusing namespace heldefs_mod;\\n\\n//***********************************************************************\\n//     Author: R.K. Ellis                                               *\\n//     July, 1998.                                                      *\\n//***********************************************************************\\nstd::complex<double> vvg(int st, int j1, int j2, int j3, int j4, int j5,\\n                         int j6) {\\n  std::complex<double> vvg_result(0.0, 0.0);\\n  std::complex<double> xl12, xl34, xl23, xl56, Vcc, Vsc;\\n\\n  xl12 = lnrat(musq, -s(j1, j2));\\n  xl34 = lnrat(musq, -s(j3, j4));\\n  xl23 = lnrat(musq, -s(j2, j3));\\n  xl56 = lnrat(musq, -s(j5, j6));\\n\\n  if (st == hqpgmgpqbm) {\\n    Vcc = -four - (epinv * epinv2 + xl12 * epinv + half * std::pow(xl12, 2)) - (epinv * epinv2 + xl23 * epinv + half * std::pow(xl23, 2)) - (epinv * epinv2 + xl34 * epinv + half * std::pow(xl34, 2)) - two * (epinv + xl56);\\n    Vsc = half * (one + epinv + xl56);\\n\\n  } else if (st == hqpgpgmqbm) {\\n    Vcc = -four - (epinv * epinv2 + xl12 * epinv + half * std::pow(xl12, 2)) - (epinv * epinv2 + xl23 * epinv + half * std::pow(xl23, 2)) - (epinv * epinv2 + xl34 * epinv + half * std::pow(xl34, 2)) - two * (epinv + xl56);\\n    Vsc = half * (one + epinv + xl56);\\n\\n  } else if (st == hqpgpgpqbm) {\\n    Vcc = -four - (epinv * epinv2 + xl12 * epinv + half * std::pow(xl12, 2)) - (epinv * epinv2 + xl23 * epinv + half * std::pow(xl23, 2)) - (epinv * epinv2 + xl34 * epinv + half * std::pow(xl34, 2)) - two * (epinv + xl56);\\n    Vsc = half * (one + epinv + xl56);\\n\\n  } else if (st == hqpgpqbmgm) {\\n    Vcc = -four - (+(epinv * epinv2 + xl12 * epinv + half * std::pow(xl12, 2)) + (epinv * epinv2 + xl23 * epinv + half * std::pow(xl23, 2))) - two * (epinv + xl56);\\n    Vsc = half * (one + epinv + xl56);\\n\\n  } else if (st == hqpgpqbmgp) {\\n    Vcc = -four - (epinv * epinv2 + xl12 * epinv + half * std::pow(xl12, 2)) - (epinv * epinv2 + xl23 * epinv + half * std::pow(xl23, 2)) - two * (epinv + xl56);\\n    Vsc = half * (one + epinv + xl56);\\n\\n  } else if (st == hqpqbmgmgp) {\\n    Vcc = -four - (epinv * epinv2 + xl12 * epinv + half * std::pow(xl12, 2)) - two * (epinv + xl56);\\n    Vsc = half * (one + epinv + xl56);\\n\\n  } else if (st == hqpqbmgpgm) {\\n    Vcc = -four - (epinv * epinv2 + xl12 * epinv + half * std::pow(xl12, 2)) - two * (epinv + xl56);\\n    Vsc = half * (one + epinv + xl56);\\n\\n  } else if (st == hqpqbmgpgp) {\\n    Vcc = -four - (epinv * epinv2 + xl12 * epinv + half * std::pow(xl12, 2)) - two * (epinv + xl56);\\n    Vsc = half * (one + epinv + xl56);\\n  } else {\\n    std::cout << \\\" unimplemented st \\\" << st << std::endl;\\n    std::exit(1);\\n  }\\n\\n  vvg_result = Vcc + Vsc;  // @coverage-probe\\n  return vvg_result;\\n}\\n\\nextern \\\"C\\\" {\\nstd::complex<double> vvg_wrapper(int st, int j1, int j2, int j3, int j4, int j5,\\n                                 int j6) {\\n  return vvg(st, j1, j2, j3, j4, j5, j6);\\n}\\n}\\n\"}"
-model_reasoning = "Now writing vvg and subqcd translations."
+model_text = "Now writing vvg and subqcd translations."
 ts = "2026-08-12T04:09:39.560021+00:00"
 
 [[event]]
@@ -12434,7 +12434,7 @@ run_id = "20260811-230142-fd1418"
 iteration = 23
 tool = "write"
 args = "{\"path\": \"software/mcfm/src/W2jet/vvg_fi.F90\", \"content\": \"\\nfunction vvg(st,j1,j2,j3,j4,j5,j6) result(res)\\n  use, intrinsic :: iso_c_binding\\n  use mxpart_mod\\n  use sprods_com_mod\\n  use heldefs_mod\\n\\n  implicit none\\n\\n  complex(c_double_complex) :: res\\n  integer(c_int), intent(in) :: st, j1, j2, j3, j4, j5, j6\\n\\n  interface\\n    function vvg_wrapper(st,j1,j2,j3,j4,j5,j6) bind(C, name=\\\"vvg_wrapper\\\")\\n      import :: c_int, c_double_complex\\n      integer(c_int), value :: st, j1, j2, j3, j4, j5, j6\\n      complex(c_double_complex) :: vvg_wrapper\\n    end function vvg_wrapper\\n  end interface\\n\\n  res = vvg_wrapper(st,j1,j2,j3,j4,j5,j6)\\nend function vvg\\n\"}"
-model_reasoning = "Now writing vvg and subqcd translations."
+model_text = "Now writing vvg and subqcd translations."
 ts = "2026-08-12T04:09:39.560470+00:00"
 
 [[event]]
@@ -12454,7 +12454,7 @@ run_id = "20260811-230142-fd1418"
 iteration = 23
 tool = "write"
 args = "{\"path\": \"software/mcfm/src/W2jet/subqcd.hpp\", \"content\": \"#ifndef SUBQCD_H\\n#define SUBQCD_H\\n\\n#include <FArray.hpp>\\n#include <complex>\\n\\nextern void subqcd(int i1, int i2, int i3, int i4, int i5, int i6,\\n                   FArray2D<std::complex<double>>& za,\\n                   FArray2D<std::complex<double>>& zb,\\n                   FArray2D<std::complex<double>>& amp);\\n\\n#endif\\n\"}"
-model_reasoning = "Now writing vvg and subqcd translations."
+model_text = "Now writing vvg and subqcd translations."
 ts = "2026-08-12T04:09:39.560885+00:00"
 
 [[event]]
@@ -12474,7 +12474,7 @@ run_id = "20260811-230142-fd1418"
 iteration = 23
 tool = "write"
 args = "{\"path\": \"software/mcfm/src/W2jet/subqcd.cpp\", \"content\": \"//\\n//  SPDX-License-Identifier: GPL-3.0-or-later\\n//  Copyright (C) 2019-2022, respective authors of MCFM.\\n//\\n#include \\\"subqcd.hpp\\\"\\n\\n#include <cmath>\\n#include <complex>\\n#include <FArray.hpp>\\n#include <constants_mod.hpp>\\n#include <mxpart_mod.hpp>\\n#include <sprods_com_mod.hpp>\\n\\nusing namespace constants_mod;\\nusing namespace mxpart_mod;\\nusing namespace sprods_com_mod;\\n\\n//*******************************************************************\\n//     the matrix elements of the\\n//     helicity amplitudes for the QCD process\\n//     q(-p1)+qbar(-p2) --> l(p3)+abar(p4)+g(p5)+g(p6)\\n//     multiplied by ((a+l)^2-M**2)/(a+l)^2/g^4\\n//     one colour ordering only\\n//     left-on quark line only\\n//*******************************************************************\\nvoid subqcd(int i1, int i2, int i3, int i4, int i5, int i6,\\n            FArray2D<std::complex<double>>& za,\\n            FArray2D<std::complex<double>>& zb,\\n            FArray2D<std::complex<double>>& amp) {\\n  double s156, s56, s256, s34;\\n\\n  // begin statement functions\\n  auto zba2 = [&za, &zb](int k1, int k2, int k3, int k4) {\\n    return zb(k1, k2) * za(k2, k4) + zb(k1, k3) * za(k3, k4);\\n  };\\n  auto zba3 = [&za, &zb](int k1, int k2, int k3, int k4, int k5) {\\n    return zb(k1, k2) * za(k2, k5) + zb(k1, k3) * za(k3, k5) +\\n           zb(k1, k4) * za(k4, k5);\\n  };\\n  // end statement functions\\n\\n  s156 = s(i1, i5) + s(i1, i6) + s(i5, i6);\\n  s256 = s(i2, i5) + s(i2, i6) + s(i5, i6);\\n  s56 = s(i5, i6);\\n  s34 = s(i3, i4);\\n  (void)s56;\\n  (void)s34;\\n\\n  amp(-1, -1) = -four / s(i3, i4) * zb(i1, i4) * zba3(i1, i2, i6, i5, i3) / zb(i1, i5) / zb(i2, i6) / zb(i6, i5);  // @coverage-probe\\n  amp(+1, +1) = +four / s(i3, i4) * za(i2, i3) * zba3(i4, i1, i6, i5, i2) / za(i1, i5) / za(i2, i6) / za(i6, i5);\\n  amp(+1, -1) = four / (s(i3, i4) * s(i5, i6)) * (zba2(i4, i1, i5, i6) * zba2(i5, i2, i6, i3) / za(i1, i5) / zb(i2, i6) - za(i1, i6) * za(i2, i3) * zb(i1, i5) * zba2(i4, i1, i5, i6) / za(i1, i5) / s156 - za(i2, i6) * zb(i1, i4) * zb(i2, i5) * zba2(i5, i2, i6, i3) / zb(i2, i6) / s256);\\n  amp(-1, +1) = four / (s(i3, i4) * s(i5, i6)) * (za(i2, i3) * za(i2, i5) * zb(i1, i4) * zb(i1, i6) / za(i2, i6) / zb(i1, i5) - za(i2, i3) * std::pow(zb(i1, i6), 2) * zba2(i4, i1, i6, i5) / zb(i1, i5) / s156 - std::pow(za(i2, i5), 2) * zb(i1, i4) * zba2(i6, i2, i5, i3) / za(i2, i6) / s256);\\n\\n  return;\\n}\\n\\nextern \\\"C\\\" {\\nvoid subqcd_wrapper(int i1, int i2, int i3, int i4, int i5, int i6,\\n                    std::complex<double>* fza, std::complex<double>* fzb,\\n                    std::complex<double>* famp) {\\n  FArray2D<std::complex<double>> za(fza, mxpart, mxpart);\\n  FArray2D<std::complex<double>> zb(fzb, mxpart, mxpart);\\n  FArray2D<std::complex<double>> amp(famp, 3, 3, -1, -1);\\n  subqcd(i1, i2, i3, i4, i5, i6, za, zb, amp);\\n}\\n}\\n\"}"
-model_reasoning = "Now writing vvg and subqcd translations."
+model_text = "Now writing vvg and subqcd translations."
 ts = "2026-08-12T04:09:39.561330+00:00"
 
 [[event]]
@@ -12494,7 +12494,7 @@ run_id = "20260811-230142-fd1418"
 iteration = 23
 tool = "write"
 args = "{\"path\": \"software/mcfm/src/W2jet/subqcd_fi.F90\", \"content\": \"\\nsubroutine subqcd(i1,i2,i3,i4,i5,i6,za,zb,amp)\\n  use, intrinsic :: iso_c_binding\\n  use mxpart_mod\\n  use sprods_com_mod\\n\\n  implicit none\\n\\n  integer(c_int), intent(in) :: i1, i2, i3, i4, i5, i6\\n  complex(c_double_complex), dimension(mxpart,mxpart), intent(inout) :: za, zb\\n  complex(c_double_complex), intent(inout) :: amp(-1:1,-1:1)\\n\\n  interface\\n    subroutine subqcd_wrapper(i1,i2,i3,i4,i5,i6,za,zb,amp) bind(C, name=\\\"subqcd_wrapper\\\")\\n      import :: c_int, c_double_complex, mxpart\\n      integer(c_int), value :: i1, i2, i3, i4, i5, i6\\n      complex(c_double_complex) :: za(mxpart,mxpart), zb(mxpart,mxpart)\\n      complex(c_double_complex) :: amp(-1:1,-1:1)\\n    end subroutine subqcd_wrapper\\n  end interface\\n\\n  call subqcd_wrapper(i1,i2,i3,i4,i5,i6,za,zb,amp)\\nend subroutine subqcd\\n\"}"
-model_reasoning = "Now writing vvg and subqcd translations."
+model_text = "Now writing vvg and subqcd translations."
 ts = "2026-08-12T04:09:39.561766+00:00"
 
 [[event]]
@@ -12854,7 +12854,7 @@ run_id = "20260811-230142-fd1418"
 iteration = 28
 tool = "bash"
 args = "{\"command\": \"jobrunner submit tests/mcfm\", \"timeout\": 7200}"
-model_reasoning = "Now build + test to validate the new group compiles and matches."
+model_text = "Now build + test to validate the new group compiles and matches."
 ts = "2026-08-12T04:10:51.021532+00:00"
 
 [[event]]
@@ -13016,7 +13016,7 @@ run_id = "20260811-230142-fd1418"
 iteration = 30
 tool = "write"
 args = "{\"path\": \"dev/tmp/run_probes_group3.py\", \"content\": \"#!/usr/bin/env python3\\n\\\"\\\"\\\"Run the coverage probe for each W2jet-helpers-3 file, one after another.\\\"\\\"\\\"\\nimport os\\nimport sys\\nfrom pathlib import Path\\n\\nROOT = Path(__file__).resolve().parents[2]\\nos.environ.setdefault(\\\"MCFM_HOME\\\", str(ROOT / \\\"software\\\" / \\\"mcfm\\\"))\\nsys.path.insert(0, str(ROOT / \\\"dev\\\" / \\\"tools\\\" / \\\"coverage\\\"))\\n\\nimport coverage_check  # noqa: E402\\n\\nFILES = [\\n    \\\"software/mcfm/src/W2jet/a6treeg.cpp\\\",\\n    \\\"software/mcfm/src/W2jet/vvg.cpp\\\",\\n    \\\"software/mcfm/src/W2jet/subqcd.cpp\\\",\\n    \\\"software/mcfm/src/W2jet/Acalc.cpp\\\",\\n    \\\"software/mcfm/src/W2jet/LRcalc.cpp\\\",\\n]\\nPROCESS = [\\\"u\\\", \\\"d~\\\", \\\"ve\\\", \\\"e+\\\", \\\"g\\\", \\\"g\\\"]\\n\\nresults = {}\\nfor f in FILES:\\n    rc = coverage_check.main([f, \\\"--\\\"] + PROCESS)\\n    results[f] = rc\\n\\nprint(\\\"== probe summary ==\\\")\\nfor f, rc in results.items():\\n    print(f, \\\"exit\\\", rc, \\\"COVERED\\\" if rc == 0 else \\\"NOT COVERED/FAILED\\\")\\n\"}"
-model_reasoning = "Build and tests pass with the new group. Now running all five coverage probes in one batch script."
+model_text = "Build and tests pass with the new group. Now running all five coverage probes in one batch script."
 ts = "2026-08-12T04:12:42.499548+00:00"
 
 [[event]]
@@ -13079,7 +13079,7 @@ run_id = "20260811-231340-40af9c"
 iteration = 1
 tool = "read"
 args = "{\"path\": \"dev/transformations/mcfm-translate/current_plan.md\"}"
-model_reasoning = "I'll start by reading the plan and spec as instructed, plus the current agent log and probe scripts."
+model_text = "I'll start by reading the plan and spec as instructed, plus the current agent log and probe scripts."
 ts = "2026-08-12T04:13:42.706892+00:00"
 
 [[event]]
@@ -13109,7 +13109,7 @@ run_id = "20260811-231340-40af9c"
 iteration = 1
 tool = "read"
 args = "{\"path\": \"dev/transformations/mcfm-translate/desired_spec.md\"}"
-model_reasoning = "I'll start by reading the plan and spec as instructed, plus the current agent log and probe scripts."
+model_text = "I'll start by reading the plan and spec as instructed, plus the current agent log and probe scripts."
 ts = "2026-08-12T04:13:42.708006+00:00"
 
 [[event]]
@@ -13167,7 +13167,7 @@ run_id = "20260811-231340-40af9c"
 iteration = 2
 tool = "read"
 args = "{\"path\": \"dev/transformations/mcfm-translate/current_plan.md\", \"offset\": 164}"
-model_reasoning = "Reading the remainder of the plan, the agent log, and the probe script to understand the pending work."
+model_text = "Reading the remainder of the plan, the agent log, and the probe script to understand the pending work."
 ts = "2026-08-12T04:13:48.059998+00:00"
 
 [[event]]
@@ -13197,7 +13197,7 @@ run_id = "20260811-231340-40af9c"
 iteration = 2
 tool = "read"
 args = "{\"path\": \"dev/transformations/mcfm-translate/agent_log.md\"}"
-model_reasoning = "Reading the remainder of the plan, the agent log, and the probe script to understand the pending work."
+model_text = "Reading the remainder of the plan, the agent log, and the probe script to understand the pending work."
 ts = "2026-08-12T04:13:48.060847+00:00"
 
 [[event]]
@@ -13230,7 +13230,7 @@ run_id = "20260811-231340-40af9c"
 iteration = 2
 tool = "read"
 args = "{\"path\": \"dev/tmp/run_probes_group3.py\"}"
-model_reasoning = "Reading the remainder of the plan, the agent log, and the probe script to understand the pending work."
+model_text = "Reading the remainder of the plan, the agent log, and the probe script to understand the pending work."
 ts = "2026-08-12T04:13:48.061761+00:00"
 
 [[event]]
@@ -13263,7 +13263,7 @@ run_id = "20260811-231340-40af9c"
 iteration = 2
 tool = "read"
 args = "{\"path\": \"dev/tmp/run_probe.py\"}"
-model_reasoning = "Reading the remainder of the plan, the agent log, and the probe script to understand the pending work."
+model_text = "Reading the remainder of the plan, the agent log, and the probe script to understand the pending work."
 ts = "2026-08-12T04:13:48.062510+00:00"
 
 [[event]]
@@ -13321,7 +13321,7 @@ run_id = "20260811-231340-40af9c"
 iteration = 3
 tool = "bash"
 args = "{\"command\": \"git status --porcelain\"}"
-model_reasoning = "Now inspecting current workspace state: git status, the W2jet directory, and CMakeLists wiring."
+model_text = "Now inspecting current workspace state: git status, the W2jet directory, and CMakeLists wiring."
 ts = "2026-08-12T04:13:56.338684+00:00"
 
 [[event]]
@@ -13350,7 +13350,7 @@ run_id = "20260811-231340-40af9c"
 iteration = 3
 tool = "bash"
 args = "{\"command\": \"ls software/mcfm/src/W2jet\"}"
-model_reasoning = "Now inspecting current workspace state: git status, the W2jet directory, and CMakeLists wiring."
+model_text = "Now inspecting current workspace state: git status, the W2jet directory, and CMakeLists wiring."
 ts = "2026-08-12T04:13:56.371578+00:00"
 
 [[event]]
@@ -13419,7 +13419,7 @@ run_id = "20260811-231340-40af9c"
 iteration = 3
 tool = "bash"
 args = "{\"command\": \"ls software/mcfm/src/W2jet/deprecated\"}"
-model_reasoning = "Now inspecting current workspace state: git status, the W2jet directory, and CMakeLists wiring."
+model_text = "Now inspecting current workspace state: git status, the W2jet directory, and CMakeLists wiring."
 ts = "2026-08-12T04:13:56.380835+00:00"
 
 [[event]]
@@ -13459,7 +13459,7 @@ run_id = "20260811-231340-40af9c"
 iteration = 3
 tool = "read"
 args = "{\"path\": \"software/mcfm/src/W2jet/CMakeLists.txt\"}"
-model_reasoning = "Now inspecting current workspace state: git status, the W2jet directory, and CMakeLists wiring."
+model_text = "Now inspecting current workspace state: git status, the W2jet directory, and CMakeLists wiring."
 ts = "2026-08-12T04:13:56.390268+00:00"
 
 [[event]]
