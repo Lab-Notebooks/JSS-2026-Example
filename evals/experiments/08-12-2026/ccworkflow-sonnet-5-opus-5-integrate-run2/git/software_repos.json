@@ -1,0 +1,20 @@
+[
+  {
+    "path": "software/mcfm",
+    "head": "1abdcddaad89582552edc41de68e4a6e1ac75f1d",
+    "branch": "HEAD",
+    "status": "## HEAD (no branch)\n M CMakeLists.txt\n M src/BDK/CMakeLists.txt\n D src/BDK/FFPMccT.f\n D src/BDK/FFPMscT.f\n D src/BDK/FFPMscTtilde.f\n D src/BDK/FPFMccTtilde.f\n D src/BDK/FPFPcc.f\nR  src/BDK/FFMPcc.f -> src/BDK/deprecated/FFMPcc.f\nR  src/BDK/FFPMccTtilde.f -> src/BDK/deprecated/FFPMccTtilde.f\nR  src/BDK/FFPPcc.f -> src/BDK/deprecated/FFPPcc.f\nR  src/BDK/FFPPsc.f -> src/BDK/deprecated/FFPPsc.f\nR  src/BDK/FMPFsc.f -> src/BDK/deprecated/FMPFsc.f\nR  src/BDK/FPFMscT.f -> src/BDK/deprecated/FPFMscT.f\nR  src/BDK/FPFPsc.f -> src/BDK/deprecated/FPFPsc.f\nR  src/BDK/FPMFcc.f -> src/BDK/deprecated/FPMFcc.f\nR  src/BDK/FPMFsc.f -> src/BDK/deprecated/FPMFsc.f\nR  src/BDK/fvs.f -> src/BDK/deprecated/fvs.f\n?? Bin/lib/\n?? Bin/test\n?? doxygen_dep/\n?? install/\n?? src/BDK/FFMPcc.cpp\n?? src/BDK/FFMPcc.hpp\n?? src/BDK/FFMPcc_fi.f90\n?? src/BDK/FFPMccT.cpp\n?? src/BDK/FFPMccT.hpp\n?? src/BDK/FFPMccT_fi.f90\n?? src/BDK/FFPMccTtilde.cpp\n?? src/BDK/FFPMccTtilde.hpp\n?? src/BDK/FFPMccTtilde_fi.F90\n?? src/BDK/FFPMscT.cpp\n?? src/BDK/FFPMscT.hpp\n?? src/BDK/FFPMscT_fi.F90\n?? src/BDK/FFPMscTtilde.cpp\n?? src/BDK/FFPMscTtilde.hpp\n?? src/BDK/FFPMscTtilde_fi.f90\n?? src/BDK/FFPPcc.cpp\n?? src/BDK/FFPPcc.hpp\n?? src/BDK/FFPPcc_fi.F90\n?? src/BDK/FFPPsc.cpp\n?? src/BDK/FFPPsc.hpp\n?? src/BDK/FFPPsc_fi.F90\n?? src/BDK/FMPFsc.cpp\n?? src/BDK/FMPFsc.hpp\n?? src/BDK/FMPFsc_fi.f90\n?? src/BDK/FPFMccTtilde.cpp\n?? src/BDK/FPFMccTtilde.hpp\n?? src/BDK/FPFMccTtilde_fi.F90\n?? src/BDK/FPFMscT.cpp\n?? src/BDK/FPFMscT.hpp\n?? src/BDK/FPFMscT_fi.F90\n?? src/BDK/FPFPcc.cpp\n?? src/BDK/FPFPcc.hpp\n?? src/BDK/FPFPcc_fi.F90\n?? src/BDK/FPFPsc.cpp\n?? src/BDK/FPFPsc.hpp\n?? src/BDK/FPFPsc_fi.f90\n?? src/BDK/FPMFcc.cpp\n?? src/BDK/FPMFcc.hpp\n?? src/BDK/FPMFcc_fi.f90\n?? src/BDK/FPMFsc.cpp\n?? src/BDK/FPMFsc.hpp\n?? src/BDK/FPMFsc_fi.f90\n?? src/BDK/deprecated/FFPMccT.f\n?? src/BDK/deprecated/FFPMscT.f\n?? src/BDK/deprecated/FFPMscTtilde.f\n?? src/BDK/deprecated/FPFMccTtilde.f\n?? src/BDK/deprecated/FPFPcc.f\n?? src/BDK/fvs.cpp\n?? src/BDK/fvs.hpp\n?? src/BDK/fvs_fi.f90\n"
+  },
+  {
+    "path": "software/pepper",
+    "head": "67f3acc8756fe6ec4fcc9ea360be08f0bb644711",
+    "branch": "43-add-kokkos-mcfm-interface",
+    "status": "## 43-add-kokkos-mcfm-interface...origin/43-add-kokkos-mcfm-interface\n"
+  },
+  {
+    "path": "software/qcdloop",
+    "head": "c8a05202351ca2e803158e99ae8a1c5c05f1437d",
+    "branch": "master",
+    "status": "## master...origin/master\n"
+  }
+]
