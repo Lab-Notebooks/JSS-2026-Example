@@ -29,7 +29,7 @@ Once you have decided the arguments, invoke:
 <dev/transformations/...> --loop-dir <.csloop|.codescribe> [--submodule software/...]* [--include-dev-tmp]`
 
 Before invoking the tool, briefly state:
--  chosen experiment name, try to follow current naming conventions in evals/experiments/
+-  chosen experiment name, try to follow current naming conventions in evals/experiments and always pick a new name.
 -  chosen transformation directory
 -  chosen loop directory
 -  chosen submodule(s)
