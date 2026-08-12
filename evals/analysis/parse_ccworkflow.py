@@ -10,8 +10,7 @@ Token usage lives on every `assistant`-type line's `message.usage`. The phase
 (`attributionSkill` is always the constant "transform"), so it's recovered from
 the first `user` message's prompt text, which is a stable convention in every
 run observed: "You are an AUTHOR agent", "You are the TRIAGE phase", "You are
-the SERIAL INTEGRATE phase" (this is where the hardcoded opus-4-6
-integrate+fix agent lives), or "Record this round's work..." for the metadata
+the SERIAL INTEGRATE phase", or "Record this round's work..." for the metadata
 phase.
 """
 

@@ -1,15 +1,11 @@
-"""Parse CodeScribe-loop ("csloop") run directories into flat rows.
+"""Parse CodeScribe-loop run directories into flat rows.
 
-Layout is inconsistent across runs — two shapes exist:
-  - flat:   experiments/<day>/csloop-<variant>/metadata/{manifest.toml, loop_*.toml}
-  - nested: experiments/<day>/csloop-<variant>/attemptNN-<status>/metadata/{...}
-
-Each attempt directory is a fully independent run with its own run_id; manifest
-`cumulative_*` fields do NOT carry over across attempts despite the "resume"
-naming, so a harness-variant's true total is the sum across all its attempt
-subdirectories. Some attempt dirs (e.g. attempt05-fix-failures, attempt03-resume
-on 07-25) are entirely empty and must be skipped, as must fully-empty run dirs
-like csloop-gpt-5-4-effort-high (no GPT-5.4 run was ever executed).
+Layout (experiments/08-11-2026/ onward): experiments/<day>/<run-name>/loop/metadata/
+  {manifest.toml, loop_NNN_{author,review}.toml}
+regardless of whether the run directory is named "csloop-*" or "codescribe-*"
+(the harness's own archive_summary.json calls its source ".codescribe" either
+way) — so runs are discovered by the presence of loop/metadata/manifest.toml,
+not by name prefix.
 
 Per-loop token/tool-call data lives in loop_NNN_{author,review}.toml:
   [usage]       input, output, reasoning, cache_write, cache_read
@@ -29,23 +25,6 @@ from pathlib import Path
 def _load_toml(path):
     with open(path, "rb") as fh:
         return tomllib.load(fh)
-
-
-def find_attempt_dirs(run_dir):
-    """Return every metadata/ dir under this run, whether flat or nested by attempt."""
-    run_dir = Path(run_dir)
-    metadata_dirs = []
-
-    direct = run_dir / "metadata"
-    if direct.is_dir():
-        metadata_dirs.append((None, direct))
-
-    for attempt_dir in sorted(run_dir.glob("attempt*")):
-        meta = attempt_dir / "metadata"
-        if meta.is_dir():
-            metadata_dirs.append((attempt_dir.name, meta))
-
-    return metadata_dirs
 
 
 def parse_metadata_dir(metadata_dir):
@@ -99,12 +78,11 @@ def parse_metadata_dir(metadata_dir):
 
 def parse_csloop_run(run_dir):
     run_dir = Path(run_dir)
+    metadata_dir = run_dir / "loop" / "metadata"
     rows = []
-    for attempt_name, metadata_dir in find_attempt_dirs(run_dir):
-        for row in parse_metadata_dir(metadata_dir):
-            row["run_dir"] = str(run_dir)
-            row["attempt"] = attempt_name or "single"
-            rows.append(row)
+    for row in parse_metadata_dir(metadata_dir):
+        row["run_dir"] = str(run_dir)
+        rows.append(row)
     return rows
 
 
@@ -114,7 +92,11 @@ def parse_all_csloop(experiments_root):
     for day_dir in sorted(experiments_root.iterdir()):
         if not day_dir.is_dir():
             continue
-        for run_dir in sorted(day_dir.glob("csloop-*")):
+        for run_dir in sorted(day_dir.iterdir()):
+            if not run_dir.is_dir():
+                continue
+            if not (run_dir / "loop" / "metadata" / "manifest.toml").exists():
+                continue
             rows = parse_csloop_run(run_dir)
             if not rows:
                 print(f"  (skipping {run_dir} — no usable metadata found)")

@@ -1,6 +1,12 @@
 #!/usr/bin/env python3.10
-"""Generate the paper figures + summary tables for the ccworkflow-vs-csloop
-evaluation of the mcfm-translate transformation.
+"""Generate the paper figures + summary tables for the 08-11/08-12-2026
+evaluation of the mcfm-translate transformation: ccworkflow (sonnet-5 author /
+opus-5 integrate) vs. csloop (opus-5, opus-5 +reasoning x2, and Kimi K3.5).
+
+"Files settled" throughout is the exact count from git_file_counts.py (the
+software/mcfm submodule branch for each run), not the agent's own in-loop
+checklist in agent_log.md — the two can disagree (see git_file_counts.py's
+docstring), and the submodule diff is ground truth.
 
 Run with: python3.10 analysis/generate_graphs.py
 (Needs Python 3.10+ for tomllib, or `pip install tomli` on older Pythons.)
@@ -10,7 +16,8 @@ Reads only from experiments/ (read-only). Writes, under analysis/figures/:
   fig2_reasoning_tool_calls.png  - standalone, compact
   fig3_coverage.png              - standalone, compact
   fig4_wall_time.png             - standalone, compact
-  fig_combined.png               - all 7 panels together, for single-figure use in a paper
+  fig5_tool_calls_per_file.png   - standalone, compact
+  fig_combined.png               - all panels together, for single-figure use in a paper
 and analysis/summary_tables.md (the numeric source of truth behind every panel).
 
 Every plotting function below draws onto an Axes it's given (draw_*), so the
@@ -32,8 +39,8 @@ sys.path.insert(0, str(Path(__file__).parent))
 from parse_ccworkflow import parse_all_ccworkflow
 from parse_csloop import parse_all_csloop
 from parse_coverage import coverage_for_run
-from pricing import cost
-from known_gaps import MISSING_CCWORKFLOW_AGENTS, WALL_TIME_OVERRIDE_SECONDS
+from pricing import cost, PRICING
+from git_file_counts import translated_file_count
 
 REPO_ROOT = Path(__file__).parent.parent
 EXPERIMENTS = REPO_ROOT / "experiments"
@@ -106,34 +113,39 @@ plt.rcParams.update(
 )
 
 # ---------------------------------------------------------------------------
-# Run identity / labeling
+# Run identity / labeling — 08-11-2026 and 08-12-2026
 # ---------------------------------------------------------------------------
+DAY = "08-12-2026"  # the day used by the csloop with-reasoning/run2 comparison below
 RUN_LABELS = {
-    ("07-24-2028", "ccworkflow-sonnet-4-6-effort-high"): "ccworkflow (run A)",
-    ("07-24-2028", "csloop-opus-4-6-with-reasoning"): "csloop opus-4-6 +reasoning",
-    ("07-24-2028", "csloop-opus-4-6-without-reasoning"): "csloop opus-4-6 no-reasoning",
-    ("07-25-2028", "ccworkflow-sonnet-4-6-effort-high"): "ccworkflow (run B)",
-    ("07-25-2028", "csloop-sonnet-4-6-with-reasoning"): "csloop sonnet-4-6 +reasoning",
+    ("08-11-2026", "csloop-opus-5"): "csloop opus-5 (08-11)",
+    ("08-11-2026", "csloop-opus-5-with-reasoning"): "csloop opus-5 +reasoning (08-11)",
+    ("08-12-2026", "ccworkflow-sonnet-5-opus-5-integrate"): "ccworkflow (sonnet-5 author, opus-5 integrate)",
+    ("08-12-2026", "codescribe-opus-5-run2"): "csloop opus-5 (run2, 08-12)",
+    ("08-12-2026", "codescribe-opus-5-with-reasoning"): "csloop opus-5 +reasoning (08-12)",
+    ("08-12-2026", "codescribe-kimi-k3-5"): "csloop Kimi K3.5",
 }
-# Short x-axis codes (keeps bars compact and avoids label collisions); figures
-# caption the full mapping once, below the plot.
+# Short x-axis codes — keeps bars legible even in the compact standalone
+# figures; each figure captions the full mapping once, below the plot.
 RUN_CODES = {
-    ("07-24-2028", "ccworkflow-sonnet-4-6-effort-high"): "R1",
-    ("07-24-2028", "csloop-opus-4-6-with-reasoning"): "R2",
-    ("07-24-2028", "csloop-opus-4-6-without-reasoning"): "R3",
-    ("07-25-2028", "ccworkflow-sonnet-4-6-effort-high"): "R4",
-    ("07-25-2028", "csloop-sonnet-4-6-with-reasoning"): "R5",
+    ("08-11-2026", "csloop-opus-5"): "R1",
+    ("08-11-2026", "csloop-opus-5-with-reasoning"): "R2",
+    ("08-12-2026", "ccworkflow-sonnet-5-opus-5-integrate"): "R3",
+    ("08-12-2026", "codescribe-opus-5-run2"): "R4",
+    ("08-12-2026", "codescribe-opus-5-with-reasoning"): "R5",
+    ("08-12-2026", "codescribe-kimi-k3-5"): "R6",
 }
 RUN_CODE_CAPTION = (
-    "R1 = ccworkflow (run A)  |  R2 = csloop opus-4-6 +reasoning  |  "
-    "R3 = csloop opus-4-6 no-reasoning  |  R4 = ccworkflow (run B)  |  "
-    "R5 = csloop sonnet-4-6 +reasoning"
+    "R1 = csloop opus-5 (08-11)  |  R2 = csloop opus-5 +reasoning (08-11)  |  "
+    "R3 = ccworkflow (sonnet-5 author, opus-5 integrate)  |  R4 = csloop opus-5 (run2, 08-12)  |  "
+    "R5 = csloop opus-5 +reasoning (08-12)  |  R6 = csloop Kimi K3.5"
 )
 KEYS = list(RUN_LABELS.keys())
-# Runs deliberately excluded from the figures because they never executed
-# (verified via parse_coverage.coverage_for_run -> "not-executed"):
-#   07-25-2028/csloop-gpt-5-4-effort-high               (planned, no GPT-5.4 run ever ran)
-#   07-25-2028/csloop-sonnet-4-6-with-reasoning-retries  (empty placeholder for a retry-hardened rerun)
+
+MODEL_COLOR = {
+    "claude-sonnet-5": CAT["blue"],
+    "claude-opus-5": CAT["violet"],
+}
+UNPRICED_COLOR = MUTED
 
 
 def normalize_model(model):
@@ -154,11 +166,6 @@ def _title(text, letter):
 def load_run_aggregates():
     cc_rows = parse_all_ccworkflow(EXPERIMENTS)
     cs_rows = parse_all_csloop(EXPERIMENTS)
-    # Patch in agents whose transcripts are missing from the archive but are
-    # documented in a corrected accounting for that run — see known_gaps.py.
-    # Without this, the 07-24 ccworkflow run's cost would be understated by
-    # more than half (it's missing the single largest cost line).
-    cc_rows = cc_rows + [dict(row, n_messages=None, tool_ok=None, tool_error=None) for row in MISSING_CCWORKFLOW_AGENTS]
 
     runs = {}
     for key in KEYS:
@@ -170,6 +177,7 @@ def load_run_aggregates():
             "cache_read": 0,
             "cost": 0.0,
             "cost_by_model": {},
+            "unpriced_models": set(),
         }
 
     for row in cc_rows + cs_rows:
@@ -182,13 +190,17 @@ def load_run_aggregates():
         r["output"] += row["output_tokens"]
         r["cache_write"] += row["cache_write_tokens"]
         r["cache_read"] += row["cache_read_tokens"]
-        c = cost(
-            model,
-            row["input_tokens"],
-            row["output_tokens"],
-            row["cache_write_tokens"],
-            row["cache_read_tokens"],
-        )
+        try:
+            c = cost(
+                model,
+                row["input_tokens"],
+                row["output_tokens"],
+                row["cache_write_tokens"],
+                row["cache_read_tokens"],
+            )
+        except KeyError:
+            r["unpriced_models"].add(model)
+            continue
         r["cost"] += c
         r["cost_by_model"][model] = r["cost_by_model"].get(model, 0.0) + c
 
@@ -196,8 +208,11 @@ def load_run_aggregates():
 
 
 def compute_reasoning_stats(cs_rows):
-    with_r = [r for r in cs_rows if r["run_name"] == "csloop-opus-4-6-with-reasoning"]
-    without_r = [r for r in cs_rows if r["run_name"] == "csloop-opus-4-6-without-reasoning"]
+    """csloop opus-5: +reasoning vs. run2 (the plain rerun) tool-call outcomes.
+    Not a strict ON/OFF pair (run2 isn't explicitly labeled "no reasoning"), so
+    panels below call this "with-reasoning vs. run2" rather than "ON vs OFF"."""
+    with_r = [r for r in cs_rows if r["day"] == DAY and r["run_name"] == "codescribe-opus-5-with-reasoning"]
+    run2 = [r for r in cs_rows if r["day"] == DAY and r["run_name"] == "codescribe-opus-5-run2"]
 
     def agg(rows):
         ok = sum(r["tool_ok"] for r in rows)
@@ -205,18 +220,12 @@ def compute_reasoning_stats(cs_rows):
         rejected = sum(r["tool_rejected"] for r in rows)
         return {"ok": ok, "errors": errors, "rejected": rejected, "total": ok + errors + rejected}
 
-    return {"with_reasoning": agg(with_r), "without_reasoning": agg(without_r)}
+    return {"with_reasoning": agg(with_r), "run2": agg(run2)}
 
 
 def _ccworkflow_wall_time_seconds(day, run_name):
     """Span between the first and last assistant-message timestamp across all
-    agent-*.jsonl files in the run's workflow-wf_* dir. Falls back to a
-    documented override where the archive is known to be missing agents
-    (see known_gaps.WALL_TIME_OVERRIDE_SECONDS)."""
-    key = (day, run_name)
-    if key in WALL_TIME_OVERRIDE_SECONDS:
-        return WALL_TIME_OVERRIDE_SECONDS[key]
-
+    agent-*.jsonl files in the run's workflow-wf_* dir."""
     import json as _json
     from datetime import datetime as _dt
 
@@ -242,11 +251,9 @@ def _ccworkflow_wall_time_seconds(day, run_name):
 
 
 def _csloop_wall_time_seconds(cs_rows, day, run_name):
-    """Sum of per-loop duration_s across all attempts. csloop runs one loop at
-    a time (no intra-run parallelism), so this sum approximates true elapsed
-    engine time within a session — it does not include gaps between crashed
-    attempts (waiting for a human to notice and resume), which is a real but
-    separate cost, reported alongside coverage in the write-up."""
+    """Sum of per-loop duration_s across author+review phases. csloop runs
+    one loop at a time (no intra-run parallelism), so this sum approximates
+    true elapsed engine time within a session."""
     return sum(r["duration_s"] for r in cs_rows if r["day"] == day and r["run_name"] == run_name)
 
 
@@ -260,13 +267,48 @@ def load_wall_times(cs_rows):
     return wall_times
 
 
+def total_tool_calls(cc_rows, cs_rows, day, run_name):
+    """Executed tool calls (ok + error), excluding policy-rejected calls that
+    never ran, so the count is comparable across harnesses."""
+    if "ccworkflow" in run_name:
+        return sum(
+            r["tool_ok"] + r["tool_error"]
+            for r in cc_rows
+            if r["day"] == day and r["run_name"] == run_name
+        )
+    return sum(
+        r["tool_executed"]
+        for r in cs_rows
+        if r["day"] == day and r["run_name"] == run_name
+    )
+
+
+def load_files_settled():
+    """Exact translated-file count per run, from the software/mcfm submodule
+    branch (git_file_counts.py) — not the agent's self-reported checklist."""
+    return {key: translated_file_count(*key) for key in KEYS}
+
+
+def load_tool_calls_per_file(cc_rows, cs_rows, files_settled):
+    result = {}
+    for key in KEYS:
+        day, run_name = key
+        calls = total_tool_calls(cc_rows, cs_rows, day, run_name)
+        files = files_settled[key]
+        result[key] = {
+            "tool_calls": calls,
+            "files_settled": files,
+            "per_file": (calls / files) if files else None,
+        }
+    return result
+
+
 # ---------------------------------------------------------------------------
 # Panel A — total cost by model
 # ---------------------------------------------------------------------------
 def draw_cost_panel(ax, runs, letter=None):
     labels = [RUN_CODES[k] for k in KEYS]
     x = range(len(KEYS))
-    bar_colors = {"claude-sonnet-4-6": CAT["blue"], "claude-opus-4-6": CAT["violet"]}
 
     all_models_seen = []
     for k in KEYS:
@@ -277,20 +319,24 @@ def draw_cost_panel(ax, runs, letter=None):
     bottoms = [0.0] * len(KEYS)
     for model in all_models_seen:
         heights = [runs[k]["cost_by_model"].get(model, 0.0) for k in KEYS]
-        ax.bar(x, heights, bottom=bottoms, width=0.6, color=bar_colors.get(model, CAT["aqua"]),
+        ax.bar(x, heights, bottom=bottoms, width=0.6, color=MODEL_COLOR.get(model, CAT["aqua"]),
                edgecolor=SURFACE, linewidth=1)
         bottoms = [b + h for b, h in zip(bottoms, heights)]
 
-    for xi, total in zip(x, bottoms):
-        ax.text(xi, total + max(bottoms) * 0.03, f"${total:.0f}", ha="center", va="bottom",
+    for xi, k in zip(x, KEYS):
+        total = bottoms[xi]
+        label = f"${total:.2f}"
+        if runs[k]["unpriced_models"]:
+            label += "\n(+ unpriced tokens)"
+        ax.text(xi, total + max(bottoms) * 0.03, label, ha="center", va="bottom",
                 fontsize=ANNOT_SIZE, color=INK_SECONDARY)
 
     ax.set_xticks(list(x))
     ax.set_xticklabels(labels)
     ax.set_ylabel("USD (proxy rates)")
     ax.set_title(_title("Total cost by model", letter))
-    ax.set_ylim(0, max(bottoms) * 1.22)
-    handles = [mpatches.Patch(color=bar_colors.get(m, CAT["aqua"]), label=m) for m in all_models_seen]
+    ax.set_ylim(0, max(bottoms) * 1.3)
+    handles = [mpatches.Patch(color=MODEL_COLOR.get(m, CAT["aqua"]), label=m) for m in all_models_seen]
     ax.legend(handles=handles, loc="upper center", frameon=False)
 
 
@@ -318,15 +364,15 @@ def draw_cache_panel(ax, runs, letter=None):
 
 
 # ---------------------------------------------------------------------------
-# Panel C/D — reasoning ON vs OFF tool-call outcomes (opus-4-6)
+# Panel C/D — csloop opus-5: +reasoning vs. run2 tool-call outcomes
 # ---------------------------------------------------------------------------
 def draw_reasoning_counts_panel(ax, stats, letter=None):
-    labels = ["reasoning ON\n(3 loops)", "reasoning OFF\n(15 loops, 4 attempts)"]
+    labels = ["opus-5\n+reasoning", "opus-5\nrun2"]
     x = [0, 1]
     outcome_colors = {"ok": STATUS["good"], "errors": STATUS["critical"], "rejected": STATUS["warning"]}
-    ok_vals = [stats["with_reasoning"]["ok"], stats["without_reasoning"]["ok"]]
-    err_vals = [stats["with_reasoning"]["errors"], stats["without_reasoning"]["errors"]]
-    rej_vals = [stats["with_reasoning"]["rejected"], stats["without_reasoning"]["rejected"]]
+    ok_vals = [stats["with_reasoning"]["ok"], stats["run2"]["ok"]]
+    err_vals = [stats["with_reasoning"]["errors"], stats["run2"]["errors"]]
+    rej_vals = [stats["with_reasoning"]["rejected"], stats["run2"]["rejected"]]
 
     ax.bar(x, ok_vals, width=0.5, color=outcome_colors["ok"], label="ok")
     ax.bar(x, err_vals, width=0.5, bottom=ok_vals, color=outcome_colors["errors"], label="errors")
@@ -335,12 +381,12 @@ def draw_reasoning_counts_panel(ax, stats, letter=None):
     ax.set_xticks(x)
     ax.set_xticklabels(labels)
     ax.set_ylabel("Tool calls (count)")
-    ax.set_title(_title("Reasoning ON/OFF: raw tool-call outcomes", letter))
+    ax.set_title(_title("csloop opus-5: raw tool-call outcomes", letter))
     ax.legend(frameon=False, loc="upper left")
 
 
 def draw_reasoning_rate_panel(ax, stats, letter=None):
-    labels = ["reasoning ON", "reasoning OFF"]
+    labels = ["opus-5\n+reasoning", "opus-5\nrun2"]
     x = [0, 1]
     outcome_colors = {"ok": STATUS["good"], "errors": STATUS["critical"], "rejected": STATUS["warning"]}
 
@@ -348,7 +394,7 @@ def draw_reasoning_rate_panel(ax, stats, letter=None):
         tot = stats[cond]["total"] or 1
         return (100 * stats[cond]["ok"] / tot, 100 * stats[cond]["errors"] / tot, 100 * stats[cond]["rejected"] / tot)
 
-    r_ok, r_err, r_rej = zip(*[rates("with_reasoning"), rates("without_reasoning")])
+    r_ok, r_err, r_rej = zip(*[rates("with_reasoning"), rates("run2")])
     ax.bar(x, r_ok, width=0.5, color=outcome_colors["ok"])
     ax.bar(x, r_err, width=0.5, bottom=r_ok, color=outcome_colors["errors"])
     bottom2 = [a + b for a, b in zip(r_ok, r_err)]
@@ -359,17 +405,17 @@ def draw_reasoning_rate_panel(ax, stats, letter=None):
     ax.set_xticklabels(labels)
     ax.set_ylabel("Share of tool calls (%)")
     ax.set_ylim(0, 118)
-    ax.set_title(_title("Reasoning ON/OFF: outcome rate", letter))
+    ax.set_title(_title("csloop opus-5: outcome rate", letter))
 
 
 # ---------------------------------------------------------------------------
 # Panel E — files translated
 # ---------------------------------------------------------------------------
-def draw_files_panel(ax, coverage, letter=None):
+def draw_files_panel(ax, files_settled, letter=None):
     labels = [RUN_CODES[k] for k in KEYS]
     x = list(range(len(KEYS)))
     harness_color = {"ccworkflow": CAT["blue"], "csloop": CAT["orange"]}
-    settled = [coverage[k]["files_settled"] for k in KEYS]
+    settled = [files_settled[k] or 0 for k in KEYS]
     colors = [harness_color["ccworkflow"] if "ccworkflow" in k[1] else harness_color["csloop"] for k in KEYS]
 
     ax.bar(x, settled, width=0.6, color=colors, edgecolor=SURFACE, linewidth=1)
@@ -377,7 +423,7 @@ def draw_files_panel(ax, coverage, letter=None):
         ax.text(xi, s + max(settled) * 0.03, str(s), ha="center", fontsize=ANNOT_SIZE, color=INK_SECONDARY)
     ax.set_xticks(x)
     ax.set_xticklabels(labels)
-    ax.set_ylabel("Files settled")
+    ax.set_ylabel("Files settled (git-exact)")
     ax.set_ylim(0, max(settled) * 1.2)
     ax.set_title(_title("Files translated", letter))
     handles = [
@@ -388,40 +434,25 @@ def draw_files_panel(ax, coverage, letter=None):
 
 
 # ---------------------------------------------------------------------------
-# Panel F — claimed vs. verified correctness
+# Panel F — claimed correctness (self-reported; no human_review present for
+# these runs, so there's no verified-vs-claimed comparison to draw here)
 # ---------------------------------------------------------------------------
 def draw_correctness_panel(ax, coverage, letter=None):
-    # Only where data exists. Labeled with the raw n/m fraction (not just %)
-    # because the denominators genuinely differ across runs (272-test suite
-    # vs. a 90-test partial run) — a percent-only label would hide that.
-    plot_keys = [k for k in KEYS if coverage[k]["self_reported_pass"] or coverage[k]["human_verified_pass"]]
+    plot_keys = [k for k in KEYS if coverage[k]["self_reported_pass"]]
     px = list(range(len(plot_keys)))
-    width = 0.35
 
     for i, k in enumerate(plot_keys):
         sp = coverage[k]["self_reported_pass"]
-        vp = coverage[k]["human_verified_pass"]
-        if sp is not None:
-            pct = 100 * sp[0] / sp[1]
-            ax.bar(i - width / 2, pct, width=width, color=CAT["blue"], hatch="///", edgecolor=INK_SECONDARY,
-                   linewidth=0.5, label="self-reported" if i == 0 else None)
-            ax.text(i - width / 2, pct + 3, f"{sp[0]}/{sp[1]}", ha="center", va="bottom",
-                    fontsize=ANNOT_SIZE - 0.3, color=INK_SECONDARY)
-        if vp is not None:
-            pct = 100 * vp[0] / vp[1]
-            ax.bar(i + width / 2, pct, width=width, color=STATUS["good"], edgecolor=SURFACE, linewidth=0.5,
-                   label="verified" if i == 0 else None)
-            ax.text(i + width / 2, pct + 3, f"{vp[0]}/{vp[1]}", ha="center", va="bottom",
-                    fontsize=ANNOT_SIZE - 0.3, color=INK_SECONDARY)
+        pct = 100 * sp[0] / sp[1]
+        ax.bar(i, pct, width=0.5, color=CAT["blue"], edgecolor=SURFACE, linewidth=0.5)
+        ax.text(i, pct + 3, f"{sp[0]}/{sp[1]}", ha="center", va="bottom",
+                fontsize=ANNOT_SIZE, color=INK_SECONDARY)
 
-    # R5 (rightmost) has only a verified bar reaching ~49%, leaving its top
-    # quadrant empty — that's where the legend sits, clear of every label.
     ax.set_xticks(px)
     ax.set_xticklabels([RUN_CODES[k] for k in plot_keys])
     ax.set_ylabel("mcfm test pass rate (%)")
     ax.set_ylim(0, 122)
-    ax.set_title(_title("Claimed vs. verified correctness", letter))
-    ax.legend(frameon=False, loc="center right", bbox_to_anchor=(1.0, 0.62))
+    ax.set_title(_title("Self-reported correctness", letter))
 
 
 # ---------------------------------------------------------------------------
@@ -450,11 +481,36 @@ def draw_wall_time_panel(ax, wall_times, letter=None):
 
 
 # ---------------------------------------------------------------------------
+# Panel H — tool calls per file settled
+# ---------------------------------------------------------------------------
+def draw_tool_calls_per_file_panel(ax, tool_calls_per_file, letter=None):
+    labels = [RUN_CODES[k] for k in KEYS]
+    x = list(range(len(KEYS)))
+    harness_color = {"ccworkflow": CAT["blue"], "csloop": CAT["orange"]}
+    per_file = [tool_calls_per_file[k]["per_file"] or 0 for k in KEYS]
+    colors = [harness_color["ccworkflow"] if "ccworkflow" in k[1] else harness_color["csloop"] for k in KEYS]
+
+    ax.bar(x, per_file, width=0.5, color=colors, edgecolor=SURFACE, linewidth=1)
+    for xi, k in zip(x, KEYS):
+        v = tool_calls_per_file[k]
+        ax.text(xi, (v["per_file"] or 0) + max(per_file) * 0.03, f"{v['per_file']:.0f}",
+                ha="center", fontsize=ANNOT_SIZE, color=INK_SECONDARY)
+    ax.set_xticks(x)
+    ax.set_xticklabels(labels)
+    ax.set_ylabel("Tool calls per file settled")
+    ax.set_ylim(0, max(per_file) * 1.25)
+    ax.set_title(_title("Tool-call cost per file", letter))
+    handles = [
+        mpatches.Patch(color=harness_color["ccworkflow"], label="ccworkflow"),
+        mpatches.Patch(color=harness_color["csloop"], label="csloop"),
+    ]
+    ax.legend(handles=handles, loc="upper right", frameon=False, ncol=2)
+
+
+# ---------------------------------------------------------------------------
 # Standalone compact figures
 # ---------------------------------------------------------------------------
 def save_fig(fig, name, caption_lines):
-    # Reserve real vertical space per caption line (each line is drawn from
-    # the bottom edge upward) instead of stacking them a hairline apart.
     line_gap = 0.05
     for i, line in enumerate(reversed(caption_lines)):
         fig.text(0.5, 0.01 + i * line_gap, line, ha="center", fontsize=CAPTION_SIZE, color=INK, wrap=True)
@@ -464,60 +520,66 @@ def save_fig(fig, name, caption_lines):
     print(f"wrote {out}")
 
 
-def make_standalone_figures(runs, coverage, reasoning_stats, wall_times):
+def make_standalone_figures(runs, coverage, files_settled, reasoning_stats, wall_times, tool_calls_per_file):
     # Fig 1 — cost & cache
-    fig, (a1, a2) = plt.subplots(1, 2, figsize=(7.6, 3.9))
+    fig, (a1, a2) = plt.subplots(1, 2, figsize=(8.2, 4.2))
     fig.suptitle("Token cost & cache efficiency", fontsize=SUPTITLE_SIZE)
     draw_cost_panel(a1, runs)
     draw_cache_panel(a2, runs)
     fig.tight_layout(rect=[0, 0.20, 1, 0.90])
     save_fig(fig, "fig1_cost_and_cache.png", [
         RUN_CODE_CAPTION,
-        "R1's opus-4-6 cost includes 2 agents missing from its archive, taken from a corrected accounting.",
+        "Kimi K3.5 is not an Anthropic model and is excluded from USD cost (no rate card here on purpose).",
     ])
 
-    # Fig 2 — reasoning on/off
+    # Fig 2 — csloop opus-5: +reasoning vs run2
     fig, (a1, a2) = plt.subplots(1, 2, figsize=(7.6, 3.9))
-    fig.suptitle("Reasoning ON vs OFF — csloop, opus-4-6", fontsize=SUPTITLE_SIZE)
+    fig.suptitle("csloop opus-5: +reasoning vs. run2", fontsize=SUPTITLE_SIZE)
     draw_reasoning_counts_panel(a1, reasoning_stats)
     draw_reasoning_rate_panel(a2, reasoning_stats)
     fig.tight_layout(rect=[0, 0.16, 1, 0.90])
     save_fig(fig, "fig2_reasoning_tool_calls.png", [
-        "Billed reasoning tokens are 0 in every loop regardless of the flag; bars show tool-call outcomes instead.",
+        "run2 is a plain rerun, not an explicit reasoning-OFF condition — comparison shown as-is.",
     ])
 
     # Fig 3 — coverage
     fig, (a1, a2) = plt.subplots(1, 2, figsize=(7.6, 3.9))
     fig.suptitle("Coverage & correctness", fontsize=SUPTITLE_SIZE)
-    draw_files_panel(a1, coverage)
+    draw_files_panel(a1, files_settled)
     draw_correctness_panel(a2, coverage)
     fig.tight_layout(rect=[0, 0.16, 1, 0.90])
-    save_fig(fig, "fig3_coverage.png", [RUN_CODE_CAPTION])
+    save_fig(fig, "fig3_coverage.png", [
+        RUN_CODE_CAPTION,
+        "No human_review files exist for these runs, so only self-reported pass rates are shown.",
+    ])
 
-    # Fig 4 — wall time (single panel: skip the ax-level title, the suptitle covers it)
-    fig, a1 = plt.subplots(figsize=(4.6, 3.9))
+    # Fig 4 — wall time
+    fig, a1 = plt.subplots(figsize=(5.2, 4.0))
     fig.suptitle("Wall-clock time", fontsize=SUPTITLE_SIZE)
     draw_wall_time_panel(a1, wall_times)
     a1.set_title("")
     fig.tight_layout(rect=[0, 0.22, 1, 0.90])
     save_fig(fig, "fig4_wall_time.png", [
-        "R1 uses a documented session span (partial archive); csloop bars sum per-loop duration, "
-        "excluding crash/resume gaps.",
+        RUN_CODE_CAPTION,
+        "ccworkflow: span of first-to-last agent timestamp. csloop: sum of per-loop duration_s.",
+    ])
+
+    # Fig 5 — tool calls per file
+    fig, a1 = plt.subplots(figsize=(5.2, 4.0))
+    fig.suptitle("Tool-call cost per file", fontsize=SUPTITLE_SIZE)
+    draw_tool_calls_per_file_panel(a1, tool_calls_per_file)
+    a1.set_title("")
+    fig.tight_layout(rect=[0, 0.22, 1, 0.90])
+    save_fig(fig, "fig5_tool_calls_per_file.png", [
+        RUN_CODE_CAPTION,
+        "Executed tool calls (ok + error) divided by files settled (git-exact count, git_file_counts.py).",
     ])
 
 
 # ---------------------------------------------------------------------------
-# Combined single figure — 6 panels, for one-figure-per-paper use.
-# The correctness panel (claimed vs. verified) is intentionally left out here
-# — it stays a standalone figure (fig3_coverage.png) since its claimed/
-# verified nuance deserves its own caption rather than competing for space.
+# Combined single figure
 # ---------------------------------------------------------------------------
 def _bump_fonts_for_combined(scale=1.15):
-    """Combined panels are physically larger than the compact standalone
-    ones, so bump text a bit for readability, and darken ticks/axis labels/
-    legend text (base theme keeps these a secondary gray) to full black for
-    print contrast. Called once, after the compact standalone figures are
-    already saved at their base sizes/colors."""
     global ANNOT_SIZE
     plt.rcParams.update({
         "font.size": LABEL_SIZE * scale,
@@ -534,29 +596,27 @@ def _bump_fonts_for_combined(scale=1.15):
     ANNOT_SIZE = ANNOT_SIZE * scale
 
 
-def make_combined_figure(runs, coverage, reasoning_stats, wall_times):
-    fig = plt.figure(figsize=(10.5, 9.8))
-    gs = fig.add_gridspec(3, 2, hspace=0.38, wspace=0.32, top=0.93, bottom=0.07, left=0.08, right=0.98)
+def make_combined_figure(runs, coverage, files_settled, reasoning_stats, wall_times, tool_calls_per_file):
+    fig = plt.figure(figsize=(11, 13.5))
+    gs = fig.add_gridspec(4, 2, hspace=0.55, wspace=0.32, top=0.94, bottom=0.05, left=0.09, right=0.98)
 
     draw_cost_panel(fig.add_subplot(gs[0, 0]), runs, letter="(a)")
     draw_cache_panel(fig.add_subplot(gs[0, 1]), runs, letter="(b)")
     draw_reasoning_counts_panel(fig.add_subplot(gs[1, 0]), reasoning_stats, letter="(c)")
     draw_reasoning_rate_panel(fig.add_subplot(gs[1, 1]), reasoning_stats, letter="(d)")
-    draw_files_panel(fig.add_subplot(gs[2, 0]), coverage, letter="(e)")
+    draw_files_panel(fig.add_subplot(gs[2, 0]), files_settled, letter="(e)")
     draw_wall_time_panel(fig.add_subplot(gs[2, 1]), wall_times, letter="(f)")
+    draw_tool_calls_per_file_panel(fig.add_subplot(gs[3, 0]), tool_calls_per_file, letter="(g)")
+    draw_correctness_panel(fig.add_subplot(gs[3, 1]), coverage, letter="(h)")
 
     fig.suptitle(
-        "ccworkflow vs. csloop on transformations/mcfm-translate: cost, reasoning & coverage",
+        "08-11/08-12-2026: ccworkflow vs. csloop on mcfm-translate — cost, cache, tool calls & coverage",
         fontsize=SUPTITLE_SIZE + 2,
         y=0.985,
     )
-    # Split into two lines (rather than relying on matplotlib's wrap=True,
-    # which under-wraps center-aligned text) so the caption never runs past
-    # the figure width.
-    caption_line1 = "R1 = ccworkflow (run A)  |  R2 = csloop opus-4-6 +reasoning  |  R3 = csloop opus-4-6 no-reasoning"
-    caption_line2 = "R4 = ccworkflow (run B)  |  R5 = csloop sonnet-4-6 +reasoning"
-    fig.text(0.5, 0.03, caption_line1, ha="center", fontsize=CAPTION_SIZE * 1.55, color=INK)
-    fig.text(0.5, 0.005, caption_line2, ha="center", fontsize=CAPTION_SIZE * 1.55, color=INK)
+    fig.text(0.5, 0.025, RUN_CODE_CAPTION, ha="center", fontsize=CAPTION_SIZE * 1.55, color=INK)
+    fig.text(0.5, 0.005, "Kimi K3.5 tokens are excluded from USD cost (non-Anthropic, no rate card here).",
+              ha="center", fontsize=CAPTION_SIZE * 1.55, color=INK)
 
     out = FIGURES_DIR / "fig_combined.png"
     fig.savefig(out, dpi=300, bbox_inches="tight")
@@ -567,26 +627,71 @@ def make_combined_figure(runs, coverage, reasoning_stats, wall_times):
 # ---------------------------------------------------------------------------
 # Summary tables (markdown) — single source of numeric truth for the write-up
 # ---------------------------------------------------------------------------
-def write_summary_tables(runs, coverage, reasoning_stats, wall_times):
+def write_summary_tables(runs, coverage, files_settled, reasoning_stats, wall_times, tool_calls_per_file):
     lines = ["# Summary tables (generated by analysis/generate_graphs.py — do not hand-edit)\n"]
 
-    lines.append("## Token usage, cost & wall time by run\n")
-    lines.append("| Run | Input | Output | Cache write | Cache read | Cost (USD, proxy rates) | Wall time |")
-    lines.append("|---|---:|---:|---:|---:|---:|---:|")
+    lines.append("## Run comparison: cost, cache, wall time, tool calls & files settled\n")
+    lines.append(
+        "| Run | Cost (USD, proxy rates) | Cache-read share | Wall time | Tool calls / file | "
+        "Files settled (git-exact) | Time / file | Cost / file |"
+    )
+    lines.append("|---|---:|---:|---:|---:|---:|---:|---:|")
+    for k in KEYS:
+        r = runs[k]
+        wt = wall_times.get(k)
+        t = tool_calls_per_file[k]
+        files = files_settled[k]
+        total_input_side = r["input"] + r["cache_write"] + r["cache_read"]
+        share = 100.0 * r["cache_read"] / total_input_side if total_input_side else 0.0
+        cost_str = f"${r['cost']:.2f}"
+        if r["unpriced_models"]:
+            cost_str += " (n/a, non-Anthropic)"
+        wt_str = f"{wt/60:.0f} min" if wt else "unknown"
+        per_file_str = f"{t['per_file']:.1f}" if t["per_file"] is not None else "—"
+        time_per_file_str = f"{wt/60/files:.1f} min" if (wt and files) else "—"
+        if files and not r["unpriced_models"]:
+            cost_per_file_str = f"${r['cost']/files:.2f}"
+        elif r["unpriced_models"]:
+            cost_per_file_str = "n/a"
+        else:
+            cost_per_file_str = "—"
+        lines.append(
+            f"| {RUN_LABELS[k].replace(chr(10), ' ')} | {cost_str} | {share:.0f}% | {wt_str} | "
+            f"{per_file_str} | {files if files is not None else '—'} | {time_per_file_str} | {cost_per_file_str} |"
+        )
+    lines.append("")
+
+    lines.append("## Token usage, cost, cache & wall time detail\n")
+    lines.append("| Run | Input | Output | Cache write | Cache read | Cache-read share | Cost (USD, proxy rates) | Wall time |")
+    lines.append("|---|---:|---:|---:|---:|---:|---:|---:|")
     for k in KEYS:
         r = runs[k]
         wt = wall_times.get(k)
         wt_str = f"{wt/60:.0f} min" if wt else "unknown"
+        total_input_side = r["input"] + r["cache_write"] + r["cache_read"]
+        share = 100.0 * r["cache_read"] / total_input_side if total_input_side else 0.0
+        cost_str = f"${r['cost']:.2f}"
+        if r["unpriced_models"]:
+            cost_str += f" (+ tokens from {', '.join(sorted(r['unpriced_models']))}, not priced)"
         lines.append(
-            f"| {RUN_LABELS[k]} | {r['input']:,} | {r['output']:,} | "
-            f"{r['cache_write']:,} | {r['cache_read']:,} | ${r['cost']:.2f} | {wt_str} |"
+            f"| {RUN_LABELS[k].replace(chr(10), ' ')} | {r['input']:,} | {r['output']:,} | "
+            f"{r['cache_write']:,} | {r['cache_read']:,} | {share:.0f}% | {cost_str} | {wt_str} |"
         )
     lines.append("")
 
-    lines.append("## Reasoning ON vs OFF — csloop opus-4-6 tool-call outcomes\n")
+    lines.append("## Cost by model\n")
+    lines.append("| Run | " + " | ".join(sorted(PRICING.keys())) + " |")
+    lines.append("|---|" + "---:|" * len(PRICING))
+    for k in KEYS:
+        r = runs[k]
+        cells = [f"${r['cost_by_model'].get(m, 0.0):.2f}" for m in sorted(PRICING.keys())]
+        lines.append(f"| {RUN_LABELS[k].replace(chr(10), ' ')} | " + " | ".join(cells) + " |")
+    lines.append("")
+
+    lines.append("## csloop opus-5: +reasoning vs. run2 tool-call outcomes (08-12-2026)\n")
     lines.append("| Condition | ok | errors | rejected | total | error rate | rejected rate |")
     lines.append("|---|---:|---:|---:|---:|---:|---:|")
-    for cond_key, cond_label in [("with_reasoning", "reasoning ON"), ("without_reasoning", "reasoning OFF")]:
+    for cond_key, cond_label in [("with_reasoning", "opus-5 +reasoning"), ("run2", "opus-5 run2")]:
         c = reasoning_stats[cond_key]
         tot = c["total"] or 1
         lines.append(
@@ -595,23 +700,13 @@ def write_summary_tables(runs, coverage, reasoning_stats, wall_times):
         )
     lines.append("")
 
-    lines.append("## Coverage & correctness by run\n")
-    lines.append("| Run | Status | Files settled | Self-reported pass | Human-verified pass |")
-    lines.append("|---|---|---:|---|---|")
+    lines.append("## Status & self-reported correctness\n")
+    lines.append("| Run | Status | Self-reported pass |")
+    lines.append("|---|---|---|")
     for k in KEYS:
         c = coverage[k]
         sp = f"{c['self_reported_pass'][0]}/{c['self_reported_pass'][1]}" if c["self_reported_pass"] else "—"
-        vp = f"{c['human_verified_pass'][0]}/{c['human_verified_pass'][1]}" if c["human_verified_pass"] else "—"
-        lines.append(f"| {RUN_LABELS[k]} | {c['final_status']} | {c['files_settled']} | {sp} | {vp} |")
-    lines.append("")
-
-    lines.append("## Runs excluded (never executed)\n")
-    for run_dir in [
-        "07-25-2028/csloop-gpt-5-4-effort-high",
-        "07-25-2028/csloop-sonnet-4-6-with-reasoning-retries",
-    ]:
-        c = coverage_for_run(EXPERIMENTS / run_dir)
-        lines.append(f"- `{run_dir}` — status: {c['final_status']} (no metadata, no agent_log.md, no logs)")
+        lines.append(f"| {RUN_LABELS[k].replace(chr(10), ' ')} | {c['final_status']} | {sp} |")
     lines.append("")
 
     out = Path(__file__).parent / "summary_tables.md"
@@ -627,15 +722,23 @@ def main():
     for k, c in coverage.items():
         print(f"{k}: {c}")
 
+    files_settled = load_files_settled()
+    for k, f in files_settled.items():
+        print(f"{k}: files settled (git-exact) = {f}")
+
     reasoning_stats = compute_reasoning_stats(cs_rows)
     wall_times = load_wall_times(cs_rows)
     for k, s in wall_times.items():
         print(f"{k}: wall time {s/60:.1f} min" if s else f"{k}: wall time unknown")
 
-    make_standalone_figures(runs, coverage, reasoning_stats, wall_times)
+    tool_calls_per_file = load_tool_calls_per_file(cc_rows, cs_rows, files_settled)
+    for k, t in tool_calls_per_file.items():
+        print(f"{k}: {t}")
+
+    make_standalone_figures(runs, coverage, files_settled, reasoning_stats, wall_times, tool_calls_per_file)
     _bump_fonts_for_combined()
-    make_combined_figure(runs, coverage, reasoning_stats, wall_times)
-    write_summary_tables(runs, coverage, reasoning_stats, wall_times)
+    make_combined_figure(runs, coverage, files_settled, reasoning_stats, wall_times, tool_calls_per_file)
+    write_summary_tables(runs, coverage, files_settled, reasoning_stats, wall_times, tool_calls_per_file)
 
 
 if __name__ == "__main__":
