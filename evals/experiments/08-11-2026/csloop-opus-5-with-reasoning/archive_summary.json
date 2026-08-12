@@ -1,0 +1,25 @@
+{
+  "experiment_name": "csloop-opus-5-with-reasoning",
+  "archive_created_at": "2026-08-12T02:24:25.329449+00:00",
+  "loop_source": ".codescribe",
+  "transformation_source": "dev/transformations/mcfm-translate",
+  "submodules": [
+    "software/mcfm"
+  ],
+  "archive_branch": "evals/08-11-2026/csloop-opus-5-with-reasoning",
+  "submodule_results": [
+    {
+      "repo": "software/mcfm",
+      "branch": "evals/08-11-2026/csloop-opus-5-with-reasoning",
+      "branch_action": "created",
+      "excluded_paths": [
+        "Bin",
+        "install"
+      ],
+      "committed": true,
+      "head": "5237f5980da05f1149eb90cfc9b1ce368cfd418d"
+    }
+  ],
+  "included_dev_tmp": false,
+  "cleanup_performed": true
+}

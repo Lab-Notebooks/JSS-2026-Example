@@ -1,0 +1,689 @@
+run_id = "20260811-205110-b320ce"
+loop_index = 2
+phase = "author"
+model = "anthropic-claude-opus-5"
+task_file = "/home/akash/Desktop/Akash/Projects/JSS-Paper-Example/dev/transformations/mcfm-translate/loop.toml"
+workdir = "/home/akash/Desktop/Akash/Projects/JSS-Paper-Example"
+stop_reason = "max_iterations"
+final_text_present = false
+iterations = 30
+duration_s = 543.801
+created_at = "2026-08-12T02:08:34.188997+00:00"
+[[tools]]
+name = "read"
+ok = true
+output_preview = "# path: /home/akash/Desktop/Akash/Projects/JSS-Paper-Example/dev/transformations/mcfm-translate/current_plan.md\n# lines: 1-182\n0001: # Fortran → C++ plan\n0002: \n0003: This file says how to run step 1. The rewrite rules and correctness bar are in\n0004: `desired_spec.md`.\n0005: \n0006: > This Plan is the policy: it selects and orders the work over the ready set (see *When to\n0007: > stop*). The correctness contract — objective `f`, invariants `I`, oracle `V`, and status set\n0008: > `Σ` — lives in `"
+
+[tools.args]
+path = "dev/transformations/mcfm-translate/current_plan.md"
+[[tools]]
+name = "read"
+ok = true
+output_preview = "# path: /home/akash/Desktop/Akash/Projects/JSS-Paper-Example/dev/transformations/mcfm-translate/desired_spec.md\n# lines: 1-144\n0001: # Fortran → C++: target output for one MCFM file\n0002: \n0003: This file defines the rewrite target and correctness bar for step 1. The workflow lives in\n0004: `current_plan.md`.\n0005: \n0006: Paths are written as `software/mcfm/src/...`.\n0007: \n0008: ---\n0009: \n0010: ## Contract\n0011: \n0012: This step advances by *settling* source files one at a time: each file is r"
+
+[tools.args]
+path = "dev/transformations/mcfm-translate/desired_spec.md"
+[[tools]]
+name = "read"
+ok = true
+output_preview = "# path: /home/akash/Desktop/Akash/Projects/JSS-Paper-Example/dev/transformations/mcfm-translate/agent_log.md\n# lines: 1-37\n0001: # mcfm-translate — agent log\n0002: \n0003: Worklist for the Fortran → C++ pass. Statuses follow `desired_spec.md` (`VERIFIED`,\n0004: `TRANSLATED`, `FAILED`). Paths are relative to the repository root.\n0005: \n0006: ## Ready set snapshot (after `python3 dev/workflow.py refresh`)\n0007: \n0008: - 531 source files, 86 translated, 445 untranslated\n0009: - 229 ready leaves (`de"
+
+[tools.args]
+path = "dev/transformations/mcfm-translate/agent_log.md"
+[[tools]]
+name = "read"
+ok = true
+output_preview = "# path: /home/akash/Desktop/Akash/Projects/JSS-Paper-Example/dev/transformations/mcfm-translate/current_plan.md\n# lines: 160-182\n0160: \n0161: If build or verification fails, keep fixing the current group unless the gate is blocking the\n0162: start of a later group.\n0163: \n0164: ## When to stop\n0165: \n0166: The *ready set* is the set of ready, not-yet-settled files. Each settled file leaves the\n0167: ready set and the readiness graph is acyclic, so the pass terminates. Stop only when one of\n0168:"
+
+[tools.args]
+path = "dev/transformations/mcfm-translate/current_plan.md"
+offset = 160
+[[tools]]
+name = "bash"
+ok = true
+output_preview = "exit_code: 0\nSTDOUT:\nGenerating Doxygen XML for /home/akash/Desktop/Akash/Projects/JSS-Paper-Example/software/mcfm/src -> /home/akash/Desktop/Akash/Projects/JSS-Paper-Example/software/mcfm/doxygen_dep/xml\nwrote 1133 XML file(s) to /home/akash/Desktop/Akash/Projects/JSS-Paper-Example/software/mcfm/doxygen_dep/xml\nsource 526  translated 86  untranslated 440\nready leaves (deps=0, non-blind): 225\nsymbol index: 915 symbol(s)\ncleanup candidates: move 74  shim-delete 15  merge 35\nwrote roadmap_metrics."
+
+[tools.args]
+command = "python3 dev/workflow.py refresh"
+timeout = 600
+[[tools]]
+name = "bash"
+ok = true
+output_preview = "exit_code: 2\nSTDOUT:\n\nSTDERR:\nerror: set MCFM_HOME first (source environment.sh)\n"
+
+[tools.args]
+command = "python3 dev/workflow.py verify software/mcfm/src/Z2jet/fmt.cpp -- u u~ e- e+ g g"
+timeout = 3600
+[[tools]]
+name = "bash"
+ok = true
+output_preview = "exit_code: 0\nSTDOUT:\ndev/tools/cleanup/analyze_cleanup.py:15:MCFM = os.environ.get(\"MCFM_HOME\", ROOT + \"/software/mcfm\")\ndev/tools/closure/calltree_closure.py:8:Needs a built tree and `MCFM_HOME`; `PEPPER_HOME` is used to find existing kernels.\ndev/tools/closure/calltree_closure.py:13:MCFM    = os.environ.get(\"MCFM_HOME\", ROOT + \"/software/mcfm\")\ndev/tools/kokkos/kokkosify.py:10:(or `MCFM_HOME` / `PEPPER_HOME`).\ndev/tools/kokkos/kokkosify.py:113:    mcfm = os.environ.get(\"MCFM_DIR\") or os.enviro"
+
+[tools.args]
+command = "grep -rn \"MCFM_HOME\" dev --include=*.py"
+[[tools]]
+name = "glob"
+ok = true
+output_preview = "environment.sh"
+
+[tools.args]
+pattern = "**/environment.sh"
+[[tools]]
+name = "read"
+ok = true
+output_preview = "# path: /home/akash/Desktop/Akash/Projects/JSS-Paper-Example/dev/tmp/verify_group.py\n# lines: 1-14\n0001: import os, subprocess, sys\n0002: \n0003: root = os.getcwd()\n0004: os.environ.setdefault(\"MCFM_HOME\", os.path.join(root, \"software/mcfm\"))\n0005: files = sys.argv[1:]\n0006: process = [\"u\", \"u~\", \"e-\", \"e+\", \"g\", \"g\"]\n0007: for f in files:\n0008:     print(\"=\" * 70)\n0009:     print(\"VERIFY\", f)\n0010:     r = subprocess.run([sys.executable, \"dev/workflow.py\", \"verify\", f, \"--\", *process],\n0011:    "
+
+[tools.args]
+path = "dev/tmp/verify_group.py"
+[[tools]]
+name = "read"
+ok = true
+output_preview = "# path: /home/akash/Desktop/Akash/Projects/JSS-Paper-Example/dev/tools/coverage/coverage_check.py\n# lines: 1-97\n0001: \"\"\"Coverage check — decide VERIFIED vs TRANSLATED for one rewritten MCFM file.\n0002: \n0003:   python3 coverage_check.py <target.cpp> -- <process args>\n0004: \n0005: Builds and tests once, scales the marked output statement, rebuilds and retests, then\n0006: restores the file and rebuilds clean. Changed output means `COVERED`; unchanged output\n0007: means `NOT COVERED`.\n0008: \n0009:"
+
+[tools.args]
+path = "dev/tools/coverage/coverage_check.py"
+[[tools]]
+name = "bash"
+ok = true
+output_preview = "exit_code: 0\nSTDOUT:\n======================================================================\nVERIFY software/mcfm/src/Z2jet/fmt.cpp\n== coverage check: software/mcfm/src/Z2jet/fmt.cpp ==\nprocess : u u~ e- e+ g g\nfactor  : 1.5\n-- baseline build + test --\n-- scaling the marked output by 1.5 --\n-- probed build + test --\n\nRESULT: NOT COVERED — the numbers did not change, so the test never ran this file.\n  Mark it TRANSLATED. Check again after a routine that calls it is rewritten.\n\nstderr: \nexit 1\n\nSTD"
+
+[tools.args]
+command = "python3 dev/tmp/verify_group.py software/mcfm/src/Z2jet/fmt.cpp"
+timeout = 3600
+[[tools]]
+name = "bash"
+ok = true
+output_preview = "exit_code: 0\nSTDOUT:\n======================================================================\nVERIFY software/mcfm/src/Z2jet/fzip.cpp\n== coverage check: software/mcfm/src/Z2jet/fzip.cpp ==\nprocess : u u~ e- e+ g g\nfactor  : 1.5\n-- baseline build + test --\n-- scaling the marked output by 1.5 --\n\nstderr: error: could not scale the marked line — is it a plain 'lhs = rhs;   // @coverage-probe' statement?\n\nexit 2\n======================================================================\nVERIFY software/mcf"
+
+[tools.args]
+command = "python3 dev/tmp/verify_group.py software/mcfm/src/Z2jet/fzip.cpp software/mcfm/src/Z2jet/storecsz.cpp software/mcfm/src/Z2jet/ampqqb_qqb.cpp software/mcfm/src/Z2jet/Bdiff.cpp"
+timeout = 7200
+[[tools]]
+name = "read"
+ok = true
+output_preview = "# path: /home/akash/Desktop/Akash/Projects/JSS-Paper-Example/software/mcfm/src/Z2jet/fzip.cpp\n# lines: 1-37\n0001: //\n0002: //  SPDX-License-Identifier: GPL-3.0-or-later\n0003: //  Copyright (C) 2019-2022, respective authors of MCFM.\n0004: //\n0005: \n0006: #include \"fzip.hpp\"\n0007: \n0008: #include <cmath>\n0009: #include <complex>\n0010: #include <constants_mod.hpp>\n0011: #include <Need.hpp>\n0012: \n0013: using namespace constants_mod;\n0014: \n0015: std::complex<double> fzip(double s12, double s34, dou"
+
+[tools.args]
+path = "software/mcfm/src/Z2jet/fzip.cpp"
+[[tools]]
+name = "edit"
+ok = true
+output_preview = "{\n  \"ok\": true,\n  \"path\": \"/home/akash/Desktop/Akash/Projects/JSS-Paper-Example/software/mcfm/src/Z2jet/fzip.cpp\",\n  \"applied\": 1,\n  \"replacements\": [\n    {\n      \"index\": 0,\n      \"match_count\": 1,\n      \"old_len\": 295,\n      \"new_len\": 262,\n      \"before_snippet\": \"… - s56;\\n  Del56 = s56 - s12 - s34;\\n  Del3 = s12*Del12 + s34*Del34 + s56*Del56;\\n\\n  fzip_res = ((3.0*s34*Del34/pow(Del3, 2) - 1.0/Del3)*s12*s56)*i3m(s12, s34, s56)\\n           + ((3.0*s56*Del56/pow(Del3, 2) - 0.5/Del3)*s12)*lnrat"
+
+[tools.args]
+path = "software/mcfm/src/Z2jet/fzip.cpp"
+[[tools.args.edits]]
+oldText = "  fzip_res = ((3.0*s34*Del34/pow(Del3, 2) - 1.0/Del3)*s12*s56)*i3m(s12, s34, s56)\n           + ((3.0*s56*Del56/pow(Del3, 2) - 0.5/Del3)*s12)*lnrat(-s12, -s34)\n           + ((3.0*s12*Del12/pow(Del3, 2) - 0.5/Del3)*s56)*lnrat(-s56, -s34)\n           - cplx2(0.5*Del34/Del3, zip); // @coverage-probe"
+newText = "  fzip_res = ((3.0*s34*Del34/pow(Del3, 2) - 1.0/Del3)*s12*s56)*i3m(s12, s34, s56) + ((3.0*s56*Del56/pow(Del3, 2) - 0.5/Del3)*s12)*lnrat(-s12, -s34) + ((3.0*s12*Del12/pow(Del3, 2) - 0.5/Del3)*s56)*lnrat(-s56, -s34) - cplx2(0.5*Del34/Del3, zip); // @coverage-probe"
+
+[[tools]]
+name = "bash"
+ok = true
+output_preview = "exit_code: 0\nSTDOUT:\n======================================================================\nVERIFY software/mcfm/src/Z2jet/fzip.cpp\n== coverage check: software/mcfm/src/Z2jet/fzip.cpp ==\nprocess : u u~ e- e+ g g\nfactor  : 1.5\n-- baseline build + test --\n-- scaling the marked output by 1.5 --\n-- probed build + test --\n\nRESULT: NOT COVERED — the numbers did not change, so the test never ran this file.\n  Mark it TRANSLATED. Check again after a routine that calls it is rewritten.\n\nstderr: \nexit 1\n\nS"
+
+[tools.args]
+command = "python3 dev/tmp/verify_group.py software/mcfm/src/Z2jet/fzip.cpp"
+timeout = 3600
+[[tools]]
+name = "bash"
+ok = true
+output_preview = "exit_code: 0\nSTDOUT:\nx1b[95mROOT:x1b[0m /home/akash/Desktop/Akash/Projects/JSS-Paper-Example\nx1b[95mNODE:x1b[0m <ROOT>/tests/mcfm\n\nx1b[95mSCRIPTS: x1b[0m\n    - <ROOT>/config.sh\n    - <ROOT>/environment.sh\n    - <ROOT>/tests/mcfm/test.sh\n\nx1b[95mEXECUTE:x1b[0m <ROOT>/tests/mcfm/job.submit\nin 1:31.3 \nx1b[92mSUCCESS x1b[0m\n\nx1b[95mOUTPUT:x1b[0m <ROOT>/tests/mcfm/job.output\n\nSTDERR:\n"
+
+[tools.args]
+command = "jobrunner submit tests/mcfm"
+timeout = 7200
+[[tools]]
+name = "bash"
+ok = true
+output_preview = "exit_code: 0\nSTDOUT:\n272\n\nSTDERR:\n"
+
+[tools.args]
+command = "grep -c \"PASSED\" tests/mcfm/job.output"
+[[tools]]
+name = "bash"
+ok = false
+output_preview = "Error: blocked shell syntax detected"
+
+[tools.args]
+command = "grep -n -E \"SUMMARY|FAILED|pass rate\" tests/mcfm/job.output"
+[[tools]]
+name = "bash"
+ok = true
+output_preview = "exit_code: 0\nSTDOUT:\n943:SUMMARY: pass rate 272/272\n\nSTDERR:\n"
+
+[tools.args]
+command = "grep -n \"SUMMARY\" tests/mcfm/job.output"
+[[tools]]
+name = "bash"
+ok = true
+output_preview = "exit_code: 1\nSTDOUT:\n0\n\nSTDERR:\n"
+
+[tools.args]
+command = "grep -c \"FAILED\" tests/mcfm/job.output"
+[[tools]]
+name = "edit"
+ok = true
+output_preview = "{\n  \"ok\": true,\n  \"path\": \"/home/akash/Desktop/Akash/Projects/JSS-Paper-Example/dev/transformations/mcfm-translate/agent_log.md\",\n  \"applied\": 2,\n  \"replacements\": [\n    {\n      \"index\": 0,\n      \"match_count\": 1,\n      \"old_len\": 699,\n      \"new_len\": 818,\n      \"before_snippet\": \"…0, W2jet 34, BDK 27, ThreeJets 11, Z2jet 6,\\n  Mods 5, loop 3, Inc 2, Procdep 1\\n\\n## Group Z2jet-1 (small Z2jet leaves) — OPEN\\n\\nCoverage process for `Z2jet`: `u u~ e- e+ g g`.\\n\\n- [x] software/mcfm/src/Z2jet/fmt."
+
+[tools.args]
+path = "dev/transformations/mcfm-translate/agent_log.md"
+[[tools.args.edits]]
+oldText = "## Group Z2jet-1 (small Z2jet leaves) — OPEN\n\nCoverage process for `Z2jet`: `u u~ e- e+ g g`.\n\n- [x] software/mcfm/src/Z2jet/fmt.f — pending coverage probe (build + full test suite pass)\n- [x] software/mcfm/src/Z2jet/fzip.f — pending coverage probe (build + full test suite pass)\n- [x] software/mcfm/src/Z2jet/storecsz.f — pending coverage probe (build + full test suite pass)\n- [x] software/mcfm/src/Z2jet/ampqqb_qqb.f — pending coverage probe (build + full test suite pass)\n- [x] software/mcfm/src/... [truncated, 699 chars total]"
+newText = "## Group Z2jet-1 (small Z2jet leaves) — COMPLETED\n\nCoverage process for `Z2jet`: `u u~ e- e+ g g`.\n\n- [x] software/mcfm/src/Z2jet/fmt.cpp — TRANSLATED (not covered by u u~ e- e+ g g)\n- [x] software/mcfm/src/Z2jet/fzip.cpp — TRANSLATED (not covered by u u~ e- e+ g g)\n- [x] software/mcfm/src/Z2jet/storecsz.cpp — TRANSLATED (not covered by u u~ e- e+ g g)\n- [x] software/mcfm/src/Z2jet/ampqqb_qqb.cpp — TRANSLATED (not covered by u u~ e- e+ g g)\n- [x] software/mcfm/src/Z2jet/Bdiff.cpp — TRANSLATED (n... [truncated, 818 chars total]"
+
+[[tools.args.edits]]
+oldText = "- Whole-suite check after the rewrite: 272/272 cases `PASSED`."
+newText = "- Whole-suite check after the rewrite: 272/272 cases `PASSED`.\n- 2024 session (loop 2): ran the coverage probe for all five Group Z2jet-1 files with process\n  `u u~ e- e+ g g`. `fzip.cpp` first failed the probe mechanically (`could not scale the marked\n  line`) because the marked assignment spanned four physical lines; the expression was joined\n  onto one line (no numeric change) and the probe then ran. All five report `NOT COVERED`, so\n  all five are recorded `TRANSLATED`. Group Z2jet-1 is now ... [truncated, 587 chars total]"
+
+[[tools]]
+name = "bash"
+ok = true
+output_preview = "exit_code: 0\nSTDOUT:\nGATE: OK — completed groups do not yet require approval (1 waiting, limit 3).\n\nSTDERR:\n"
+
+[tools.args]
+command = "python3 dev/workflow.py gate mcfm-translate"
+[[tools]]
+name = "bash"
+ok = true
+output_preview = "exit_code: 0\nSTDOUT:\n# workflow status\nassets: /home/akash/Desktop/Akash/Projects/JSS-Paper-Example/dev/tmp/assets\nroadmap metrics: 440 untranslated file rows, 225 ready leaves\ncleanup index: 569 families, move 74, shim-delete 15, merge 35\n\n- mcfm-translate: groups: 1 total, 0 open, 1 completed, 1 pending approval\n- mcfm-cleanup: groups: 7 total, 0 open, 7 completed, 7 pending approval\n- pepper-kokkos-port: no agent_log.md yet\n\nSTDERR:\n"
+
+[tools.args]
+command = "python3 dev/workflow.py status"
+[[tools]]
+name = "bash"
+ok = true
+output_preview = "exit_code: 0\nSTDOUT:\nrel\ttop\tdeps\tblind\tfanin\tbench\nMods/types_mod.f\tMods\t0\t0\t8\t\nW2jet/atree.f\tW2jet\t0\t0\t6\tu d~ ve e+ g g\n\nSTDERR:\n"
+
+[tools.args]
+command = "head -3 dev/tmp/assets/roadmap_metrics.tsv"
+[[tools]]
+name = "bash"
+ok = true
+output_preview = "exit_code: 1\nSTDOUT:\n\nSTDERR:\n"
+
+[tools.args]
+command = "grep -n \"src/Z2jet\" dev/tmp/assets/roadmap_metrics.tsv"
+[[tools]]
+name = "bash"
+ok = true
+output_preview = "exit_code: 1\nSTDOUT:\n\nSTDERR:\n"
+
+[tools.args]
+command = "grep -n \"src/loop/\" dev/tmp/assets/roadmap_metrics.tsv"
+[[tools]]
+name = "bash"
+ok = true
+output_preview = "exit_code: 0\nSTDOUT:\n21:Z2jet/msq_z2jetx.f\tZ2jet\t0\t0\t1\tu u~ e- e+ g g\n22:Z2jet/fmtfull.f\tZ2jet\t0\t0\t1\tu u~ e- e+ g g\n386:Z2jet/a6ax.f\tZ2jet\t1\t0\t1\tu u~ e- e+ g g\n387:Z2jet/z2jetsq.f\tZ2jet\t1\t0\t1\tu u~ e- e+ g g\n393:Z2jet/a63.f\tZ2jet\t1\t0\t1\tu u~ e- e+ g g\n398:Z2jet/a63z.f\tZ2jet\t1\t0\t0\tu u~ e- e+ g g\n399:Z2jet/a62z.f\tZ2jet\t1\t0\t0\tu u~ e- e+ g g\n401:Z2jet/a61z.f\tZ2jet\t1\t0\t0\tu u~ e- e+ g g\n407:Z2jet/atreez.f\tZ2jet\t1\t0\t0\tu u~ e- e+ g g\n418:Z2jet/qqb_z2jet_v.f\tZ2jet\t2\t0\t0\tu u~ e- e+ g g\n423:Z2jet/qqb_z2jetx_"
+
+[tools.args]
+command = "grep -n \"^Z2jet/\" dev/tmp/assets/roadmap_metrics.tsv"
+[[tools]]
+name = "bash"
+ok = true
+output_preview = "exit_code: 0\nSTDOUT:\n114:loop/loopI2pc_inc.f\tloop\t0\t1\t0\t\n130:loop/loopI1_inc.f\tloop\t0\t1\t0\t\n235:loop/loopI2p_inc.f\tloop\t0\t1\t0\t\n246:loop/loopI4c_inc.f\tloop\t0\t1\t0\t\n253:loop/loopI4_inc.f\tloop\t0\t1\t0\t\n292:loop/loopI4_generic.f\tloop\t0\t0\t0\t\n343:loop/loopI1c_inc.f\tloop\t0\t1\t0\t\n352:loop/loopI1_generic.f\tloop\t0\t0\t0\t\n359:loop/loopI2p_generic.f\tloop\t0\t0\t0\t\n\nSTDERR:\n"
+
+[tools.args]
+command = "grep -n \"^loop/\" dev/tmp/assets/roadmap_metrics.tsv"
+[[tools]]
+name = "bash"
+ok = true
+output_preview = "exit_code: 0\nSTDOUT:\n242\n\nSTDERR:\n"
+
+[tools.args]
+command = "grep -c \"\t0\t0\t\" dev/tmp/assets/roadmap_metrics.tsv"
+[[tools]]
+name = "bash"
+ok = true
+output_preview = "exit_code: 0\nSTDOUT:\n  236 software/mcfm/src/Z2jet/msq_z2jetx.f\n   35 software/mcfm/src/Z2jet/fmtfull.f\n   39 software/mcfm/src/loop/loopI4_generic.f\n   40 software/mcfm/src/loop/loopI1_generic.f\n   39 software/mcfm/src/loop/loopI2p_generic.f\n  389 total\n\nSTDERR:\n"
+
+[tools.args]
+command = "wc -l software/mcfm/src/Z2jet/msq_z2jetx.f software/mcfm/src/Z2jet/fmtfull.f software/mcfm/src/loop/loopI4_generic.f software/mcfm/src/loop/loopI1_generic.f software/mcfm/src/loop/loopI2p_generic.f"
+[[tools]]
+name = "read"
+ok = true
+output_preview = "# path: /home/akash/Desktop/Akash/Projects/JSS-Paper-Example/software/mcfm/src/Z2jet/fmtfull.f\n# lines: 1-35\n0001: !\n0002: !  SPDX-License-Identifier: GPL-3.0-or-later\n0003: !  Copyright (C) 2019-2022, respective authors of MCFM.\n0004: !\n0005:       function fmtfull(s12,s34,s56)\n0006:       use loopI3_generic\n0007:       use types\n0008:       use constants_mod\n0009:       use scale_mod\n0010:       use masses_mod\n0011:       use scalarselect_mod\n0012:       implicit none\n0013:       complex(dp)::"
+
+[tools.args]
+path = "software/mcfm/src/Z2jet/fmtfull.f"
+[[tools]]
+name = "read"
+ok = true
+output_preview = "# path: /home/akash/Desktop/Akash/Projects/JSS-Paper-Example/software/mcfm/src/Z2jet/CMakeLists.txt\n# lines: 1-25\n0001: target_sources(objlib PRIVATE\n0002: a61z.f\n0003: a62z.f\n0004: a63.f\n0005: a63z.f\n0006: a6ax.f\n0007: ampqqb_qqb.cpp\n0008: ampqqb_qqb_fi.F90\n0009: atreez.f\n0010: Bdiff.cpp\n0011: Bdiff_fi.F90\n0012: fmt.cpp\n0013: fmt_fi.F90\n0014: fmtfull.f\n0015: fzip.cpp\n0016: fzip_fi.F90\n0017: msq_z2jetx.f\n0018: qqb_z2jet_v.f\n0019: qqb_z2jetx_new.f\n0020: storecsz.cpp\n0021: storecsz_fi.F90\n0022: z2"
+
+[tools.args]
+path = "software/mcfm/src/Z2jet/CMakeLists.txt"
+[[tools]]
+name = "read"
+ok = true
+output_preview = "# path: /home/akash/Desktop/Akash/Projects/JSS-Paper-Example/software/mcfm/src/Z2jet/fmt.cpp\n# lines: 1-27\n0001: //\n0002: //  SPDX-License-Identifier: GPL-3.0-or-later\n0003: //  Copyright (C) 2019-2022, respective authors of MCFM.\n0004: //\n0005: \n0006: #include \"fmt.hpp\"\n0007: \n0008: #include <cmath>\n0009: #include <complex>\n0010: #include <masses_mod.hpp>\n0011: \n0012: using namespace masses_mod;\n0013: \n0014: std::complex<double> fmt(double s12, double s34, double s56) {\n0015:   std::complex<dou"
+
+[tools.args]
+path = "software/mcfm/src/Z2jet/fmt.cpp"
+[[tools]]
+name = "read"
+ok = true
+output_preview = "# path: /home/akash/Desktop/Akash/Projects/JSS-Paper-Example/software/mcfm/src/Z2jet/Bdiff.cpp\n# lines: 1-27\n0001: //\n0002: //  SPDX-License-Identifier: GPL-3.0-or-later\n0003: //  Copyright (C) 2019-2022, respective authors of MCFM.\n0004: //\n0005: \n0006: #include \"Bdiff.hpp\"\n0007: \n0008: #include <complex>\n0009: #include <Loop.hpp>\n0010: #include <scalarselect_mod.hpp>\n0011: #include <scale_mod.hpp>\n0012: \n0013: using namespace scalarselect_mod;\n0014: using namespace scale_mod;\n0015: \n0016: std:"
+
+[tools.args]
+path = "software/mcfm/src/Z2jet/Bdiff.cpp"
+[[tools]]
+name = "read"
+ok = true
+output_preview = "# path: /home/akash/Desktop/Akash/Projects/JSS-Paper-Example/software/mcfm/src/Z2jet/Bdiff.hpp\n# lines: 1-12\n0001: #ifndef BDIFF_H\n0002: #define BDIFF_H\n0003: \n0004: #include <complex>\n0005: \n0006: extern std::complex<double> Bdiff(double s34, double s12, double msq);\n0007: \n0008: extern \"C\" {\n0009:   extern std::complex<double> Bdiff_wrapper(double s34, double s12, double msq);\n0010: }\n0011: \n0012: #endif\n"
+
+[tools.args]
+path = "software/mcfm/src/Z2jet/Bdiff.hpp"
+[[tools]]
+name = "read"
+ok = true
+output_preview = "# path: /home/akash/Desktop/Akash/Projects/JSS-Paper-Example/software/mcfm/src/Z2jet/Bdiff_fi.F90\n# lines: 1-17\n0001: function Bdiff(s34,s12,msq)\n0002:    use, intrinsic :: iso_c_binding\n0003:    implicit none\n0004:    complex(c_double_complex):: Bdiff\n0005:    real(c_double):: s34,s12,msq\n0006: \n0007:    interface\n0008:       function Bdiff_wrapper(s34,s12,msq) bind(C, name=\"Bdiff_wrapper\")\n0009:          import :: c_double_complex, c_double\n0010:          complex(c_double_complex):: Bdiff_wrap"
+
+[tools.args]
+path = "software/mcfm/src/Z2jet/Bdiff_fi.F90"
+[[tools]]
+name = "read"
+ok = true
+output_preview = "# path: /home/akash/Desktop/Akash/Projects/JSS-Paper-Example/software/mcfm/src/loop/loopI1_generic.f\n# lines: 1-40\n0001: !\n0002: !  SPDX-License-Identifier: GPL-3.0-or-later\n0003: !  Copyright (C) 2019-2022, respective authors of MCFM.\n0004: !\n0005:       module loopI1_generic\n0006:       public loopI1,loopI1c\n0007: \n0008:       interface loopI1\n0009:       module procedure loopI1,loopI1c\n0010:       end interface\n0011: \n0012:       contains\n0013: \n0014:       function loopI1(m1,mu2,ep) result(l"
+
+[tools.args]
+path = "software/mcfm/src/loop/loopI1_generic.f"
+[[tools]]
+name = "read"
+ok = true
+output_preview = "# path: /home/akash/Desktop/Akash/Projects/JSS-Paper-Example/software/mcfm/src/loop/loopI2p_generic.f\n# lines: 1-39\n0001: !\n0002: !  SPDX-License-Identifier: GPL-3.0-or-later\n0003: !  Copyright (C) 2019-2022, respective authors of MCFM.\n0004: !\n0005:       module loopI2p_generic\n0006:       public loopI2p,loopI2pc\n0007: \n0008:       interface loopI2p\n0009:       module procedure loopI2p,loopI2pc\n0010:       end interface\n0011: \n0012:       contains\n0013: \n0014:       function loopI2p(p1,m1,m2,mu"
+
+[tools.args]
+path = "software/mcfm/src/loop/loopI2p_generic.f"
+[[tools]]
+name = "read"
+ok = true
+output_preview = "# path: /home/akash/Desktop/Akash/Projects/JSS-Paper-Example/software/mcfm/src/loop/loopI4_generic.f\n# lines: 1-39\n0001: !\n0002: !  SPDX-License-Identifier: GPL-3.0-or-later\n0003: !  Copyright (C) 2019-2022, respective authors of MCFM.\n0004: !\n0005:       module loopI4_generic\n0006:       public loopI4,loopI4c\n0007: \n0008:       interface loopI4\n0009:       module procedure loopI4,loopI4c\n0010:       end interface\n0011: \n0012:       contains\n0013: \n0014:       function loopI4(p1,p2,p3,p4,s12,s23"
+
+[tools.args]
+path = "software/mcfm/src/loop/loopI4_generic.f"
+[[tools]]
+name = "read"
+ok = true
+output_preview = "# path: /home/akash/Desktop/Akash/Projects/JSS-Paper-Example/software/mcfm/src/loop/CMakeLists.txt\n# lines: 1-11\n0001: target_sources(objlib PRIVATE\n0002: loopI1_generic.f\n0003: loopI2_generic.cpp\n0004: loopI2_generic_fi.f90\n0005: loopI2p_generic.f\n0006: loopI3_generic.cpp\n0007: loopI3_generic_fi.f90\n0008: loopI4_generic.f\n0009: )\n0010: \n0011: \n"
+
+[tools.args]
+path = "software/mcfm/src/loop/CMakeLists.txt"
+[[tools]]
+name = "read"
+ok = true
+output_preview = "# path: /home/akash/Desktop/Akash/Projects/JSS-Paper-Example/software/mcfm/src/loop/loopI2_generic.cpp\n# lines: 1-67\n0001: #include <Loop.hpp>\n0002: #include <scalarselect_mod.hpp>\n0003: #include <complex>\n0004: #include <iostream>\n0005: \n0006: using namespace scalarselect_mod;\n0007: \n0008: complex loopI2(double p1, double m1, double m2, double mu2, int ep) {\n0009:     complex resQCDLoop, resOneLOop, loopI2_res;\n0010:     complex result[3]; // Equivalent to result(0:2)\n0011: \n0012:     if ((scal"
+
+[tools.args]
+path = "software/mcfm/src/loop/loopI2_generic.cpp"
+[[tools]]
+name = "read"
+ok = true
+output_preview = "# path: /home/akash/Desktop/Akash/Projects/JSS-Paper-Example/software/mcfm/src/loop/loopI2_generic_fi.f90\n# lines: 1-57\n0001: \n0002: module loopI2_generic\n0003:   use, intrinsic :: iso_c_binding\n0004:   implicit none\n0005:   private\n0006:   public :: loopI2, loopI2c\n0007: \n0008:   interface loopI2\n0009:      module procedure loopI2,loopI2c\n0010:   end interface\n0011: \n0012: contains\n0013: \n0014:   function loopI2(p1, m1, m2, mu2, ep) result(loopI2_res)\n0015: \n0016:     real(c_double), value :: p"
+
+[tools.args]
+path = "software/mcfm/src/loop/loopI2_generic_fi.f90"
+[[tools]]
+name = "read"
+ok = true
+output_preview = "# path: /home/akash/Desktop/Akash/Projects/JSS-Paper-Example/software/mcfm/src/loop/loopI3_generic.cpp\n# lines: 1-69\n0001: #include <Loop.hpp>\n0002: #include <cmath>\n0003: #include <complex>\n0004: #include <iostream>\n0005: #include <scalarselect_mod.hpp>\n0006: \n0007: using namespace scalarselect_mod;\n0008: \n0009: complex loopI3(double p1, double p2, double p3, double m1, double m2, double m3, double mu2, int ep) {\n0010: \n0011:   complex loopI3_res, resQCDLoop, resOneLOop;\n0012:   complex result["
+
+[tools.args]
+path = "software/mcfm/src/loop/loopI3_generic.cpp"
+[[tools]]
+name = "bash"
+ok = true
+output_preview = "exit_code: 0\nSTDOUT:\nAAAREADME.txt\nCMakeLists.txt\ndeprecated\nLoop.hpp\nloopI1c_inc.f\nloopI1_generic.f\nloopI1_inc.f\nloopI2_generic.cpp\nloopI2_generic_fi.f90\nloopI2pc_inc.f\nloopI2p_generic.f\nloopI2p_inc.f\nloopI3_generic.cpp\nloopI3_generic_fi.f90\nloopI4c_inc.f\nloopI4_generic.f\nloopI4_inc.f\nworking\n\nSTDERR:\n"
+
+[tools.args]
+command = "ls software/mcfm/src/loop"
+[[tools]]
+name = "bash"
+ok = true
+output_preview = "exit_code: 0\nSTDOUT:\nsoftware/mcfm/install/include/Loop.hpp\nsoftware/mcfm/src/loop/Loop.hpp\n\nSTDERR:\n"
+
+[tools.args]
+command = "find software/mcfm -name \"Loop.hpp\""
+[[tools]]
+name = "read"
+ok = true
+output_preview = "# path: /home/akash/Desktop/Akash/Projects/JSS-Paper-Example/software/mcfm/src/loop/Loop.hpp\n# lines: 1-22\n0001: #ifndef LOOP_H\n0002: #define LOOP_H\n0003: \n0004: #include <complex>\n0005: \n0006: typedef std::complex<double> complex;\n0007: \n0008: extern \"C\" {\n0009:   extern complex qli2(double const& p1, double const& m1, double const& m2, double const& mu2, int const& ep);\n0010:   extern complex qli2c(double const& p1, complex const& m1, complex const& m2, double const& mu2, int const& ep);\n0011:"
+
+[tools.args]
+path = "software/mcfm/src/loop/Loop.hpp"
+[[tools]]
+name = "read"
+ok = true
+output_preview = "# path: /home/akash/Desktop/Akash/Projects/JSS-Paper-Example/software/mcfm/src/loop/loopI1_inc.f\n# lines: 1-37\n0001: !\n0002: !  SPDX-License-Identifier: GPL-3.0-or-later\n0003: !  Copyright (C) 2019-2022, respective authors of MCFM.\n0004: !\n0005:       real(dp):: mu2\n0006:       complex(dp)::loopI1_res,resQCDLoop,resOneLOop,result(0:2)\n0007:       integer:: ep\n0008: \n0009: c--- this is a switchyard routine: depending on value of\n0010: c--- integer variable, this routine either:\n0011: c---  scalar"
+
+[tools.args]
+path = "software/mcfm/src/loop/loopI1_inc.f"
+[[tools]]
+name = "read"
+ok = true
+output_preview = "# path: /home/akash/Desktop/Akash/Projects/JSS-Paper-Example/software/mcfm/src/loop/loopI1c_inc.f\n# lines: 1-41\n0001: !\n0002: !  SPDX-License-Identifier: GPL-3.0-or-later\n0003: !  Copyright (C) 2019-2022, respective authors of MCFM.\n0004: !\n0005:       real(dp):: mu2\n0006:       complex(dp)::loopI1_res,resQCDLoop,resOneLOop,result(0:2)\n0007:       integer:: ep\n0008: \n0009: c--- this is a switchyard routine: depending on value of\n0010: c--- integer variable, this routine either:\n0011: c---  scala"
+
+[tools.args]
+path = "software/mcfm/src/loop/loopI1c_inc.f"
+[[tools]]
+name = "read"
+ok = true
+output_preview = "# path: /home/akash/Desktop/Akash/Projects/JSS-Paper-Example/software/mcfm/src/loop/loopI2p_inc.f\n# lines: 1-39\n0001: !\n0002: !  SPDX-License-Identifier: GPL-3.0-or-later\n0003: !  Copyright (C) 2019-2022, respective authors of MCFM.\n0004: !\n0005:       real(dp):: mu2\n0006:       complex(dp):: loopI2p_res,resQCDLoop,resOneLOop,result(0:2)\n0007:       integer ep\n0008: c--- this is a switchyard routine: depending on value of\n0009: c--- integer variable, this routine either:\n0010: c---  scalarselect"
+
+[tools.args]
+path = "software/mcfm/src/loop/loopI2p_inc.f"
+[[tools]]
+name = "read"
+ok = true
+output_preview = "# path: /home/akash/Desktop/Akash/Projects/JSS-Paper-Example/software/mcfm/src/loop/loopI2pc_inc.f\n# lines: 1-39\n0001: !\n0002: !  SPDX-License-Identifier: GPL-3.0-or-later\n0003: !  Copyright (C) 2019-2022, respective authors of MCFM.\n0004: !\n0005:       real(dp):: mu2\n0006:       complex(dp):: loopI2p_res,resQCDLoop,resOneLOop,result(0:2)\n0007:       integer ep\n0008: c--- this is a switchyard routine: depending on value of\n0009: c--- integer variable, this routine either:\n0010: c---  scalarselec"
+
+[tools.args]
+path = "software/mcfm/src/loop/loopI2pc_inc.f"
+[[tools]]
+name = "read"
+ok = true
+output_preview = "# path: /home/akash/Desktop/Akash/Projects/JSS-Paper-Example/software/mcfm/src/loop/loopI4_inc.f\n# lines: 1-38\n0001: !\n0002: !  SPDX-License-Identifier: GPL-3.0-or-later\n0003: !  Copyright (C) 2019-2022, respective authors of MCFM.\n0004: !\n0005:       real(dp):: mu2\n0006:       complex(dp):: loopI4_res,resQCDLoop,resOneLOop,result(0:2)\n0007:       integer:: ep\n0008: c--- this is a switchyard routine: depending on value of\n0009: c--- integer variable, this routine either:\n0010: c---  scalarselect"
+
+[tools.args]
+path = "software/mcfm/src/loop/loopI4_inc.f"
+[[tools]]
+name = "read"
+ok = true
+output_preview = "# path: /home/akash/Desktop/Akash/Projects/JSS-Paper-Example/software/mcfm/src/loop/loopI4c_inc.f\n# lines: 1-38\n0001: !\n0002: !  SPDX-License-Identifier: GPL-3.0-or-later\n0003: !  Copyright (C) 2019-2022, respective authors of MCFM.\n0004: !\n0005:       real(dp):: mu2\n0006:       complex(dp):: loopI4_res,resQCDLoop,resOneLOop,result(0:2)\n0007:       integer:: ep\n0008: c--- this is a switchyard routine: depending on value of\n0009: c--- integer variable, this routine either:\n0010: c---  scalarselec"
+
+[tools.args]
+path = "software/mcfm/src/loop/loopI4c_inc.f"
+[[tools]]
+name = "bash"
+ok = false
+output_preview = "Error: blocked shell syntax detected"
+
+[tools.args]
+command = "grep -rn \"loopI1_inc.f\\|loopI4_inc.f\\|loopI2p_inc.f\" software/mcfm/src"
+[[tools]]
+name = "bash"
+ok = true
+output_preview = "exit_code: 0\nSTDOUT:\nsoftware/mcfm/src/Mods/mod_qcdloop_c.f\n\nSTDERR:\n"
+
+[tools.args]
+command = "find software/mcfm/src -name \"mod_qcdloop_c*\""
+[[tools]]
+name = "read"
+ok = true
+output_preview = "# path: /home/akash/Desktop/Akash/Projects/JSS-Paper-Example/software/mcfm/src/Z2jet/msq_z2jetx.f\n# lines: 1-236\n0001: !\n0002: !  SPDX-License-Identifier: GPL-3.0-or-later\n0003: !  Copyright (C) 2019-2022, respective authors of MCFM.\n0004: !\n0005: \n0006:       subroutine msq_qq(ja,ka,amp1_a,amp1_b,amp2_a,amp2_b,prop,\n0007:      &                  msq0,msq1,msq2)\n0008:       use types\n0009:       use constants_mod\n0010:       use nf_mod\n0011:       use ewcharge_mod\n0012:       use zcouple_mod\n001"
+
+[tools.args]
+path = "software/mcfm/src/Z2jet/msq_z2jetx.f"
+[[tools]]
+name = "read"
+ok = true
+output_preview = "# path: /home/akash/Desktop/Akash/Projects/JSS-Paper-Example/software/mcfm/src/Mods/mod_qcdloop_c.f\n# lines: 1-194\n0001: !\n0002: !  SPDX-License-Identifier: GPL-3.0-or-later\n0003: !  Copyright (C) 2019-2022, respective authors of MCFM.\n0004: !\n0005: \n0006:       module mod_qcdloop_c\n0007:         implicit none\n0008: \n0009:       interface\n0010:         subroutine qlcachesize(csize) bind(C,name=\"qlcachesize\")\n0011:             use iso_c_binding\n0012:             integer(c_int), intent(in) :: csiz"
+
+[tools.args]
+path = "software/mcfm/src/Mods/mod_qcdloop_c.f"
+[[tools]]
+name = "bash"
+ok = true
+output_preview = "exit_code: 0\nSTDOUT:\nsoftware/mcfm/src/W2jet/qqbZgg_floop.f\nsoftware/mcfm/src/W2jet/ZZintegraleval.f\nsoftware/mcfm/src/loop/CMakeLists.txt\nsoftware/mcfm/src/loop/loopI4_generic.f\n\nSTDERR:\n"
+
+[tools.args]
+command = "grep -rln \"loopI4_generic\" software/mcfm/src"
+[[tools]]
+name = "bash"
+ok = true
+output_preview = "exit_code: 0\nSTDOUT:\nsoftware/mcfm/src/loop/CMakeLists.txt\nsoftware/mcfm/src/loop/loopI1_generic.f\n\nSTDERR:\n"
+
+[tools.args]
+command = "grep -rln \"loopI1_generic\" software/mcfm/src"
+[[tools]]
+name = "bash"
+ok = true
+output_preview = "exit_code: 0\nSTDOUT:\nsoftware/mcfm/src/loop/loopI2p_generic.f\nsoftware/mcfm/src/loop/CMakeLists.txt\n\nSTDERR:\n"
+
+[tools.args]
+command = "grep -rln \"loopI2p_generic\" software/mcfm/src"
+[[tools]]
+name = "read"
+ok = true
+output_preview = "# path: /home/akash/Desktop/Akash/Projects/JSS-Paper-Example/dev/tmp/move_deprecated.py\n# lines: 1-10\n0001: import os, shutil, sys\n0002: \n0003: d = sys.argv[1]\n0004: dep = os.path.join(d, \"deprecated\")\n0005: os.makedirs(dep, exist_ok=True)\n0006: for f in sys.argv[2:]:\n0007:     src = os.path.join(d, f)\n0008:     dst = os.path.join(dep, f)\n0009:     shutil.move(src, dst)\n0010:     print(\"moved\", src, \"->\", dst)\n"
+
+[tools.args]
+path = "dev/tmp/move_deprecated.py"
+[[tools]]
+name = "bash"
+ok = true
+output_preview = "exit_code: 0\nSTDOUT:\nb0_mod.hpp\nblabels_mod.hpp\nblha_mod.hpp\nbreit_mod.hpp\nCabibbo_mod.hpp\nckm1_mod.hpp\nckm_mod.hpp\nconstants_mod.hpp\ncouple_mod.hpp\ncplx.h\ndeprecated\ndocheck_mod.hpp\nepinv2_mod.hpp\nepinv_mod.hpp\newcharge_mod.hpp\newcouple_mod.hpp\newinput_mod.hpp\nfacscale_mod.hpp\nFArray.hpp\nfirst_mod.hpp\nflags_mod.hpp\ngg_h.hpp\nggZZcomputemp_mod.hpp\nggZZintegrals_mod.hpp\nggZZ_mod.hpp\ngpt-4o-conversions\nhdecaymode_mod.hpp\nheldefs_mod.hpp\ninterference_mod.hpp\nkpart_mod.hpp\nkprocess_mod.hpp\nlc_mod.hpp"
+
+[tools.args]
+command = "ls software/mcfm/install/include"
+[[tools]]
+name = "bash"
+ok = true
+output_preview = "exit_code: 0\nSTDOUT:\nsoftware/mcfm/src/loop/deprecated:\nloopI2c_inc.f\nloopI2_generic.f\nloopI2_inc.f\nloopI3c_inc.f\nloopI3_generic.f\nloopI3_inc.f\n\nsoftware/mcfm/src/Z2jet/deprecated:\nampqqb_qqb.f\nBdiff.f\nfmt.f\nfzip.f\nstorecsz.f\n\nSTDERR:\n"
+
+[tools.args]
+command = "ls software/mcfm/src/Z2jet/deprecated software/mcfm/src/loop/deprecated"
+[[tools]]
+name = "bash"
+ok = true
+output_preview = "exit_code: 0\nSTDOUT:\n247:    # Install header files with specific extensions (.h, .H, .hpp)\n249:            FILES_MATCHING PATTERN \"*.h\" PATTERN \"*.H\" PATTERN \"*.hpp\"\n252:            FILES_MATCHING PATTERN \"*.h\" PATTERN \"*.H\" PATTERN \"*.hpp\"\n255:            FILES_MATCHING PATTERN \"*.h\" PATTERN \"*.H\" PATTERN \"*.hpp\"\n258:            FILES_MATCHING PATTERN \"*.h\" PATTERN \"*.H\" PATTERN \"*.hpp\"\n261:            FILES_MATCHING PATTERN \"*.h\" PATTERN \"*.H\" PATTERN \"*.hpp\"\n264:            FILES_MATCHING PA"
+
+[tools.args]
+command = "grep -rn \"hpp\" software/mcfm/CMakeLists.txt"
+[[tools]]
+name = "write"
+ok = true
+output_preview = "Wrote /home/akash/Desktop/Akash/Projects/JSS-Paper-Example/software/mcfm/src/Z2jet/fmtfull.hpp (237 bytes)"
+
+[tools.args]
+path = "software/mcfm/src/Z2jet/fmtfull.hpp"
+content = "#ifndef FMTFULL_H\n#define FMTFULL_H\n\n#include <complex>\n\nextern std::complex<double> fmtfull(double s12, double s34, double s56);\n\nextern \"C\" {\n  extern std::complex<double> fmtfull_wrapper(double s12, double s34, double s56);\n}\n\n#endif\n"
+[[tools]]
+name = "write"
+ok = true
+output_preview = "Wrote /home/akash/Desktop/Akash/Projects/JSS-Paper-Example/software/mcfm/src/Z2jet/fmtfull.cpp (1377 bytes)"
+
+[tools.args]
+path = "software/mcfm/src/Z2jet/fmtfull.cpp"
+content = "//\n//  SPDX-License-Identifier: GPL-3.0-or-later\n//  Copyright (C) 2019-2022, respective authors of MCFM.\n//\n\n#include \"fmtfull.hpp\"\n\n#include \"Bdiff.hpp\"\n\n#include <cmath>\n#include <complex>\n#include <Loop.hpp>\n#include <Need.hpp>\n#include <constants_mod.hpp>\n#include <masses_mod.hpp>\n#include <scalarselect_mod.hpp>\n#include <scale_mod.hpp>\n\nusing namespace constants_mod;\nusing namespace masses_mod;\nusing namespace scalarselect_mod;\nusing namespace scale_mod;\n\nstd::complex<double> fmtfull(doubl... [truncated, 1377 chars total]"
+[[tools]]
+name = "write"
+ok = true
+output_preview = "Wrote /home/akash/Desktop/Akash/Projects/JSS-Paper-Example/software/mcfm/src/Z2jet/fmtfull_fi.F90 (496 bytes)"
+
+[tools.args]
+path = "software/mcfm/src/Z2jet/fmtfull_fi.F90"
+content = "function fmtfull(s12,s34,s56)\n   use, intrinsic :: iso_c_binding\n   implicit none\n   complex(c_double_complex):: fmtfull\n   real(c_double):: s12,s34,s56\n\n   interface\n      function fmtfull_wrapper(s12,s34,s56) bind(C, name=\"fmtfull_wrapper\")\n         import :: c_double_complex, c_double\n         complex(c_double_complex):: fmtfull_wrapper\n         real(c_double), value:: s12,s34,s56\n      end function fmtfull_wrapper\n   end interface\n\n   fmtfull = fmtfull_wrapper(s12,s34,s56)\n   return\nend\n"
+[[tools]]
+name = "write"
+ok = true
+output_preview = "Wrote /home/akash/Desktop/Akash/Projects/JSS-Paper-Example/software/mcfm/src/loop/loopI1_generic.cpp (2136 bytes)"
+
+[tools.args]
+path = "software/mcfm/src/loop/loopI1_generic.cpp"
+content = "#include <Loop.hpp>\n#include <cmath>\n#include <complex>\n#include <cstdlib>\n#include <iostream>\n#include <scalarselect_mod.hpp>\n\nusing namespace scalarselect_mod;\n\ncomplex loopI1(double m1, double mu2, int ep) {\n\n  complex loopI1_res, resQCDLoop, resOneLOop;\n  complex result[3];\n\n  // this is a switchyard routine: depending on value of\n  // integer variable, this routine either:\n  //  scalarselect = 1    calls QCDLoop for scalar integral\n  //  scalarselect = 2    calls OneLOop for scalar integral... [truncated, 2136 chars total]"
+[[tools]]
+name = "write"
+ok = true
+output_preview = "Wrote /home/akash/Desktop/Akash/Projects/JSS-Paper-Example/software/mcfm/src/loop/loopI1_generic_fi.f90 (1452 bytes)"
+
+[tools.args]
+path = "software/mcfm/src/loop/loopI1_generic_fi.f90"
+content = "\nmodule loopI1_generic\n  use, intrinsic :: iso_c_binding\n  implicit none\n  private\n  public :: loopI1, loopI1c\n\n  interface loopI1\n     module procedure loopI1,loopI1c\n  end interface\n\ncontains\n\n  function loopI1(m1, mu2, ep) result(loopI1_res)\n\n    real(c_double), value :: m1\n    real(c_double), value :: mu2\n    integer(c_int), value :: ep\n    complex(c_double_complex) :: loopI1_res\n\n    interface\n      function loopI1_wrapper(m1, mu2, ep) result(loopI1_res) bind(C, name=\"loopI1_wrapper\")\n     ... [truncated, 1452 chars total]"
+[[tools]]
+name = "write"
+ok = true
+output_preview = "Wrote /home/akash/Desktop/Akash/Projects/JSS-Paper-Example/software/mcfm/src/loop/loopI2p_generic.cpp (2278 bytes)"
+
+[tools.args]
+path = "software/mcfm/src/loop/loopI2p_generic.cpp"
+content = "#include <Loop.hpp>\n#include <cmath>\n#include <complex>\n#include <iostream>\n#include <scalarselect_mod.hpp>\n\nusing namespace scalarselect_mod;\n\ncomplex loopI2p(double p1, double m1, double m2, double mu2, int ep) {\n\n  complex loopI2p_res, resQCDLoop, resOneLOop;\n  complex result[3];\n\n  // this is a switchyard routine: depending on value of\n  // integer variable, this routine either:\n  //  scalarselect = 1    calls QCDLoop for scalar integral\n  //  scalarselect = 2    calls OneLOop for scalar int... [truncated, 2278 chars total]"
+[[tools]]
+name = "write"
+ok = true
+output_preview = "Wrote /home/akash/Desktop/Akash/Projects/JSS-Paper-Example/software/mcfm/src/loop/loopI2p_generic_fi.f90 (1716 bytes)"
+
+[tools.args]
+path = "software/mcfm/src/loop/loopI2p_generic_fi.f90"
+content = "\nmodule loopI2p_generic\n  use, intrinsic :: iso_c_binding\n  implicit none\n  private\n  public :: loopI2p, loopI2pc\n\n  interface loopI2p\n     module procedure loopI2p,loopI2pc\n  end interface\n\ncontains\n\n  function loopI2p(p1, m1, m2, mu2, ep) result(loopI2p_res)\n\n    real(c_double), value :: p1\n    real(c_double), value :: m1\n    real(c_double), value :: m2\n    real(c_double), value :: mu2\n    integer(c_int), value :: ep\n    complex(c_double_complex) :: loopI2p_res\n\n    interface\n      function lo... [truncated, 1716 chars total]"
+[[tools]]
+name = "write"
+ok = true
+output_preview = "Wrote /home/akash/Desktop/Akash/Projects/JSS-Paper-Example/software/mcfm/src/loop/loopI4_generic.cpp (2981 bytes)"
+
+[tools.args]
+path = "software/mcfm/src/loop/loopI4_generic.cpp"
+content = "#include <Loop.hpp>\n#include <cmath>\n#include <complex>\n#include <iostream>\n#include <scalarselect_mod.hpp>\n\nusing namespace scalarselect_mod;\n\ncomplex loopI4(double p1, double p2, double p3, double p4, double s12, double s23,\n               double m1, double m2, double m3, double m4, double mu2, int ep) {\n\n  complex loopI4_res, resQCDLoop, resOneLOop;\n  complex result[3];\n\n  // this is a switchyard routine: depending on value of\n  // integer variable, this routine either:\n  //  scalarselect = 1... [truncated, 2981 chars total]"
+[[tools]]
+name = "write"
+ok = true
+output_preview = "Wrote /home/akash/Desktop/Akash/Projects/JSS-Paper-Example/software/mcfm/src/loop/loopI4_generic_fi.f90 (1978 bytes)"
+
+[tools.args]
+path = "software/mcfm/src/loop/loopI4_generic_fi.f90"
+content = "\nmodule loopI4_generic\n  use, intrinsic :: iso_c_binding\n  implicit none\n  private\n  public :: loopI4, loopI4c\n\n  interface loopI4\n     module procedure loopI4,loopI4c\n  end interface\n\ncontains\n\n  function loopI4(p1, p2, p3, p4, s12, s23, m1, m2, m3, m4, mu2, ep) result(loopI4_res)\n\n    real(c_double), value :: p1, p2, p3, p4, s12, s23\n    real(c_double), value :: m1, m2, m3, m4\n    real(c_double), value :: mu2\n    integer(c_int), value :: ep\n    complex(c_double_complex) :: loopI4_res\n\n    inte... [truncated, 1978 chars total]"
+[[tools]]
+name = "edit"
+ok = true
+output_preview = "{\n  \"ok\": true,\n  \"path\": \"/home/akash/Desktop/Akash/Projects/JSS-Paper-Example/software/mcfm/src/loop/Loop.hpp\",\n  \"applied\": 3,\n  \"replacements\": [\n    {\n      \"index\": 0,\n      \"match_count\": 1,\n      \"old_len\": 123,\n      \"new_len\": 275,\n      \"before_snippet\": \"…OP_H\\n#define LOOP_H\\n\\n#include <complex>\\n\\ntypedef std::complex<double> complex;\\n\\nextern \\\"C\\\" {\\n  extern complex qli2(double const& p1, double const& m1, double const& m2, double const& mu2, int const& ep);\\n  extern complex "
+
+[tools.args]
+path = "software/mcfm/src/loop/Loop.hpp"
+[[tools.args.edits]]
+oldText = "extern \"C\" {\n  extern complex qli2(double const& p1, double const& m1, double const& m2, double const& mu2, int const& ep);"
+newText = "extern \"C\" {\n  extern complex qli1(double const& m1, double const& mu2, int const& ep);\n  extern complex qli1c(complex const& m1, double const& mu2, int const& ep);\n  extern complex qli2(double const& p1, double const& m1, double const& m2, double const& mu2, int const& ep);"
+
+[[tools.args.edits]]
+oldText = "  extern complex qli3c(double const& p1, double const& p2, double const& p3, complex const& m1, complex const& m2, complex const& m3, double const& mu2, int const& ep);\n \n}"
+newText = "  extern complex qli3c(double const& p1, double const& p2, double const& p3, complex const& m1, complex const& m2, complex const& m3, double const& mu2, int const& ep);\n  extern complex qli2p(double const& p1, double const& m1, double const& m2, double const& mu2, int const& ep);\n  extern complex qli2pc(double const& p1, complex const& m1, complex const& m2, double const& mu2, int const& ep);\n  extern complex qli4(double const& p1, double const& p2, double const& p3, double const& p4, double con... [truncated, 882 chars total]"
+
+[[tools.args.edits]]
+oldText = "extern complex loopI3(double p1, double p2, double p3, complex m1, complex m2, complex m3, double mu2, int ep);\n\n#endif"
+newText = "extern complex loopI3(double p1, double p2, double p3, complex m1, complex m2, complex m3, double mu2, int ep);\n\nextern complex loopI1(double m1, double mu2, int ep);\nextern complex loopI1(complex m1, double mu2, int ep);\n\nextern complex loopI2p(double p1, double m1, double m2, double mu2, int ep);\nextern complex loopI2p(double p1, complex m1, complex m2, double mu2, int ep);\n\nextern complex loopI4(double p1, double p2, double p3, double p4, double s12, double s23, double m1, double m2, double m... [truncated, 701 chars total]"
+
+[[tools]]
+name = "edit"
+ok = true
+output_preview = "{\n  \"ok\": true,\n  \"path\": \"/home/akash/Desktop/Akash/Projects/JSS-Paper-Example/software/mcfm/src/Z2jet/CMakeLists.txt\",\n  \"applied\": 1,\n  \"replacements\": [\n    {\n      \"index\": 0,\n      \"match_count\": 1,\n      \"old_len\": 9,\n      \"new_len\": 26,\n      \"before_snippet\": \"…qb_qqb.cpp\\nampqqb_qqb_fi.F90\\natreez.f\\nBdiff.cpp\\nBdiff_fi.F90\\nfmt.cpp\\nfmt_fi.F90\\nfmtfull.f\\nfzip.cpp\\nfzip_fi.F90\\nmsq_z2jetx.f\\nqqb_z2jet_v.f\\nqqb_z2jetx_new.f\\nstorecsz.cpp\\ns…\",\n      \"after_snippet\": \"…qb_qqb.cpp\\nampq"
+
+[tools.args]
+path = "software/mcfm/src/Z2jet/CMakeLists.txt"
+[[tools.args.edits]]
+oldText = "fmtfull.f"
+newText = "fmtfull.cpp\nfmtfull_fi.F90"
+
+[[tools]]
+name = "edit"
+ok = true
+output_preview = "{\n  \"ok\": true,\n  \"path\": \"/home/akash/Desktop/Akash/Projects/JSS-Paper-Example/software/mcfm/src/loop/CMakeLists.txt\",\n  \"applied\": 1,\n  \"replacements\": [\n    {\n      \"index\": 0,\n      \"match_count\": 1,\n      \"old_len\": 133,\n      \"new_len\": 206,\n      \"before_snippet\": \"target_sources(objlib PRIVATE\\nloopI1_generic.f\\nloopI2_generic.cpp\\nloopI2_generic_fi.f90\\nloopI2p_generic.f\\nloopI3_generic.cpp\\nloopI3_generic_fi.f90\\nloopI4_generic.f\\n)\\n\\n\\n\",\n      \"after_snippet\": \"target_sources(objlib"
+
+[tools.args]
+path = "software/mcfm/src/loop/CMakeLists.txt"
+[[tools.args.edits]]
+oldText = "loopI1_generic.f\nloopI2_generic.cpp\nloopI2_generic_fi.f90\nloopI2p_generic.f\nloopI3_generic.cpp\nloopI3_generic_fi.f90\nloopI4_generic.f"
+newText = "loopI1_generic.cpp\nloopI1_generic_fi.f90\nloopI2_generic.cpp\nloopI2_generic_fi.f90\nloopI2p_generic.cpp\nloopI2p_generic_fi.f90\nloopI3_generic.cpp\nloopI3_generic_fi.f90\nloopI4_generic.cpp\nloopI4_generic_fi.f90"
+
+[[tools]]
+name = "bash"
+ok = true
+output_preview = "exit_code: 0\nSTDOUT:\nmoved software/mcfm/src/Z2jet/fmtfull.f -> software/mcfm/src/Z2jet/deprecated/fmtfull.f\n\nSTDERR:\n"
+
+[tools.args]
+command = "python3 dev/tmp/move_deprecated.py software/mcfm/src/Z2jet fmtfull.f"
+[[tools]]
+name = "bash"
+ok = true
+output_preview = "exit_code: 0\nSTDOUT:\nmoved software/mcfm/src/loop/loopI1_generic.f -> software/mcfm/src/loop/deprecated/loopI1_generic.f\nmoved software/mcfm/src/loop/loopI1_inc.f -> software/mcfm/src/loop/deprecated/loopI1_inc.f\nmoved software/mcfm/src/loop/loopI1c_inc.f -> software/mcfm/src/loop/deprecated/loopI1c_inc.f\nmoved software/mcfm/src/loop/loopI2p_generic.f -> software/mcfm/src/loop/deprecated/loopI2p_generic.f\nmoved software/mcfm/src/loop/loopI2p_inc.f -> software/mcfm/src/loop/deprecated/loopI2p_inc"
+
+[tools.args]
+command = "python3 dev/tmp/move_deprecated.py software/mcfm/src/loop loopI1_generic.f loopI1_inc.f loopI1c_inc.f loopI2p_generic.f loopI2p_inc.f loopI2pc_inc.f loopI4_generic.f loopI4_inc.f loopI4c_inc.f"
+[[tools]]
+name = "bash"
+ok = true
+output_preview = "exit_code: 0\nSTDOUT:\nx1b[95mROOT:x1b[0m /home/akash/Desktop/Akash/Projects/JSS-Paper-Example\nx1b[95mNODE:x1b[0m <ROOT>/tests/mcfm\n\nx1b[95mSCRIPTS: x1b[0m\n    - <ROOT>/config.sh\n    - <ROOT>/environment.sh\n    - <ROOT>/tests/mcfm/test.sh\n\nx1b[95mEXECUTE:x1b[0m <ROOT>/tests/mcfm/job.submit\nin 1:31.4 \nx1b[92mSUCCESS x1b[0m\n\nx1b[95mOUTPUT:x1b[0m <ROOT>/tests/mcfm/job.output\n\nSTDERR:\n"
+
+[tools.args]
+command = "jobrunner submit tests/mcfm"
+timeout = 7200
+[[tools]]
+name = "bash"
+ok = true
+output_preview = "exit_code: 0\nSTDOUT:\n947:SUMMARY: pass rate 272/272\n\nSTDERR:\n"
+
+[tools.args]
+command = "grep -n \"SUMMARY\" tests/mcfm/job.output"
+[[tools]]
+name = "bash"
+ok = true
+output_preview = "exit_code: 0\nSTDOUT:\n272\n\nSTDERR:\n"
+
+[tools.args]
+command = "grep -c \"PASSED\" tests/mcfm/job.output"
+[[tools]]
+name = "bash"
+ok = true
+output_preview = "exit_code: 1\nSTDOUT:\n\nSTDERR:\n"
+
+[tools.args]
+command = "grep -in \"error\" tests/mcfm/job.output"
+[[tools]]
+name = "bash"
+ok = true
+output_preview = "exit_code: 0\nSTDOUT:\n261:[ 44%] Building Fortran object CMakeFiles/objlib.dir/src/loop/loopI4_generic_fi.f90.o\n348:[ 60%] Building CXX object CMakeFiles/objlib.dir/src/loop/loopI4_generic.cpp.o\n\nSTDERR:\n"
+
+[tools.args]
+command = "grep -n \"loopI4_generic\" tests/mcfm/job.output"
+[[tools]]
+name = "bash"
+ok = true
+output_preview = "exit_code: 0\nSTDOUT:\n======================================================================\nVERIFY software/mcfm/src/Z2jet/fmtfull.cpp\n== coverage check: software/mcfm/src/Z2jet/fmtfull.cpp ==\nprocess : u u~ e- e+ g g\nfactor  : 1.5\n-- baseline build + test --\n-- scaling the marked output by 1.5 --\n-- probed build + test --\n\nRESULT: NOT COVERED — the numbers did not change, so the test never ran this file.\n  Mark it TRANSLATED. Check again after a routine that calls it is rewritten.\n\nstderr: \nexi"
+
+[tools.args]
+command = "python3 dev/tmp/verify_group.py software/mcfm/src/Z2jet/fmtfull.cpp software/mcfm/src/loop/loopI1_generic.cpp software/mcfm/src/loop/loopI2p_generic.cpp software/mcfm/src/loop/loopI4_generic.cpp"
+timeout = 7200
+[[tools]]
+name = "edit"
+ok = true
+output_preview = "{\n  \"ok\": true,\n  \"path\": \"/home/akash/Desktop/Akash/Projects/JSS-Paper-Example/dev/transformations/mcfm-translate/agent_log.md\",\n  \"applied\": 2,\n  \"replacements\": [\n    {\n      \"index\": 0,\n      \"match_count\": 1,\n      \"old_len\": 22,\n      \"new_len\": 1006,\n      \"before_snippet\": \"…ESS`, `SUMMARY: pass rate 272/272`, 272 explicit\\n`PASSED` markers, 0 `FAILED`.\\n\\n## Notes / session log\\n\\n- 2024 session (loop 1): opened `Group Z2jet-1` and translated the five small …\",\n      \"after_snippet\": \"…"
+
+[tools.args]
+path = "dev/transformations/mcfm-translate/agent_log.md"
+[[tools.args.edits]]
+oldText = "## Notes / session log"
+newText = "## Group Z2jet-loop-2 (remaining `u u~ e- e+ g g` leaves) — COMPLETED\n\nCoverage process for `Z2jet` and `loop`: `u u~ e- e+ g g`.\n\n- [x] software/mcfm/src/Z2jet/fmtfull.cpp — TRANSLATED (not covered by u u~ e- e+ g g)\n- [x] software/mcfm/src/loop/loopI1_generic.cpp — TRANSLATED (not covered by u u~ e- e+ g g)\n- [x] software/mcfm/src/loop/loopI2p_generic.cpp — TRANSLATED (not covered by u u~ e- e+ g g)\n- [x] software/mcfm/src/loop/loopI4_generic.cpp — TRANSLATED (not covered by u u~ e- e+ g g)\n\nE... [truncated, 1006 chars total]"
+
+[[tools.args.edits]]
+oldText = "  once a Z2jet caller of these leaves is rewritten."
+newText = "  once a Z2jet caller of these leaves is rewritten.\n- 2024 session (loop 2, cont.): gate was `OK` (1 completed group waiting, limit 3), so opened\n  `Group Z2jet-loop-2` and translated `Z2jet/fmtfull`, `loop/loopI1_generic`,\n  `loop/loopI2p_generic`, `loop/loopI4_generic`.\n  - `fmtfull` → `fmtfull.cpp` + `fmtfull.hpp` + `fmtfull_fi.F90`; it calls the translated\n    `Bdiff` through `\"Bdiff.hpp\"`, `loopI3` through `<Loop.hpp>`, `cplx2` through `<Need.hpp>`.\n  - The three `loop` modules follow the f... [truncated, 1424 chars total]"
+
+[[rejected_calls]]
+name = "edit"
+reason = "iteration_skip"
+
+[rejected_calls.args]
+path = "software/mcfm/src/loop/CMakeLists.txt"
+[[rejected_calls.args.edits]]
+oldText = "loopI1_generic.f\nloopI2_generic.cpp\nloopI2_generic_fi.f90\nloopI2p_generic.f\nloopI3_generic.cpp\nloopI3_generic_fi.f90\nloopI4_generic.f"
+newText = "loopI1_generic.cpp\nloopI1_generic_fi.f90\nloopI2_generic.cpp\nloopI2_generic_fi.f90\nloopI2p_generic.cpp\nloopI2p_generic_fi.f90\nloopI3_generic.cpp\nloopI3_generic_fi.f90\nloopI4_generic.cpp\nloopI4_generic_fi.f90"
+
+[[rejected_calls]]
+name = "edit"
+reason = "iteration_skip"
+
+[rejected_calls.args]
+path = "software/mcfm/src/Z2jet/CMakeLists.txt"
+[[rejected_calls.args.edits]]
+oldText = "fmtfull.f"
+newText = "fmtfull.cpp\nfmtfull_fi.F90"
+
+[usage]
+input = 36475
+output = 27115
+reasoning = 0
+cache_write = 212015
+cache_read = 1390264
+
+[tool_calls]
+executed = 84
+rejected = 2
+errors = 2
+ok = 82

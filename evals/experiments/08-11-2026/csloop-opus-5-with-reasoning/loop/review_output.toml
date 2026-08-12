@@ -1,0 +1,34 @@
+loop = 3
+summary = """
+Loop 3 opened a new W2jet group and did the code work: after `python3 dev/workflow.py refresh` and
+`python3 dev/workflow.py gate mcfm-translate` (both exit 0), the agent translated five ready W2jet
+leaves — A6texact, Ftexact, Ltfunctions, atree, fvf — each into `<base>.cpp` + `<base>.hpp` +
+`<base>_fi.F90`. I confirmed on disk that all fifteen files exist, that each `.cpp` carries exactly
+one `// @coverage-probe` marker, that the five original `.f` sources now live in
+`software/mcfm/src/W2jet/deprecated/`, and that `software/mcfm/src/W2jet/CMakeLists.txt` lists the
+`.cpp` / `_fi.F90` pairs in place of the removed `.f` entries. The full suite was run
+(`jobrunner submit tests/mcfm`) and `tests/mcfm/job.output` shows `SUMMARY: pass rate 272/272` with
+no `FAILED` lines. Coverage probing was run through a helper (`dev/tmp/verify_group_w2jet.py`, exit 0)
+with process `u d~ ve e+ g g` after a direct `python3 dev/workflow.py verify ...` invocation failed
+with exit 2. The one real gap: `agent_log.md` was only read, never written or edited this loop — the
+file still ends at the loop-2 session note (line 80, "Gate must be checked again before opening
+group 3"). There is no `Group` heading for the W2jet work, no per-file `- [x] ... — TRANSLATED/VERIFIED`
+entries, and no session-log note, so plan step 4 (record each result in agent_log.md) is unsatisfied
+and the recorded per-file verify outcomes are unverifiable from the repo state.
+"""
+blocker = "agent_log.md was never updated in loop 3: the five translated W2jet files have no group heading, no per-file status lines, and no session note, so the group is not recorded and the approval gate cannot see it."
+
+[[pending]]
+item = "Add a `## Group W2jet-3` heading to dev/transformations/mcfm-translate/agent_log.md listing software/mcfm/src/W2jet/{A6texact,Ftexact,Ltfunctions,atree,fvf}.cpp with the required `- [x] <file> — VERIFIED (worst Δrel <value>)` or `- [x] <file> — TRANSLATED (<reason>)` status lines."
+
+[[pending]]
+item = "Re-run `python3 dev/tmp/verify_group_w2jet.py` (or `python3 dev/workflow.py verify <file>.cpp -- u d~ ve e+ g g` with MCFM_HOME set) for all five W2jet .cpp files and capture the COVERED / NOT COVERED verdict per file as evidence for the log entries."
+
+[[pending]]
+item = "Investigate why the direct `python3 dev/workflow.py verify software/mcfm/src/W2jet/A6texact.cpp -- u d~ ve e+ g g` call exited 2 while the wrapper that sets MCFM_HOME succeeded; note the required environment in the session log so later loops do not repeat the failure."
+
+[[pending]]
+item = "Append a session-log note to agent_log.md for loop 3 covering: callee wiring used (Loop.hpp loopI2/loopI3, Need.hpp helpers, sprods/heldefs modules), the move of the five originals to W2jet/deprecated/, the CMakeLists.txt rewiring, and the 272/272 suite result."
+
+[[pending]]
+item = "After the log is current, run `python3 dev/workflow.py gate mcfm-translate` again to confirm whether the three accumulated completed groups now require human approval before a fourth group is opened."

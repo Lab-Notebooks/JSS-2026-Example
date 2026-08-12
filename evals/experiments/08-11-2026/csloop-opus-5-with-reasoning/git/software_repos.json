@@ -1,0 +1,20 @@
+[
+  {
+    "path": "software/mcfm",
+    "head": "1abdcddaad89582552edc41de68e4a6e1ac75f1d",
+    "branch": "adhruv/Convert_to_c++",
+    "status": "## adhruv/Convert_to_c++...origin/adhruv/Convert_to_c++\n D src/W2jet/A6texact.f\n M src/W2jet/CMakeLists.txt\n D src/W2jet/Ftexact.f\n D src/W2jet/Ltfunctions.f\n D src/W2jet/atree.f\n D src/W2jet/fvf.f\n D src/Z2jet/Bdiff.f\n M src/Z2jet/CMakeLists.txt\n D src/Z2jet/ampqqb_qqb.f\n D src/Z2jet/fmt.f\n D src/Z2jet/fmtfull.f\n D src/Z2jet/fzip.f\n D src/Z2jet/storecsz.f\n M src/loop/CMakeLists.txt\n M src/loop/Loop.hpp\n D src/loop/loopI1_generic.f\n D src/loop/loopI1_inc.f\n D src/loop/loopI1c_inc.f\n D src/loop/loopI2p_generic.f\n D src/loop/loopI2p_inc.f\n D src/loop/loopI2pc_inc.f\n D src/loop/loopI4_generic.f\n D src/loop/loopI4_inc.f\n D src/loop/loopI4c_inc.f\n?? Bin/lib/\n?? Bin/test\n?? doxygen_dep/\n?? install/\n?? src/W2jet/A6texact.cpp\n?? src/W2jet/A6texact.hpp\n?? src/W2jet/A6texact_fi.F90\n?? src/W2jet/Ftexact.cpp\n?? src/W2jet/Ftexact.hpp\n?? src/W2jet/Ftexact_fi.F90\n?? src/W2jet/Ltfunctions.cpp\n?? src/W2jet/Ltfunctions.hpp\n?? src/W2jet/Ltfunctions_fi.F90\n?? src/W2jet/atree.cpp\n?? src/W2jet/atree.hpp\n?? src/W2jet/atree_fi.F90\n?? src/W2jet/deprecated/\n?? src/W2jet/fvf.cpp\n?? src/W2jet/fvf.hpp\n?? src/W2jet/fvf_fi.F90\n?? src/Z2jet/Bdiff.cpp\n?? src/Z2jet/Bdiff.hpp\n?? src/Z2jet/Bdiff_fi.F90\n?? src/Z2jet/ampqqb_qqb.cpp\n?? src/Z2jet/ampqqb_qqb.hpp\n?? src/Z2jet/ampqqb_qqb_fi.F90\n?? src/Z2jet/deprecated/\n?? src/Z2jet/fmt.cpp\n?? src/Z2jet/fmt.hpp\n?? src/Z2jet/fmt_fi.F90\n?? src/Z2jet/fmtfull.cpp\n?? src/Z2jet/fmtfull.hpp\n?? src/Z2jet/fmtfull_fi.F90\n?? src/Z2jet/fzip.cpp\n?? src/Z2jet/fzip.hpp\n?? src/Z2jet/fzip_fi.F90\n?? src/Z2jet/storecsz.cpp\n?? src/Z2jet/storecsz.hpp\n?? src/Z2jet/storecsz_fi.F90\n?? src/loop/deprecated/loopI1_generic.f\n?? src/loop/deprecated/loopI1_inc.f\n?? src/loop/deprecated/loopI1c_inc.f\n?? src/loop/deprecated/loopI2p_generic.f\n?? src/loop/deprecated/loopI2p_inc.f\n?? src/loop/deprecated/loopI2pc_inc.f\n?? src/loop/deprecated/loopI4_generic.f\n?? src/loop/deprecated/loopI4_inc.f\n?? src/loop/deprecated/loopI4c_inc.f\n?? src/loop/loopI1_generic.cpp\n?? src/loop/loopI1_generic_fi.f90\n?? src/loop/loopI2p_generic.cpp\n?? src/loop/loopI2p_generic_fi.f90\n?? src/loop/loopI4_generic.cpp\n?? src/loop/loopI4_generic_fi.f90\n"
+  },
+  {
+    "path": "software/pepper",
+    "head": "67f3acc8756fe6ec4fcc9ea360be08f0bb644711",
+    "branch": "43-add-kokkos-mcfm-interface",
+    "status": "## 43-add-kokkos-mcfm-interface...origin/43-add-kokkos-mcfm-interface\n"
+  },
+  {
+    "path": "software/qcdloop",
+    "head": "c8a05202351ca2e803158e99ae8a1c5c05f1437d",
+    "branch": "master",
+    "status": "## master...origin/master\n"
+  }
+]
