@@ -58,6 +58,7 @@ export const meta = {
         },
         {
             title: 'Author'
+            model: 'claude-sonnet-5'
         },
         {
             title: 'Integrate',
@@ -69,6 +70,7 @@ export const meta = {
         },
         {
             title: 'Metadata'
+            model: 'claude-sonnet-5'
         },
     ],
 }
