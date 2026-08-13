@@ -1,0 +1,6 @@
+data = open('dev/tmp/pp_mod_flat.txt').read().strip()
+vals = data.split(',')
+print('pp_mod', len(vals))
+data2 = open('dev/tmp/ppwp2j_mod_flat.txt').read().strip()
+vals2 = data2.split(',')
+print('ppwp2j_mod', len(vals2))
