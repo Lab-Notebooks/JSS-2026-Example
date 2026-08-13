@@ -12,7 +12,8 @@ fetched 2026-08-12:
                     introductory pricing — the previously-scheduled increase
                     to $3/$15 on 2026-09-01 was cancelled.)
 
-Kimi K3.5 (used in experiments/08-12-2026/codescribe-kimi-k3-5) is not an
+Kimi K3 (model id oaic-moonshotai/Kimi-K3; the run directory is named
+codescribe-kimi-k3-5, which is a naming slip -- the model is K3, not K3.5) is not an
 Anthropic model and has no entry here on purpose — cost() raises KeyError for
 it, and callers must treat that run's USD cost as not applicable rather than
 silently pricing it off someone else's rate card.

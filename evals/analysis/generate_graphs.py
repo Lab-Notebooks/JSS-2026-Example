@@ -1,7 +1,7 @@
 #!/usr/bin/env python3.10
 """Generate the paper figures + summary tables for the 08-11/08-12-2026
 evaluation of the mcfm-translate transformation: ccworkflow (sonnet-5 author /
-opus-5 integrate) vs. csloop (opus-5, opus-5 +reasoning x2, and Kimi K3.5).
+opus-5 integrate) vs. csloop (opus-5, opus-5 +reasoning x2, and Kimi K3).
 
 "Files settled" throughout is the exact count from git_file_counts.py (the
 software/mcfm submodule branch for each run), not the agent's own in-loop
@@ -17,8 +17,22 @@ Reads only from experiments/ (read-only). Writes, under analysis/figures/:
   fig3_coverage.png              - standalone, compact
   fig4_wall_time.png             - standalone, compact
   fig5_tool_calls_per_file.png   - standalone, compact
-  fig_combined.png               - all panels together, for single-figure use in a paper
+  fig6_efficiency.png            - standalone, compact (normalized cost/time)
+  fig_combined.png               - the six panels used as the paper's single figure
 and analysis/summary_tables.md (the numeric source of truth behind every panel).
+
+fig_combined.png deliberately does NOT mirror the summary table column-for-
+column. A table already reports per-run totals better than a bar chart can, so
+the combined figure carries only what a table reads poorly: normalized cost and
+throughput, the cost/speed frontier, the cost split by model tier, and the
+input-token composition that explains the cache-share differences. Two panels
+that earlier versions carried were dropped on purpose:
+  - self-reported correctness: 272/272 for every run that reported at all,
+    including a run that translated zero files (the suite passes trivially when
+    nothing changed), so the bar chart was flat and the metric near-vacuous.
+  - reasoning outcome *rate*: a rescaling of the raw outcome counts, with the
+    two conditions differing by ~5 points of "ok" share — indistinguishable as
+    stacked bars. Both conditions' numbers stay in summary_tables.md.
 
 Every plotting function below draws onto an Axes it's given (draw_*), so the
 same code builds both the small standalone figures and the one combined
@@ -125,7 +139,7 @@ RUN_LABELS = {
     ("08-12-2026", "codescribe-opus-5-with-reasoning"): "csloop opus-5 +reasoning (08-12)",
     ("08-12-2026", "codescribe-sonnet-5-with-reasoning"): "csloop sonnet-5 +reasoning (08-12)",
     ("08-12-2026", "codescribe-sonnet-5-with-reasoning-run2"): "csloop sonnet-5 +reasoning (run2, 08-12)",
-    ("08-12-2026", "codescribe-kimi-k3-5"): "csloop Kimi K3.5",
+    ("08-12-2026", "codescribe-kimi-k3-5"): "csloop Kimi K3",
 }
 # Short x-axis codes — keeps bars legible even in the compact standalone
 # figures; each figure captions the full mapping once, below the plot.
@@ -145,7 +159,7 @@ RUN_CODE_CAPTION = (
     "R3 = ccworkflow (sonnet-5 author, opus-5 integrate)  |  R4 = ccworkflow (…, run2)  |  "
     "R5 = csloop opus-5 (run2, 08-12)  |  R6 = csloop opus-5 +reasoning (08-12)  |  "
     "R7 = csloop sonnet-5 +reasoning (08-12)  |  R8 = csloop sonnet-5 +reasoning (run2, 08-12)  |  "
-    "R9 = csloop Kimi K3.5"
+    "R9 = csloop Kimi K3"
 )
 KEYS = list(RUN_LABELS.keys())
 
@@ -578,7 +592,7 @@ def make_standalone_figures(runs, coverage, files_settled, reasoning_stats, wall
     fig.tight_layout(rect=[0, 0.20, 1, 0.90])
     save_fig(fig, "fig1_cost_and_cache.png", [
         RUN_CODE_CAPTION,
-        "Kimi K3.5 is not an Anthropic model and is excluded from USD cost (no rate card here on purpose).",
+        "Kimi K3 is not an Anthropic model and is excluded from USD cost (no rate card here on purpose).",
     ])
 
     # Fig 2 — csloop opus-5: +reasoning vs run2
@@ -664,7 +678,7 @@ def make_combined_figure(runs, coverage, files_settled, reasoning_stats, wall_ti
         y=0.985,
     )
     fig.text(0.5, 0.025, RUN_CODE_CAPTION, ha="center", fontsize=CAPTION_SIZE * 1.55, color=INK)
-    fig.text(0.5, 0.005, "Kimi K3.5 tokens are excluded from USD cost (non-Anthropic, no rate card here).",
+    fig.text(0.5, 0.005, "Kimi K3 tokens are excluded from USD cost (non-Anthropic, no rate card here).",
               ha="center", fontsize=CAPTION_SIZE * 1.55, color=INK)
 
     out = FIGURES_DIR / "fig_combined.png"
@@ -797,6 +811,403 @@ def write_summary_tables(runs, coverage, files_settled, translated_units, reason
     print(f"wrote {out}")
 
 
+# ---------------------------------------------------------------------------
+# LaTeX / TikZ output — the paper renders its evaluation figure as pgfplots
+# rather than an imported PNG, so it picks up the document's own fonts and
+# stays vector. Emitted from the same parsed data as the PNGs and the summary
+# tables above, so there is exactly one numeric source of truth; the .tex files
+# below are generated artifacts and carry a do-not-hand-edit banner.
+# ---------------------------------------------------------------------------
+TEX_DIR = Path(__file__).parent / "tex"
+
+TEX_BANNER = (
+    "%% GENERATED by evals/analysis/generate_graphs.py -- DO NOT HAND-EDIT.\n"
+    "%% Regenerate with: python3 analysis/generate_graphs.py\n"
+    "%% Numbers are identical to analysis/summary_tables.md.\n"
+)
+
+# Palette mirrored into LaTeX so the figure matches the PNG version exactly.
+TEX_COLORS = [
+    ("evalBlue", CAT["blue"]),
+    ("evalOrange", CAT["orange"]),
+    ("evalAqua", CAT["aqua"]),
+    ("evalViolet", CAT["violet"]),
+    ("evalYellow", CAT["yellow"]),
+    ("evalGrid", GRID),
+    ("evalAxis", AXIS),
+    ("evalInk", INK_SECONDARY),
+]
+
+
+def _tex_escape(text):
+    for a, b in [("\\", r"\textbackslash{}"), ("&", r"\&"), ("%", r"\%"), ("$", r"\$"),
+                 ("#", r"\#"), ("_", r"\_"), ("{", r"\{"), ("}", r"\}"), ("~", r"\textasciitilde{}"),
+                 ("^", r"\textasciicircum{}")]:
+        text = text.replace(a, b)
+    return text
+
+
+def derived_metrics(runs, files_settled, wall_times, tool_calls_per_file):
+    """Per-run normalized metrics used by both the TikZ figure and the tables.
+
+    Every "per file" metric is undefined when a run settled zero files; those
+    come back as None and are rendered as an explicit n/a rather than a zero
+    bar, because "settled nothing" and "settled something cheaply" are opposite
+    outcomes that a zero-height bar would conflate.
+    """
+    out = {}
+    for k in KEYS:
+        r = runs[k]
+        files = files_settled[k] or 0
+        wt = wall_times.get(k)
+        input_side = r["input"] + r["cache_write"] + r["cache_read"]
+        priced = not r["unpriced_models"]
+        out[k] = {
+            "code": RUN_CODES[k],
+            "label": RUN_LABELS[k],
+            "harness": r["harness"],
+            "files": files,
+            "cost": r["cost"] if priced else None,
+            "priced": priced,
+            "cost_by_model": r["cost_by_model"],
+            "minutes": (wt / 60.0) if wt else None,
+            "tool_calls": tool_calls_per_file[k]["tool_calls"],
+            "calls_per_file": tool_calls_per_file[k]["per_file"],
+            "cost_per_file": (r["cost"] / files) if (priced and files) else None,
+            "min_per_file": (wt / 60.0 / files) if (wt and files) else None,
+            "input_side": input_side,
+            "tokens_per_file": (input_side / files) if files else None,
+            "raw_share": 100.0 * r["input"] / input_side if input_side else 0.0,
+            "write_share": 100.0 * r["cache_write"] / input_side if input_side else 0.0,
+            "read_share": 100.0 * r["cache_read"] / input_side if input_side else 0.0,
+        }
+    return out
+
+
+# pgfplots counts tick and axis labels inside `width`, so three panels plus the
+# group separations must fit \textwidth of a two-column page: 3 x 0.27 = 0.81
+# \textwidth plus 2 x 1.05cm of separation clears a 17.8cm text block.
+def _axis_common(width="0.27\\textwidth", height="3.4cm"):
+    return (
+        f"width={width}, height={height},\n"
+        "  axis lines=left, axis line style={draw=evalAxis, line width=0.4pt},\n"
+        "  ymajorgrids, grid style={draw=evalGrid, line width=0.4pt},\n"
+        "  tick label style={font=\\scriptsize, /pgf/number format/assume math mode=true},\n"
+        "  label style={font=\\scriptsize, color=evalInk},\n"
+        # Default y-label placement reserves room for the widest possible tick
+        # labels, which in a tight group leaves the label floating far enough
+        # left to look attached to the previous panel. Pinning it to the actual
+        # tick extent closes that gap; the labels themselves are kept short for
+        # the same reason.
+        "  ylabel near ticks,\n"
+        "  title style={font=\\scriptsize\\bfseries, yshift=-1pt},\n"
+        "  legend style={font=\\scriptsize, draw=none, fill=none, inner sep=1pt},\n"
+        "  every axis plot/.append style={line width=0.4pt},\n"
+        "  xtick style={draw=none}, ytick style={draw=none},\n"
+        "  enlarge x limits=0.08, ymin=0,\n"
+    )
+
+
+def _bar_coords(metrics, field, scale=1.0):
+    """`(code, value)` pairs for the runs where `field` is defined, plus the
+    list of codes where it is not (rendered as an n/a annotation)."""
+    pts, missing = [], []
+    for k in KEYS:
+        m = metrics[k]
+        v = m[field]
+        if v is None:
+            missing.append(m["code"])
+        else:
+            pts.append((m["code"], v * scale))
+    return pts, missing
+
+
+def _coord_str(pts, fmt="{:.4g}"):
+    return " ".join("(%s,%s)" % (c, fmt.format(v)) for c, v in pts)
+
+
+def _symbolic_x():
+    """Symbolic x axis listing every run code explicitly.
+
+    xtick is enumerated rather than left as `xtick=data`: several panels split
+    their bars into two harness series covering disjoint subsets of the runs,
+    and `xtick=data` then labels only the runs present in one series, silently
+    dropping the rest of the tick labels.
+    """
+    codes = ",".join(RUN_CODES[k] for k in KEYS)
+    return f"symbolic x coords={{{codes}}}, xtick={{{codes}}},\n"
+
+
+def _na_nodes(missing, note="n/a"):
+    """Explicit n/a marks where a metric is undefined, so a missing bar is
+    never read as a zero."""
+    return "".join(
+        f"\\node[font=\\tiny, color=evalInk, rotate=90, anchor=west] at (axis cs:{c},0) "
+        f"{{\\,{note}}};\n"
+        for c in missing
+    )
+
+
+def _panel_files(metrics):
+    cc = [(metrics[k]["code"], metrics[k]["files"]) for k in KEYS if metrics[k]["harness"] == "ccworkflow"]
+    cs = [(metrics[k]["code"], metrics[k]["files"]) for k in KEYS if metrics[k]["harness"] == "csloop"]
+    return (
+        "\\nextgroupplot[" + _axis_common() + _symbolic_x() +
+        "  ybar, bar width=6pt, title={(a) Files settled (git-exact)},\n"
+        "  ylabel={Files}, ymax=52,\n"
+        "  nodes near coords, nodes near coords style={font=\\tiny, color=evalInk},\n"
+        # Legend sits over the short right-hand bars, the only free interior
+        # space; north-west would cover R1/R2.
+        "  legend style={at={(0.99,0.97)}, anchor=north east}, legend columns=1,\n"
+        "]\n"
+        # The two harness series cover disjoint x values, so bar shift=0pt keeps
+        # every bar centred on its own tick instead of offsetting it into a
+        # two-series slot and leaving a phantom gap beside it.
+        "\\addplot[fill=evalBlue, draw=none, bar shift=0pt] coordinates {" + _coord_str(cc, "{:.0f}") + "};\n"
+        "\\addplot[fill=evalOrange, draw=none, bar shift=0pt] coordinates {" + _coord_str(cs, "{:.0f}") + "};\n"
+        "\\legend{ccworkflow, csloop}\n"
+    )
+
+
+def _panel_cost_by_model(metrics):
+    models = ["claude-sonnet-5", "claude-opus-5"]
+    colors = {"claude-sonnet-5": "evalBlue", "claude-opus-5": "evalViolet"}
+    lines = [
+        "\\nextgroupplot[" + _axis_common() + _symbolic_x() +
+        "  ybar stacked, bar width=6pt, title={(b) Total cost by model tier},\n"
+        "  ylabel={USD}, ymax=132,\n"
+        # North-west sits on top of the two tall ccworkflow stacks; the csloop
+        # stacks on the right are short enough to clear a legend.
+        "  legend style={at={(0.99,0.97)}, anchor=north east}, legend columns=1,\n"
+        "]\n"
+    ]
+    for m in models:
+        pts = [(metrics[k]["code"], metrics[k]["cost_by_model"].get(m, 0.0)) for k in KEYS]
+        lines.append(f"\\addplot[fill={colors[m]}, draw=none] coordinates {{" + _coord_str(pts, "{:.2f}") + "};\n")
+    lines.append("\\legend{sonnet-5, opus-5}\n")
+    # Kimi carries no rate card; mark it so a zero-height stack is not read as free.
+    kimi = [metrics[k]["code"] for k in KEYS if not metrics[k]["priced"]]
+    lines.append(_na_nodes(kimi, "unpriced"))
+    return "".join(lines)
+
+
+def _panel_frontier(metrics):
+    """Cost per file against minutes per file — the one panel that shows a
+    relationship rather than a per-run value, so it earns space a table cannot."""
+    lines = [
+        "\\nextgroupplot[" + _axis_common() +
+        "  title={(c) Cost--time frontier},\n"
+        "  xlabel={Minutes per file}, ylabel={USD per file},\n"
+        "  xmin=0.4, xmax=8.6, ymin=0, ymax=5.4, enlarge x limits=false,\n"
+        "]\n"
+    ]
+
+    # The csloop points cluster tightly around (2.6-3.5 min, $0.5-1.0), so a
+    # single fixed label anchor overprints them. Anchors alternate around the
+    # x-ordered points, which pushes each label away from its nearest neighbour.
+    ANCHORS = ["south west", "north east", "north west", "south east"]
+    ordered = sorted(
+        (
+            (metrics[k]["min_per_file"], metrics[k]["cost_per_file"],
+             metrics[k]["code"], metrics[k]["harness"])
+            for k in KEYS
+            if metrics[k]["min_per_file"] is not None
+            and metrics[k]["cost_per_file"] is not None
+        ),
+        key=lambda p: p[0],
+    )
+    anchor_of = {code: ANCHORS[i % len(ANCHORS)] for i, (_, _, code, _) in enumerate(ordered)}
+
+    for harness, color in [("ccworkflow", "evalBlue"), ("csloop", "evalOrange")]:
+        pts = [p for p in ordered if p[3] == harness]
+        lines.append(
+            f"\\addplot[only marks, mark=*, mark size=1.7pt, color={color}] coordinates {{"
+            + " ".join(f"({x:.3g},{y:.3g})" for x, y, _, _ in pts)
+            + "};\n"
+        )
+        for x, y, code, _ in pts:
+            lines.append(
+                f"\\node[font=\\tiny, color=evalInk, anchor={anchor_of[code]}, inner sep=1.5pt]\n"
+                f"  at (axis cs:{x:.3g},{y:.3g}) {{{code}}};\n"
+            )
+
+    # Colour meaning is already established by panel (a)'s legend, so this panel
+    # spends its interior space on the reading direction instead of repeating it.
+    # Bottom-right is the only quadrant with no data in it (the slow-and-cheap
+    # corner nothing landed in), so the reading hint goes there.
+    lines.append(
+        "\\node[font=\\tiny, color=evalInk, anchor=south east] at (axis cs:8.5,0.05)\n"
+        "  {lower-left is better};\n"
+    )
+    return "".join(lines)
+
+
+def _panel_calls_per_file(metrics):
+    cc, cs, missing = [], [], []
+    for k in KEYS:
+        m = metrics[k]
+        if m["calls_per_file"] is None:
+            missing.append(m["code"])
+        elif m["harness"] == "ccworkflow":
+            cc.append((m["code"], m["calls_per_file"]))
+        else:
+            cs.append((m["code"], m["calls_per_file"]))
+    return (
+        "\\nextgroupplot[" + _axis_common() + _symbolic_x() +
+        "  ybar, bar width=6pt, title={(d) Tool calls per file settled},\n"
+        "  ylabel={Calls / file}, ymax=84,\n"
+        "  nodes near coords, nodes near coords style={font=\\tiny, color=evalInk},\n"
+        "  /pgf/number format/fixed, /pgf/number format/precision=0,\n"
+        "]\n"
+        "\\addplot[fill=evalBlue, draw=none, bar shift=0pt] coordinates {" + _coord_str(cc, "{:.1f}") + "};\n"
+        "\\addplot[fill=evalOrange, draw=none, bar shift=0pt] coordinates {" + _coord_str(cs, "{:.1f}") + "};\n"
+        + _na_nodes(missing, "n/a (0 files)")
+    )
+
+
+def _panel_input_composition(metrics):
+    """100\\% stacked input-side token mix. This is the panel that explains the
+    cache-share column in the table: a run with no cache-write at all cannot
+    reach the read share the others do."""
+    lines = [
+        "\\nextgroupplot[" + _axis_common() + _symbolic_x() +
+        "  ybar stacked, bar width=6pt, title={(e) Input-side token mix},\n"
+        "  ylabel={Share of input (\\%)}, ymax=104, ytick={0,25,50,75,100},\n"
+        # Every bar is full height here, so there is no interior space at all:
+        # the legend has to go under the axis.
+        "  legend style={at={(0.5,-0.30)}, anchor=north}, legend columns=3,\n"
+        "]\n"
+    ]
+    for field, color in [("read_share", "evalAqua"), ("write_share", "evalViolet"), ("raw_share", "evalOrange")]:
+        pts = [(metrics[k]["code"], metrics[k][field]) for k in KEYS]
+        lines.append(f"\\addplot[fill={color}, draw=none] coordinates {{" + _coord_str(pts, "{:.2f}") + "};\n")
+    lines.append("\\legend{cache read, cache write, uncached}\n")
+    return "".join(lines)
+
+
+def _panel_tokens_per_file(metrics):
+    """Input-side tokens per file settled, log scale. A model-agnostic cost
+    proxy: it is the only efficiency panel that can include the non-Anthropic
+    run, which has no rate card and therefore no USD figure anywhere else."""
+    cc, cs, missing = [], [], []
+    for k in KEYS:
+        m = metrics[k]
+        if m["tokens_per_file"] is None:
+            missing.append(m["code"])
+        elif m["harness"] == "ccworkflow":
+            cc.append((m["code"], m["tokens_per_file"] / 1e6))
+        else:
+            cs.append((m["code"], m["tokens_per_file"] / 1e6))
+    # Linear, not log. The spread here is only ~27x, which a linear axis shows
+    # honestly; a log axis would both flatten the very gap the panel exists to
+    # show and make `nodes near coords` print log10 of each value rather than
+    # the value itself.
+    return (
+        "\\nextgroupplot[" + _axis_common() + _symbolic_x() +
+        "  ybar, bar width=6pt,\n"
+        "  title={(f) Input tokens per file settled},\n"
+        "  ylabel={M tokens / file}, ymax=13,\n"
+        # Two-decimal labels on adjacent short bars collide horizontally at the
+        # printed panel width, so they are set vertically here.
+        "  nodes near coords, nodes near coords style={font=\\tiny, color=evalInk,\n"
+        "    rotate=90, anchor=west},\n"
+        "  /pgf/number format/fixed, /pgf/number format/precision=2,\n"
+        "]\n"
+        "\\addplot[fill=evalBlue, draw=none, bar shift=0pt] coordinates {" + _coord_str(cc, "{:.2f}") + "};\n"
+        "\\addplot[fill=evalOrange, draw=none, bar shift=0pt] coordinates {" + _coord_str(cs, "{:.2f}") + "};\n"
+        + _na_nodes(missing, "n/a (0 files)")
+    )
+
+
+def write_tikz_figure(metrics):
+    TEX_DIR.mkdir(exist_ok=True)
+    body = [
+        TEX_BANNER,
+        "%% Six-panel evaluation figure. Requires pgfplots + the groupplots\n"
+        "%% library and the evalXxx colors, both set up in jss-submission.sty.\n",
+        "\\begin{tikzpicture}\n",
+        "\\begin{groupplot}[group style={group size=3 by 2, horizontal sep=1.15cm,\n"
+        "    vertical sep=1.5cm}]\n",
+        _panel_files(metrics),
+        _panel_cost_by_model(metrics),
+        _panel_frontier(metrics),
+        _panel_calls_per_file(metrics),
+        _panel_input_composition(metrics),
+        _panel_tokens_per_file(metrics),
+        "\\end{groupplot}\n",
+        "\\end{tikzpicture}\n",
+    ]
+    out = TEX_DIR / "fig_eval.tex"
+    out.write_text("".join(body))
+    print(f"wrote {out}")
+
+
+def write_tikz_colors():
+    TEX_DIR.mkdir(exist_ok=True)
+    lines = [TEX_BANNER, "%% \\input this in the preamble (or paste into jss-submission.sty).\n"]
+    for name, hexval in TEX_COLORS:
+        lines.append(f"\\definecolor{{{name}}}{{HTML}}{{{hexval.lstrip('#').upper()}}}\n")
+    out = TEX_DIR / "eval_colors.tex"
+    out.write_text("".join(lines))
+    print(f"wrote {out}")
+
+
+def write_tex_tables(metrics, coverage, translated_units):
+    TEX_DIR.mkdir(exist_ok=True)
+
+    # --- Table 1: the per-run numbers the figure deliberately does not repeat.
+    rows = []
+    for k in KEYS:
+        m = metrics[k]
+        cost = f"{m['cost']:.2f}" if m["priced"] else "n/a"
+        cpf = f"{m['cost_per_file']:.2f}" if m["cost_per_file"] is not None else "--"
+        mpf = f"{m['min_per_file']:.1f}" if m["min_per_file"] is not None else "--"
+        cpfile = f"{m['calls_per_file']:.1f}" if m["calls_per_file"] is not None else "--"
+        rows.append(
+            f"    {m['code']} & {_tex_escape(m['label'])} & {m['files']} & "
+            f"{m['minutes']:.0f} & {cost} & {cpf} & {mpf} & {cpfile} & {m['read_share']:.0f} \\\\\n"
+        )
+    # Column map: 1 code, 2 configuration, 3-5 run totals (files, minutes, USD),
+    # 6-8 per-file (USD, minutes, tool calls), 9 cache-read share. The USD total
+    # belongs under "Run totals", so the spans are 3-5 and 6-8; cache share sits
+    # under neither.
+    tbl1 = [
+        TEX_BANNER,
+        "\\begin{tabular}{@{}llrrrrrrr@{}}\n",
+        "  \\toprule\n",
+        "  & & \\multicolumn{3}{c}{Run totals} & \\multicolumn{3}{c}{Per file settled} & \\\\\n",
+        "  \\cmidrule(lr){3-5}\\cmidrule(lr){6-8}\n",
+        "  & Configuration & Files & Min & USD & USD & Min & Tool calls & Cache \\%\\\\\n",
+        "  \\midrule\n",
+        *rows,
+        "  \\bottomrule\n",
+        "\\end{tabular}\n",
+    ]
+    (TEX_DIR / "tab_runs.tex").write_text("".join(tbl1))
+    print(f"wrote {TEX_DIR / 'tab_runs.tex'}")
+
+    # --- Table 2: module coverage (which part of the tree each run reached).
+    mods = modules_touched(translated_units)
+    all_modules = sorted({m for counts in mods.values() for m in counts})
+    cov_rows = []
+    for k in KEYS:
+        counts = mods[k]
+        cells = " & ".join(str(counts.get(m, "")) or "--" for m in all_modules)
+        cov_rows.append(f"    {RUN_CODES[k]} & {cells} & {sum(counts.values())} \\\\\n")
+    tbl2 = [
+        TEX_BANNER,
+        "\\begin{tabular}{@{}l" + "r" * (len(all_modules) + 1) + "@{}}\n",
+        "  \\toprule\n",
+        "  & " + " & ".join(_tex_escape(m) for m in all_modules) + " & Total \\\\\n",
+        "  \\midrule\n",
+        *cov_rows,
+        "  \\bottomrule\n",
+        "\\end{tabular}\n",
+    ]
+    (TEX_DIR / "tab_coverage.tex").write_text("".join(tbl2))
+    print(f"wrote {TEX_DIR / 'tab_coverage.tex'}")
+
+
 def main():
     runs, cc_rows, cs_rows = load_run_aggregates()
     print(f"ccworkflow rows: {len(cc_rows)}, csloop rows: {len(cs_rows)}")
@@ -820,10 +1231,17 @@ def main():
     for k, t in tool_calls_per_file.items():
         print(f"{k}: {t}")
 
+    metrics = derived_metrics(runs, files_settled, wall_times, tool_calls_per_file)
+
     make_standalone_figures(runs, coverage, files_settled, reasoning_stats, wall_times, tool_calls_per_file)
     _bump_fonts_for_combined()
     make_combined_figure(runs, coverage, files_settled, reasoning_stats, wall_times, tool_calls_per_file)
     write_summary_tables(runs, coverage, files_settled, translated_units, reasoning_stats, wall_times, tool_calls_per_file)
+
+    # LaTeX/TikZ artifacts consumed directly by the paper.
+    write_tikz_colors()
+    write_tikz_figure(metrics)
+    write_tex_tables(metrics, coverage, translated_units)
 
 
 if __name__ == "__main__":
