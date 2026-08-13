@@ -71,7 +71,7 @@ sharing the repository shares both the code and the means to continue the work.
 
 ```mermaid
 flowchart LR
-    A["you + AI"] -->|"clone · push · pull"| G[("lab-notebook<br/>versioned tree")]
+    A["you + AI"] -->|"clone · push · pull"| G[("lab-notebook<br/> versioned tree")]
     B["collaborator + AI"] -->|"clone · push · pull"| G
     A <-.->|"coordinate"| B
 ```
@@ -100,8 +100,9 @@ lab-notebook/
 └── dev/                        ←   interaction layer for human-AI collaboration
     ├── workflow.py                 shared command line for humans and agents
     ├── tools/                      deterministic capabilities
-    │   ├── index/  draft/  coverage/  approve/
-    │   └── cleanup/  closure/  kokkos/  common/
+    │   ├── index/
+    │   └── draft/
+    │   └── ...
     └── transformations/
         ├── mcfm-translate/
         │   ├── desired_spec.md     the Spec    (human-owned)
@@ -289,16 +290,16 @@ findings back into the next cycle.
 
 ```mermaid
 flowchart TD
-    RL["Reload task template if changed"] --> AU["Author: advance plan<br/>emit STATUS + NEXT STEPS"]
-    AU --> SU["Orchestrator builds LoopSummary<br/><i>in memory</i>"]
-    SU --> D1{"STATUS:<br/>COMPLETE?"}
-    D1 -->|yes| X1["exit<br/><i>review skipped</i>"]
-    D1 -->|no| RV["Reviewer writes<br/>review_output.toml"]
-    RV --> UP["Orchestrator updates pending_items<br/><i>in memory</i>"]
-    UP --> D2{"pending or<br/>blocker?"}
+    RL["Reload task template if changed"] --> AU["Author: advance plan<br/> emit STATUS + NEXT STEPS"]
+    AU --> SU["Orchestrator builds LoopSummary<br/> <i>in memory</i>"]
+    SU --> D1{"STATUS:<br/> COMPLETE?"}
+    D1 -->|yes| X1["exit<br/> <i>review skipped</i>"]
+    D1 -->|no| RV["Reviewer writes<br/> review_output.toml"]
+    RV --> UP["Orchestrator updates pending_items<br/> <i>in memory</i>"]
+    UP --> D2{"pending or<br/> blocker?"}
     D2 -->|no| X2["exit"]
     D2 -->|"yes: inject summary"| RL
-    AU -.-> LOG["loop log:<br/>inspection / crash-resume"]
+    AU -.-> LOG["loop log:<br/> inspection / crash-resume"]
     RV -.-> LOG
 ```
 
