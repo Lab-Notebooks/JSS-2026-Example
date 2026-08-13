@@ -49,26 +49,52 @@ def _resolve_branch_ref(day, run_name):
     return None
 
 
-def translated_file_count(day, run_name):
-    """Exact count of original Fortran files retired (renamed to deprecated/
-    or deleted outright) under src/, relative to BASE_REF. Returns None if the
-    branch can't be found."""
+def translated_file_units(day, run_name):
+    """Sorted list of unit identifiers for original Fortran files retired
+    (renamed to deprecated/ or deleted outright) under src/, relative to
+    BASE_REF — e.g. "BDK/M1bit1", "W2jet/fpp". One entry per translated file;
+    the .cpp/.hpp/_fi.F90 outputs of that translation are not separate
+    entries. Returns None if the branch can't be found."""
     ref = _resolve_branch_ref(day, run_name)
     if ref is None:
         return None
     diff = _git("diff", "--name-status", BASE_REF, ref, "--", "src/")
-    renamed = 0
-    deleted = 0
+    units = []
     for line in diff.splitlines():
         parts = line.split("\t")
-        status = parts[0]
+        status, path = parts[0], parts[1]
         if status.startswith("R") and status != "R100":
             continue  # partial-similarity renames aren't seen in practice; be conservative
         if status == "R100":
-            renamed += 1
-        elif status == "D" and parts[1].rstrip().lower().endswith((".f", ".f90")):
-            deleted += 1
-    return renamed + deleted
+            units.append(path)
+        elif status == "D" and path.rstrip().lower().endswith((".f", ".f90")):
+            units.append(path)
+    # Strip "src/" prefix and extension so the identifier is stable whether
+    # the file was found via a deprecated/ rename or a plain delete.
+    cleaned = []
+    for u in units:
+        u = u[len("src/"):] if u.startswith("src/") else u
+        for ext in (".f90", ".F90", ".f"):
+            if u.endswith(ext):
+                u = u[: -len(ext)]
+                break
+        cleaned.append(u)
+    return sorted(cleaned)
+
+
+def translated_file_count(day, run_name):
+    """Exact count of original Fortran files retired, relative to BASE_REF.
+    Returns None if the branch can't be found."""
+    units = translated_file_units(day, run_name)
+    return None if units is None else len(units)
+
+
+def module_of(unit):
+    """Top-level src/ subdirectory a unit belongs to, e.g. "BDK" for
+    "BDK/M1bit1". Units are built from the pre-rename path (see
+    translated_file_units), so this is always the module the file lived in
+    before translation, never "deprecated"."""
+    return unit.split("/")[0]
 
 
 if __name__ == "__main__":
@@ -76,8 +102,12 @@ if __name__ == "__main__":
         ("08-11-2026", "csloop-opus-5"),
         ("08-11-2026", "csloop-opus-5-with-reasoning"),
         ("08-12-2026", "ccworkflow-sonnet-5-opus-5-integrate"),
+        ("08-12-2026", "ccworkflow-sonnet-5-opus-5-integrate-run2"),
         ("08-12-2026", "codescribe-opus-5-run2"),
         ("08-12-2026", "codescribe-opus-5-with-reasoning"),
+        ("08-12-2026", "codescribe-sonnet-5-with-reasoning"),
+        ("08-12-2026", "codescribe-sonnet-5-with-reasoning-run2"),
         ("08-12-2026", "codescribe-kimi-k3-5"),
     ]:
-        print(day, run_name, translated_file_count(day, run_name))
+        units = translated_file_units(day, run_name)
+        print(day, run_name, len(units) if units is not None else None, units)

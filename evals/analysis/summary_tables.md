@@ -11,6 +11,7 @@
 | csloop opus-5 (run2, 08-12) | $14.76 | 91% | 49 min | 22.5 | 19 | 2.6 min | $0.78 |
 | csloop opus-5 +reasoning (08-12) | $13.75 | 89% | 45 min | 27.4 | 14 | 3.2 min | $0.98 |
 | csloop sonnet-5 +reasoning (08-12) | $5.17 | 91% | 34 min | — | 0 | — | — |
+| csloop sonnet-5 +reasoning (run2, 08-12) | $4.89 | 90% | 35 min | 35.0 | 10 | 3.5 min | $0.49 |
 | csloop Kimi K3.5 | $0.00 (n/a, non-Anthropic) | 48% | 39 min | 68.8 | 5 | 7.9 min | n/a |
 
 ## Token usage, cost, cache & wall time detail
@@ -24,6 +25,7 @@
 | csloop opus-5 (run2, 08-12) | 217,433 | 148,767 | 789,671 | 10,046,165 | 91% | $14.76 | 49 min |
 | csloop opus-5 +reasoning (08-12) | 186,152 | 157,626 | 796,443 | 7,796,182 | 89% | $13.75 | 45 min |
 | csloop sonnet-5 +reasoning (08-12) | 187,693 | 129,013 | 703,545 | 8,733,778 | 91% | $5.17 | 34 min |
+| csloop sonnet-5 +reasoning (run2, 08-12) | 190,507 | 130,816 | 658,644 | 7,786,567 | 90% | $4.89 | 35 min |
 | csloop Kimi K3.5 | 6,713,860 | 72,134 | 0 | 6,229,312 | 48% | $0.00 (+ tokens from oaic-moonshotai/Kimi-K3, not priced) | 39 min |
 
 ## Cost by model
@@ -37,6 +39,7 @@
 | csloop opus-5 (run2, 08-12) | $14.76 | $0.00 |
 | csloop opus-5 +reasoning (08-12) | $13.75 | $0.00 |
 | csloop sonnet-5 +reasoning (08-12) | $0.00 | $5.17 |
+| csloop sonnet-5 +reasoning (run2, 08-12) | $0.00 | $4.89 |
 | csloop Kimi K3.5 | $0.00 | $0.00 |
 
 ## csloop opus-5: +reasoning vs. run2 tool-call outcomes (08-12-2026)
@@ -57,4 +60,42 @@
 | csloop opus-5 (run2, 08-12) | stopped-at-gate | — |
 | csloop opus-5 +reasoning (08-12) | stopped-at-gate | 272/272 |
 | csloop sonnet-5 +reasoning (08-12) | stopped-at-gate | 272/272 |
+| csloop sonnet-5 +reasoning (run2, 08-12) | stopped-at-gate | — |
 | csloop Kimi K3.5 | stopped-at-gate | — |
+
+## Which src/ module each run translated files from (git-exact)
+
+Which top-level `software/mcfm/src/` directory each run's translated files came from — shows whether runs converged on the same module or scattered across different ones.
+
+| Run | BDK | Mods | Procdep | ThreeJets | W2jet | Z2jet | loop | Total |
+|---|---:|---:|---:|---:|---:|---:|---:|---:|
+| csloop opus-5 (08-11) |  |  |  |  | 15 |  |  | 15 |
+| csloop opus-5 +reasoning (08-11) |  |  |  |  | 5 | 6 | 9 | 20 |
+| ccworkflow (sonnet-5 author, opus-5 integrate) | 12 | 2 | 1 | 11 |  | 6 | 9 | 41 |
+| ccworkflow (sonnet-5 author, opus-5 integrate, run2) | 15 |  |  |  |  |  |  | 15 |
+| csloop opus-5 (run2, 08-12) |  |  |  |  | 19 |  |  | 19 |
+| csloop opus-5 +reasoning (08-12) |  |  |  |  | 14 |  |  | 14 |
+| csloop sonnet-5 +reasoning (08-12) |  |  |  |  |  |  |  | 0 |
+| csloop sonnet-5 +reasoning (run2, 08-12) | 10 |  |  |  |  |  |  | 10 |
+| csloop Kimi K3.5 |  |  |  |  | 5 |  |  | 5 |
+
+## File-level overlap between runs sharing a module (git-exact)
+
+For every pair of runs that translated files from at least one of the same modules: how many of the *exact same files* they both picked, vs. how many files each translated in total. High overlap relative to the smaller run's total means the two runs converged on the same files; low overlap despite a shared module means they diverged within it.
+
+| Run A | Run B | Shared module(s) | Files (A) | Files (B) | Overlap | Overlap / min(A,B) |
+|---|---|---|---:|---:|---:|---:|
+| csloop opus-5 (08-11) | csloop opus-5 (run2, 08-12) | W2jet | 15 | 19 | 14 | 93% |
+| csloop opus-5 +reasoning (08-11) | ccworkflow (sonnet-5 author, opus-5 integrate) | Z2jet, loop | 20 | 41 | 14 | 70% |
+| csloop opus-5 (run2, 08-12) | csloop opus-5 +reasoning (08-12) | W2jet | 19 | 14 | 12 | 86% |
+| csloop opus-5 (08-11) | csloop opus-5 +reasoning (08-12) | W2jet | 15 | 14 | 11 | 79% |
+| ccworkflow (sonnet-5 author, opus-5 integrate) | ccworkflow (sonnet-5 author, opus-5 integrate, run2) | BDK | 41 | 15 | 8 | 53% |
+| csloop opus-5 (08-11) | csloop opus-5 +reasoning (08-11) | W2jet | 15 | 20 | 5 | 33% |
+| csloop opus-5 +reasoning (08-11) | csloop opus-5 (run2, 08-12) | W2jet | 20 | 19 | 5 | 26% |
+| csloop opus-5 (run2, 08-12) | csloop Kimi K3.5 | W2jet | 19 | 5 | 5 | 100% |
+| csloop opus-5 +reasoning (08-11) | csloop opus-5 +reasoning (08-12) | W2jet | 20 | 14 | 4 | 29% |
+| csloop opus-5 (08-11) | csloop Kimi K3.5 | W2jet | 15 | 5 | 3 | 60% |
+| ccworkflow (sonnet-5 author, opus-5 integrate) | csloop sonnet-5 +reasoning (run2, 08-12) | BDK | 41 | 10 | 3 | 30% |
+| csloop opus-5 +reasoning (08-12) | csloop Kimi K3.5 | W2jet | 14 | 5 | 3 | 60% |
+| csloop opus-5 +reasoning (08-11) | csloop Kimi K3.5 | W2jet | 20 | 5 | 1 | 20% |
+| ccworkflow (sonnet-5 author, opus-5 integrate, run2) | csloop sonnet-5 +reasoning (run2, 08-12) | BDK | 15 | 10 | 0 | 0% |
