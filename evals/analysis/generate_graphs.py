@@ -120,8 +120,10 @@ RUN_LABELS = {
     ("08-11-2026", "csloop-opus-5"): "csloop opus-5 (08-11)",
     ("08-11-2026", "csloop-opus-5-with-reasoning"): "csloop opus-5 +reasoning (08-11)",
     ("08-12-2026", "ccworkflow-sonnet-5-opus-5-integrate"): "ccworkflow (sonnet-5 author, opus-5 integrate)",
+    ("08-12-2026", "ccworkflow-sonnet-5-opus-5-integrate-run2"): "ccworkflow (sonnet-5 author, opus-5 integrate, run2)",
     ("08-12-2026", "codescribe-opus-5-run2"): "csloop opus-5 (run2, 08-12)",
     ("08-12-2026", "codescribe-opus-5-with-reasoning"): "csloop opus-5 +reasoning (08-12)",
+    ("08-12-2026", "codescribe-sonnet-5-with-reasoning"): "csloop sonnet-5 +reasoning (08-12)",
     ("08-12-2026", "codescribe-kimi-k3-5"): "csloop Kimi K3.5",
 }
 # Short x-axis codes — keeps bars legible even in the compact standalone
@@ -130,14 +132,17 @@ RUN_CODES = {
     ("08-11-2026", "csloop-opus-5"): "R1",
     ("08-11-2026", "csloop-opus-5-with-reasoning"): "R2",
     ("08-12-2026", "ccworkflow-sonnet-5-opus-5-integrate"): "R3",
-    ("08-12-2026", "codescribe-opus-5-run2"): "R4",
-    ("08-12-2026", "codescribe-opus-5-with-reasoning"): "R5",
-    ("08-12-2026", "codescribe-kimi-k3-5"): "R6",
+    ("08-12-2026", "ccworkflow-sonnet-5-opus-5-integrate-run2"): "R4",
+    ("08-12-2026", "codescribe-opus-5-run2"): "R5",
+    ("08-12-2026", "codescribe-opus-5-with-reasoning"): "R6",
+    ("08-12-2026", "codescribe-sonnet-5-with-reasoning"): "R7",
+    ("08-12-2026", "codescribe-kimi-k3-5"): "R8",
 }
 RUN_CODE_CAPTION = (
     "R1 = csloop opus-5 (08-11)  |  R2 = csloop opus-5 +reasoning (08-11)  |  "
-    "R3 = ccworkflow (sonnet-5 author, opus-5 integrate)  |  R4 = csloop opus-5 (run2, 08-12)  |  "
-    "R5 = csloop opus-5 +reasoning (08-12)  |  R6 = csloop Kimi K3.5"
+    "R3 = ccworkflow (sonnet-5 author, opus-5 integrate)  |  R4 = ccworkflow (…, run2)  |  "
+    "R5 = csloop opus-5 (run2, 08-12)  |  R6 = csloop opus-5 +reasoning (08-12)  |  "
+    "R7 = csloop sonnet-5 +reasoning (08-12)  |  R8 = csloop Kimi K3.5"
 )
 KEYS = list(RUN_LABELS.keys())
 
@@ -493,7 +498,8 @@ def draw_tool_calls_per_file_panel(ax, tool_calls_per_file, letter=None):
     ax.bar(x, per_file, width=0.5, color=colors, edgecolor=SURFACE, linewidth=1)
     for xi, k in zip(x, KEYS):
         v = tool_calls_per_file[k]
-        ax.text(xi, (v["per_file"] or 0) + max(per_file) * 0.03, f"{v['per_file']:.0f}",
+        label = f"{v['per_file']:.0f}" if v["per_file"] is not None else "n/a\n(0 files)"
+        ax.text(xi, (v["per_file"] or 0) + max(per_file) * 0.03, label,
                 ha="center", fontsize=ANNOT_SIZE, color=INK_SECONDARY)
     ax.set_xticks(x)
     ax.set_xticklabels(labels)

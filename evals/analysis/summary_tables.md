@@ -7,8 +7,10 @@
 | csloop opus-5 (08-11) | $13.20 | 90% | 42 min | 26.7 | 15 | 2.8 min | $0.88 |
 | csloop opus-5 +reasoning (08-11) | $9.91 | 86% | 30 min | 15.7 | 20 | 1.5 min | $0.50 |
 | ccworkflow (sonnet-5 author, opus-5 integrate) | $114.15 | 96% | 52 min | 48.3 | 41 | 1.3 min | $2.78 |
+| ccworkflow (sonnet-5 author, opus-5 integrate, run2) | $65.28 | 94% | 106 min | 63.4 | 15 | 7.1 min | $4.35 |
 | csloop opus-5 (run2, 08-12) | $14.76 | 91% | 49 min | 22.5 | 19 | 2.6 min | $0.78 |
 | csloop opus-5 +reasoning (08-12) | $13.75 | 89% | 45 min | 27.4 | 14 | 3.2 min | $0.98 |
+| csloop sonnet-5 +reasoning (08-12) | $5.17 | 91% | 34 min | — | 0 | — | — |
 | csloop Kimi K3.5 | $0.00 (n/a, non-Anthropic) | 48% | 39 min | 68.8 | 5 | 7.9 min | n/a |
 
 ## Token usage, cost, cache & wall time detail
@@ -18,8 +20,10 @@
 | csloop opus-5 (08-11) | 191,401 | 139,874 | 718,075 | 8,523,810 | 90% | $13.20 | 42 min |
 | csloop opus-5 +reasoning (08-11) | 141,784 | 95,582 | 686,387 | 5,039,384 | 86% | $9.91 | 30 min |
 | ccworkflow (sonnet-5 author, opus-5 integrate) | 350,618 | 2,847,669 | 10,062,375 | 247,376,659 | 96% | $114.15 | 52 min |
+| ccworkflow (sonnet-5 author, opus-5 integrate, run2) | 94,947 | 1,354,040 | 6,870,860 | 111,300,406 | 94% | $65.28 | 106 min |
 | csloop opus-5 (run2, 08-12) | 217,433 | 148,767 | 789,671 | 10,046,165 | 91% | $14.76 | 49 min |
 | csloop opus-5 +reasoning (08-12) | 186,152 | 157,626 | 796,443 | 7,796,182 | 89% | $13.75 | 45 min |
+| csloop sonnet-5 +reasoning (08-12) | 187,693 | 129,013 | 703,545 | 8,733,778 | 91% | $5.17 | 34 min |
 | csloop Kimi K3.5 | 6,713,860 | 72,134 | 0 | 6,229,312 | 48% | $0.00 (+ tokens from oaic-moonshotai/Kimi-K3, not priced) | 39 min |
 
 ## Cost by model
@@ -29,8 +33,10 @@
 | csloop opus-5 (08-11) | $13.20 | $0.00 |
 | csloop opus-5 +reasoning (08-11) | $9.91 | $0.00 |
 | ccworkflow (sonnet-5 author, opus-5 integrate) | $17.23 | $96.92 |
+| ccworkflow (sonnet-5 author, opus-5 integrate, run2) | $20.18 | $45.09 |
 | csloop opus-5 (run2, 08-12) | $14.76 | $0.00 |
 | csloop opus-5 +reasoning (08-12) | $13.75 | $0.00 |
+| csloop sonnet-5 +reasoning (08-12) | $0.00 | $5.17 |
 | csloop Kimi K3.5 | $0.00 | $0.00 |
 
 ## csloop opus-5: +reasoning vs. run2 tool-call outcomes (08-12-2026)
@@ -47,6 +53,8 @@
 | csloop opus-5 (08-11) | stopped-at-gate | 272/272 |
 | csloop opus-5 +reasoning (08-11) | stopped-at-gate | 272/272 |
 | ccworkflow (sonnet-5 author, opus-5 integrate) | stopped-at-gate | — |
+| ccworkflow (sonnet-5 author, opus-5 integrate, run2) | stopped-at-gate | — |
 | csloop opus-5 (run2, 08-12) | stopped-at-gate | — |
 | csloop opus-5 +reasoning (08-12) | stopped-at-gate | 272/272 |
+| csloop sonnet-5 +reasoning (08-12) | stopped-at-gate | 272/272 |
 | csloop Kimi K3.5 | stopped-at-gate | — |
