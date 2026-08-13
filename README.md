@@ -203,7 +203,7 @@ such as pure infrastructure code, are reported as translated but not verified.
 ### A formal view
 
 Each stage is an optimization over a repository `R`, advanced by *settling* units `u` — the
-atoms of work (a source file, a translated family, an amplitude). Three quantities are computed
+atoms of work (a source file, a translated module). Three quantities are computed
 or checked, never guessed:
 
 - Readiness `ρ(u)` — a unit is ready once its dependencies are settled, recovered from the
