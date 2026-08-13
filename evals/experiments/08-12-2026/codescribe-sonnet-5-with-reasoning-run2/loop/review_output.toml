@@ -1,0 +1,32 @@
+loop = 5
+summary = """
+The agent spent this loop on diagnostics rather than new translation work. It confirmed environment health
+(refresh, status, gate all OK; jobrunner tests/mcfm passed 272/272) and re-verified that Group 1/2 BDK files
+remain correctly marked NOT COVERED (M1bit1.cpp verify returned exit 1 / "NOT COVERED", matching the existing
+log). It corrected a prior loop's mistaken belief that Master*.f callers needed rewriting, confirming the
+_fi.f90 shim pattern already wires callers with no changes needed. It surveyed dependency availability
+(L0, L1, Lsm1 family, i3m, heldefs_mod) via successful greps/reads of Need.hpp and lfunctions.cpp, and
+identified a concrete Group 3 candidate set (M3abit1.f, M3abit2.f, FFPPcc.f, FFPPsc.f, FFMPcc.f) whose
+dependencies already exist in the C++ Need/Mods layer. Several shell attempts (cd/source/env-var prefixes,
+inline python -c, regex alternation in grep, chained commands) were blocked by sandbox restrictions, forcing
+use of a dev/tmp/run_verify.py wrapper; a first edit attempt on agent_log.md also failed with a missing
+'edits' argument error, though a subsequent edit call to agent_log.md did succeed per the harness-verified
+file list. No new .cpp/.hpp/_fi.f90 translation files were created or wired into CMakeLists.txt this loop, so
+Group 3 remains untranslated and unverified.
+"""
+blocker = "Sandbox shell restrictions (no cd/source/inline env-var prefixes, no regex alternation, no chained commands) forced workaround tooling (run_verify.py) and slowed dependency verification; combined with turn-budget exhaustion, no Group 3 BDK file (M3abit1.f, M3abit2.f, FFPPcc.f, FFPPsc.f, FFMPcc.f) was actually translated, wired, or built this loop."
+
+[[pending]]
+item = "Translate software/mcfm/src/BDK/M3abit1.f into M3abit1.cpp (+ _fi.f90 shim, and .hpp only if a translated sibling calls it), calling Need.hpp's L0/L1/Lsm1 functions directly, following the Group 1-2 pattern."
+
+[[pending]]
+item = "Translate M3abit2.f, FFPPcc.f, FFPPsc.f, and FFMPcc.f the same way, paying special attention to FFPPsc.f's 15 helper sub-functions and FFMPcc.f's unsym/symmetrize pattern to avoid dropped near-duplicate calls or missing parentheses."
+
+[[pending]]
+item = "Wire each new Group 3 .cpp/_fi.f90 pair into software/mcfm/src/BDK/CMakeLists.txt and git mv the corresponding original .f files into software/mcfm/src/BDK/deprecated/."
+
+[[pending]]
+item = "Run `jobrunner submit tests/mcfm` after wiring in the new files to confirm the build succeeds and the 272/272 pass rate is maintained."
+
+[[pending]]
+item = "Verify each newly translated Group 3 file with the MCFM_HOME-aware run_verify.py wrapper (workflow.py verify equivalent) and record VERIFIED/TRANSLATED/FAILED status for each in agent_log.md."
