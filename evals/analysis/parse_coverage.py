@@ -14,7 +14,20 @@ Everything here is derived from the actual log text, not hardcoded:
 import re
 from pathlib import Path
 
-SELF_REPORT_RE = re.compile(r"(\d+)\s*/\s*(\d+)\D{0,20}PASS(?:ED)?", re.I)
+# Two ways a run's log states its self-reported pass fraction:
+#  - "pass(es) [rate] N/M" - the number follows the word (this is the literal
+#    phrasing of the jobrunner tool's own "SUMMARY: pass rate N/M" output,
+#    which agent logs usually quote directly or paraphrase as "passes N/M").
+#  - "N/M ... PASS(ED)" - the number precedes the word, within a short window
+#    (used for terser phrasings like "272/272 PASSED").
+# A single fixed-width \D{0,N} window in either direction alone isn't enough:
+# too narrow misses real summaries buried in a longer sentence; too wide
+# starts pairing a number with an unrelated PASS mentioned paragraphs later.
+SELF_REPORT_RE = re.compile(
+    r"\bpass(?:es)?(?:\s+rate)?\s*[:\-]?\s*(\d+)\s*/\s*(\d+)"
+    r"|(\d+)\s*/\s*(\d+)\D{0,20}PASS(?:ED)?",
+    re.I,
+)
 VERIFIED_RE = re.compile(r"SUMMARY:\s*pass rate\s*(\d+)\s*/\s*(\d+)", re.I)
 CHECKED_RE = re.compile(r"^\s*-\s*\[x\]", re.I | re.M)
 UNCHECKED_RE = re.compile(r"^\s*-\s*\[ \]", re.M)
@@ -47,9 +60,11 @@ def coverage_for_run(run_dir):
         text = _read(agent_log_path)
         settled = len(CHECKED_RE.findall(text))
         open_items = len(UNCHECKED_RE.findall(text))
-        matches = SELF_REPORT_RE.findall(text)
+        matches = list(SELF_REPORT_RE.finditer(text))
         if matches:
-            n, m = matches[-1]
+            last = matches[-1]
+            n = last.group(1) or last.group(3)
+            m = last.group(2) or last.group(4)
             self_reported = (int(n), int(m))
 
     human_verified = None

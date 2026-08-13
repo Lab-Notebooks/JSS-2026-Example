@@ -55,12 +55,12 @@
 |---|---|---|
 | csloop opus-5 (08-11) | stopped-at-gate | 272/272 |
 | csloop opus-5 +reasoning (08-11) | stopped-at-gate | 272/272 |
-| ccworkflow (sonnet-5 author, opus-5 integrate) | stopped-at-gate | — |
-| ccworkflow (sonnet-5 author, opus-5 integrate, run2) | stopped-at-gate | — |
-| csloop opus-5 (run2, 08-12) | stopped-at-gate | — |
+| ccworkflow (sonnet-5 author, opus-5 integrate) | stopped-at-gate | 272/272 |
+| ccworkflow (sonnet-5 author, opus-5 integrate, run2) | stopped-at-gate | 272/272 |
+| csloop opus-5 (run2, 08-12) | stopped-at-gate | 272/272 |
 | csloop opus-5 +reasoning (08-12) | stopped-at-gate | 272/272 |
 | csloop sonnet-5 +reasoning (08-12) | stopped-at-gate | 272/272 |
-| csloop sonnet-5 +reasoning (run2, 08-12) | stopped-at-gate | — |
+| csloop sonnet-5 +reasoning (run2, 08-12) | stopped-at-gate | 272/272 |
 | csloop Kimi K3.5 | stopped-at-gate | — |
 
 ## Which src/ module each run translated files from (git-exact)
