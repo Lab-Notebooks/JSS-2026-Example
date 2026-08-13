@@ -57,7 +57,7 @@ export const meta = {
             title: 'Bundle'
         },
         {
-            title: 'Author'
+            title: 'Author',
             model: 'claude-sonnet-5'
         },
         {
@@ -69,7 +69,7 @@ export const meta = {
             model: 'claude-opus-5'
         },
         {
-            title: 'Metadata'
+            title: 'Metadata',
             model: 'claude-sonnet-5'
         },
     ],
