@@ -1,0 +1,22 @@
+version = 1
+
+[[approval]]
+group = "Group 1 — Mods infrastructure (5 files)"
+date = "2026-07-24"
+by = "user"
+decision = "approved"
+review_note = "test_ok is TRUE"
+
+[[approval]]
+group = "Group 2 — W2jet leaf functions (5 files)"
+date = "2026-07-24"
+by = "user"
+decision = "approved"
+review_note = "tests_ok is TRUE"
+
+[[approval]]
+group = "Group 3 — W2jet mid-level functions (5 files)"
+date = "2026-07-24"
+by = "user"
+decision = "approved"
+review_note = "tests_ok is TRUE"

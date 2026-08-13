@@ -1,4 +1,4 @@
-[95mROOT:[0m /home/adubey/JSS-2026-Example
+[95mROOT:[0m /home/user/JSS-2026-Example
 [95mNODE:[0m <ROOT>/tests/mcfm
 
 [95mSCRIPTS: [0m

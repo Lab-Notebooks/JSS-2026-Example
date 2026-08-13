@@ -41,7 +41,7 @@ ok = true
 duration_ms = 0.721
 output_chars = 8710
 output_preview = '''
-# path: /home/akash/Desktop/Akash/Projects/JSS-Paper-Example/dev/transformations/mcfm-translate/current_plan.md
+# path: /home/user/JSS-2026-Example/dev/transformations/mcfm-translate/current_plan.md
 # lines: 1-182
 0001: # Fortran → C++ plan
 0002: 
@@ -71,7 +71,7 @@ ok = true
 duration_ms = 0.613
 output_chars = 7692
 output_preview = '''
-# path: /home/akash/Desktop/Akash/Projects/JSS-Paper-Example/dev/transformations/mcfm-translate/desired_spec.md
+# path: /home/user/JSS-2026-Example/dev/transformations/mcfm-translate/desired_spec.md
 # lines: 1-144
 0001: # Fortran → C++: target output for one MCFM file
 0002: 
@@ -129,7 +129,7 @@ ok = true
 duration_ms = 0.556
 output_chars = 1053
 output_preview = '''
-# path: /home/akash/Desktop/Akash/Projects/JSS-Paper-Example/dev/transformations/mcfm-translate/current_plan.md
+# path: /home/user/JSS-2026-Example/dev/transformations/mcfm-translate/current_plan.md
 # lines: 164-182
 0164: ## When to stop
 0165: 
@@ -159,7 +159,7 @@ ok = true
 duration_ms = 0.56
 output_chars = 7556
 output_preview = '''
-# path: /home/akash/Desktop/Akash/Projects/JSS-Paper-Example/dev/transformations/mcfm-translate/agent_log.md
+# path: /home/user/JSS-2026-Example/dev/transformations/mcfm-translate/agent_log.md
 # lines: 1-104
 0001: # mcfm-translate — agent log
 0002: 
@@ -192,7 +192,7 @@ ok = true
 duration_ms = 0.47
 output_chars = 1133
 output_preview = '''
-# path: /home/akash/Desktop/Akash/Projects/JSS-Paper-Example/dev/tmp/run_probes_group3.py
+# path: /home/user/JSS-2026-Example/dev/tmp/run_probes_group3.py
 # lines: 1-29
 0001: #!/usr/bin/env python3
 0002: """Run the coverage probe for each W2jet-helpers-3 file, one after another."""
@@ -225,7 +225,7 @@ ok = true
 duration_ms = 0.452
 output_chars = 679
 output_preview = '''
-# path: /home/akash/Desktop/Akash/Projects/JSS-Paper-Example/dev/tmp/run_probe.py
+# path: /home/user/JSS-2026-Example/dev/tmp/run_probe.py
 # lines: 1-17
 0001: #!/usr/bin/env python3
 0002: """Helper: run dev/tools/coverage/coverage_check.py with MCFM_HOME set.
@@ -421,7 +421,7 @@ ok = true
 duration_ms = 0.815
 output_chars = 1659
 output_preview = '''
-# path: /home/akash/Desktop/Akash/Projects/JSS-Paper-Example/software/mcfm/src/W2jet/CMakeLists.txt
+# path: /home/user/JSS-2026-Example/software/mcfm/src/W2jet/CMakeLists.txt
 # lines: 1-84
 0001: target_sources(objlib PRIVATE
 0002: aqqb_zbb.f
@@ -724,7 +724,7 @@ output_chars = 358
 output_preview = '''
 exit_code: 0
 STDOUT:
-[95mROOT:[0m /home/akash/Desktop/Akash/Projects/JSS-Paper-Example
+[95mROOT:[0m /home/user/JSS-2026-Example
 [95mNODE:[0m <ROOT>/tests/mcfm
 
 [95mSCRIPTS: [0m
@@ -884,7 +884,7 @@ output_chars = 4250
 output_preview = '''
 {
   "ok": true,
-  "path": "/home/akash/Desktop/Akash/Projects/JSS-Paper-Example/dev/transformations/mcfm-translate/agent_log.md",
+  "path": "/home/user/JSS-2026-Example/dev/transformations/mcfm-translate/agent_log.md",
   "applied": 2,
   "replacements": [
     {
@@ -945,10 +945,10 @@ Blocking group: Group W2jet-helpers-1 (completed)
 Reason: 3 completed group(s) are waiting; limit is 3
 
 Approve with:
-  python3 dev/tools/approve/approve_group.py /home/akash/Desktop/Akash/Projects/JSS-Paper-Example/dev/transformations/mcfm-translate --latest-blocking
+  python3 dev/tools/approve/approve_group.py /home/user/JSS-2026-Example/dev/transformations/mcfm-translate --latest-blocking
 
 Or approve this exact group explicitly:
-  python3 dev/tools/approve/approve_group.py /home/akash/Desktop'''
+  python3 dev/tools/approve/approve_group.py /home/user/Desktop'''
 ts = "2026-08-12T04:16:39.351260+00:00"
 
 [[event]]
@@ -993,7 +993,7 @@ output_chars = 1194
 output_preview = '''
 {
   "ok": true,
-  "path": "/home/akash/Desktop/Akash/Projects/JSS-Paper-Example/dev/transformations/mcfm-translate/agent_log.md",
+  "path": "/home/user/JSS-2026-Example/dev/transformations/mcfm-translate/agent_log.md",
   "applied": 1,
   "replacements": [
     {

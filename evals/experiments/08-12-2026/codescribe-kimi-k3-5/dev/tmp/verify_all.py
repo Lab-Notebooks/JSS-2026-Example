@@ -2,7 +2,7 @@ import os
 import subprocess
 import sys
 
-os.environ["MCFM_HOME"] = "/home/adubey/JSS-2026-Example/software/mcfm"
+os.environ["MCFM_HOME"] = "/home/user/JSS-2026-Example/software/mcfm"
 
 targets = ["vv", "fpm", "fpp", "fsl", "fvf"]
 for t in targets:

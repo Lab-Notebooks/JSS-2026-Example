@@ -41,7 +41,7 @@ ok = true
 duration_ms = 0.734
 output_chars = 8710
 output_preview = '''
-# path: /home/akash/Desktop/Akash/Projects/JSS-Paper-Example/dev/transformations/mcfm-translate/current_plan.md
+# path: /home/user/JSS-2026-Example/dev/transformations/mcfm-translate/current_plan.md
 # lines: 1-182
 0001: # Fortran → C++ plan
 0002: 
@@ -71,7 +71,7 @@ ok = true
 duration_ms = 0.614
 output_chars = 7692
 output_preview = '''
-# path: /home/akash/Desktop/Akash/Projects/JSS-Paper-Example/dev/transformations/mcfm-translate/desired_spec.md
+# path: /home/user/JSS-2026-Example/dev/transformations/mcfm-translate/desired_spec.md
 # lines: 1-144
 0001: # Fortran → C++: target output for one MCFM file
 0002: 
@@ -148,7 +148,7 @@ ok = true
 duration_ms = 0.366
 output_chars = 1053
 output_preview = '''
-# path: /home/akash/Desktop/Akash/Projects/JSS-Paper-Example/dev/transformations/mcfm-translate/current_plan.md
+# path: /home/user/JSS-2026-Example/dev/transformations/mcfm-translate/current_plan.md
 # lines: 164-182
 0164: ## When to stop
 0165: 
@@ -243,8 +243,8 @@ output_chars = 44339
 output_preview = '''
 exit_code: 0
 STDOUT:
-Generating Doxygen XML for /home/akash/Desktop/Akash/Projects/JSS-Paper-Example/software/mcfm/src -> /home/akash/Desktop/Akash/Projects/JSS-Paper-Example/software/mcfm/doxygen_dep/xml
-wrote 1128 XML file(s) to /home/akash/Desktop/Akash/Projects/JSS-Paper-Example/software/mcfm/doxygen_dep/xml
+Generating Doxygen XML for /home/user/JSS-2026-Example/software/mcfm/src -> /home/user/JSS-2026-Example/software/mcfm/doxygen_dep/xml
+wrote 1128 XML file(s) to /home/user/JSS-2026-Example/software/mcfm/doxygen_dep/xml
 source 531  translated 86  untranslated 445
 ready leaves (deps=0, non-blind): 229
 symbol index: 915 symbol(s)
@@ -333,7 +333,7 @@ ok = true
 duration_ms = 0.427
 output_chars = 142
 output_preview = '''
-# path: /home/akash/Desktop/Akash/Projects/JSS-Paper-Example/dev/transformations/mcfm-translate/approvals.toml
+# path: /home/user/JSS-2026-Example/dev/transformations/mcfm-translate/approvals.toml
 # lines: 1-1
 0001: version = 1
 '''
@@ -365,7 +365,7 @@ output_chars = 153
 output_preview = '''
 exit_code: 0
 STDOUT:
-no log found in /home/akash/Desktop/Akash/Projects/JSS-Paper-Example/dev/transformations/mcfm-translate — nothing to gate.
+no log found in /home/user/JSS-2026-Example/dev/transformations/mcfm-translate — nothing to gate.
 
 STDERR:
 '''
@@ -398,7 +398,7 @@ output_preview = '''
 exit_code: 0
 STDOUT:
 # workflow status
-assets: /home/akash/Desktop/Akash/Projects/JSS-Paper-Example/dev/tmp/assets
+assets: /home/user/JSS-2026-Example/dev/tmp/assets
 roadmap metrics: 445 untranslated file rows, 229 ready leaves
 cleanup index: 569 families, move 74, shim-delete 10, merge 31
 
@@ -696,7 +696,7 @@ ok = true
 duration_ms = 0.696
 output_chars = 826
 output_preview = '''
-# path: /home/akash/Desktop/Akash/Projects/JSS-Paper-Example/software/mcfm/src/BDK/CMakeLists.txt
+# path: /home/user/JSS-2026-Example/software/mcfm/src/BDK/CMakeLists.txt
 # lines: 1-44
 0001: target_sources(objlib PRIVATE
 0002: FFPPsc.f
@@ -740,7 +740,7 @@ ok = true
 duration_ms = 0.54
 output_chars = 1790
 output_preview = '''
-# path: /home/akash/Desktop/Akash/Projects/JSS-Paper-Example/software/mcfm/src/BDK/M1bit1.f
+# path: /home/user/JSS-2026-Example/software/mcfm/src/BDK/M1bit1.f
 # lines: 1-38
 0001: !
 0002: !  SPDX-License-Identifier: GPL-3.0-or-later
@@ -773,7 +773,7 @@ ok = true
 duration_ms = 0.511
 output_chars = 1052
 output_preview = '''
-# path: /home/akash/Desktop/Akash/Projects/JSS-Paper-Example/software/mcfm/src/BDK/M2bit1.f
+# path: /home/user/JSS-2026-Example/software/mcfm/src/BDK/M2bit1.f
 # lines: 1-26
 0001: !
 0002: !  SPDX-License-Identifier: GPL-3.0-or-later
@@ -806,7 +806,7 @@ ok = true
 duration_ms = 0.501
 output_chars = 953
 output_preview = '''
-# path: /home/akash/Desktop/Akash/Projects/JSS-Paper-Example/software/mcfm/src/BDK/M2bit2.f
+# path: /home/user/JSS-2026-Example/software/mcfm/src/BDK/M2bit2.f
 # lines: 1-24
 0001: !
 0002: !  SPDX-License-Identifier: GPL-3.0-or-later
@@ -838,7 +838,7 @@ ok = true
 duration_ms = 0.502
 output_chars = 1062
 output_preview = '''
-# path: /home/akash/Desktop/Akash/Projects/JSS-Paper-Example/software/mcfm/src/BDK/M2bit3.f
+# path: /home/user/JSS-2026-Example/software/mcfm/src/BDK/M2bit3.f
 # lines: 1-26
 0001: !
 0002: !  SPDX-License-Identifier: GPL-3.0-or-later
@@ -871,7 +871,7 @@ ok = true
 duration_ms = 0.506
 output_chars = 1095
 output_preview = '''
-# path: /home/akash/Desktop/Akash/Projects/JSS-Paper-Example/software/mcfm/src/BDK/M3bit1.f
+# path: /home/user/JSS-2026-Example/software/mcfm/src/BDK/M3bit1.f
 # lines: 1-30
 0001: !
 0002: !  SPDX-License-Identifier: GPL-3.0-or-later
@@ -985,7 +985,7 @@ ok = true
 duration_ms = 0.696
 output_chars = 594
 output_preview = '''
-# path: /home/akash/Desktop/Akash/Projects/JSS-Paper-Example/software/mcfm/src/W1jet/t.cpp
+# path: /home/user/JSS-2026-Example/software/mcfm/src/W1jet/t.cpp
 # lines: 1-19
 0001: #include <W1jet.hpp>
 0002: #include <cmath>
@@ -1019,10 +1019,10 @@ run_id = "20260811-223522-fb5bc4"
 iteration = 8
 tool = "read"
 ok = false
-error = "file not found: /home/akash/Desktop/Akash/Projects/JSS-Paper-Example/software/mcfm/src/W1jet/t.hpp"
+error = "file not found: /home/user/JSS-2026-Example/software/mcfm/src/W1jet/t.hpp"
 duration_ms = 0.353
 output_chars = 105
-output_preview = "Error: file not found: /home/akash/Desktop/Akash/Projects/JSS-Paper-Example/software/mcfm/src/W1jet/t.hpp"
+output_preview = "Error: file not found: /home/user/JSS-2026-Example/software/mcfm/src/W1jet/t.hpp"
 ts = "2026-08-12T03:36:12.768094+00:00"
 
 [[event]]
@@ -1042,7 +1042,7 @@ ok = true
 duration_ms = 0.427
 output_chars = 710
 output_preview = '''
-# path: /home/akash/Desktop/Akash/Projects/JSS-Paper-Example/software/mcfm/src/W1jet/t_fi.f90
+# path: /home/user/JSS-2026-Example/software/mcfm/src/W1jet/t_fi.f90
 # lines: 1-22
 0001: 
 0002: function t(j1,j2,j3) result(res)
@@ -1101,7 +1101,7 @@ ok = true
 duration_ms = 0.348
 output_chars = 2281
 output_preview = '''
-# path: /home/akash/Desktop/Akash/Projects/JSS-Paper-Example/software/mcfm/src/W1jet/W1jet.hpp
+# path: /home/user/JSS-2026-Example/software/mcfm/src/W1jet/W1jet.hpp
 # lines: 1-34
 0001: #ifndef W1JET_H
 0002: #define W1JET_H
@@ -1131,7 +1131,7 @@ ok = true
 duration_ms = 0.29
 output_chars = 295
 output_preview = '''
-# path: /home/akash/Desktop/Akash/Projects/JSS-Paper-Example/software/mcfm/src/W1jet/CMakeLists.txt
+# path: /home/user/JSS-2026-Example/software/mcfm/src/W1jet/CMakeLists.txt
 # lines: 1-12
 0001: target_sources(objlib PRIVATE
 0002: A51.cpp
@@ -1165,7 +1165,7 @@ ok = true
 duration_ms = 0.249
 output_chars = 347
 output_preview = '''
-# path: /home/akash/Desktop/Akash/Projects/JSS-Paper-Example/software/mcfm/src/loop/CMakeLists.txt
+# path: /home/user/JSS-2026-Example/software/mcfm/src/loop/CMakeLists.txt
 # lines: 1-11
 0001: target_sources(objlib PRIVATE
 0002: loopI1_generic.f
@@ -1198,7 +1198,7 @@ ok = true
 duration_ms = 0.243
 output_chars = 1290
 output_preview = '''
-# path: /home/akash/Desktop/Akash/Projects/JSS-Paper-Example/software/mcfm/src/loop/Loop.hpp
+# path: /home/user/JSS-2026-Example/software/mcfm/src/loop/Loop.hpp
 # lines: 1-22
 0001: #ifndef LOOP_H
 0002: #define LOOP_H
@@ -1308,7 +1308,7 @@ ok = true
 duration_ms = 0.6
 output_chars = 2393
 output_preview = '''
-# path: /home/akash/Desktop/Akash/Projects/JSS-Paper-Example/software/mcfm/src/W1jet/A51.cpp
+# path: /home/user/JSS-2026-Example/software/mcfm/src/W1jet/A51.cpp
 # lines: 1-55
 0001: #include <W1jet.hpp>
 0002: #include <complex>
@@ -1343,7 +1343,7 @@ ok = true
 duration_ms = 0.521
 output_chars = 1077
 output_preview = '''
-# path: /home/akash/Desktop/Akash/Projects/JSS-Paper-Example/software/mcfm/src/W1jet/deprecated/A51_fi.f90
+# path: /home/user/JSS-2026-Example/software/mcfm/src/W1jet/deprecated/A51_fi.f90
 # lines: 1-27
 0001: 
 0002: function A51(j1,j2,j3,j4,j5,za,zb) result(res)
@@ -1378,7 +1378,7 @@ ok = true
 duration_ms = 0.497
 output_chars = 313
 output_preview = '''
-# path: /home/akash/Desktop/Akash/Projects/JSS-Paper-Example/software/mcfm/src/Mods/sprods_com_mod.hpp
+# path: /home/user/JSS-2026-Example/software/mcfm/src/Mods/sprods_com_mod.hpp
 # lines: 1-10
 0001: #ifndef SPRODS_COM_MOD
 0002: #define SPRODS_COM_MOD
@@ -1435,7 +1435,7 @@ ok = true
 duration_ms = 0.661
 output_chars = 2362
 output_preview = '''
-# path: /home/akash/Desktop/Akash/Projects/JSS-Paper-Example/software/mcfm/src/BDK/Master1.f
+# path: /home/user/JSS-2026-Example/software/mcfm/src/BDK/Master1.f
 # lines: 1-50
 0001: !
 0002: !  SPDX-License-Identifier: GPL-3.0-or-later
@@ -1535,7 +1535,7 @@ ok = true
 duration_ms = 0.609
 output_chars = 7369
 output_preview = '''
-# path: /home/akash/Desktop/Akash/Projects/JSS-Paper-Example/software/mcfm/src/Inc/FArray.hpp
+# path: /home/user/JSS-2026-Example/software/mcfm/src/Inc/FArray.hpp
 # lines: 1-219
 0001: #ifndef FARRAY_H
 0002: #define FARRAY_H
@@ -1712,7 +1712,7 @@ ok = true
 duration_ms = 0.589
 output_chars = 3563
 output_preview = '''
-# path: /home/akash/Desktop/Akash/Projects/JSS-Paper-Example/software/mcfm/src/BDK/Master2.f
+# path: /home/user/JSS-2026-Example/software/mcfm/src/BDK/Master2.f
 # lines: 1-82
 0001: !
 0002: !  SPDX-License-Identifier: GPL-3.0-or-later
@@ -1745,7 +1745,7 @@ ok = true
 duration_ms = 0.577
 output_chars = 3974
 output_preview = '''
-# path: /home/akash/Desktop/Akash/Projects/JSS-Paper-Example/software/mcfm/src/BDK/Master3.f
+# path: /home/user/JSS-2026-Example/software/mcfm/src/BDK/Master3.f
 # lines: 1-91
 0001: !
 0002: !  SPDX-License-Identifier: GPL-3.0-or-later
@@ -1778,7 +1778,7 @@ ok = true
 duration_ms = 0.567
 output_chars = 4798
 output_preview = '''
-# path: /home/akash/Desktop/Akash/Projects/JSS-Paper-Example/dev/tools/coverage/coverage_check.py
+# path: /home/user/JSS-2026-Example/dev/tools/coverage/coverage_check.py
 # lines: 1-97
 0001: """Coverage check — decide VERIFIED vs TRANSLATED for one rewritten MCFM file.
 0002: 
@@ -1985,7 +1985,7 @@ ok = true
 duration_ms = 0.357
 output_chars = 2754
 output_preview = '''
-# path: /home/akash/Desktop/Akash/Projects/JSS-Paper-Example/software/mcfm/src/W2jet/fpp.f
+# path: /home/user/JSS-2026-Example/software/mcfm/src/W2jet/fpp.f
 # lines: 1-47
 0001: !
 0002: !  SPDX-License-Identifier: GPL-3.0-or-later
@@ -2018,7 +2018,7 @@ ok = true
 duration_ms = 0.25
 output_chars = 1725
 output_preview = '''
-# path: /home/akash/Desktop/Akash/Projects/JSS-Paper-Example/software/mcfm/src/W2jet/faxsl.f
+# path: /home/user/JSS-2026-Example/software/mcfm/src/W2jet/faxsl.f
 # lines: 1-41
 0001: !
 0002: !  SPDX-License-Identifier: GPL-3.0-or-later
@@ -2052,7 +2052,7 @@ ok = true
 duration_ms = 0.266
 output_chars = 1909
 output_preview = '''
-# path: /home/akash/Desktop/Akash/Projects/JSS-Paper-Example/software/mcfm/src/W2jet/fvf.f
+# path: /home/user/JSS-2026-Example/software/mcfm/src/W2jet/fvf.f
 # lines: 1-45
 0001: !
 0002: !  SPDX-License-Identifier: GPL-3.0-or-later
@@ -2086,7 +2086,7 @@ ok = true
 duration_ms = 0.248
 output_chars = 1914
 output_preview = '''
-# path: /home/akash/Desktop/Akash/Projects/JSS-Paper-Example/software/mcfm/src/W2jet/vv.f
+# path: /home/user/JSS-2026-Example/software/mcfm/src/W2jet/vv.f
 # lines: 1-54
 0001: !
 0002: !  SPDX-License-Identifier: GPL-3.0-or-later
@@ -2116,7 +2116,7 @@ ok = true
 duration_ms = 0.243
 output_chars = 1026
 output_preview = '''
-# path: /home/akash/Desktop/Akash/Projects/JSS-Paper-Example/software/mcfm/src/W2jet/Ltfunctions.f
+# path: /home/user/JSS-2026-Example/software/mcfm/src/W2jet/Ltfunctions.f
 # lines: 1-39
 0001: !
 0002: !  SPDX-License-Identifier: GPL-3.0-or-later
@@ -2224,10 +2224,10 @@ run_id = "20260811-223522-fb5bc4"
 iteration = 16
 tool = "read"
 ok = false
-error = "file not found: /home/akash/Desktop/Akash/Projects/JSS-Paper-Example/software/mcfm/src/Inc/Need.hpp"
+error = "file not found: /home/user/JSS-2026-Example/software/mcfm/src/Inc/Need.hpp"
 duration_ms = 0.602
 output_chars = 106
-output_preview = "Error: file not found: /home/akash/Desktop/Akash/Projects/JSS-Paper-Example/software/mcfm/src/Inc/Need.hpp"
+output_preview = "Error: file not found: /home/user/JSS-2026-Example/software/mcfm/src/Inc/Need.hpp"
 ts = "2026-08-12T03:37:44.562711+00:00"
 
 [[event]]
@@ -2247,7 +2247,7 @@ ok = true
 duration_ms = 0.631
 output_chars = 601
 output_preview = '''
-# path: /home/akash/Desktop/Akash/Projects/JSS-Paper-Example/software/mcfm/src/Mods/heldefs_mod.hpp
+# path: /home/user/JSS-2026-Example/software/mcfm/src/Mods/heldefs_mod.hpp
 # lines: 1-19
 0001: #ifndef HELDEFS_MOD
 0002: #define HELDEFS_MOD
@@ -2283,7 +2283,7 @@ ok = true
 duration_ms = 0.626
 output_chars = 3727
 output_preview = '''
-# path: /home/akash/Desktop/Akash/Projects/JSS-Paper-Example/software/mcfm/src/Mods/masses_mod.hpp
+# path: /home/user/JSS-2026-Example/software/mcfm/src/Mods/masses_mod.hpp
 # lines: 1-83
 0001: /* LLM INSTRUCTIONS START
 0002:  * You are a code conversion tool for a scientific computing application.
@@ -2333,7 +2333,7 @@ ok = true
 duration_ms = 0.549
 output_chars = 2282
 output_preview = '''
-# path: /home/akash/Desktop/Akash/Projects/JSS-Paper-Example/software/mcfm/src/Need/Need.hpp
+# path: /home/user/JSS-2026-Example/software/mcfm/src/Need/Need.hpp
 # lines: 1-46
 0001: #ifndef NEED_H
 0002: #define NEED_H
@@ -2368,7 +2368,7 @@ ok = true
 duration_ms = 0.599
 output_chars = 9844
 output_preview = '''
-# path: /home/akash/Desktop/Akash/Projects/JSS-Paper-Example/software/mcfm/src/W2jet/fpm.f
+# path: /home/user/JSS-2026-Example/software/mcfm/src/W2jet/fpm.f
 # lines: 1-158
 0001: !
 0002: !  SPDX-License-Identifier: GPL-3.0-or-later
@@ -2509,7 +2509,7 @@ ok = true
 duration_ms = 0.369
 output_chars = 1234
 output_preview = '''
-# path: /home/akash/Desktop/Akash/Projects/JSS-Paper-Example/software/mcfm/src/W2jet/Ftexact.f
+# path: /home/user/JSS-2026-Example/software/mcfm/src/W2jet/Ftexact.f
 # lines: 1-34
 0001: !
 0002: !  SPDX-License-Identifier: GPL-3.0-or-later
@@ -2567,7 +2567,7 @@ ok = true
 duration_ms = 0.687
 output_chars = 1336
 output_preview = '''
-# path: /home/akash/Desktop/Akash/Projects/JSS-Paper-Example/software/mcfm/src/W2jet/CMakeLists.txt
+# path: /home/user/JSS-2026-Example/software/mcfm/src/W2jet/CMakeLists.txt
 # lines: 1-69
 0001: target_sources(objlib PRIVATE
 0002: aqqb_zbb.f
@@ -2671,7 +2671,7 @@ ok = true
 duration_ms = 0.743
 output_chars = 3151
 output_preview = '''
-# path: /home/akash/Desktop/Akash/Projects/JSS-Paper-Example/software/mcfm/src/Mods/mxpart_mod.hpp
+# path: /home/user/JSS-2026-Example/software/mcfm/src/Mods/mxpart_mod.hpp
 # lines: 1-75
 0001: /* LLM INSTRUCTIONS START
 0002:  * You are a code conversion tool for a scientific computing application.
@@ -2698,7 +2698,7 @@ ok = true
 duration_ms = 0.479
 output_chars = 283
 output_preview = '''
-# path: /home/akash/Desktop/Akash/Projects/JSS-Paper-Example/software/mcfm/src/Mods/scalarselect_mod.hpp
+# path: /home/user/JSS-2026-Example/software/mcfm/src/Mods/scalarselect_mod.hpp
 # lines: 1-8
 0001: #ifndef SCALARSELECT_MOD
 0002: #define SCALARSELECT_MOD
@@ -2767,7 +2767,7 @@ tool = "write"
 ok = true
 duration_ms = 0.525
 output_chars = 102
-output_preview = "Wrote /home/akash/Desktop/Akash/Projects/JSS-Paper-Example/software/mcfm/src/W2jet/fpp.hpp (296 bytes)"
+output_preview = "Wrote /home/user/JSS-2026-Example/software/mcfm/src/W2jet/fpp.hpp (296 bytes)"
 ts = "2026-08-12T03:40:42.906946+00:00"
 
 [[event]]
@@ -2795,7 +2795,7 @@ tool = "write"
 ok = true
 duration_ms = 0.72
 output_chars = 103
-output_preview = "Wrote /home/akash/Desktop/Akash/Projects/JSS-Paper-Example/software/mcfm/src/W2jet/fpp.cpp (4048 bytes)"
+output_preview = "Wrote /home/user/JSS-2026-Example/software/mcfm/src/W2jet/fpp.cpp (4048 bytes)"
 ts = "2026-08-12T03:40:42.908004+00:00"
 
 [[event]]
@@ -2823,7 +2823,7 @@ tool = "write"
 ok = true
 duration_ms = 0.605
 output_chars = 105
-output_preview = "Wrote /home/akash/Desktop/Akash/Projects/JSS-Paper-Example/software/mcfm/src/W2jet/fpp_fi.F90 (730 bytes)"
+output_preview = "Wrote /home/user/JSS-2026-Example/software/mcfm/src/W2jet/fpp_fi.F90 (730 bytes)"
 ts = "2026-08-12T03:40:42.908874+00:00"
 
 [[event]]
@@ -2851,7 +2851,7 @@ tool = "write"
 ok = true
 duration_ms = 0.611
 output_chars = 104
-output_preview = "Wrote /home/akash/Desktop/Akash/Projects/JSS-Paper-Example/software/mcfm/src/W2jet/faxsl.hpp (314 bytes)"
+output_preview = "Wrote /home/user/JSS-2026-Example/software/mcfm/src/W2jet/faxsl.hpp (314 bytes)"
 ts = "2026-08-12T03:40:42.909743+00:00"
 
 [[event]]
@@ -2879,7 +2879,7 @@ tool = "write"
 ok = true
 duration_ms = 0.662
 output_chars = 105
-output_preview = "Wrote /home/akash/Desktop/Akash/Projects/JSS-Paper-Example/software/mcfm/src/W2jet/faxsl.cpp (2351 bytes)"
+output_preview = "Wrote /home/user/JSS-2026-Example/software/mcfm/src/W2jet/faxsl.cpp (2351 bytes)"
 ts = "2026-08-12T03:40:42.910686+00:00"
 
 [[event]]
@@ -2907,7 +2907,7 @@ tool = "write"
 ok = true
 duration_ms = 0.623
 output_chars = 107
-output_preview = "Wrote /home/akash/Desktop/Akash/Projects/JSS-Paper-Example/software/mcfm/src/W2jet/faxsl_fi.F90 (796 bytes)"
+output_preview = "Wrote /home/user/JSS-2026-Example/software/mcfm/src/W2jet/faxsl_fi.F90 (796 bytes)"
 ts = "2026-08-12T03:40:42.911574+00:00"
 
 [[event]]
@@ -2949,7 +2949,7 @@ tool = "write"
 ok = true
 duration_ms = 0.496
 output_chars = 105
-output_preview = "Wrote /home/akash/Desktop/Akash/Projects/JSS-Paper-Example/software/mcfm/src/W2jet/faxsl.cpp (2135 bytes)"
+output_preview = "Wrote /home/user/JSS-2026-Example/software/mcfm/src/W2jet/faxsl.cpp (2135 bytes)"
 ts = "2026-08-12T03:41:56.239289+00:00"
 
 [[event]]
@@ -2968,7 +2968,7 @@ tool = "write"
 ok = true
 duration_ms = 0.329
 output_chars = 102
-output_preview = "Wrote /home/akash/Desktop/Akash/Projects/JSS-Paper-Example/software/mcfm/src/W2jet/fvf.hpp (304 bytes)"
+output_preview = "Wrote /home/user/JSS-2026-Example/software/mcfm/src/W2jet/fvf.hpp (304 bytes)"
 ts = "2026-08-12T03:41:56.239757+00:00"
 
 [[event]]
@@ -2987,7 +2987,7 @@ tool = "write"
 ok = true
 duration_ms = 0.344
 output_chars = 103
-output_preview = "Wrote /home/akash/Desktop/Akash/Projects/JSS-Paper-Example/software/mcfm/src/W2jet/fvf.cpp (2331 bytes)"
+output_preview = "Wrote /home/user/JSS-2026-Example/software/mcfm/src/W2jet/fvf.cpp (2331 bytes)"
 ts = "2026-08-12T03:41:56.240248+00:00"
 
 [[event]]
@@ -3006,7 +3006,7 @@ tool = "write"
 ok = true
 duration_ms = 0.31
 output_chars = 105
-output_preview = "Wrote /home/akash/Desktop/Akash/Projects/JSS-Paper-Example/software/mcfm/src/W2jet/fvf_fi.F90 (765 bytes)"
+output_preview = "Wrote /home/user/JSS-2026-Example/software/mcfm/src/W2jet/fvf_fi.F90 (765 bytes)"
 ts = "2026-08-12T03:41:56.240697+00:00"
 
 [[event]]
@@ -3025,7 +3025,7 @@ tool = "write"
 ok = true
 duration_ms = 0.295
 output_chars = 110
-output_preview = "Wrote /home/akash/Desktop/Akash/Projects/JSS-Paper-Example/software/mcfm/src/W2jet/Ltfunctions.hpp (514 bytes)"
+output_preview = "Wrote /home/user/JSS-2026-Example/software/mcfm/src/W2jet/Ltfunctions.hpp (514 bytes)"
 ts = "2026-08-12T03:41:56.241126+00:00"
 
 [[event]]
@@ -3044,7 +3044,7 @@ tool = "write"
 ok = true
 duration_ms = 0.332
 output_chars = 111
-output_preview = "Wrote /home/akash/Desktop/Akash/Projects/JSS-Paper-Example/software/mcfm/src/W2jet/Ltfunctions.cpp (1595 bytes)"
+output_preview = "Wrote /home/user/JSS-2026-Example/software/mcfm/src/W2jet/Ltfunctions.cpp (1595 bytes)"
 ts = "2026-08-12T03:41:56.241597+00:00"
 
 [[event]]
@@ -3063,7 +3063,7 @@ tool = "write"
 ok = true
 duration_ms = 0.333
 output_chars = 114
-output_preview = "Wrote /home/akash/Desktop/Akash/Projects/JSS-Paper-Example/software/mcfm/src/W2jet/Ltfunctions_fi.F90 (1977 bytes)"
+output_preview = "Wrote /home/user/JSS-2026-Example/software/mcfm/src/W2jet/Ltfunctions_fi.F90 (1977 bytes)"
 ts = "2026-08-12T03:41:56.242067+00:00"
 
 [[event]]
@@ -3082,7 +3082,7 @@ tool = "write"
 ok = true
 duration_ms = 0.293
 output_chars = 106
-output_preview = "Wrote /home/akash/Desktop/Akash/Projects/JSS-Paper-Example/software/mcfm/src/W2jet/Ftexact.hpp (126 bytes)"
+output_preview = "Wrote /home/user/JSS-2026-Example/software/mcfm/src/W2jet/Ftexact.hpp (126 bytes)"
 ts = "2026-08-12T03:41:56.242492+00:00"
 
 [[event]]
@@ -3101,7 +3101,7 @@ tool = "write"
 ok = true
 duration_ms = 0.318
 output_chars = 107
-output_preview = "Wrote /home/akash/Desktop/Akash/Projects/JSS-Paper-Example/software/mcfm/src/W2jet/Ftexact.cpp (1148 bytes)"
+output_preview = "Wrote /home/user/JSS-2026-Example/software/mcfm/src/W2jet/Ftexact.cpp (1148 bytes)"
 ts = "2026-08-12T03:41:56.242955+00:00"
 
 [[event]]
@@ -3120,7 +3120,7 @@ tool = "write"
 ok = true
 duration_ms = 0.303
 output_chars = 109
-output_preview = "Wrote /home/akash/Desktop/Akash/Projects/JSS-Paper-Example/software/mcfm/src/W2jet/Ftexact_fi.F90 (488 bytes)"
+output_preview = "Wrote /home/user/JSS-2026-Example/software/mcfm/src/W2jet/Ftexact_fi.F90 (488 bytes)"
 ts = "2026-08-12T03:41:56.243397+00:00"
 
 [[event]]
@@ -3165,7 +3165,7 @@ output_chars = 967
 output_preview = '''
 {
   "ok": true,
-  "path": "/home/akash/Desktop/Akash/Projects/JSS-Paper-Example/software/mcfm/src/W2jet/CMakeLists.txt",
+  "path": "/home/user/JSS-2026-Example/software/mcfm/src/W2jet/CMakeLists.txt",
   "applied": 1,
   "replacements": [
     {
@@ -3235,7 +3235,7 @@ tool = "write"
 ok = true
 duration_ms = 0.346
 output_chars = 93
-output_preview = "Wrote /home/akash/Desktop/Akash/Projects/JSS-Paper-Example/dev/tmp/_move_w2jet.py (322 bytes)"
+output_preview = "Wrote /home/user/JSS-2026-Example/dev/tmp/_move_w2jet.py (322 bytes)"
 ts = "2026-08-12T03:42:14.505322+00:00"
 
 [[event]]
@@ -3328,7 +3328,7 @@ output_chars = 358
 output_preview = '''
 exit_code: 0
 STDOUT:
-[95mROOT:[0m /home/akash/Desktop/Akash/Projects/JSS-Paper-Example
+[95mROOT:[0m /home/user/JSS-2026-Example
 [95mNODE:[0m <ROOT>/tests/mcfm
 
 [95mSCRIPTS: [0m
@@ -3591,7 +3591,7 @@ tool = "write"
 ok = true
 duration_ms = 0.656
 output_chars = 119
-output_preview = "Wrote /home/akash/Desktop/Akash/Projects/JSS-Paper-Example/dev/transformations/mcfm-translate/agent_log.md (2894 bytes)"
+output_preview = "Wrote /home/user/JSS-2026-Example/dev/transformations/mcfm-translate/agent_log.md (2894 bytes)"
 ts = "2026-08-12T03:44:32.049611+00:00"
 
 [[event]]
@@ -3655,7 +3655,7 @@ ok = true
 duration_ms = 0.703
 output_chars = 8710
 output_preview = '''
-# path: /home/akash/Desktop/Akash/Projects/JSS-Paper-Example/dev/transformations/mcfm-translate/current_plan.md
+# path: /home/user/JSS-2026-Example/dev/transformations/mcfm-translate/current_plan.md
 # lines: 1-182
 0001: # Fortran → C++ plan
 0002: 
@@ -3685,7 +3685,7 @@ ok = true
 duration_ms = 0.648
 output_chars = 7692
 output_preview = '''
-# path: /home/akash/Desktop/Akash/Projects/JSS-Paper-Example/dev/transformations/mcfm-translate/desired_spec.md
+# path: /home/user/JSS-2026-Example/dev/transformations/mcfm-translate/desired_spec.md
 # lines: 1-144
 0001: # Fortran → C++: target output for one MCFM file
 0002: 
@@ -3719,7 +3719,7 @@ ok = true
 duration_ms = 0.503
 output_chars = 3311
 output_preview = '''
-# path: /home/akash/Desktop/Akash/Projects/JSS-Paper-Example/dev/transformations/mcfm-translate/agent_log.md
+# path: /home/user/JSS-2026-Example/dev/transformations/mcfm-translate/agent_log.md
 # lines: 1-49
 0001: # mcfm-translate — agent log
 0002: 
@@ -3752,7 +3752,7 @@ ok = true
 duration_ms = 0.704
 output_chars = 13954
 output_preview = '''
-# path: /home/akash/Desktop/Akash/Projects/JSS-Paper-Example/dev/workflow.py
+# path: /home/user/JSS-2026-Example/dev/workflow.py
 # lines: 1-318
 0001: #!/usr/bin/env python3
 0002: """Unified workflow CLI for dev tooling.
@@ -3822,7 +3822,7 @@ ok = true
 duration_ms = 0.424
 output_chars = 6096
 output_preview = '''
-# path: /home/akash/Desktop/Akash/Projects/JSS-Paper-Example/dev/workflow.py
+# path: /home/user/JSS-2026-Example/dev/workflow.py
 # lines: 190-318
 0190:         str(transformation_dir(args.transformation)),
 0191:         *args.args,
@@ -3864,7 +3864,7 @@ ok = true
 duration_ms = 0.583
 output_chars = 4798
 output_preview = '''
-# path: /home/akash/Desktop/Akash/Projects/JSS-Paper-Example/dev/tools/coverage/coverage_check.py
+# path: /home/user/JSS-2026-Example/dev/tools/coverage/coverage_check.py
 # lines: 1-97
 0001: """Coverage check — decide VERIFIED vs TRANSLATED for one rewritten MCFM file.
 0002: 
@@ -4203,7 +4203,7 @@ event = "tool_start"
 run_id = "20260811-224512-c86bba"
 iteration = 6
 tool = "bash"
-args = "{\"command\": \"MCFM_HOME=/home/akash/Desktop/Akash/Projects/JSS-Paper-Example/software/mcfm python3 dev/workflow.py verify software/mcfm/src/W2jet/fpp.cpp -- u d~ ve e+ g g\", \"timeout\": 3000}"
+args = "{\"command\": \"MCFM_HOME=/home/user/JSS-2026-Example/software/mcfm python3 dev/workflow.py verify software/mcfm/src/W2jet/fpp.cpp -- u d~ ve e+ g g\", \"timeout\": 3000}"
 model_text = '''
 PLAN:
 1. Run the coverage probe (`MCFM_HOME=... python3 dev/workflow.py verify <file>.cpp -- u d~ ve e+ g g`) for all five W2jet files.
@@ -4219,10 +4219,10 @@ run_id = "20260811-224512-c86bba"
 iteration = 6
 tool = "bash"
 ok = false
-error = "command not allowed: 'MCFM_HOME=/home/akash/Desktop/Akash/Projects/JSS-Paper-Example/software/mcfm'"
+error = "command not allowed: 'MCFM_HOME=/home/user/JSS-2026-Example/software/mcfm'"
 duration_ms = 0.322
 output_chars = 106
-output_preview = "Error: command not allowed: 'MCFM_HOME=/home/akash/Desktop/Akash/Projects/JSS-Paper-Example/software/mcfm'"
+output_preview = "Error: command not allowed: 'MCFM_HOME=/home/user/JSS-2026-Example/software/mcfm'"
 ts = "2026-08-12T03:45:58.878741+00:00"
 
 [[event]]
@@ -4264,7 +4264,7 @@ tool = "write"
 ok = true
 duration_ms = 0.697
 output_chars = 91
-output_preview = "Wrote /home/akash/Desktop/Akash/Projects/JSS-Paper-Example/dev/tmp/run_probe.py (481 bytes)"
+output_preview = "Wrote /home/user/JSS-2026-Example/dev/tmp/run_probe.py (481 bytes)"
 ts = "2026-08-12T03:46:06.144769+00:00"
 
 [[event]]
@@ -4591,7 +4591,7 @@ output_chars = 358
 output_preview = '''
 exit_code: 0
 STDOUT:
-[95mROOT:[0m /home/akash/Desktop/Akash/Projects/JSS-Paper-Example
+[95mROOT:[0m /home/user/JSS-2026-Example
 [95mNODE:[0m <ROOT>/tests/mcfm
 
 [95mSCRIPTS: [0m
@@ -4778,8 +4778,8 @@ output_chars = 44339
 output_preview = '''
 exit_code: 0
 STDOUT:
-Generating Doxygen XML for /home/akash/Desktop/Akash/Projects/JSS-Paper-Example/software/mcfm/src -> /home/akash/Desktop/Akash/Projects/JSS-Paper-Example/software/mcfm/doxygen_dep/xml
-wrote 1133 XML file(s) to /home/akash/Desktop/Akash/Projects/JSS-Paper-Example/software/mcfm/doxygen_dep/xml
+Generating Doxygen XML for /home/user/JSS-2026-Example/software/mcfm/src -> /home/user/JSS-2026-Example/software/mcfm/doxygen_dep/xml
+wrote 1133 XML file(s) to /home/user/JSS-2026-Example/software/mcfm/doxygen_dep/xml
 source 526  translated 86  untranslated 440
 ready leaves (deps=0, non-blind): 225
 symbol index: 915 symbol(s)
@@ -4829,7 +4829,7 @@ output_chars = 5636
 output_preview = '''
 {
   "ok": true,
-  "path": "/home/akash/Desktop/Akash/Projects/JSS-Paper-Example/dev/transformations/mcfm-translate/agent_log.md",
+  "path": "/home/user/JSS-2026-Example/dev/transformations/mcfm-translate/agent_log.md",
   "applied": 3,
   "replacements": [
     {
@@ -4960,7 +4960,7 @@ ok = true
 duration_ms = 0.626
 output_chars = 4713
 output_preview = '''
-# path: /home/akash/Desktop/Akash/Projects/JSS-Paper-Example/software/mcfm/src/W2jet/fpp.cpp
+# path: /home/user/JSS-2026-Example/software/mcfm/src/W2jet/fpp.cpp
 # lines: 1-93
 0001: //
 0002: //  SPDX-License-Identifier: GPL-3.0-or-later
@@ -4996,7 +4996,7 @@ ok = true
 duration_ms = 0.47
 output_chars = 469
 output_preview = '''
-# path: /home/akash/Desktop/Akash/Projects/JSS-Paper-Example/software/mcfm/src/W2jet/fpp.hpp
+# path: /home/user/JSS-2026-Example/software/mcfm/src/W2jet/fpp.hpp
 # lines: 1-11
 0001: #ifndef FPP_H
 0002: #define FPP_H
@@ -5029,7 +5029,7 @@ ok = true
 duration_ms = 0.492
 output_chars = 978
 output_preview = '''
-# path: /home/akash/Desktop/Akash/Projects/JSS-Paper-Example/software/mcfm/src/W2jet/fpp_fi.F90
+# path: /home/user/JSS-2026-Example/software/mcfm/src/W2jet/fpp_fi.F90
 # lines: 1-23
 0001: 
 0002: function fpp(j1,j2,j3,j4,j5,j6,za,zb) result(res)
@@ -5063,7 +5063,7 @@ ok = true
 duration_ms = 0.514
 output_chars = 1445
 output_preview = '''
-# path: /home/akash/Desktop/Akash/Projects/JSS-Paper-Example/software/mcfm/src/W2jet/CMakeLists.txt
+# path: /home/user/JSS-2026-Example/software/mcfm/src/W2jet/CMakeLists.txt
 # lines: 1-74
 0001: target_sources(objlib PRIVATE
 0002: aqqb_zbb.f
@@ -5109,7 +5109,7 @@ ok = true
 duration_ms = 0.488
 output_chars = 2051
 output_preview = '''
-# path: /home/akash/Desktop/Akash/Projects/JSS-Paper-Example/software/mcfm/src/W2jet/atree.f
+# path: /home/user/JSS-2026-Example/software/mcfm/src/W2jet/atree.f
 # lines: 1-45
 0001: !
 0002: !  SPDX-License-Identifier: GPL-3.0-or-later
@@ -5141,7 +5141,7 @@ ok = true
 duration_ms = 0.584
 output_chars = 5959
 output_preview = '''
-# path: /home/akash/Desktop/Akash/Projects/JSS-Paper-Example/software/mcfm/src/W2jet/ZZbox1LL.f
+# path: /home/user/JSS-2026-Example/software/mcfm/src/W2jet/ZZbox1LL.f
 # lines: 1-153
 0001: !
 0002: !  SPDX-License-Identifier: GPL-3.0-or-later
@@ -5173,7 +5173,7 @@ ok = true
 duration_ms = 0.511
 output_chars = 3331
 output_preview = '''
-# path: /home/akash/Desktop/Akash/Projects/JSS-Paper-Example/software/mcfm/src/W2jet/subqcd.f
+# path: /home/user/JSS-2026-Example/software/mcfm/src/W2jet/subqcd.f
 # lines: 1-76
 0001: !
 0002: !  SPDX-License-Identifier: GPL-3.0-or-later
@@ -5206,7 +5206,7 @@ ok = true
 duration_ms = 0.547
 output_chars = 3917
 output_preview = '''
-# path: /home/akash/Desktop/Akash/Projects/JSS-Paper-Example/software/mcfm/src/W2jet/a6treeg.f
+# path: /home/user/JSS-2026-Example/software/mcfm/src/W2jet/a6treeg.f
 # lines: 1-88
 0001: !
 0002: !  SPDX-License-Identifier: GPL-3.0-or-later
@@ -5262,7 +5262,7 @@ ok = true
 duration_ms = 0.355
 output_chars = 2520
 output_preview = '''
-# path: /home/akash/Desktop/Akash/Projects/JSS-Paper-Example/software/mcfm/src/W2jet/faxsl.cpp
+# path: /home/user/JSS-2026-Example/software/mcfm/src/W2jet/faxsl.cpp
 # lines: 1-46
 0001: //
 0002: //  SPDX-License-Identifier: GPL-3.0-or-later
@@ -5297,7 +5297,7 @@ ok = true
 duration_ms = 0.293
 output_chars = 1058
 output_preview = '''
-# path: /home/akash/Desktop/Akash/Projects/JSS-Paper-Example/software/mcfm/src/W2jet/faxsl_fi.F90
+# path: /home/user/JSS-2026-Example/software/mcfm/src/W2jet/faxsl_fi.F90
 # lines: 1-25
 0001: 
 0002: function Faxsl(st,j1,j2,j3,j4,j5,j6,za,zb) result(res)
@@ -5331,7 +5331,7 @@ ok = true
 duration_ms = 0.234
 output_chars = 2732
 output_preview = '''
-# path: /home/akash/Desktop/Akash/Projects/JSS-Paper-Example/software/mcfm/src/W2jet/fvf.cpp
+# path: /home/user/JSS-2026-Example/software/mcfm/src/W2jet/fvf.cpp
 # lines: 1-49
 0001: //
 0002: //  SPDX-License-Identifier: GPL-3.0-or-later
@@ -5366,7 +5366,7 @@ ok = true
 duration_ms = 0.307
 output_chars = 7750
 output_preview = '''
-# path: /home/akash/Desktop/Akash/Projects/JSS-Paper-Example/software/mcfm/src/W2jet/ggZZcapture.f
+# path: /home/user/JSS-2026-Example/software/mcfm/src/W2jet/ggZZcapture.f
 # lines: 1-218
 0001: !
 0002: !  SPDX-License-Identifier: GPL-3.0-or-later
@@ -5396,7 +5396,7 @@ ok = true
 duration_ms = 0.211
 output_chars = 480
 output_preview = '''
-# path: /home/akash/Desktop/Akash/Projects/JSS-Paper-Example/dev/tmp/_move_w2jet.py
+# path: /home/user/JSS-2026-Example/dev/tmp/_move_w2jet.py
 # lines: 1-10
 0001: import os, shutil
 0002: 
@@ -5451,7 +5451,7 @@ ok = true
 duration_ms = 1.07
 output_chars = 32290
 output_preview = '''
-# path: /home/akash/Desktop/Akash/Projects/JSS-Paper-Example/software/mcfm/src/W2jet/fax.f
+# path: /home/user/JSS-2026-Example/software/mcfm/src/W2jet/fax.f
 # lines: 1-635
 0001: !
 0002: !  SPDX-License-Identifier: GPL-3.0-or-later
@@ -5485,7 +5485,7 @@ ok = true
 duration_ms = 0.604
 output_chars = 9844
 output_preview = '''
-# path: /home/akash/Desktop/Akash/Projects/JSS-Paper-Example/software/mcfm/src/W2jet/fpm.f
+# path: /home/user/JSS-2026-Example/software/mcfm/src/W2jet/fpm.f
 # lines: 1-158
 0001: !
 0002: !  SPDX-License-Identifier: GPL-3.0-or-later
@@ -5518,7 +5518,7 @@ ok = true
 duration_ms = 0.654
 output_chars = 16603
 output_preview = '''
-# path: /home/akash/Desktop/Akash/Projects/JSS-Paper-Example/software/mcfm/src/W2jet/fsl.f
+# path: /home/user/JSS-2026-Example/software/mcfm/src/W2jet/fsl.f
 # lines: 1-254
 0001: !
 0002: !  SPDX-License-Identifier: GPL-3.0-or-later
@@ -5676,7 +5676,7 @@ ok = true
 duration_ms = 0.366
 output_chars = 1010
 output_preview = '''
-# path: /home/akash/Desktop/Akash/Projects/JSS-Paper-Example/software/mcfm/src/W2jet/A6texact.f
+# path: /home/user/JSS-2026-Example/software/mcfm/src/W2jet/A6texact.f
 # lines: 1-25
 0001: !
 0002: !  SPDX-License-Identifier: GPL-3.0-or-later
@@ -5711,7 +5711,7 @@ ok = true
 duration_ms = 0.301
 output_chars = 2704
 output_preview = '''
-# path: /home/akash/Desktop/Akash/Projects/JSS-Paper-Example/software/mcfm/src/W2jet/Acalc.f
+# path: /home/user/JSS-2026-Example/software/mcfm/src/W2jet/Acalc.f
 # lines: 1-74
 0001: !
 0002: !  SPDX-License-Identifier: GPL-3.0-or-later
@@ -5838,7 +5838,7 @@ ok = true
 duration_ms = 0.472
 output_chars = 2282
 output_preview = '''
-# path: /home/akash/Desktop/Akash/Projects/JSS-Paper-Example/software/mcfm/src/Need/Need.hpp
+# path: /home/user/JSS-2026-Example/software/mcfm/src/Need/Need.hpp
 # lines: 1-46
 0001: #ifndef NEED_H
 0002: #define NEED_H
@@ -5873,7 +5873,7 @@ ok = true
 duration_ms = 0.392
 output_chars = 2281
 output_preview = '''
-# path: /home/akash/Desktop/Akash/Projects/JSS-Paper-Example/software/mcfm/src/W1jet/W1jet.hpp
+# path: /home/user/JSS-2026-Example/software/mcfm/src/W1jet/W1jet.hpp
 # lines: 1-34
 0001: #ifndef W1JET_H
 0002: #define W1JET_H
@@ -6007,7 +6007,7 @@ ok = true
 duration_ms = 0.587
 output_chars = 7369
 output_preview = '''
-# path: /home/akash/Desktop/Akash/Projects/JSS-Paper-Example/software/mcfm/src/Inc/FArray.hpp
+# path: /home/user/JSS-2026-Example/software/mcfm/src/Inc/FArray.hpp
 # lines: 1-219
 0001: #ifndef FARRAY_H
 0002: #define FARRAY_H
@@ -6047,7 +6047,7 @@ ok = true
 duration_ms = 0.422
 output_chars = 3576
 output_preview = '''
-# path: /home/akash/Desktop/Akash/Projects/JSS-Paper-Example/software/mcfm/src/Mods/ggZZintegrals_mod.hpp
+# path: /home/user/JSS-2026-Example/software/mcfm/src/Mods/ggZZintegrals_mod.hpp
 # lines: 1-81
 0001: /* LLM INSTRUCTIONS START
 0002:  * You are a code conversion tool for a scientific computing application.
@@ -6074,7 +6074,7 @@ ok = true
 duration_ms = 0.387
 output_chars = 1517
 output_preview = '''
-# path: /home/akash/Desktop/Akash/Projects/JSS-Paper-Example/software/mcfm/src/W2jet/Ftexact.cpp
+# path: /home/user/JSS-2026-Example/software/mcfm/src/W2jet/Ftexact.cpp
 # lines: 1-43
 0001: //
 0002: //  SPDX-License-Identifier: GPL-3.0-or-later
@@ -6109,7 +6109,7 @@ ok = true
 duration_ms = 0.366
 output_chars = 716
 output_preview = '''
-# path: /home/akash/Desktop/Akash/Projects/JSS-Paper-Example/software/mcfm/src/W2jet/Ftexact_fi.F90
+# path: /home/user/JSS-2026-Example/software/mcfm/src/W2jet/Ftexact_fi.F90
 # lines: 1-19
 0001: 
 0002: function Ftexact(s23,mt2) result(res)
@@ -6166,7 +6166,7 @@ ok = true
 duration_ms = 0.538
 output_chars = 413
 output_preview = '''
-# path: /home/akash/Desktop/Akash/Projects/JSS-Paper-Example/software/mcfm/src/Mods/ZZclabels_mod.hpp
+# path: /home/user/JSS-2026-Example/software/mcfm/src/Mods/ZZclabels_mod.hpp
 # lines: 1-13
 0001: #ifndef ZZCLABELS_MOD
 0002: #define ZZCLABELS_MOD
@@ -6201,7 +6201,7 @@ ok = true
 duration_ms = 0.466
 output_chars = 398
 output_preview = '''
-# path: /home/akash/Desktop/Akash/Projects/JSS-Paper-Example/software/mcfm/src/Mods/ZZdlabels_mod.hpp
+# path: /home/user/JSS-2026-Example/software/mcfm/src/Mods/ZZdlabels_mod.hpp
 # lines: 1-12
 0001: #ifndef ZZDLABELS_MOD
 0002: #define ZZDLABELS_MOD
@@ -6320,7 +6320,7 @@ ok = true
 duration_ms = 0.332
 output_chars = 3772
 output_preview = '''
-# path: /home/akash/Desktop/Akash/Projects/JSS-Paper-Example/software/mcfm/src/Need/dotem.cpp
+# path: /home/user/JSS-2026-Example/software/mcfm/src/Need/dotem.cpp
 # lines: 1-90
 0001: /* LLM INSTRUCTIONS START
 0002:  * You are a code conversion tool for a scientific computing application.
@@ -6347,7 +6347,7 @@ ok = true
 duration_ms = 0.234
 output_chars = 753
 output_preview = '''
-# path: /home/akash/Desktop/Akash/Projects/JSS-Paper-Example/software/mcfm/src/Need/dotem.f90
+# path: /home/user/JSS-2026-Example/software/mcfm/src/Need/dotem.f90
 # lines: 1-19
 0001: subroutine dotem(N,p,s)
 0002:    use, intrinsic :: iso_c_binding
@@ -6455,7 +6455,7 @@ ok = true
 duration_ms = 0.302
 output_chars = 1290
 output_preview = '''
-# path: /home/akash/Desktop/Akash/Projects/JSS-Paper-Example/software/mcfm/src/loop/Loop.hpp
+# path: /home/user/JSS-2026-Example/software/mcfm/src/loop/Loop.hpp
 # lines: 1-22
 0001: #ifndef LOOP_H
 0002: #define LOOP_H
@@ -6487,7 +6487,7 @@ ok = true
 duration_ms = 0.272
 output_chars = 5194
 output_preview = '''
-# path: /home/akash/Desktop/Akash/Projects/JSS-Paper-Example/software/mcfm/src/Mods/constants_mod.hpp
+# path: /home/user/JSS-2026-Example/software/mcfm/src/Mods/constants_mod.hpp
 # lines: 1-95
 0001: /*PROMPT START
 0002: // - You are a code conversion tool for a scientific computing application. The application is organized as different source files in a directory structure.
@@ -6586,7 +6586,7 @@ ok = true
 duration_ms = 0.314
 output_chars = 797
 output_preview = '''
-# path: /home/akash/Desktop/Akash/Projects/JSS-Paper-Example/software/mcfm/src/Mods/ggZZintegrals_mod.cpp
+# path: /home/user/JSS-2026-Example/software/mcfm/src/Mods/ggZZintegrals_mod.cpp
 # lines: 1-25
 0001: /*
 0002:  *
@@ -6696,7 +6696,7 @@ ok = true
 duration_ms = 0.453
 output_chars = 601
 output_preview = '''
-# path: /home/akash/Desktop/Akash/Projects/JSS-Paper-Example/software/mcfm/src/Mods/heldefs_mod.hpp
+# path: /home/user/JSS-2026-Example/software/mcfm/src/Mods/heldefs_mod.hpp
 # lines: 1-19
 0001: #ifndef HELDEFS_MOD
 0002: #define HELDEFS_MOD
@@ -6756,7 +6756,7 @@ tool = "write"
 ok = true
 duration_ms = 0.426
 output_chars = 104
-output_preview = "Wrote /home/akash/Desktop/Akash/Projects/JSS-Paper-Example/software/mcfm/src/W2jet/atree.hpp (381 bytes)"
+output_preview = "Wrote /home/user/JSS-2026-Example/software/mcfm/src/W2jet/atree.hpp (381 bytes)"
 ts = "2026-08-12T03:52:06.838319+00:00"
 
 [[event]]
@@ -6776,7 +6776,7 @@ tool = "write"
 ok = true
 duration_ms = 0.379
 output_chars = 105
-output_preview = "Wrote /home/akash/Desktop/Akash/Projects/JSS-Paper-Example/software/mcfm/src/W2jet/atree.cpp (2535 bytes)"
+output_preview = "Wrote /home/user/JSS-2026-Example/software/mcfm/src/W2jet/atree.cpp (2535 bytes)"
 ts = "2026-08-12T03:52:06.838870+00:00"
 
 [[event]]
@@ -6796,7 +6796,7 @@ tool = "write"
 ok = true
 duration_ms = 0.297
 output_chars = 107
-output_preview = "Wrote /home/akash/Desktop/Akash/Projects/JSS-Paper-Example/software/mcfm/src/W2jet/atree_fi.F90 (851 bytes)"
+output_preview = "Wrote /home/user/JSS-2026-Example/software/mcfm/src/W2jet/atree_fi.F90 (851 bytes)"
 ts = "2026-08-12T03:52:06.839305+00:00"
 
 [[event]]
@@ -6816,7 +6816,7 @@ tool = "write"
 ok = true
 duration_ms = 0.281
 output_chars = 107
-output_preview = "Wrote /home/akash/Desktop/Akash/Projects/JSS-Paper-Example/software/mcfm/src/W2jet/A6texact.hpp (129 bytes)"
+output_preview = "Wrote /home/user/JSS-2026-Example/software/mcfm/src/W2jet/A6texact.hpp (129 bytes)"
 ts = "2026-08-12T03:52:06.839711+00:00"
 
 [[event]]
@@ -6836,7 +6836,7 @@ tool = "write"
 ok = true
 duration_ms = 0.306
 output_chars = 107
-output_preview = "Wrote /home/akash/Desktop/Akash/Projects/JSS-Paper-Example/software/mcfm/src/W2jet/A6texact.cpp (991 bytes)"
+output_preview = "Wrote /home/user/JSS-2026-Example/software/mcfm/src/W2jet/A6texact.cpp (991 bytes)"
 ts = "2026-08-12T03:52:06.840146+00:00"
 
 [[event]]
@@ -6856,7 +6856,7 @@ tool = "write"
 ok = true
 duration_ms = 0.287
 output_chars = 110
-output_preview = "Wrote /home/akash/Desktop/Akash/Projects/JSS-Paper-Example/software/mcfm/src/W2jet/A6texact_fi.F90 (495 bytes)"
+output_preview = "Wrote /home/user/JSS-2026-Example/software/mcfm/src/W2jet/A6texact_fi.F90 (495 bytes)"
 ts = "2026-08-12T03:52:06.840560+00:00"
 
 [[event]]
@@ -6920,7 +6920,7 @@ ok = true
 duration_ms = 0.547
 output_chars = 8710
 output_preview = '''
-# path: /home/akash/Desktop/Akash/Projects/JSS-Paper-Example/dev/transformations/mcfm-translate/current_plan.md
+# path: /home/user/JSS-2026-Example/dev/transformations/mcfm-translate/current_plan.md
 # lines: 1-182
 0001: # Fortran → C++ plan
 0002: 
@@ -6950,7 +6950,7 @@ ok = true
 duration_ms = 0.381
 output_chars = 7692
 output_preview = '''
-# path: /home/akash/Desktop/Akash/Projects/JSS-Paper-Example/dev/transformations/mcfm-translate/desired_spec.md
+# path: /home/user/JSS-2026-Example/dev/transformations/mcfm-translate/desired_spec.md
 # lines: 1-144
 0001: # Fortran → C++: target output for one MCFM file
 0002: 
@@ -6984,7 +6984,7 @@ ok = true
 duration_ms = 0.252
 output_chars = 4363
 output_preview = '''
-# path: /home/akash/Desktop/Akash/Projects/JSS-Paper-Example/dev/transformations/mcfm-translate/agent_log.md
+# path: /home/user/JSS-2026-Example/dev/transformations/mcfm-translate/agent_log.md
 # lines: 1-62
 0001: # mcfm-translate — agent log
 0002: 
@@ -7017,7 +7017,7 @@ ok = true
 duration_ms = 0.261
 output_chars = 1445
 output_preview = '''
-# path: /home/akash/Desktop/Akash/Projects/JSS-Paper-Example/software/mcfm/src/W2jet/CMakeLists.txt
+# path: /home/user/JSS-2026-Example/software/mcfm/src/W2jet/CMakeLists.txt
 # lines: 1-74
 0001: target_sources(objlib PRIVATE
 0002: aqqb_zbb.f
@@ -7088,7 +7088,7 @@ ok = true
 duration_ms = 0.314
 output_chars = 1053
 output_preview = '''
-# path: /home/akash/Desktop/Akash/Projects/JSS-Paper-Example/dev/transformations/mcfm-translate/current_plan.md
+# path: /home/user/JSS-2026-Example/dev/transformations/mcfm-translate/current_plan.md
 # lines: 164-182
 0164: ## When to stop
 0165: 
@@ -7165,7 +7165,7 @@ ok = true
 duration_ms = 0.467
 output_chars = 480
 output_preview = '''
-# path: /home/akash/Desktop/Akash/Projects/JSS-Paper-Example/dev/tmp/_move_w2jet.py
+# path: /home/user/JSS-2026-Example/dev/tmp/_move_w2jet.py
 # lines: 1-10
 0001: import os, shutil
 0002: 
@@ -7198,7 +7198,7 @@ ok = true
 duration_ms = 0.376
 output_chars = 679
 output_preview = '''
-# path: /home/akash/Desktop/Akash/Projects/JSS-Paper-Example/dev/tmp/run_probe.py
+# path: /home/user/JSS-2026-Example/dev/tmp/run_probe.py
 # lines: 1-17
 0001: #!/usr/bin/env python3
 0002: """Helper: run dev/tools/coverage/coverage_check.py with MCFM_HOME set.
@@ -7306,12 +7306,12 @@ output_chars = 660
 output_preview = '''
 exit_code: 0
 STDOUT:
--rw-rw-r-- 1 akash akash  991 Aug 11 22:52 software/mcfm/src/W2jet/A6texact.cpp
--rw-rw-r-- 1 akash akash  750 Aug 11 22:32 software/mcfm/src/W2jet/A6texact.f
--rw-rw-r-- 1 akash akash  495 Aug 11 22:52 software/mcfm/src/W2jet/A6texact_fi.F90
--rw-rw-r-- 1 akash akash  129 Aug 11 22:52 software/mcfm/src/W2jet/A6texact.hpp
--rw-rw-r-- 1 akash akash 2535 Aug 11 22:52 software/mcfm/src/W2jet/atree.cpp
--rw-rw-r-- 1 akash akash 1674 Aug 11 22:32 software/mcfm/src/W2jet/atree.f
+-rw-rw-r-- 1 user user  991 Aug 11 22:52 software/mcfm/src/W2jet/A6texact.cpp
+-rw-rw-r-- 1 user user  750 Aug 11 22:32 software/mcfm/src/W2jet/A6texact.f
+-rw-rw-r-- 1 user user  495 Aug 11 22:52 software/mcfm/src/W2jet/A6texact_fi.F90
+-rw-rw-r-- 1 user user  129 Aug 11 22:52 software/mcfm/src/W2jet/A6texact.hpp
+-rw-rw-r-- 1 user user 2535 Aug 11 22:52 software/mcfm/src/W2jet/atree.cpp
+-rw-rw-r-- 1 user user 1674 Aug 11 22:32 software/mcfm/src/W2jet/atree.f
 -rw-rw'''
 ts = "2026-08-12T03:53:12.218176+00:00"
 
@@ -7339,7 +7339,7 @@ ok = true
 duration_ms = 0.842
 output_chars = 3028
 output_preview = '''
-# path: /home/akash/Desktop/Akash/Projects/JSS-Paper-Example/software/mcfm/src/W2jet/atree.cpp
+# path: /home/user/JSS-2026-Example/software/mcfm/src/W2jet/atree.cpp
 # lines: 1-64
 0001: //
 0002: //  SPDX-License-Identifier: GPL-3.0-or-later
@@ -7382,7 +7382,7 @@ ok = true
 duration_ms = 0.588
 output_chars = 1307
 output_preview = '''
-# path: /home/akash/Desktop/Akash/Projects/JSS-Paper-Example/software/mcfm/src/W2jet/A6texact.cpp
+# path: /home/user/JSS-2026-Example/software/mcfm/src/W2jet/A6texact.cpp
 # lines: 1-34
 0001: //
 0002: //  SPDX-License-Identifier: GPL-3.0-or-later
@@ -7457,7 +7457,7 @@ ok = true
 duration_ms = 0.354
 output_chars = 2051
 output_preview = '''
-# path: /home/akash/Desktop/Akash/Projects/JSS-Paper-Example/software/mcfm/src/W2jet/atree.f
+# path: /home/user/JSS-2026-Example/software/mcfm/src/W2jet/atree.f
 # lines: 1-45
 0001: !
 0002: !  SPDX-License-Identifier: GPL-3.0-or-later
@@ -7497,7 +7497,7 @@ ok = true
 duration_ms = 0.242
 output_chars = 1010
 output_preview = '''
-# path: /home/akash/Desktop/Akash/Projects/JSS-Paper-Example/software/mcfm/src/W2jet/A6texact.f
+# path: /home/user/JSS-2026-Example/software/mcfm/src/W2jet/A6texact.f
 # lines: 1-25
 0001: !
 0002: !  SPDX-License-Identifier: GPL-3.0-or-later
@@ -7540,7 +7540,7 @@ ok = true
 duration_ms = 0.242
 output_chars = 1113
 output_preview = '''
-# path: /home/akash/Desktop/Akash/Projects/JSS-Paper-Example/software/mcfm/src/W2jet/atree_fi.F90
+# path: /home/user/JSS-2026-Example/software/mcfm/src/W2jet/atree_fi.F90
 # lines: 1-25
 0001: 
 0002: function atree(st,j1,j2,j3,j4,j5,j6,za,zb) result(res)
@@ -7581,7 +7581,7 @@ ok = true
 duration_ms = 0.237
 output_chars = 724
 output_preview = '''
-# path: /home/akash/Desktop/Akash/Projects/JSS-Paper-Example/software/mcfm/src/W2jet/A6texact_fi.F90
+# path: /home/user/JSS-2026-Example/software/mcfm/src/W2jet/A6texact_fi.F90
 # lines: 1-19
 0001: 
 0002: function A6texact(s23,mt2) result(res)
@@ -7623,7 +7623,7 @@ ok = true
 duration_ms = 0.247
 output_chars = 568
 output_preview = '''
-# path: /home/akash/Desktop/Akash/Projects/JSS-Paper-Example/software/mcfm/src/W2jet/atree.hpp
+# path: /home/user/JSS-2026-Example/software/mcfm/src/W2jet/atree.hpp
 # lines: 1-13
 0001: #ifndef ATREE_H
 0002: #define ATREE_H
@@ -7663,7 +7663,7 @@ ok = true
 duration_ms = 0.231
 output_chars = 288
 output_preview = '''
-# path: /home/akash/Desktop/Akash/Projects/JSS-Paper-Example/software/mcfm/src/W2jet/A6texact.hpp
+# path: /home/user/JSS-2026-Example/software/mcfm/src/W2jet/A6texact.hpp
 # lines: 1-8
 0001: #ifndef A6TEXACT_H
 0002: #define A6TEXACT_H
@@ -7821,7 +7821,7 @@ output_chars = 1167
 output_preview = '''
 {
   "ok": true,
-  "path": "/home/akash/Desktop/Akash/Projects/JSS-Paper-Example/software/mcfm/src/W2jet/CMakeLists.txt",
+  "path": "/home/user/JSS-2026-Example/software/mcfm/src/W2jet/CMakeLists.txt",
   "applied": 2,
   "replacements": [
     {
@@ -7850,7 +7850,7 @@ tool = "write"
 ok = true
 duration_ms = 0.5
 output_chars = 93
-output_preview = "Wrote /home/akash/Desktop/Akash/Projects/JSS-Paper-Example/dev/tmp/_move_w2jet.py (280 bytes)"
+output_preview = "Wrote /home/user/JSS-2026-Example/dev/tmp/_move_w2jet.py (280 bytes)"
 ts = "2026-08-12T03:53:39.807891+00:00"
 
 [[event]]
@@ -7945,7 +7945,7 @@ output_chars = 358
 output_preview = '''
 exit_code: 0
 STDOUT:
-[95mROOT:[0m /home/akash/Desktop/Akash/Projects/JSS-Paper-Example
+[95mROOT:[0m /home/user/JSS-2026-Example
 [95mNODE:[0m <ROOT>/tests/mcfm
 
 [95mSCRIPTS: [0m
@@ -8219,8 +8219,8 @@ output_chars = 44339
 output_preview = '''
 exit_code: 0
 STDOUT:
-Generating Doxygen XML for /home/akash/Desktop/Akash/Projects/JSS-Paper-Example/software/mcfm/src -> /home/akash/Desktop/Akash/Projects/JSS-Paper-Example/software/mcfm/doxygen_dep/xml
-wrote 1135 XML file(s) to /home/akash/Desktop/Akash/Projects/JSS-Paper-Example/software/mcfm/doxygen_dep/xml
+Generating Doxygen XML for /home/user/JSS-2026-Example/software/mcfm/src -> /home/user/JSS-2026-Example/software/mcfm/doxygen_dep/xml
+wrote 1135 XML file(s) to /home/user/JSS-2026-Example/software/mcfm/doxygen_dep/xml
 source 524  translated 86  untranslated 438
 ready leaves (deps=0, non-blind): 228
 symbol index: 915 symbol(s)
@@ -8348,7 +8348,7 @@ ok = true
 duration_ms = 1.15
 output_chars = 32290
 output_preview = '''
-# path: /home/akash/Desktop/Akash/Projects/JSS-Paper-Example/software/mcfm/src/W2jet/fax.f
+# path: /home/user/JSS-2026-Example/software/mcfm/src/W2jet/fax.f
 # lines: 1-635
 0001: !
 0002: !  SPDX-License-Identifier: GPL-3.0-or-later
@@ -8382,7 +8382,7 @@ ok = true
 duration_ms = 0.622
 output_chars = 9844
 output_preview = '''
-# path: /home/akash/Desktop/Akash/Projects/JSS-Paper-Example/software/mcfm/src/W2jet/fpm.f
+# path: /home/user/JSS-2026-Example/software/mcfm/src/W2jet/fpm.f
 # lines: 1-158
 0001: !
 0002: !  SPDX-License-Identifier: GPL-3.0-or-later
@@ -8415,7 +8415,7 @@ ok = true
 duration_ms = 0.672
 output_chars = 16603
 output_preview = '''
-# path: /home/akash/Desktop/Akash/Projects/JSS-Paper-Example/software/mcfm/src/W2jet/fsl.f
+# path: /home/user/JSS-2026-Example/software/mcfm/src/W2jet/fsl.f
 # lines: 1-254
 0001: !
 0002: !  SPDX-License-Identifier: GPL-3.0-or-later
@@ -8449,7 +8449,7 @@ ok = true
 duration_ms = 0.529
 output_chars = 4713
 output_preview = '''
-# path: /home/akash/Desktop/Akash/Projects/JSS-Paper-Example/software/mcfm/src/W2jet/fpp.cpp
+# path: /home/user/JSS-2026-Example/software/mcfm/src/W2jet/fpp.cpp
 # lines: 1-93
 0001: //
 0002: //  SPDX-License-Identifier: GPL-3.0-or-later
@@ -8485,7 +8485,7 @@ ok = true
 duration_ms = 0.485
 output_chars = 978
 output_preview = '''
-# path: /home/akash/Desktop/Akash/Projects/JSS-Paper-Example/software/mcfm/src/W2jet/fpp_fi.F90
+# path: /home/user/JSS-2026-Example/software/mcfm/src/W2jet/fpp_fi.F90
 # lines: 1-23
 0001: 
 0002: function fpp(j1,j2,j3,j4,j5,j6,za,zb) result(res)
@@ -8519,7 +8519,7 @@ ok = true
 duration_ms = 0.459
 output_chars = 469
 output_preview = '''
-# path: /home/akash/Desktop/Akash/Projects/JSS-Paper-Example/software/mcfm/src/W2jet/fpp.hpp
+# path: /home/user/JSS-2026-Example/software/mcfm/src/W2jet/fpp.hpp
 # lines: 1-11
 0001: #ifndef FPP_H
 0002: #define FPP_H
@@ -8632,7 +8632,7 @@ ok = true
 duration_ms = 0.588
 output_chars = 1168
 output_preview = '''
-# path: /home/akash/Desktop/Akash/Projects/JSS-Paper-Example/software/mcfm/src/W2jet/atrLLL.f
+# path: /home/user/JSS-2026-Example/software/mcfm/src/W2jet/atrLLL.f
 # lines: 1-29
 0001: !
 0002: !  SPDX-License-Identifier: GPL-3.0-or-later
@@ -8664,7 +8664,7 @@ ok = true
 duration_ms = 0.478
 output_chars = 1052
 output_preview = '''
-# path: /home/akash/Desktop/Akash/Projects/JSS-Paper-Example/software/mcfm/src/W2jet/atrLRL.f
+# path: /home/user/JSS-2026-Example/software/mcfm/src/W2jet/atrLRL.f
 # lines: 1-25
 0001: !
 0002: !  SPDX-License-Identifier: GPL-3.0-or-later
@@ -8696,7 +8696,7 @@ ok = true
 duration_ms = 0.494
 output_chars = 1914
 output_preview = '''
-# path: /home/akash/Desktop/Akash/Projects/JSS-Paper-Example/software/mcfm/src/W2jet/vv.f
+# path: /home/user/JSS-2026-Example/software/mcfm/src/W2jet/vv.f
 # lines: 1-54
 0001: !
 0002: !  SPDX-License-Identifier: GPL-3.0-or-later
@@ -8934,7 +8934,7 @@ ok = true
 duration_ms = 0.634
 output_chars = 2520
 output_preview = '''
-# path: /home/akash/Desktop/Akash/Projects/JSS-Paper-Example/software/mcfm/src/W2jet/faxsl.cpp
+# path: /home/user/JSS-2026-Example/software/mcfm/src/W2jet/faxsl.cpp
 # lines: 1-46
 0001: //
 0002: //  SPDX-License-Identifier: GPL-3.0-or-later
@@ -9055,7 +9055,7 @@ ok = true
 duration_ms = 0.745
 output_chars = 3331
 output_preview = '''
-# path: /home/akash/Desktop/Akash/Projects/JSS-Paper-Example/software/mcfm/src/W2jet/subqcd.f
+# path: /home/user/JSS-2026-Example/software/mcfm/src/W2jet/subqcd.f
 # lines: 1-76
 0001: !
 0002: !  SPDX-License-Identifier: GPL-3.0-or-later
@@ -9088,7 +9088,7 @@ ok = true
 duration_ms = 0.55
 output_chars = 2704
 output_preview = '''
-# path: /home/akash/Desktop/Akash/Projects/JSS-Paper-Example/software/mcfm/src/W2jet/Acalc.f
+# path: /home/user/JSS-2026-Example/software/mcfm/src/W2jet/Acalc.f
 # lines: 1-74
 0001: !
 0002: !  SPDX-License-Identifier: GPL-3.0-or-later
@@ -9171,7 +9171,7 @@ ok = true
 duration_ms = 0.722
 output_chars = 3648
 output_preview = '''
-# path: /home/akash/Desktop/Akash/Projects/JSS-Paper-Example/software/mcfm/src/Need/lnrat.cpp
+# path: /home/user/JSS-2026-Example/software/mcfm/src/Need/lnrat.cpp
 # lines: 1-87
 0001: /* LLM INSTRUCTIONS START
 0002:  * You are a code conversion tool for a scientific computing application.
@@ -9270,7 +9270,7 @@ ok = true
 duration_ms = 0.559
 output_chars = 257
 output_preview = '''
-# path: /home/akash/Desktop/Akash/Projects/JSS-Paper-Example/software/mcfm/src/Mods/scale_mod.hpp
+# path: /home/user/JSS-2026-Example/software/mcfm/src/Mods/scale_mod.hpp
 # lines: 1-8
 0001: #ifndef SCALE_MOD
 0002: #define SCALE_MOD
@@ -9300,7 +9300,7 @@ ok = true
 duration_ms = 0.483
 output_chars = 251
 output_preview = '''
-# path: /home/akash/Desktop/Akash/Projects/JSS-Paper-Example/software/mcfm/src/Mods/epinv_mod.hpp
+# path: /home/user/JSS-2026-Example/software/mcfm/src/Mods/epinv_mod.hpp
 # lines: 1-8
 0001: #ifndef EPINV_MOD
 0002: #define EPINV_MOD
@@ -9330,7 +9330,7 @@ ok = true
 duration_ms = 0.542
 output_chars = 3452
 output_preview = '''
-# path: /home/akash/Desktop/Akash/Projects/JSS-Paper-Example/software/mcfm/src/Mods/epinv2_mod.hpp
+# path: /home/user/JSS-2026-Example/software/mcfm/src/Mods/epinv2_mod.hpp
 # lines: 1-83
 0001: /* LLM INSTRUCTIONS START
 0002:  * You are a code conversion tool for a scientific computing application.
@@ -9357,7 +9357,7 @@ ok = true
 duration_ms = 0.484
 output_chars = 1164
 output_preview = '''
-# path: /home/akash/Desktop/Akash/Projects/JSS-Paper-Example/software/mcfm/src/W2jet/fvf.cpp
+# path: /home/user/JSS-2026-Example/software/mcfm/src/W2jet/fvf.cpp
 # lines: 1-30
 0001: //
 0002: //  SPDX-License-Identifier: GPL-3.0-or-later
@@ -9416,7 +9416,7 @@ tool = "write"
 ok = true
 duration_ms = 0.704
 output_chars = 105
-output_preview = "Wrote /home/akash/Desktop/Akash/Projects/JSS-Paper-Example/software/mcfm/src/W2jet/atrLLL.hpp (311 bytes)"
+output_preview = "Wrote /home/user/JSS-2026-Example/software/mcfm/src/W2jet/atrLLL.hpp (311 bytes)"
 ts = "2026-08-12T03:57:42.439407+00:00"
 
 [[event]]
@@ -9436,7 +9436,7 @@ tool = "write"
 ok = true
 duration_ms = 0.662
 output_chars = 106
-output_preview = "Wrote /home/akash/Desktop/Akash/Projects/JSS-Paper-Example/software/mcfm/src/W2jet/atrLLL.cpp (1586 bytes)"
+output_preview = "Wrote /home/user/JSS-2026-Example/software/mcfm/src/W2jet/atrLLL.cpp (1586 bytes)"
 ts = "2026-08-12T03:57:42.440365+00:00"
 
 [[event]]
@@ -9456,7 +9456,7 @@ tool = "write"
 ok = true
 duration_ms = 0.63
 output_chars = 108
-output_preview = "Wrote /home/akash/Desktop/Akash/Projects/JSS-Paper-Example/software/mcfm/src/W2jet/atrLLL_fi.F90 (751 bytes)"
+output_preview = "Wrote /home/user/JSS-2026-Example/software/mcfm/src/W2jet/atrLLL_fi.F90 (751 bytes)"
 ts = "2026-08-12T03:57:42.441263+00:00"
 
 [[event]]
@@ -9476,7 +9476,7 @@ tool = "write"
 ok = true
 duration_ms = 0.594
 output_chars = 105
-output_preview = "Wrote /home/akash/Desktop/Akash/Projects/JSS-Paper-Example/software/mcfm/src/W2jet/atrLRL.hpp (311 bytes)"
+output_preview = "Wrote /home/user/JSS-2026-Example/software/mcfm/src/W2jet/atrLRL.hpp (311 bytes)"
 ts = "2026-08-12T03:57:42.442119+00:00"
 
 [[event]]
@@ -9496,7 +9496,7 @@ tool = "write"
 ok = true
 duration_ms = 0.642
 output_chars = 106
-output_preview = "Wrote /home/akash/Desktop/Akash/Projects/JSS-Paper-Example/software/mcfm/src/W2jet/atrLRL.cpp (1491 bytes)"
+output_preview = "Wrote /home/user/JSS-2026-Example/software/mcfm/src/W2jet/atrLRL.cpp (1491 bytes)"
 ts = "2026-08-12T03:57:42.443069+00:00"
 
 [[event]]
@@ -9516,7 +9516,7 @@ tool = "write"
 ok = true
 duration_ms = 0.609
 output_chars = 108
-output_preview = "Wrote /home/akash/Desktop/Akash/Projects/JSS-Paper-Example/software/mcfm/src/W2jet/atrLRL_fi.F90 (751 bytes)"
+output_preview = "Wrote /home/user/JSS-2026-Example/software/mcfm/src/W2jet/atrLRL_fi.F90 (751 bytes)"
 ts = "2026-08-12T03:57:42.443935+00:00"
 
 [[event]]
@@ -9536,7 +9536,7 @@ tool = "write"
 ok = true
 duration_ms = 0.469
 output_chars = 101
-output_preview = "Wrote /home/akash/Desktop/Akash/Projects/JSS-Paper-Example/software/mcfm/src/W2jet/vv.hpp (207 bytes)"
+output_preview = "Wrote /home/user/JSS-2026-Example/software/mcfm/src/W2jet/vv.hpp (207 bytes)"
 ts = "2026-08-12T03:57:42.444613+00:00"
 
 [[event]]
@@ -9556,7 +9556,7 @@ tool = "write"
 ok = true
 duration_ms = 0.517
 output_chars = 102
-output_preview = "Wrote /home/akash/Desktop/Akash/Projects/JSS-Paper-Example/software/mcfm/src/W2jet/vv.cpp (2106 bytes)"
+output_preview = "Wrote /home/user/JSS-2026-Example/software/mcfm/src/W2jet/vv.cpp (2106 bytes)"
 ts = "2026-08-12T03:57:42.445351+00:00"
 
 [[event]]
@@ -9576,7 +9576,7 @@ tool = "write"
 ok = true
 duration_ms = 0.49
 output_chars = 104
-output_preview = "Wrote /home/akash/Desktop/Akash/Projects/JSS-Paper-Example/software/mcfm/src/W2jet/vv_fi.F90 (615 bytes)"
+output_preview = "Wrote /home/user/JSS-2026-Example/software/mcfm/src/W2jet/vv_fi.F90 (615 bytes)"
 ts = "2026-08-12T03:57:42.446048+00:00"
 
 [[event]]
@@ -9621,7 +9621,7 @@ output_chars = 1267
 output_preview = '''
 {
   "ok": true,
-  "path": "/home/akash/Desktop/Akash/Projects/JSS-Paper-Example/software/mcfm/src/W2jet/CMakeLists.txt",
+  "path": "/home/user/JSS-2026-Example/software/mcfm/src/W2jet/CMakeLists.txt",
   "applied": 2,
   "replacements": [
     {
@@ -9723,7 +9723,7 @@ output_chars = 874
 output_preview = '''
 exit_code: 0
 STDOUT:
-[95mROOT:[0m /home/akash/Desktop/Akash/Projects/JSS-Paper-Example
+[95mROOT:[0m /home/user/JSS-2026-Example
 [95mNODE:[0m <ROOT>/tests/mcfm
 
 [95mSCRIPTS: [0m
@@ -9734,7 +9734,7 @@ STDOUT:
 [95mEXECUTE:[0m <ROOT>/tests/mcfm/job.submit
 in 52.1s 
 Please consult the manual for using the C++ interface test programs.
-/home/akash/Desktop/Akash/Projects/JSS-Paper-Example/software/mcfm/src/W2jet/atrLLL.cpp:10:10: fatal error: atree.hpp: No such file or directory
+/home/user/JSS-2026-Example/software/mcfm/src/W2jet/atrLLL.cpp:10:10: fatal error: atree.hpp: No such file or directory
    '''
 ts = "2026-08-12T03:58:49.305091+00:00"
 
@@ -9827,7 +9827,7 @@ output_chars = 868
 output_preview = '''
 {
   "ok": true,
-  "path": "/home/akash/Desktop/Akash/Projects/JSS-Paper-Example/software/mcfm/src/W2jet/atrLLL.cpp",
+  "path": "/home/user/JSS-2026-Example/software/mcfm/src/W2jet/atrLLL.cpp",
   "applied": 1,
   "replacements": [
     {
@@ -9857,7 +9857,7 @@ output_chars = 868
 output_preview = '''
 {
   "ok": true,
-  "path": "/home/akash/Desktop/Akash/Projects/JSS-Paper-Example/software/mcfm/src/W2jet/atrLRL.cpp",
+  "path": "/home/user/JSS-2026-Example/software/mcfm/src/W2jet/atrLRL.cpp",
   "applied": 1,
   "replacements": [
     {
@@ -9910,7 +9910,7 @@ output_chars = 358
 output_preview = '''
 exit_code: 0
 STDOUT:
-[95mROOT:[0m /home/akash/Desktop/Akash/Projects/JSS-Paper-Example
+[95mROOT:[0m /home/user/JSS-2026-Example
 [95mNODE:[0m <ROOT>/tests/mcfm
 
 [95mSCRIPTS: [0m
@@ -10145,7 +10145,7 @@ ok = true
 duration_ms = 0.7
 output_chars = 8710
 output_preview = '''
-# path: /home/akash/Desktop/Akash/Projects/JSS-Paper-Example/dev/transformations/mcfm-translate/current_plan.md
+# path: /home/user/JSS-2026-Example/dev/transformations/mcfm-translate/current_plan.md
 # lines: 1-182
 0001: # Fortran → C++ plan
 0002: 
@@ -10175,7 +10175,7 @@ ok = true
 duration_ms = 0.612
 output_chars = 7692
 output_preview = '''
-# path: /home/akash/Desktop/Akash/Projects/JSS-Paper-Example/dev/transformations/mcfm-translate/desired_spec.md
+# path: /home/user/JSS-2026-Example/dev/transformations/mcfm-translate/desired_spec.md
 # lines: 1-144
 0001: # Fortran → C++: target output for one MCFM file
 0002: 
@@ -10231,7 +10231,7 @@ ok = true
 duration_ms = 0.559
 output_chars = 1053
 output_preview = '''
-# path: /home/akash/Desktop/Akash/Projects/JSS-Paper-Example/dev/transformations/mcfm-translate/current_plan.md
+# path: /home/user/JSS-2026-Example/dev/transformations/mcfm-translate/current_plan.md
 # lines: 164-182
 0164: ## When to stop
 0165: 
@@ -10260,7 +10260,7 @@ ok = true
 duration_ms = 0.546
 output_chars = 4363
 output_preview = '''
-# path: /home/akash/Desktop/Akash/Projects/JSS-Paper-Example/dev/transformations/mcfm-translate/agent_log.md
+# path: /home/user/JSS-2026-Example/dev/transformations/mcfm-translate/agent_log.md
 # lines: 1-62
 0001: # mcfm-translate — agent log
 0002: 
@@ -10501,7 +10501,7 @@ ok = true
 duration_ms = 0.622
 output_chars = 679
 output_preview = '''
-# path: /home/akash/Desktop/Akash/Projects/JSS-Paper-Example/dev/tmp/run_probe.py
+# path: /home/user/JSS-2026-Example/dev/tmp/run_probe.py
 # lines: 1-17
 0001: #!/usr/bin/env python3
 0002: """Helper: run dev/tools/coverage/coverage_check.py with MCFM_HOME set.
@@ -10534,7 +10534,7 @@ ok = true
 duration_ms = 0.578
 output_chars = 1552
 output_preview = '''
-# path: /home/akash/Desktop/Akash/Projects/JSS-Paper-Example/software/mcfm/src/W2jet/CMakeLists.txt
+# path: /home/user/JSS-2026-Example/software/mcfm/src/W2jet/CMakeLists.txt
 # lines: 1-79
 0001: target_sources(objlib PRIVATE
 0002: aqqb_zbb.f
@@ -10751,7 +10751,7 @@ output_chars = 358
 output_preview = '''
 exit_code: 0
 STDOUT:
-[95mROOT:[0m /home/akash/Desktop/Akash/Projects/JSS-Paper-Example
+[95mROOT:[0m /home/user/JSS-2026-Example
 [95mNODE:[0m <ROOT>/tests/mcfm
 
 [95mSCRIPTS: [0m
@@ -10913,7 +10913,7 @@ output_chars = 4219
 output_preview = '''
 {
   "ok": true,
-  "path": "/home/akash/Desktop/Akash/Projects/JSS-Paper-Example/dev/transformations/mcfm-translate/agent_log.md",
+  "path": "/home/user/JSS-2026-Example/dev/transformations/mcfm-translate/agent_log.md",
   "applied": 2,
   "replacements": [
     {
@@ -10992,8 +10992,8 @@ output_chars = 44339
 output_preview = '''
 exit_code: 0
 STDOUT:
-Generating Doxygen XML for /home/akash/Desktop/Akash/Projects/JSS-Paper-Example/software/mcfm/src -> /home/akash/Desktop/Akash/Projects/JSS-Paper-Example/software/mcfm/doxygen_dep/xml
-wrote 1138 XML file(s) to /home/akash/Desktop/Akash/Projects/JSS-Paper-Example/software/mcfm/doxygen_dep/xml
+Generating Doxygen XML for /home/user/JSS-2026-Example/software/mcfm/src -> /home/user/JSS-2026-Example/software/mcfm/doxygen_dep/xml
+wrote 1138 XML file(s) to /home/user/JSS-2026-Example/software/mcfm/doxygen_dep/xml
 source 521  translated 86  untranslated 435
 ready leaves (deps=0, non-blind): 225
 symbol index: 915 symbol(s)
@@ -11156,7 +11156,7 @@ ok = true
 duration_ms = 0.686
 output_chars = 1979
 output_preview = '''
-# path: /home/akash/Desktop/Akash/Projects/JSS-Paper-Example/software/mcfm/src/W2jet/atrLLL.cpp
+# path: /home/user/JSS-2026-Example/software/mcfm/src/W2jet/atrLLL.cpp
 # lines: 1-47
 0001: //
 0002: //  SPDX-License-Identifier: GPL-3.0-or-later
@@ -11193,7 +11193,7 @@ ok = true
 duration_ms = 0.517
 output_chars = 487
 output_preview = '''
-# path: /home/akash/Desktop/Akash/Projects/JSS-Paper-Example/software/mcfm/src/W2jet/atrLLL.hpp
+# path: /home/user/JSS-2026-Example/software/mcfm/src/W2jet/atrLLL.hpp
 # lines: 1-11
 0001: #ifndef ATRLLL_H
 0002: #define ATRLLL_H
@@ -11226,7 +11226,7 @@ ok = true
 duration_ms = 0.483
 output_chars = 1002
 output_preview = '''
-# path: /home/akash/Desktop/Akash/Projects/JSS-Paper-Example/software/mcfm/src/W2jet/atrLLL_fi.F90
+# path: /home/user/JSS-2026-Example/software/mcfm/src/W2jet/atrLLL_fi.F90
 # lines: 1-23
 0001: 
 0002: function atrLLL(j1,j2,j3,j4,j5,j6,za,zb) result(res)
@@ -11283,7 +11283,7 @@ ok = true
 duration_ms = 0.36
 output_chars = 3331
 output_preview = '''
-# path: /home/akash/Desktop/Akash/Projects/JSS-Paper-Example/software/mcfm/src/W2jet/subqcd.f
+# path: /home/user/JSS-2026-Example/software/mcfm/src/W2jet/subqcd.f
 # lines: 1-76
 0001: !
 0002: !  SPDX-License-Identifier: GPL-3.0-or-later
@@ -11316,7 +11316,7 @@ ok = true
 duration_ms = 0.256
 output_chars = 3917
 output_preview = '''
-# path: /home/akash/Desktop/Akash/Projects/JSS-Paper-Example/software/mcfm/src/W2jet/a6treeg.f
+# path: /home/user/JSS-2026-Example/software/mcfm/src/W2jet/a6treeg.f
 # lines: 1-88
 0001: !
 0002: !  SPDX-License-Identifier: GPL-3.0-or-later
@@ -11349,7 +11349,7 @@ ok = true
 duration_ms = 0.249
 output_chars = 2704
 output_preview = '''
-# path: /home/akash/Desktop/Akash/Projects/JSS-Paper-Example/software/mcfm/src/W2jet/Acalc.f
+# path: /home/user/JSS-2026-Example/software/mcfm/src/W2jet/Acalc.f
 # lines: 1-74
 0001: !
 0002: !  SPDX-License-Identifier: GPL-3.0-or-later
@@ -11384,7 +11384,7 @@ ok = true
 duration_ms = 0.258
 output_chars = 4477
 output_preview = '''
-# path: /home/akash/Desktop/Akash/Projects/JSS-Paper-Example/software/mcfm/src/W2jet/LRcalc.f
+# path: /home/user/JSS-2026-Example/software/mcfm/src/W2jet/LRcalc.f
 # lines: 1-106
 0001: !
 0002: !  SPDX-License-Identifier: GPL-3.0-or-later
@@ -11416,7 +11416,7 @@ ok = true
 duration_ms = 0.247
 output_chars = 3374
 output_preview = '''
-# path: /home/akash/Desktop/Akash/Projects/JSS-Paper-Example/software/mcfm/src/W2jet/vvg.f
+# path: /home/user/JSS-2026-Example/software/mcfm/src/W2jet/vvg.f
 # lines: 1-87
 0001: !
 0002: !  SPDX-License-Identifier: GPL-3.0-or-later
@@ -11448,7 +11448,7 @@ ok = true
 duration_ms = 0.239
 output_chars = 2578
 output_preview = '''
-# path: /home/akash/Desktop/Akash/Projects/JSS-Paper-Example/software/mcfm/src/W2jet/vv.cpp
+# path: /home/user/JSS-2026-Example/software/mcfm/src/W2jet/vv.cpp
 # lines: 1-61
 0001: //
 0002: //  SPDX-License-Identifier: GPL-3.0-or-later
@@ -11507,7 +11507,7 @@ ok = true
 duration_ms = 0.356
 output_chars = 2520
 output_preview = '''
-# path: /home/akash/Desktop/Akash/Projects/JSS-Paper-Example/software/mcfm/src/W2jet/faxsl.cpp
+# path: /home/user/JSS-2026-Example/software/mcfm/src/W2jet/faxsl.cpp
 # lines: 1-46
 0001: //
 0002: //  SPDX-License-Identifier: GPL-3.0-or-later
@@ -11542,7 +11542,7 @@ ok = true
 duration_ms = 0.233
 output_chars = 1058
 output_preview = '''
-# path: /home/akash/Desktop/Akash/Projects/JSS-Paper-Example/software/mcfm/src/W2jet/faxsl_fi.F90
+# path: /home/user/JSS-2026-Example/software/mcfm/src/W2jet/faxsl_fi.F90
 # lines: 1-25
 0001: 
 0002: function Faxsl(st,j1,j2,j3,j4,j5,j6,za,zb) result(res)
@@ -11674,7 +11674,7 @@ ok = true
 duration_ms = 0.362
 output_chars = 601
 output_preview = '''
-# path: /home/akash/Desktop/Akash/Projects/JSS-Paper-Example/software/mcfm/src/Mods/heldefs_mod.hpp
+# path: /home/user/JSS-2026-Example/software/mcfm/src/Mods/heldefs_mod.hpp
 # lines: 1-19
 0001: #ifndef HELDEFS_MOD
 0002: #define HELDEFS_MOD
@@ -11710,7 +11710,7 @@ ok = true
 duration_ms = 0.256
 output_chars = 3576
 output_preview = '''
-# path: /home/akash/Desktop/Akash/Projects/JSS-Paper-Example/software/mcfm/src/Mods/ggZZintegrals_mod.hpp
+# path: /home/user/JSS-2026-Example/software/mcfm/src/Mods/ggZZintegrals_mod.hpp
 # lines: 1-81
 0001: /* LLM INSTRUCTIONS START
 0002:  * You are a code conversion tool for a scientific computing application.
@@ -11737,7 +11737,7 @@ ok = true
 duration_ms = 0.222
 output_chars = 413
 output_preview = '''
-# path: /home/akash/Desktop/Akash/Projects/JSS-Paper-Example/software/mcfm/src/Mods/ZZclabels_mod.hpp
+# path: /home/user/JSS-2026-Example/software/mcfm/src/Mods/ZZclabels_mod.hpp
 # lines: 1-13
 0001: #ifndef ZZCLABELS_MOD
 0002: #define ZZCLABELS_MOD
@@ -11772,7 +11772,7 @@ ok = true
 duration_ms = 0.219
 output_chars = 398
 output_preview = '''
-# path: /home/akash/Desktop/Akash/Projects/JSS-Paper-Example/software/mcfm/src/Mods/ZZdlabels_mod.hpp
+# path: /home/user/JSS-2026-Example/software/mcfm/src/Mods/ZZdlabels_mod.hpp
 # lines: 1-12
 0001: #ifndef ZZDLABELS_MOD
 0002: #define ZZDLABELS_MOD
@@ -11959,7 +11959,7 @@ ok = true
 duration_ms = 0.596
 output_chars = 7369
 output_preview = '''
-# path: /home/akash/Desktop/Akash/Projects/JSS-Paper-Example/software/mcfm/src/Inc/FArray.hpp
+# path: /home/user/JSS-2026-Example/software/mcfm/src/Inc/FArray.hpp
 # lines: 1-219
 0001: #ifndef FARRAY_H
 0002: #define FARRAY_H
@@ -12111,7 +12111,7 @@ ok = true
 duration_ms = 0.655
 output_chars = 1043
 output_preview = '''
-# path: /home/akash/Desktop/Akash/Projects/JSS-Paper-Example/software/mcfm/src/W1jet/deprecated/A5NLO_fi.f90
+# path: /home/user/JSS-2026-Example/software/mcfm/src/W1jet/deprecated/A5NLO_fi.f90
 # lines: 1-21
 0001: 
 0002: subroutine A5NLO(j1,j2,j3,j4,j5,za,zb,A5LOm,A5NLOm,A5ax)
@@ -12190,7 +12190,7 @@ ok = true
 duration_ms = 0.831
 output_chars = 2874
 output_preview = '''
-# path: /home/akash/Desktop/Akash/Projects/JSS-Paper-Example/software/mcfm/src/W2jet/atree.cpp
+# path: /home/user/JSS-2026-Example/software/mcfm/src/W2jet/atree.cpp
 # lines: 1-60
 0001: //
 0002: //  SPDX-License-Identifier: GPL-3.0-or-later
@@ -12321,7 +12321,7 @@ tool = "write"
 ok = true
 duration_ms = 0.467
 output_chars = 106
-output_preview = "Wrote /home/akash/Desktop/Akash/Projects/JSS-Paper-Example/software/mcfm/src/W2jet/a6treeg.hpp (360 bytes)"
+output_preview = "Wrote /home/user/JSS-2026-Example/software/mcfm/src/W2jet/a6treeg.hpp (360 bytes)"
 ts = "2026-08-12T04:08:46.159146+00:00"
 
 [[event]]
@@ -12341,7 +12341,7 @@ tool = "write"
 ok = true
 duration_ms = 0.419
 output_chars = 107
-output_preview = "Wrote /home/akash/Desktop/Akash/Projects/JSS-Paper-Example/software/mcfm/src/W2jet/a6treeg.cpp (4374 bytes)"
+output_preview = "Wrote /home/user/JSS-2026-Example/software/mcfm/src/W2jet/a6treeg.cpp (4374 bytes)"
 ts = "2026-08-12T04:08:46.159754+00:00"
 
 [[event]]
@@ -12361,7 +12361,7 @@ tool = "write"
 ok = true
 duration_ms = 0.298
 output_chars = 109
-output_preview = "Wrote /home/akash/Desktop/Akash/Projects/JSS-Paper-Example/software/mcfm/src/W2jet/a6treeg_fi.F90 (793 bytes)"
+output_preview = "Wrote /home/user/JSS-2026-Example/software/mcfm/src/W2jet/a6treeg_fi.F90 (793 bytes)"
 ts = "2026-08-12T04:08:46.160181+00:00"
 
 [[event]]
@@ -12405,7 +12405,7 @@ tool = "write"
 ok = true
 duration_ms = 0.415
 output_chars = 102
-output_preview = "Wrote /home/akash/Desktop/Akash/Projects/JSS-Paper-Example/software/mcfm/src/W2jet/vvg.hpp (178 bytes)"
+output_preview = "Wrote /home/user/JSS-2026-Example/software/mcfm/src/W2jet/vvg.hpp (178 bytes)"
 ts = "2026-08-12T04:09:39.559791+00:00"
 
 [[event]]
@@ -12425,7 +12425,7 @@ tool = "write"
 ok = true
 duration_ms = 0.353
 output_chars = 103
-output_preview = "Wrote /home/akash/Desktop/Akash/Projects/JSS-Paper-Example/software/mcfm/src/W2jet/vvg.cpp (3697 bytes)"
+output_preview = "Wrote /home/user/JSS-2026-Example/software/mcfm/src/W2jet/vvg.cpp (3697 bytes)"
 ts = "2026-08-12T04:09:39.560332+00:00"
 
 [[event]]
@@ -12445,7 +12445,7 @@ tool = "write"
 ok = true
 duration_ms = 0.291
 output_chars = 105
-output_preview = "Wrote /home/akash/Desktop/Akash/Projects/JSS-Paper-Example/software/mcfm/src/W2jet/vvg_fi.F90 (588 bytes)"
+output_preview = "Wrote /home/user/JSS-2026-Example/software/mcfm/src/W2jet/vvg_fi.F90 (588 bytes)"
 ts = "2026-08-12T04:09:39.560752+00:00"
 
 [[event]]
@@ -12465,7 +12465,7 @@ tool = "write"
 ok = true
 duration_ms = 0.288
 output_chars = 105
-output_preview = "Wrote /home/akash/Desktop/Akash/Projects/JSS-Paper-Example/software/mcfm/src/W2jet/subqcd.hpp (319 bytes)"
+output_preview = "Wrote /home/user/JSS-2026-Example/software/mcfm/src/W2jet/subqcd.hpp (319 bytes)"
 ts = "2026-08-12T04:09:39.561163+00:00"
 
 [[event]]
@@ -12485,7 +12485,7 @@ tool = "write"
 ok = true
 duration_ms = 0.326
 output_chars = 106
-output_preview = "Wrote /home/akash/Desktop/Akash/Projects/JSS-Paper-Example/software/mcfm/src/W2jet/subqcd.cpp (2775 bytes)"
+output_preview = "Wrote /home/user/JSS-2026-Example/software/mcfm/src/W2jet/subqcd.cpp (2775 bytes)"
 ts = "2026-08-12T04:09:39.561629+00:00"
 
 [[event]]
@@ -12505,7 +12505,7 @@ tool = "write"
 ok = true
 duration_ms = 0.295
 output_chars = 108
-output_preview = "Wrote /home/akash/Desktop/Akash/Projects/JSS-Paper-Example/software/mcfm/src/W2jet/subqcd_fi.F90 (784 bytes)"
+output_preview = "Wrote /home/user/JSS-2026-Example/software/mcfm/src/W2jet/subqcd_fi.F90 (784 bytes)"
 ts = "2026-08-12T04:09:39.562051+00:00"
 
 [[event]]
@@ -12550,7 +12550,7 @@ output_chars = 708
 output_preview = '''
 {
   "ok": true,
-  "path": "/home/akash/Desktop/Akash/Projects/JSS-Paper-Example/software/mcfm/src/W2jet/subqcd.cpp",
+  "path": "/home/user/JSS-2026-Example/software/mcfm/src/W2jet/subqcd.cpp",
   "applied": 1,
   "replacements": [
     {
@@ -12578,7 +12578,7 @@ tool = "write"
 ok = true
 duration_ms = 0.309
 output_chars = 104
-output_preview = "Wrote /home/akash/Desktop/Akash/Projects/JSS-Paper-Example/software/mcfm/src/W2jet/Acalc.hpp (215 bytes)"
+output_preview = "Wrote /home/user/JSS-2026-Example/software/mcfm/src/W2jet/Acalc.hpp (215 bytes)"
 ts = "2026-08-12T04:10:00.136925+00:00"
 
 [[event]]
@@ -12597,7 +12597,7 @@ tool = "write"
 ok = true
 duration_ms = 0.311
 output_chars = 105
-output_preview = "Wrote /home/akash/Desktop/Akash/Projects/JSS-Paper-Example/software/mcfm/src/W2jet/Acalc.cpp (1982 bytes)"
+output_preview = "Wrote /home/user/JSS-2026-Example/software/mcfm/src/W2jet/Acalc.cpp (1982 bytes)"
 ts = "2026-08-12T04:10:00.137374+00:00"
 
 [[event]]
@@ -12616,7 +12616,7 @@ tool = "write"
 ok = true
 duration_ms = 0.296
 output_chars = 107
-output_preview = "Wrote /home/akash/Desktop/Akash/Projects/JSS-Paper-Example/software/mcfm/src/W2jet/Acalc_fi.F90 (644 bytes)"
+output_preview = "Wrote /home/user/JSS-2026-Example/software/mcfm/src/W2jet/Acalc_fi.F90 (644 bytes)"
 ts = "2026-08-12T04:10:00.137803+00:00"
 
 [[event]]
@@ -12658,7 +12658,7 @@ tool = "write"
 ok = true
 duration_ms = 0.339
 output_chars = 105
-output_preview = "Wrote /home/akash/Desktop/Akash/Projects/JSS-Paper-Example/software/mcfm/src/W2jet/LRcalc.hpp (541 bytes)"
+output_preview = "Wrote /home/user/JSS-2026-Example/software/mcfm/src/W2jet/LRcalc.hpp (541 bytes)"
 ts = "2026-08-12T04:10:35.007996+00:00"
 
 [[event]]
@@ -12677,7 +12677,7 @@ tool = "write"
 ok = true
 duration_ms = 0.351
 output_chars = 106
-output_preview = "Wrote /home/akash/Desktop/Akash/Projects/JSS-Paper-Example/software/mcfm/src/W2jet/LRcalc.cpp (3509 bytes)"
+output_preview = "Wrote /home/user/JSS-2026-Example/software/mcfm/src/W2jet/LRcalc.cpp (3509 bytes)"
 ts = "2026-08-12T04:10:35.008496+00:00"
 
 [[event]]
@@ -12696,7 +12696,7 @@ tool = "write"
 ok = true
 duration_ms = 0.303
 output_chars = 108
-output_preview = "Wrote /home/akash/Desktop/Akash/Projects/JSS-Paper-Example/software/mcfm/src/W2jet/LRcalc_fi.F90 (965 bytes)"
+output_preview = "Wrote /home/user/JSS-2026-Example/software/mcfm/src/W2jet/LRcalc_fi.F90 (965 bytes)"
 ts = "2026-08-12T04:10:35.008929+00:00"
 
 [[event]]
@@ -12741,7 +12741,7 @@ output_chars = 2922
 output_preview = '''
 {
   "ok": true,
-  "path": "/home/akash/Desktop/Akash/Projects/JSS-Paper-Example/software/mcfm/src/W2jet/CMakeLists.txt",
+  "path": "/home/user/JSS-2026-Example/software/mcfm/src/W2jet/CMakeLists.txt",
   "applied": 5,
   "replacements": [
     {
@@ -12769,7 +12769,7 @@ tool = "write"
 ok = true
 duration_ms = 0.309
 output_chars = 94
-output_preview = "Wrote /home/akash/Desktop/Akash/Projects/JSS-Paper-Example/dev/tmp/_move_w2jet3.py (454 bytes)"
+output_preview = "Wrote /home/user/JSS-2026-Example/dev/tmp/_move_w2jet3.py (454 bytes)"
 ts = "2026-08-12T04:10:46.111541+00:00"
 
 [[event]]
@@ -12868,7 +12868,7 @@ output_chars = 358
 output_preview = '''
 exit_code: 0
 STDOUT:
-[95mROOT:[0m /home/akash/Desktop/Akash/Projects/JSS-Paper-Example
+[95mROOT:[0m /home/user/JSS-2026-Example
 [95mNODE:[0m <ROOT>/tests/mcfm
 
 [95mSCRIPTS: [0m
@@ -13027,7 +13027,7 @@ tool = "write"
 ok = true
 duration_ms = 0.451
 output_chars = 99
-output_preview = "Wrote /home/akash/Desktop/Akash/Projects/JSS-Paper-Example/dev/tmp/run_probes_group3.py (855 bytes)"
+output_preview = "Wrote /home/user/JSS-2026-Example/dev/tmp/run_probes_group3.py (855 bytes)"
 ts = "2026-08-12T04:12:42.499975+00:00"
 
 [[event]]
@@ -13091,7 +13091,7 @@ ok = true
 duration_ms = 0.721
 output_chars = 8710
 output_preview = '''
-# path: /home/akash/Desktop/Akash/Projects/JSS-Paper-Example/dev/transformations/mcfm-translate/current_plan.md
+# path: /home/user/JSS-2026-Example/dev/transformations/mcfm-translate/current_plan.md
 # lines: 1-182
 0001: # Fortran → C++ plan
 0002: 
@@ -13121,7 +13121,7 @@ ok = true
 duration_ms = 0.613
 output_chars = 7692
 output_preview = '''
-# path: /home/akash/Desktop/Akash/Projects/JSS-Paper-Example/dev/transformations/mcfm-translate/desired_spec.md
+# path: /home/user/JSS-2026-Example/dev/transformations/mcfm-translate/desired_spec.md
 # lines: 1-144
 0001: # Fortran → C++: target output for one MCFM file
 0002: 
@@ -13179,7 +13179,7 @@ ok = true
 duration_ms = 0.556
 output_chars = 1053
 output_preview = '''
-# path: /home/akash/Desktop/Akash/Projects/JSS-Paper-Example/dev/transformations/mcfm-translate/current_plan.md
+# path: /home/user/JSS-2026-Example/dev/transformations/mcfm-translate/current_plan.md
 # lines: 164-182
 0164: ## When to stop
 0165: 
@@ -13209,7 +13209,7 @@ ok = true
 duration_ms = 0.56
 output_chars = 7556
 output_preview = '''
-# path: /home/akash/Desktop/Akash/Projects/JSS-Paper-Example/dev/transformations/mcfm-translate/agent_log.md
+# path: /home/user/JSS-2026-Example/dev/transformations/mcfm-translate/agent_log.md
 # lines: 1-104
 0001: # mcfm-translate — agent log
 0002: 
@@ -13242,7 +13242,7 @@ ok = true
 duration_ms = 0.47
 output_chars = 1133
 output_preview = '''
-# path: /home/akash/Desktop/Akash/Projects/JSS-Paper-Example/dev/tmp/run_probes_group3.py
+# path: /home/user/JSS-2026-Example/dev/tmp/run_probes_group3.py
 # lines: 1-29
 0001: #!/usr/bin/env python3
 0002: """Run the coverage probe for each W2jet-helpers-3 file, one after another."""
@@ -13275,7 +13275,7 @@ ok = true
 duration_ms = 0.452
 output_chars = 679
 output_preview = '''
-# path: /home/akash/Desktop/Akash/Projects/JSS-Paper-Example/dev/tmp/run_probe.py
+# path: /home/user/JSS-2026-Example/dev/tmp/run_probe.py
 # lines: 1-17
 0001: #!/usr/bin/env python3
 0002: """Helper: run dev/tools/coverage/coverage_check.py with MCFM_HOME set.
@@ -13471,7 +13471,7 @@ ok = true
 duration_ms = 0.815
 output_chars = 1659
 output_preview = '''
-# path: /home/akash/Desktop/Akash/Projects/JSS-Paper-Example/software/mcfm/src/W2jet/CMakeLists.txt
+# path: /home/user/JSS-2026-Example/software/mcfm/src/W2jet/CMakeLists.txt
 # lines: 1-84
 0001: target_sources(objlib PRIVATE
 0002: aqqb_zbb.f
@@ -13774,7 +13774,7 @@ output_chars = 358
 output_preview = '''
 exit_code: 0
 STDOUT:
-[95mROOT:[0m /home/akash/Desktop/Akash/Projects/JSS-Paper-Example
+[95mROOT:[0m /home/user/JSS-2026-Example
 [95mNODE:[0m <ROOT>/tests/mcfm
 
 [95mSCRIPTS: [0m
@@ -13934,7 +13934,7 @@ output_chars = 4250
 output_preview = '''
 {
   "ok": true,
-  "path": "/home/akash/Desktop/Akash/Projects/JSS-Paper-Example/dev/transformations/mcfm-translate/agent_log.md",
+  "path": "/home/user/JSS-2026-Example/dev/transformations/mcfm-translate/agent_log.md",
   "applied": 2,
   "replacements": [
     {
@@ -13995,10 +13995,10 @@ Blocking group: Group W2jet-helpers-1 (completed)
 Reason: 3 completed group(s) are waiting; limit is 3
 
 Approve with:
-  python3 dev/tools/approve/approve_group.py /home/akash/Desktop/Akash/Projects/JSS-Paper-Example/dev/transformations/mcfm-translate --latest-blocking
+  python3 dev/tools/approve/approve_group.py /home/user/JSS-2026-Example/dev/transformations/mcfm-translate --latest-blocking
 
 Or approve this exact group explicitly:
-  python3 dev/tools/approve/approve_group.py /home/akash/Desktop'''
+  python3 dev/tools/approve/approve_group.py /home/user/Desktop'''
 ts = "2026-08-12T04:16:39.351585+00:00"
 
 [[event]]
@@ -14043,7 +14043,7 @@ output_chars = 1194
 output_preview = '''
 {
   "ok": true,
-  "path": "/home/akash/Desktop/Akash/Projects/JSS-Paper-Example/dev/transformations/mcfm-translate/agent_log.md",
+  "path": "/home/user/JSS-2026-Example/dev/transformations/mcfm-translate/agent_log.md",
   "applied": 1,
   "replacements": [
     {

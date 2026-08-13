@@ -40,7 +40,7 @@ ok = true
 duration_ms = 0.714
 output_chars = 8710
 output_preview = '''
-# path: /home/akash/Desktop/Akash/Projects/JSS-Paper-Example/dev/transformations/mcfm-translate/current_plan.md
+# path: /home/user/JSS-2026-Example/dev/transformations/mcfm-translate/current_plan.md
 # lines: 1-182
 0001: # Fortran → C++ plan
 0002: 
@@ -69,7 +69,7 @@ ok = true
 duration_ms = 0.497
 output_chars = 7692
 output_preview = '''
-# path: /home/akash/Desktop/Akash/Projects/JSS-Paper-Example/dev/transformations/mcfm-translate/desired_spec.md
+# path: /home/user/JSS-2026-Example/dev/transformations/mcfm-translate/desired_spec.md
 # lines: 1-144
 0001: # Fortran → C++: target output for one MCFM file
 0002: 
@@ -126,7 +126,7 @@ ok = true
 duration_ms = 0.469
 output_chars = 1053
 output_preview = '''
-# path: /home/akash/Desktop/Akash/Projects/JSS-Paper-Example/dev/transformations/mcfm-translate/current_plan.md
+# path: /home/user/JSS-2026-Example/dev/transformations/mcfm-translate/current_plan.md
 # lines: 164-182
 0164: ## When to stop
 0165: 
@@ -155,7 +155,7 @@ ok = true
 duration_ms = 0.43
 output_chars = 4592
 output_preview = '''
-# path: /home/akash/Desktop/Akash/Projects/JSS-Paper-Example/dev/transformations/mcfm-translate/agent_log.md
+# path: /home/user/JSS-2026-Example/dev/transformations/mcfm-translate/agent_log.md
 # lines: 1-63
 0001: # mcfm-translate agent log
 0002: 
@@ -196,7 +196,7 @@ event = "tool_start"
 run_id = "20260812-202323-dc865a"
 iteration = 3
 tool = "bash"
-args = "{\"command\": \"cd /home/akash/Desktop/Akash/Projects/JSS-Paper-Example && echo \\\"---git status---\\\" && git status --porcelain=v1 && echo \\\"---workflow.py exists---\\\" && find dev -maxdepth 1 -iname \\\"workflow.py\\\" && echo \\\"---BDK dir---\\\" && ls software/mcfm/src/BDK/ && echo \\\"---BDK deprecated---\\\" && ls software/mcfm/src/BDK/deprecated/ 2>&1\"}"
+args = "{\"command\": \"cd /home/user/JSS-2026-Example && echo \\\"---git status---\\\" && git status --porcelain=v1 && echo \\\"---workflow.py exists---\\\" && find dev -maxdepth 1 -iname \\\"workflow.py\\\" && echo \\\"---BDK dir---\\\" && ls software/mcfm/src/BDK/ && echo \\\"---BDK deprecated---\\\" && ls software/mcfm/src/BDK/deprecated/ 2>&1\"}"
 ts = "2026-08-13T01:23:32.756847+00:00"
 
 [[event]]
@@ -216,7 +216,7 @@ event = "tool_start"
 run_id = "20260812-202323-dc865a"
 iteration = 3
 tool = "bash"
-args = "{\"command\": \"cd /home/akash/Desktop/Akash/Projects/JSS-Paper-Example && cat dev/workflow.py 2>&1 | head -50\"}"
+args = "{\"command\": \"cd /home/user/JSS-2026-Example && cat dev/workflow.py 2>&1 | head -50\"}"
 ts = "2026-08-13T01:23:32.757196+00:00"
 
 [[event]]
@@ -407,7 +407,7 @@ ok = true
 duration_ms = 0.577
 output_chars = 1062
 output_preview = '''
-# path: /home/akash/Desktop/Akash/Projects/JSS-Paper-Example/software/mcfm/src/BDK/CMakeLists.txt
+# path: /home/user/JSS-2026-Example/software/mcfm/src/BDK/CMakeLists.txt
 # lines: 1-55
 0001: target_sources(objlib PRIVATE
 0002: FFPPsc.f
@@ -451,7 +451,7 @@ ok = true
 duration_ms = 0.587
 output_chars = 13954
 output_preview = '''
-# path: /home/akash/Desktop/Akash/Projects/JSS-Paper-Example/dev/workflow.py
+# path: /home/user/JSS-2026-Example/dev/workflow.py
 # lines: 1-318
 0001: #!/usr/bin/env python3
 0002: """Unified workflow CLI for dev tooling.
@@ -506,7 +506,7 @@ ok = true
 duration_ms = 0.622
 output_chars = 5750
 output_preview = '''
-# path: /home/akash/Desktop/Akash/Projects/JSS-Paper-Example/dev/workflow.py
+# path: /home/user/JSS-2026-Example/dev/workflow.py
 # lines: 200-317
 0200:     if args.group:
 0201:         records = approvals_for_group(approvals_path, args.group)
@@ -539,8 +539,8 @@ output_chars = 44339
 output_preview = '''
 exit_code: 0
 STDOUT:
-Generating Doxygen XML for /home/akash/Desktop/Akash/Projects/JSS-Paper-Example/software/mcfm/src -> /home/akash/Desktop/Akash/Projects/JSS-Paper-Example/software/mcfm/doxygen_dep/xml
-wrote 1133 XML file(s) to /home/akash/Desktop/Akash/Projects/JSS-Paper-Example/software/mcfm/doxygen_dep/xml
+Generating Doxygen XML for /home/user/JSS-2026-Example/software/mcfm/src -> /home/user/JSS-2026-Example/software/mcfm/doxygen_dep/xml
+wrote 1133 XML file(s) to /home/user/JSS-2026-Example/software/mcfm/doxygen_dep/xml
 source 521  translated 86  untranslated 435
 ready leaves (deps=0, non-blind): 221
 symbol index: 915 symbol(s)
@@ -592,7 +592,7 @@ output_preview = '''
 exit_code: 0
 STDOUT:
 # workflow status
-assets: /home/akash/Desktop/Akash/Projects/JSS-Paper-Example/dev/tmp/assets
+assets: /home/user/JSS-2026-Example/dev/tmp/assets
 roadmap metrics: 435 untranslated file rows, 221 ready leaves
 cleanup index: 570 families, move 74, shim-delete 20, merge 31
 
@@ -701,7 +701,7 @@ ok = true
 duration_ms = 0.7
 output_chars = 2452
 output_preview = '''
-# path: /home/akash/Desktop/Akash/Projects/JSS-Paper-Example/software/mcfm/src/BDK/M1bit1.cpp
+# path: /home/user/JSS-2026-Example/software/mcfm/src/BDK/M1bit1.cpp
 # lines: 1-54
 0001: #include <BDK.hpp>
 0002: #include <W1jet.hpp>
@@ -736,7 +736,7 @@ ok = true
 duration_ms = 0.506
 output_chars = 952
 output_preview = '''
-# path: /home/akash/Desktop/Akash/Projects/JSS-Paper-Example/software/mcfm/src/BDK/M1bit1_fi.f90
+# path: /home/user/JSS-2026-Example/software/mcfm/src/BDK/M1bit1_fi.f90
 # lines: 1-22
 0001: 
 0002: function M1bit1(j1,j2,j3,j4,j5,j6,za,zb) result(res)
@@ -797,7 +797,7 @@ ok = true
 duration_ms = 0.607
 output_chars = 4798
 output_preview = '''
-# path: /home/akash/Desktop/Akash/Projects/JSS-Paper-Example/dev/tools/coverage/coverage_check.py
+# path: /home/user/JSS-2026-Example/dev/tools/coverage/coverage_check.py
 # lines: 1-97
 0001: """Coverage check — decide VERIFIED vs TRANSLATED for one rewritten MCFM file.
 0002: 
@@ -873,7 +873,7 @@ output_chars = 358
 output_preview = '''
 exit_code: 0
 STDOUT:
-[95mROOT:[0m /home/akash/Desktop/Akash/Projects/JSS-Paper-Example
+[95mROOT:[0m /home/user/JSS-2026-Example
 [95mNODE:[0m <ROOT>/tests/mcfm
 
 [95mSCRIPTS: [0m
@@ -933,7 +933,7 @@ ok = true
 duration_ms = 0.47
 output_chars = 2423
 output_preview = '''
-# path: /home/akash/Desktop/Akash/Projects/JSS-Paper-Example/environment.sh
+# path: /home/user/JSS-2026-Example/environment.sh
 # lines: 1-41
 0001: # Shell configuration shared across the lab notebook.
 0002: #
@@ -1011,7 +1011,7 @@ event = "tool_start"
 run_id = "20260812-202323-dc865a"
 iteration = 12
 tool = "bash"
-args = "{\"command\": \"MCFM_HOME=/home/akash/Desktop/Akash/Projects/JSS-Paper-Example/software/mcfm python3 dev/workflow.py verify software/mcfm/src/BDK/M1bit1.cpp -- u d~ ve e+ g g\", \"timeout\": 300}"
+args = "{\"command\": \"MCFM_HOME=/home/user/JSS-2026-Example/software/mcfm python3 dev/workflow.py verify software/mcfm/src/BDK/M1bit1.cpp -- u d~ ve e+ g g\", \"timeout\": 300}"
 ts = "2026-08-13T01:26:45.454955+00:00"
 
 [[event]]
@@ -1020,10 +1020,10 @@ run_id = "20260812-202323-dc865a"
 iteration = 12
 tool = "bash"
 ok = false
-error = "command not allowed: 'MCFM_HOME=/home/akash/Desktop/Akash/Projects/JSS-Paper-Example/software/mcfm'"
+error = "command not allowed: 'MCFM_HOME=/home/user/JSS-2026-Example/software/mcfm'"
 duration_ms = 0.508
 output_chars = 106
-output_preview = "Error: command not allowed: 'MCFM_HOME=/home/akash/Desktop/Akash/Projects/JSS-Paper-Example/software/mcfm'"
+output_preview = "Error: command not allowed: 'MCFM_HOME=/home/user/JSS-2026-Example/software/mcfm'"
 ts = "2026-08-13T01:26:45.455436+00:00"
 
 [[event]]
@@ -1110,7 +1110,7 @@ tool = "write"
 ok = true
 duration_ms = 0.461
 output_chars = 93
-output_preview = "Wrote /home/akash/Desktop/Akash/Projects/JSS-Paper-Example/dev/tmp/run_verify2.py (190 bytes)"
+output_preview = "Wrote /home/user/JSS-2026-Example/dev/tmp/run_verify2.py (190 bytes)"
 ts = "2026-08-13T01:26:54.651080+00:00"
 
 [[event]]
@@ -1154,16 +1154,16 @@ ok = true
 duration_ms = 0.509
 output_chars = 695
 output_preview = '''
-# path: /home/akash/Desktop/Akash/Projects/JSS-Paper-Example/dev/tmp/run_verify.py
+# path: /home/user/JSS-2026-Example/dev/tmp/run_verify.py
 # lines: 1-12
 0001: import os
 0002: import subprocess
 0003: import sys
 0004: 
-0005: os.environ["MCFM_HOME"] = "/home/akash/Desktop/Akash/Projects/JSS-Paper-Example/software/mcfm"
-0006: os.environ["PROJECT_HOME"] = "/home/akash/Desktop/Akash/Projects/JSS-Paper-Example"
-0007: os.environ["PEPPER_HOME"] = "/home/akash/Desktop/Akash/Projects/JSS-Paper-Example/software/pepper"
-0008: os.environ["QCDLOOP_HOME"] = "/home/a'''
+0005: os.environ["MCFM_HOME"] = "/home/user/JSS-2026-Example/software/mcfm"
+0006: os.environ["PROJECT_HOME"] = "/home/user/JSS-2026-Example"
+0007: os.environ["PEPPER_HOME"] = "/home/user/JSS-2026-Example/software/pepper"
+0008: os.environ["QCDLOOP_HOME"] = "/home/user'''
 ts = "2026-08-13T01:27:01.317284+00:00"
 
 [[event]]
@@ -1402,7 +1402,7 @@ ok = true
 duration_ms = 0.559
 output_chars = 7624
 output_preview = '''
-# path: /home/akash/Desktop/Akash/Projects/JSS-Paper-Example/software/mcfm/src/BDK/fvs.f
+# path: /home/user/JSS-2026-Example/software/mcfm/src/BDK/fvs.f
 # lines: 1-178
 0001: !
 0002: !  SPDX-License-Identifier: GPL-3.0-or-later
@@ -1435,7 +1435,7 @@ ok = true
 duration_ms = 0.436
 output_chars = 3352
 output_preview = '''
-# path: /home/akash/Desktop/Akash/Projects/JSS-Paper-Example/software/mcfm/src/BDK/FFPPcc.f
+# path: /home/user/JSS-2026-Example/software/mcfm/src/BDK/FFPPcc.f
 # lines: 1-91
 0001: !
 0002: !  SPDX-License-Identifier: GPL-3.0-or-later
@@ -1468,7 +1468,7 @@ ok = true
 duration_ms = 0.389
 output_chars = 2423
 output_preview = '''
-# path: /home/akash/Desktop/Akash/Projects/JSS-Paper-Example/software/mcfm/src/BDK/M3abit1.f
+# path: /home/user/JSS-2026-Example/software/mcfm/src/BDK/M3abit1.f
 # lines: 1-55
 0001: !
 0002: !  SPDX-License-Identifier: GPL-3.0-or-later
@@ -1501,7 +1501,7 @@ ok = true
 duration_ms = 0.386
 output_chars = 2119
 output_preview = '''
-# path: /home/akash/Desktop/Akash/Projects/JSS-Paper-Example/software/mcfm/src/BDK/M3abit2.f
+# path: /home/user/JSS-2026-Example/software/mcfm/src/BDK/M3abit2.f
 # lines: 1-49
 0001: !
 0002: !  SPDX-License-Identifier: GPL-3.0-or-later
@@ -1887,7 +1887,7 @@ ok = true
 duration_ms = 0.557
 output_chars = 1425
 output_preview = '''
-# path: /home/akash/Desktop/Akash/Projects/JSS-Paper-Example/software/mcfm/src/Need/lfunctions.cpp
+# path: /home/user/JSS-2026-Example/software/mcfm/src/Need/lfunctions.cpp
 # lines: 1-40
 0001: #include <Need.hpp> // Assuming this header provides lnrat, cplx1, ddilog
 0002: #include <SpecialFunctions.hpp>
@@ -2088,7 +2088,7 @@ ok = true
 duration_ms = 0.597
 output_chars = 2282
 output_preview = '''
-# path: /home/akash/Desktop/Akash/Projects/JSS-Paper-Example/software/mcfm/src/Need/Need.hpp
+# path: /home/user/JSS-2026-Example/software/mcfm/src/Need/Need.hpp
 # lines: 1-46
 0001: #ifndef NEED_H
 0002: #define NEED_H
@@ -2150,7 +2150,7 @@ ok = true
 duration_ms = 0.521
 output_chars = 14954
 output_preview = '''
-# path: /home/akash/Desktop/Akash/Projects/JSS-Paper-Example/software/mcfm/src/BDK/FFPPsc.f
+# path: /home/user/JSS-2026-Example/software/mcfm/src/BDK/FFPPsc.f
 # lines: 1-426
 0001: !
 0002: !  SPDX-License-Identifier: GPL-3.0-or-later
@@ -2183,7 +2183,7 @@ ok = true
 duration_ms = 0.319
 output_chars = 7916
 output_preview = '''
-# path: /home/akash/Desktop/Akash/Projects/JSS-Paper-Example/software/mcfm/src/BDK/FFMPcc.f
+# path: /home/user/JSS-2026-Example/software/mcfm/src/BDK/FFMPcc.f
 # lines: 1-185
 0001: !
 0002: !  SPDX-License-Identifier: GPL-3.0-or-later
@@ -2280,7 +2280,7 @@ output_chars = 3874
 output_preview = '''
 {
   "ok": true,
-  "path": "/home/akash/Desktop/Akash/Projects/JSS-Paper-Example/dev/transformations/mcfm-translate/agent_log.md",
+  "path": "/home/user/JSS-2026-Example/dev/transformations/mcfm-translate/agent_log.md",
   "applied": 1,
   "replacements": [
     {

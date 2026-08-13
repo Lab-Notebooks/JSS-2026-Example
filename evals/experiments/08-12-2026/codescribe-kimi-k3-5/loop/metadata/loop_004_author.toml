@@ -2,8 +2,8 @@ run_id = "20260812-104819-de77c7"
 loop_index = 4
 phase = "author"
 model = "oaic-moonshotai/Kimi-K3"
-task_file = "/home/adubey/JSS-2026-Example/dev/transformations/mcfm-translate/loop.toml"
-workdir = "/home/adubey/JSS-2026-Example"
+task_file = "/home/user/JSS-2026-Example/dev/transformations/mcfm-translate/loop.toml"
+workdir = "/home/user/JSS-2026-Example"
 stop_reason = "max_iterations"
 final_text_present = false
 iterations = 30
@@ -13,28 +13,28 @@ created_at = "2026-08-12T02:23:20.341806+00:00"
 [[tools]]
 name = "read"
 ok = true
-output_preview = "# path: /home/adubey/JSS-2026-Example/dev/transformations/mcfm-translate/current_plan.md\n# lines: 1-182\n0001: # Fortran → C++ plan\n0002: \n0003: This file says how to run step 1. The rewrite rules and correctness bar are in\n0004: `desired_spec.md`.\n0005: \n0006: > This Plan is the policy: it selects and orders the work over the ready set (see *When to\n0007: > stop*). The correctness contract — objective `f`, invariants `I`, oracle `V`, and status set\n0008: > `Σ` — lives in `desired_spec.md`; on co"
+output_preview = "# path: /home/user/JSS-2026-Example/dev/transformations/mcfm-translate/current_plan.md\n# lines: 1-182\n0001: # Fortran → C++ plan\n0002: \n0003: This file says how to run step 1. The rewrite rules and correctness bar are in\n0004: `desired_spec.md`.\n0005: \n0006: > This Plan is the policy: it selects and orders the work over the ready set (see *When to\n0007: > stop*). The correctness contract — objective `f`, invariants `I`, oracle `V`, and status set\n0008: > `Σ` — lives in `desired_spec.md`; on co"
 
 [tools.args]
 path = "dev/transformations/mcfm-translate/current_plan.md"
 [[tools]]
 name = "read"
 ok = true
-output_preview = "# path: /home/adubey/JSS-2026-Example/dev/transformations/mcfm-translate/desired_spec.md\n# lines: 1-144\n0001: # Fortran → C++: target output for one MCFM file\n0002: \n0003: This file defines the rewrite target and correctness bar for step 1. The workflow lives in\n0004: `current_plan.md`.\n0005: \n0006: Paths are written as `software/mcfm/src/...`.\n0007: \n0008: ---\n0009: \n0010: ## Contract\n0011: \n0012: This step advances by *settling* source files one at a time: each file is rewritten, then\n0013: re"
+output_preview = "# path: /home/user/JSS-2026-Example/dev/transformations/mcfm-translate/desired_spec.md\n# lines: 1-144\n0001: # Fortran → C++: target output for one MCFM file\n0002: \n0003: This file defines the rewrite target and correctness bar for step 1. The workflow lives in\n0004: `current_plan.md`.\n0005: \n0006: Paths are written as `software/mcfm/src/...`.\n0007: \n0008: ---\n0009: \n0010: ## Contract\n0011: \n0012: This step advances by *settling* source files one at a time: each file is rewritten, then\n0013: re"
 
 [tools.args]
 path = "dev/transformations/mcfm-translate/desired_spec.md"
 [[tools]]
 name = "read"
 ok = true
-output_preview = "# path: /home/adubey/JSS-2026-Example/dev/transformations/mcfm-translate/agent_log.md\n# lines: 1-19\n0001: # mcfm-translate agent log\n0002: \n0003: ## Ready files\n0004: \n0005: See `dev/tmp/assets/roadmap_metrics.tsv` (deps == 0, blind == 0, no .cpp yet).\n0006: \n0007: ## Group W2jet-1 (open)\n0008: \n0009: Targets: `software/mcfm/src/W2jet/{vv,fpm,fvf,fsl,fpp}.f` — all W2jet, ready per roadmap.\n0010: \n0011: - [ ] software/mcfm/src/W2jet/vv.cpp — in progress (drafted + shim written, not yet wired/buil"
+output_preview = "# path: /home/user/JSS-2026-Example/dev/transformations/mcfm-translate/agent_log.md\n# lines: 1-19\n0001: # mcfm-translate agent log\n0002: \n0003: ## Ready files\n0004: \n0005: See `dev/tmp/assets/roadmap_metrics.tsv` (deps == 0, blind == 0, no .cpp yet).\n0006: \n0007: ## Group W2jet-1 (open)\n0008: \n0009: Targets: `software/mcfm/src/W2jet/{vv,fpm,fvf,fsl,fpp}.f` — all W2jet, ready per roadmap.\n0010: \n0011: - [ ] software/mcfm/src/W2jet/vv.cpp — in progress (drafted + shim written, not yet wired/buil"
 
 [tools.args]
 path = "dev/transformations/mcfm-translate/agent_log.md"
 [[tools]]
 name = "read"
 ok = true
-output_preview = "# path: /home/adubey/JSS-2026-Example/dev/transformations/mcfm-translate/current_plan.md\n# lines: 164-182\n0164: ## When to stop\n0165: \n0166: The *ready set* is the set of ready, not-yet-settled files. Each settled file leaves the\n0167: ready set and the readiness graph is acyclic, so the pass terminates. Stop only when one of\n0168: these is true:\n0169: \n0170: - a completed group needs human approval before the next group can start\n0171: - the ready set is empty (no ready file to work on)\n0172: -"
+output_preview = "# path: /home/user/JSS-2026-Example/dev/transformations/mcfm-translate/current_plan.md\n# lines: 164-182\n0164: ## When to stop\n0165: \n0166: The *ready set* is the set of ready, not-yet-settled files. Each settled file leaves the\n0167: ready set and the readiness graph is acyclic, so the pass terminates. Stop only when one of\n0168: these is true:\n0169: \n0170: - a completed group needs human approval before the next group can start\n0171: - the ready set is empty (no ready file to work on)\n0172: -"
 
 [tools.args]
 path = "dev/transformations/mcfm-translate/current_plan.md"
@@ -42,14 +42,14 @@ offset = 164
 [[tools]]
 name = "read"
 ok = true
-output_preview = "# path: /home/adubey/JSS-2026-Example/dev/tmp/verify_one.py\n# lines: 1-10\n0001: import os\n0002: import sys\n0003: \n0004: os.environ.setdefault(\"MCFM_HOME\", \"/home/adubey/JSS-2026-Example/software/mcfm\")\n0005: os.environ.setdefault(\"PEPPER_HOME\", \"/home/adubey/JSS-2026-Example/software/pepper\")\n0006: os.environ.setdefault(\"QCDLOOP_HOME\", \"/home/adubey/JSS-2026-Example/software/qcdloop\")\n0007: os.environ.setdefault(\"PROJECT_HOME\", \"/home/adubey/JSS-2026-Example\")\n0008: \n0009: sys.argv = [\"workflow."
+output_preview = "# path: /home/user/JSS-2026-Example/dev/tmp/verify_one.py\n# lines: 1-10\n0001: import os\n0002: import sys\n0003: \n0004: os.environ.setdefault(\"MCFM_HOME\", \"/home/user/JSS-2026-Example/software/mcfm\")\n0005: os.environ.setdefault(\"PEPPER_HOME\", \"/home/user/JSS-2026-Example/software/pepper\")\n0006: os.environ.setdefault(\"QCDLOOP_HOME\", \"/home/user/JSS-2026-Example/software/qcdloop\")\n0007: os.environ.setdefault(\"PROJECT_HOME\", \"/home/user/JSS-2026-Example\")\n0008: \n0009: sys.argv = [\"workflow."
 
 [tools.args]
 path = "dev/tmp/verify_one.py"
 [[tools]]
 name = "read"
 ok = true
-output_preview = "# path: /home/adubey/JSS-2026-Example/dev/tmp/verify_all.py\n# lines: 1-14\n0001: import os\n0002: import subprocess\n0003: import sys\n0004: \n0005: os.environ[\"MCFM_HOME\"] = \"/home/adubey/JSS-2026-Example/software/mcfm\"\n0006: \n0007: targets = [\"vv\", \"fpm\", \"fpp\", \"fsl\", \"fvf\"]\n0008: for t in targets:\n0009:     target = f\"software/mcfm/src/W2jet/{t}.cpp\"\n0010:     print(f\"\\n===== verifying {target} =====\", flush=True)\n0011:     rc = subprocess.run(\n0012:         [sys.executable, \"dev/tools/coverage/c"
+output_preview = "# path: /home/user/JSS-2026-Example/dev/tmp/verify_all.py\n# lines: 1-14\n0001: import os\n0002: import subprocess\n0003: import sys\n0004: \n0005: os.environ[\"MCFM_HOME\"] = \"/home/user/JSS-2026-Example/software/mcfm\"\n0006: \n0007: targets = [\"vv\", \"fpm\", \"fpp\", \"fsl\", \"fvf\"]\n0008: for t in targets:\n0009:     target = f\"software/mcfm/src/W2jet/{t}.cpp\"\n0010:     print(f\"\\n===== verifying {target} =====\", flush=True)\n0011:     rc = subprocess.run(\n0012:         [sys.executable, \"dev/tools/coverage/c"
 
 [tools.args]
 path = "dev/tmp/verify_all.py"
@@ -63,14 +63,14 @@ command = "ls software/mcfm/src/W2jet/"
 [[tools]]
 name = "read"
 ok = true
-output_preview = "# path: /home/adubey/JSS-2026-Example/dev/workflow.py\n# lines: 1-318\n0001: #!/usr/bin/env python3\n0002: \"\"\"Unified workflow CLI for dev tooling.\n0003: \n0004: Examples:\n0005:   python3 dev/workflow.py refresh\n0006:   python3 dev/workflow.py status\n0007:   python3 dev/workflow.py next mcfm-translate\n0008:   python3 dev/workflow.py gate mcfm-translate\n0009:   python3 dev/workflow.py approve mcfm-translate --latest-blocking\n0010:   python3 dev/workflow.py draft software/mcfm/src/.../file.f\n0011:   p"
+output_preview = "# path: /home/user/JSS-2026-Example/dev/workflow.py\n# lines: 1-318\n0001: #!/usr/bin/env python3\n0002: \"\"\"Unified workflow CLI for dev tooling.\n0003: \n0004: Examples:\n0005:   python3 dev/workflow.py refresh\n0006:   python3 dev/workflow.py status\n0007:   python3 dev/workflow.py next mcfm-translate\n0008:   python3 dev/workflow.py gate mcfm-translate\n0009:   python3 dev/workflow.py approve mcfm-translate --latest-blocking\n0010:   python3 dev/workflow.py draft software/mcfm/src/.../file.f\n0011:   p"
 
 [tools.args]
 path = "dev/workflow.py"
 [[tools]]
 name = "read"
 ok = true
-output_preview = "# path: /home/adubey/JSS-2026-Example/dev/tools/coverage/coverage_check.py\n# lines: 1-97\n0001: \"\"\"Coverage check — decide VERIFIED vs TRANSLATED for one rewritten MCFM file.\n0002: \n0003:   python3 coverage_check.py <target.cpp> -- <process args>\n0004: \n0005: Builds and tests once, scales the marked output statement, rebuilds and retests, then\n0006: restores the file and rebuilds clean. Changed output means `COVERED`; unchanged output\n0007: means `NOT COVERED`.\n0008: \n0009: Mark exactly one outpu"
+output_preview = "# path: /home/user/JSS-2026-Example/dev/tools/coverage/coverage_check.py\n# lines: 1-97\n0001: \"\"\"Coverage check — decide VERIFIED vs TRANSLATED for one rewritten MCFM file.\n0002: \n0003:   python3 coverage_check.py <target.cpp> -- <process args>\n0004: \n0005: Builds and tests once, scales the marked output statement, rebuilds and retests, then\n0006: restores the file and rebuilds clean. Changed output means `COVERED`; unchanged output\n0007: means `NOT COVERED`.\n0008: \n0009: Mark exactly one outpu"
 
 [tools.args]
 path = "dev/tools/coverage/coverage_check.py"
@@ -98,7 +98,7 @@ command = "ls software/mcfm/Bin/CMakeCache.txt software/mcfm/Bin/test 2>&1; git 
 [[tools]]
 name = "read"
 ok = true
-output_preview = "# path: /home/adubey/JSS-2026-Example/dev/workflow.py\n# lines: 191-318\n0191:         *args.args,\n0192:     ]\n0193:     return run(cmd)\n0194: \n0195: \n0196: def cmd_approvals(args: argparse.Namespace) -> int:\n0197:     tdir = transformation_dir(args.transformation)\n0198:     approvals_path = tdir / \"approvals.toml\"\n0199: \n0200:     if args.group:\n0201:         records = approvals_for_group(approvals_path, args.group)\n0202:     elif args.latest_approved:\n0203:         record = latest_approved_recor"
+output_preview = "# path: /home/user/JSS-2026-Example/dev/workflow.py\n# lines: 191-318\n0191:         *args.args,\n0192:     ]\n0193:     return run(cmd)\n0194: \n0195: \n0196: def cmd_approvals(args: argparse.Namespace) -> int:\n0197:     tdir = transformation_dir(args.transformation)\n0198:     approvals_path = tdir / \"approvals.toml\"\n0199: \n0200:     if args.group:\n0201:         records = approvals_for_group(approvals_path, args.group)\n0202:     elif args.latest_approved:\n0203:         record = latest_approved_recor"
 
 [tools.args]
 path = "dev/workflow.py"
@@ -134,11 +134,11 @@ command = "grep -n \"fpm\\|fvf\\|fsl\\|fpp\" software/mcfm/src/W2jet/CMakeLists.
 [[tools]]
 name = "write"
 ok = true
-output_preview = "Wrote /home/adubey/JSS-2026-Example/dev/tmp/run_test.py (621 bytes)"
+output_preview = "Wrote /home/user/JSS-2026-Example/dev/tmp/run_test.py (621 bytes)"
 
 [tools.args]
 path = "dev/tmp/run_test.py"
-content = "import os\nimport subprocess\nimport sys\n\nos.environ.setdefault(\"MCFM_HOME\", \"/home/adubey/JSS-2026-Example/software/mcfm\")\nos.environ.setdefault(\"PEPPER_HOME\", \"/home/adubey/JSS-2026-Example/software/pepper\")\nos.environ.setdefault(\"QCDLOOP_HOME\", \"/home/adubey/JSS-2026-Example/software/qcdloop\")\n\nmcfm = os.environ[\"MCFM_HOME\"]\nargs = sys.argv[1:] or [\"u\", \"d~\", \"ve\", \"e+\", \"g\", \"g\"]\np = subprocess.run([mcfm + \"/Bin/test\", \"-b\", *args], cwd=mcfm + \"/Bin\",\n                   capture_output=True, te... [truncated, 621 chars total]"
+content = "import os\nimport subprocess\nimport sys\n\nos.environ.setdefault(\"MCFM_HOME\", \"/home/user/JSS-2026-Example/software/mcfm\")\nos.environ.setdefault(\"PEPPER_HOME\", \"/home/user/JSS-2026-Example/software/pepper\")\nos.environ.setdefault(\"QCDLOOP_HOME\", \"/home/user/JSS-2026-Example/software/qcdloop\")\n\nmcfm = os.environ[\"MCFM_HOME\"]\nargs = sys.argv[1:] or [\"u\", \"d~\", \"ve\", \"e+\", \"g\", \"g\"]\np = subprocess.run([mcfm + \"/Bin/test\", \"-b\", *args], cwd=mcfm + \"/Bin\",\n                   capture_output=True, te... [truncated, 621 chars total]"
 [[tools]]
 name = "bash"
 ok = true
@@ -172,7 +172,7 @@ command = "grep -n \"coverage-probe\" software/mcfm/src/W2jet/vv.cpp software/mc
 [[tools]]
 name = "read"
 ok = true
-output_preview = "# path: /home/adubey/JSS-2026-Example/software/mcfm/src/W2jet/vv.cpp\n# lines: 30-50\n0030:         //   - 2*epinv^2   + epinv* ( 2/3 - xlog12 - xlog34 )\n0031:         //   + 10/9 - 1/2*xlog12^2 - 1/2*xlog34^2 + 13/6*xlog23 - 3/2*xlog56\n0032:         xl23 = lnrat(musq, -s(j2, j3));\n0033:         xl56 = lnrat(musq, -s(j5, j6));\n0034:         vv_result = -epinv * (two * epinv2 - two / three + xl12 + xl34)\n0035:             + 10.0 / 9.0 - 0.5 * (pow(xl12, 2) + pow(xl34, 2)) + 13.0 / 6.0 * xl23 - 1.5 "
+output_preview = "# path: /home/user/JSS-2026-Example/software/mcfm/src/W2jet/vv.cpp\n# lines: 30-50\n0030:         //   - 2*epinv^2   + epinv* ( 2/3 - xlog12 - xlog34 )\n0031:         //   + 10/9 - 1/2*xlog12^2 - 1/2*xlog34^2 + 13/6*xlog23 - 3/2*xlog56\n0032:         xl23 = lnrat(musq, -s(j2, j3));\n0033:         xl56 = lnrat(musq, -s(j5, j6));\n0034:         vv_result = -epinv * (two * epinv2 - two / three + xl12 + xl34)\n0035:             + 10.0 / 9.0 - 0.5 * (pow(xl12, 2) + pow(xl34, 2)) + 13.0 / 6.0 * xl23 - 1.5 "
 
 [tools.args]
 path = "software/mcfm/src/W2jet/vv.cpp"
@@ -181,7 +181,7 @@ limit = 30
 [[tools]]
 name = "read"
 ok = true
-output_preview = "# path: /home/adubey/JSS-2026-Example/software/mcfm/src/W2jet/fvf.cpp\n# lines: 40-63\n0040:             -I3m123456 * za(j2, j4) * zb(j3, j6)\n0041:                 * zab2(j5, j2, j4, j1) / (2.0 * zab2(j3, j1, j2, j4) * t(j1, j2, j4))\n0042: \n0043:             +I3m563412 * za(j2, j4) * zb(j3, j6)\n0044:                 * zab2(j5, j3, j6, j1) / (2.0 * zab2(j3, j1, j2, j4) * t(j3, j5, j6))\n0045: \n0046:             +I3m563412 * za(j4, j5) * zb(j1, j3)\n0047:                 * zab2(j2, j4, j5, j6) / (2.0 "
+output_preview = "# path: /home/user/JSS-2026-Example/software/mcfm/src/W2jet/fvf.cpp\n# lines: 40-63\n0040:             -I3m123456 * za(j2, j4) * zb(j3, j6)\n0041:                 * zab2(j5, j2, j4, j1) / (2.0 * zab2(j3, j1, j2, j4) * t(j1, j2, j4))\n0042: \n0043:             +I3m563412 * za(j2, j4) * zb(j3, j6)\n0044:                 * zab2(j5, j3, j6, j1) / (2.0 * zab2(j3, j1, j2, j4) * t(j3, j5, j6))\n0045: \n0046:             +I3m563412 * za(j4, j5) * zb(j1, j3)\n0047:                 * zab2(j2, j4, j5, j6) / (2.0 "
 
 [tools.args]
 path = "software/mcfm/src/W2jet/fvf.cpp"
@@ -190,7 +190,7 @@ limit = 25
 [[tools]]
 name = "edit"
 ok = true
-output_preview = "{\n  \"ok\": true,\n  \"path\": \"/home/adubey/JSS-2026-Example/software/mcfm/src/W2jet/vv.cpp\",\n  \"applied\": 1,\n  \"replacements\": [\n    {\n      \"index\": 0,\n      \"match_count\": 1,\n      \"old_len\": 196,\n      \"new_len\": 219,\n      \"before_snippet\": \"…34 )\\n        //   -15/2 - 3/2*xlog12 - 1/2*xlog12^2 - 3/2*xlog34 - 1/2*xlog34^2\\n        vv_result = -epinv * (two * epinv2 + three + xl12 + xl34)\\n            - 7.5 - 1.5 * (xl12 + xl34) - 0.5 * (pow(xl12, 2) + pow(xl34, 2));\\n    }\\n\\n    // @coverage-p"
+output_preview = "{\n  \"ok\": true,\n  \"path\": \"/home/user/JSS-2026-Example/software/mcfm/src/W2jet/vv.cpp\",\n  \"applied\": 1,\n  \"replacements\": [\n    {\n      \"index\": 0,\n      \"match_count\": 1,\n      \"old_len\": 196,\n      \"new_len\": 219,\n      \"before_snippet\": \"…34 )\\n        //   -15/2 - 3/2*xlog12 - 1/2*xlog12^2 - 3/2*xlog34 - 1/2*xlog34^2\\n        vv_result = -epinv * (two * epinv2 + three + xl12 + xl34)\\n            - 7.5 - 1.5 * (xl12 + xl34) - 0.5 * (pow(xl12, 2) + pow(xl34, 2));\\n    }\\n\\n    // @coverage-p"
 
 [tools.args]
 path = "software/mcfm/src/W2jet/vv.cpp"
@@ -201,7 +201,7 @@ newText = "        vv_result = -epinv * (two * epinv2 + three + xl12 + xl34)\n  
 [[tools]]
 name = "edit"
 ok = true
-output_preview = "{\n  \"ok\": true,\n  \"path\": \"/home/adubey/JSS-2026-Example/software/mcfm/src/W2jet/fvf.cpp\",\n  \"applied\": 1,\n  \"replacements\": [\n    {\n      \"index\": 0,\n      \"match_count\": 1,\n      \"old_len\": 128,\n      \"new_len\": 153,\n      \"before_snippet\": \"…f_result = -pow(za(j2, j5), 2) / (za(j1, j2) * za(j5, j6) * pow(za(j3, j4), 2))\\n            * Lsm1_2me(t(j1, j2, j3), t(j1, j2, j4), s(j1, j2), s(j5, j6));\\n    }\\n\\n    // @coverage-probe\\n    return fvf_result;\\n}\\n\\nextern \\\"C\\\" std::complex<double> f"
+output_preview = "{\n  \"ok\": true,\n  \"path\": \"/home/user/JSS-2026-Example/software/mcfm/src/W2jet/fvf.cpp\",\n  \"applied\": 1,\n  \"replacements\": [\n    {\n      \"index\": 0,\n      \"match_count\": 1,\n      \"old_len\": 128,\n      \"new_len\": 153,\n      \"before_snippet\": \"…f_result = -pow(za(j2, j5), 2) / (za(j1, j2) * za(j5, j6) * pow(za(j3, j4), 2))\\n            * Lsm1_2me(t(j1, j2, j3), t(j1, j2, j4), s(j1, j2), s(j5, j6));\\n    }\\n\\n    // @coverage-probe\\n    return fvf_result;\\n}\\n\\nextern \\\"C\\\" std::complex<double> f"
 
 [tools.args]
 path = "software/mcfm/src/W2jet/fvf.cpp"
@@ -212,7 +212,7 @@ newText = "            * Lsm1_2me(t(j1, j2, j3), t(j1, j2, j4), s(j1, j2), s(j5,
 [[tools]]
 name = "bash"
 ok = true
-output_preview = "exit_code: 1\nSTDOUT:\n\nSTDERR:\nTraceback (most recent call last):\n  File \"/home/adubey/JSS-2026-Example/dev/tmp/verify_one.py\", line 10, in <module>\n    exec(open(\"dev/workflow.py\").read())\n  File \"<string>\", line 36, in <module>\nModuleNotFoundError: No module named 'approval_log'\n"
+output_preview = "exit_code: 1\nSTDOUT:\n\nSTDERR:\nTraceback (most recent call last):\n  File \"/home/user/JSS-2026-Example/dev/tmp/verify_one.py\", line 10, in <module>\n    exec(open(\"dev/workflow.py\").read())\n  File \"<string>\", line 36, in <module>\nModuleNotFoundError: No module named 'approval_log'\n"
 
 [tools.args]
 command = "python3 dev/tmp/verify_one.py software/mcfm/src/W2jet/vv.cpp -- u d~ ve e+ g g"
@@ -220,11 +220,11 @@ timeout = 1800
 [[tools]]
 name = "write"
 ok = true
-output_preview = "Wrote /home/adubey/JSS-2026-Example/dev/tmp/verify_one.py (445 bytes)"
+output_preview = "Wrote /home/user/JSS-2026-Example/dev/tmp/verify_one.py (445 bytes)"
 
 [tools.args]
 path = "dev/tmp/verify_one.py"
-content = "import os\nimport subprocess\nimport sys\n\nos.environ.setdefault(\"MCFM_HOME\", \"/home/adubey/JSS-2026-Example/software/mcfm\")\nos.environ.setdefault(\"PEPPER_HOME\", \"/home/adubey/JSS-2026-Example/software/pepper\")\nos.environ.setdefault(\"QCDLOOP_HOME\", \"/home/adubey/JSS-2026-Example/software/qcdloop\")\n\nrc = subprocess.run(\n    [sys.executable, \"dev/tools/coverage/coverage_check.py\", *sys.argv[1:]]\n).returncode\nprint(f\"EXIT_CODE={rc}\")\nsys.exit(rc)\n"
+content = "import os\nimport subprocess\nimport sys\n\nos.environ.setdefault(\"MCFM_HOME\", \"/home/user/JSS-2026-Example/software/mcfm\")\nos.environ.setdefault(\"PEPPER_HOME\", \"/home/user/JSS-2026-Example/software/pepper\")\nos.environ.setdefault(\"QCDLOOP_HOME\", \"/home/user/JSS-2026-Example/software/qcdloop\")\n\nrc = subprocess.run(\n    [sys.executable, \"dev/tools/coverage/coverage_check.py\", *sys.argv[1:]]\n).returncode\nprint(f\"EXIT_CODE={rc}\")\nsys.exit(rc)\n"
 [[tools]]
 name = "bash"
 ok = true
@@ -252,14 +252,14 @@ timeout = 600
 [[tools]]
 name = "read"
 ok = true
-output_preview = "# path: /home/adubey/JSS-2026-Example/dev/tools/common/approval_log.py\n# lines: 1-94\n0001: \"\"\"Shared approval-log helpers for transformation workflows.\"\"\"\n0002: from __future__ import annotations\n0003: \n0004: from pathlib import Path\n0005: \n0006: try:\n0007:     import tomllib  # py312+\n0008: except ModuleNotFoundError:  # pragma: no cover\n0009:     import tomli as tomllib  # type: ignore\n0010: \n0011: \n0012: def parse_groups(log_path: Path) -> list[dict]:\n0013:     if not log_path.exists():\n0014:"
+output_preview = "# path: /home/user/JSS-2026-Example/dev/tools/common/approval_log.py\n# lines: 1-94\n0001: \"\"\"Shared approval-log helpers for transformation workflows.\"\"\"\n0002: from __future__ import annotations\n0003: \n0004: from pathlib import Path\n0005: \n0006: try:\n0007:     import tomllib  # py312+\n0008: except ModuleNotFoundError:  # pragma: no cover\n0009:     import tomli as tomllib  # type: ignore\n0010: \n0011: \n0012: def parse_groups(log_path: Path) -> list[dict]:\n0013:     if not log_path.exists():\n0014:"
 
 [tools.args]
 path = "dev/tools/common/approval_log.py"
 [[tools]]
 name = "write"
 ok = true
-output_preview = "Wrote /home/adubey/JSS-2026-Example/dev/transformations/mcfm-translate/agent_log.md (3911 bytes)"
+output_preview = "Wrote /home/user/JSS-2026-Example/dev/transformations/mcfm-translate/agent_log.md (3911 bytes)"
 
 [tools.args]
 path = "dev/transformations/mcfm-translate/agent_log.md"
@@ -274,7 +274,7 @@ command = "python3 dev/workflow.py gate mcfm-translate"
 [[tools]]
 name = "bash"
 ok = true
-output_preview = "exit_code: 0\nSTDOUT:\nGenerating Doxygen XML for /home/adubey/JSS-2026-Example/software/mcfm/src -> /home/adubey/JSS-2026-Example/software/mcfm/doxygen_dep/xml\nwrote 1133 XML file(s) to /home/adubey/JSS-2026-Example/software/mcfm/doxygen_dep/xml\nsource 526  translated 86  untranslated 440\nready leaves (deps=0, non-blind): 224\nsymbol index: 915 symbol(s)\ncleanup candidates: move 74  shim-delete 15  merge 36\nwrote roadmap_metrics.tsv, symbol_index.json, cleanup_candidates.tsv, cleanup_index.json\n\nS"
+output_preview = "exit_code: 0\nSTDOUT:\nGenerating Doxygen XML for /home/user/JSS-2026-Example/software/mcfm/src -> /home/user/JSS-2026-Example/software/mcfm/doxygen_dep/xml\nwrote 1133 XML file(s) to /home/user/JSS-2026-Example/software/mcfm/doxygen_dep/xml\nsource 526  translated 86  untranslated 440\nready leaves (deps=0, non-blind): 224\nsymbol index: 915 symbol(s)\ncleanup candidates: move 74  shim-delete 15  merge 36\nwrote roadmap_metrics.tsv, symbol_index.json, cleanup_candidates.tsv, cleanup_index.json\n\nS"
 
 [tools.args]
 command = "python3 dev/workflow.py refresh"
@@ -289,14 +289,14 @@ command = "python3 dev/workflow.py next mcfm-translate"
 [[tools]]
 name = "bash"
 ok = true
-output_preview = "exit_code: 0\nSTDOUT:\nwrote /home/adubey/JSS-2026-Example/dev/tmp/drafts/W2jet/atree.scribe\n\nSTDERR:\n"
+output_preview = "exit_code: 0\nSTDOUT:\nwrote /home/user/JSS-2026-Example/dev/tmp/drafts/W2jet/atree.scribe\n\nSTDERR:\n"
 
 [tools.args]
 command = "python3 dev/tools/draft/scribe_draft.py software/mcfm/src/W2jet/atree.f"
 [[tools]]
 name = "bash"
 ok = true
-output_preview = "exit_code: 1\nSTDOUT:\n\nSTDERR:\nTraceback (most recent call last):\n  File \"/home/adubey/JSS-2026-Example/dev/tmp/list_ready_detail.py\", line 3, in <module>\n    top = sys.argv[1]\n          ~~~~~~~~^^^\nIndexError: list index out of range\n"
+output_preview = "exit_code: 1\nSTDOUT:\n\nSTDERR:\nTraceback (most recent call last):\n  File \"/home/user/JSS-2026-Example/dev/tmp/list_ready_detail.py\", line 3, in <module>\n    top = sys.argv[1]\n          ~~~~~~~~^^^\nIndexError: list index out of range\n"
 
 [tools.args]
 command = "python3 dev/tmp/list_ready_detail.py"
@@ -310,70 +310,70 @@ command = "python3 dev/tmp/list_ready_detail.py W2jet"
 [[tools]]
 name = "bash"
 ok = true
-output_preview = "exit_code: 0\nSTDOUT:\nwrote /home/adubey/JSS-2026-Example/dev/tmp/drafts/W2jet/fax.scribe\n\nSTDERR:\n"
+output_preview = "exit_code: 0\nSTDOUT:\nwrote /home/user/JSS-2026-Example/dev/tmp/drafts/W2jet/fax.scribe\n\nSTDERR:\n"
 
 [tools.args]
 command = "python3 dev/tools/draft/scribe_draft.py software/mcfm/src/W2jet/fax.f"
 [[tools]]
 name = "bash"
 ok = true
-output_preview = "exit_code: 0\nSTDOUT:\nwrote /home/adubey/JSS-2026-Example/dev/tmp/drafts/W2jet/faxsl.scribe\n\nSTDERR:\n"
+output_preview = "exit_code: 0\nSTDOUT:\nwrote /home/user/JSS-2026-Example/dev/tmp/drafts/W2jet/faxsl.scribe\n\nSTDERR:\n"
 
 [tools.args]
 command = "python3 dev/tools/draft/scribe_draft.py software/mcfm/src/W2jet/faxsl.f"
 [[tools]]
 name = "bash"
 ok = true
-output_preview = "exit_code: 0\nSTDOUT:\nwrote /home/adubey/JSS-2026-Example/dev/tmp/drafts/W2jet/fsc.scribe\n\nSTDERR:\n"
+output_preview = "exit_code: 0\nSTDOUT:\nwrote /home/user/JSS-2026-Example/dev/tmp/drafts/W2jet/fsc.scribe\n\nSTDERR:\n"
 
 [tools.args]
 command = "python3 dev/tools/draft/scribe_draft.py software/mcfm/src/W2jet/fsc.f"
 [[tools]]
 name = "bash"
 ok = true
-output_preview = "exit_code: 0\nSTDOUT:\nwrote /home/adubey/JSS-2026-Example/dev/tmp/drafts/W2jet/fcc.scribe\n\nSTDERR:\n"
+output_preview = "exit_code: 0\nSTDOUT:\nwrote /home/user/JSS-2026-Example/dev/tmp/drafts/W2jet/fcc.scribe\n\nSTDERR:\n"
 
 [tools.args]
 command = "python3 dev/tools/draft/scribe_draft.py software/mcfm/src/W2jet/fcc.f"
 [[tools]]
 name = "read"
 ok = true
-output_preview = "# path: /home/adubey/JSS-2026-Example/dev/tmp/drafts/W2jet/fax.scribe\n# lines: 1-649\n0001: scribe-prompt: Add an extern \"C\" <name>_wrapper; see the seed examples for FArray/scalar handling.\n0002: scribe-prompt: A variable used as a function is an external or statement function.\n0003: scribe-prompt: i3m is an external function (defined in Need/i3m.f90)\n0004: scribe-prompt: l0 is an external function (defined in Need/lfunctions.f90)\n0005: scribe-prompt: l1 is an external function (defined in Need/"
+output_preview = "# path: /home/user/JSS-2026-Example/dev/tmp/drafts/W2jet/fax.scribe\n# lines: 1-649\n0001: scribe-prompt: Add an extern \"C\" <name>_wrapper; see the seed examples for FArray/scalar handling.\n0002: scribe-prompt: A variable used as a function is an external or statement function.\n0003: scribe-prompt: i3m is an external function (defined in Need/i3m.f90)\n0004: scribe-prompt: l0 is an external function (defined in Need/lfunctions.f90)\n0005: scribe-prompt: l1 is an external function (defined in Need/"
 
 [tools.args]
 path = "dev/tmp/drafts/W2jet/fax.scribe"
 [[tools]]
 name = "read"
 ok = true
-output_preview = "# path: /home/adubey/JSS-2026-Example/dev/tmp/drafts/W2jet/faxsl.scribe\n# lines: 1-50\n0001: scribe-prompt: Add an extern \"C\" <name>_wrapper; see the seed examples for FArray/scalar handling.\n0002: scribe-prompt: A variable used as a function is an external or statement function.\n0003: scribe-prompt: l1 is an external function (defined in Need/lfunctions.f90)\n0004: scribe-prompt: t is an external function (defined in W1jet/gpt-4o-conversions/t_fi.f90)\n0005: \n0006: #include <cmath>\n0007: #include "
+output_preview = "# path: /home/user/JSS-2026-Example/dev/tmp/drafts/W2jet/faxsl.scribe\n# lines: 1-50\n0001: scribe-prompt: Add an extern \"C\" <name>_wrapper; see the seed examples for FArray/scalar handling.\n0002: scribe-prompt: A variable used as a function is an external or statement function.\n0003: scribe-prompt: l1 is an external function (defined in Need/lfunctions.f90)\n0004: scribe-prompt: t is an external function (defined in W1jet/gpt-4o-conversions/t_fi.f90)\n0005: \n0006: #include <cmath>\n0007: #include "
 
 [tools.args]
 path = "dev/tmp/drafts/W2jet/faxsl.scribe"
 [[tools]]
 name = "read"
 ok = true
-output_preview = "# path: /home/adubey/JSS-2026-Example/dev/tmp/drafts/W2jet/fsc.scribe\n# lines: 1-49\n0001: scribe-prompt: Add an extern \"C\" <name>_wrapper; see the seed examples for FArray/scalar handling.\n0002: scribe-prompt: A variable used as a function is an external or statement function.\n0003: scribe-prompt: ffmpsc is an external function (defined in BDK/FFMPsc.f)\n0004: scribe-prompt: ffpmsc is an external function (defined in BDK/FFPMsc.f)\n0005: scribe-prompt: ffppsc is an external function (defined in BD"
+output_preview = "# path: /home/user/JSS-2026-Example/dev/tmp/drafts/W2jet/fsc.scribe\n# lines: 1-49\n0001: scribe-prompt: Add an extern \"C\" <name>_wrapper; see the seed examples for FArray/scalar handling.\n0002: scribe-prompt: A variable used as a function is an external or statement function.\n0003: scribe-prompt: ffmpsc is an external function (defined in BDK/FFMPsc.f)\n0004: scribe-prompt: ffpmsc is an external function (defined in BDK/FFPMsc.f)\n0005: scribe-prompt: ffppsc is an external function (defined in BD"
 
 [tools.args]
 path = "dev/tmp/drafts/W2jet/fsc.scribe"
 [[tools]]
 name = "read"
 ok = true
-output_preview = "# path: /home/adubey/JSS-2026-Example/dev/tmp/drafts/W2jet/fcc.scribe\n# lines: 1-53\n0001: scribe-prompt: Add an extern \"C\" <name>_wrapper; see the seed examples for FArray/scalar handling.\n0002: scribe-prompt: A variable used as a function is an external or statement function.\n0003: scribe-prompt: ffmpcc is an external function (defined in BDK/FFMPcc.f)\n0004: scribe-prompt: ffpmcc is an external function (defined in BDK/FFPMcc.f)\n0005: scribe-prompt: ffppcc is an external function (defined in BD"
+output_preview = "# path: /home/user/JSS-2026-Example/dev/tmp/drafts/W2jet/fcc.scribe\n# lines: 1-53\n0001: scribe-prompt: Add an extern \"C\" <name>_wrapper; see the seed examples for FArray/scalar handling.\n0002: scribe-prompt: A variable used as a function is an external or statement function.\n0003: scribe-prompt: ffmpcc is an external function (defined in BDK/FFMPcc.f)\n0004: scribe-prompt: ffpmcc is an external function (defined in BDK/FFPMcc.f)\n0005: scribe-prompt: ffppcc is an external function (defined in BD"
 
 [tools.args]
 path = "dev/tmp/drafts/W2jet/fcc.scribe"
 [[tools]]
 name = "read"
 ok = true
-output_preview = "# path: /home/adubey/JSS-2026-Example/dev/tmp/drafts/W2jet/atree.scribe\n# lines: 1-49\n0001: scribe-prompt: Add an extern \"C\" <name>_wrapper; see the seed examples for FArray/scalar handling.\n0002: scribe-prompt: A variable used as a function is an external or statement function.\n0003: scribe-prompt: t is an external function (defined in W1jet/gpt-4o-conversions/t_fi.f90)\n0004: \n0005: #include <cmath>\n0006: #include <complex>\n0007: #include <mxpart_mod.hpp>\n0008: #include <sprods_com_mod.hpp>\n000"
+output_preview = "# path: /home/user/JSS-2026-Example/dev/tmp/drafts/W2jet/atree.scribe\n# lines: 1-49\n0001: scribe-prompt: Add an extern \"C\" <name>_wrapper; see the seed examples for FArray/scalar handling.\n0002: scribe-prompt: A variable used as a function is an external or statement function.\n0003: scribe-prompt: t is an external function (defined in W1jet/gpt-4o-conversions/t_fi.f90)\n0004: \n0005: #include <cmath>\n0006: #include <complex>\n0007: #include <mxpart_mod.hpp>\n0008: #include <sprods_com_mod.hpp>\n000"
 
 [tools.args]
 path = "dev/tmp/drafts/W2jet/atree.scribe"
 [[tools]]
 name = "read"
 ok = true
-output_preview = "# path: /home/adubey/JSS-2026-Example/software/mcfm/src/W2jet/fvf.cpp\n# lines: 1-40\n0001: // Translated from W2jet/fvf.f\n0002: #include \"fvf.hpp\"\n0003: \n0004: #include <cmath>\n0005: #include <complex>\n0006: #include <heldefs_mod.hpp>\n0007: #include <mxpart_mod.hpp>\n0008: #include <sprods_com_mod.hpp>\n0009: #include <Need.hpp>\n0010: #include <W1jet.hpp>\n0011: \n0012: std::complex<double> fvf(int st, int j1, int j2, int j3, int j4, int j5, int j6,\n0013:     const FArray2D<std::complex<double>>& za,"
+output_preview = "# path: /home/user/JSS-2026-Example/software/mcfm/src/W2jet/fvf.cpp\n# lines: 1-40\n0001: // Translated from W2jet/fvf.f\n0002: #include \"fvf.hpp\"\n0003: \n0004: #include <cmath>\n0005: #include <complex>\n0006: #include <heldefs_mod.hpp>\n0007: #include <mxpart_mod.hpp>\n0008: #include <sprods_com_mod.hpp>\n0009: #include <Need.hpp>\n0010: #include <W1jet.hpp>\n0011: \n0012: std::complex<double> fvf(int st, int j1, int j2, int j3, int j4, int j5, int j6,\n0013:     const FArray2D<std::complex<double>>& za,"
 
 [tools.args]
 path = "software/mcfm/src/W2jet/fvf.cpp"
@@ -430,7 +430,7 @@ command = "grep -n \"W1jet.hpp\\|double t\" software/mcfm/src/W2jet/fvf.cpp soft
 [[tools]]
 name = "read"
 ok = true
-output_preview = "# path: /home/adubey/JSS-2026-Example/software/mcfm/src/W2jet/fsl.cpp\n# lines: 1-97\n0001: // Translated from W2jet/fsl.f\n0002: #include \"fsl.hpp\"\n0003: \n0004: #include <cmath>\n0005: #include <complex>\n0006: #include <constants_mod.hpp>\n0007: #include <mxpart_mod.hpp>\n0008: #include <sprods_com_mod.hpp>\n0009: #include <Need.hpp>\n0010: #include <W1jet.hpp>\n0011: \n0012: std::complex<double> fsl(int j1, int j2, int j3, int j4, int j5, int j6,\n0013:     const FArray2D<std::complex<double>>& za, const"
+output_preview = "# path: /home/user/JSS-2026-Example/software/mcfm/src/W2jet/fsl.cpp\n# lines: 1-97\n0001: // Translated from W2jet/fsl.f\n0002: #include \"fsl.hpp\"\n0003: \n0004: #include <cmath>\n0005: #include <complex>\n0006: #include <constants_mod.hpp>\n0007: #include <mxpart_mod.hpp>\n0008: #include <sprods_com_mod.hpp>\n0009: #include <Need.hpp>\n0010: #include <W1jet.hpp>\n0011: \n0012: std::complex<double> fsl(int j1, int j2, int j3, int j4, int j5, int j6,\n0013:     const FArray2D<std::complex<double>>& za, const"
 
 [tools.args]
 path = "software/mcfm/src/W2jet/fsl.cpp"

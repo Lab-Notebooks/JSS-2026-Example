@@ -13,5 +13,5 @@ GENERATE_LATEX = NO
 GENERATE_XML = YES
 XML_OUTPUT = xml
 QUIET = NO
-INPUT = /home/adubey/JSS-2026-Example/software/mcfm/src/Need
-OUTPUT_DIRECTORY = /home/adubey/JSS-2026-Example/dev/tmp/doxy_single_out
+INPUT = /home/user/JSS-2026-Example/software/mcfm/src/Need
+OUTPUT_DIRECTORY = /home/user/JSS-2026-Example/dev/tmp/doxy_single_out

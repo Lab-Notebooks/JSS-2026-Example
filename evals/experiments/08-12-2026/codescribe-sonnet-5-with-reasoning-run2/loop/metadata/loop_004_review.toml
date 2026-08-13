@@ -2,8 +2,8 @@ run_id = "20260812-195540-b46a3b"
 loop_index = 4
 phase = "review"
 model = "anthropic-claude-sonnet-5"
-task_file = "/home/akash/Desktop/Akash/Projects/JSS-Paper-Example/dev/transformations/mcfm-translate/loop.toml"
-workdir = "/home/akash/Desktop/Akash/Projects/JSS-Paper-Example"
+task_file = "/home/user/JSS-2026-Example/dev/transformations/mcfm-translate/loop.toml"
+workdir = "/home/user/JSS-2026-Example"
 stop_reason = "final_text"
 final_text_present = true
 iterations = 3
@@ -13,21 +13,21 @@ created_at = "2026-08-13T01:23:23.755012+00:00"
 [[tools]]
 name = "read"
 ok = true
-output_preview = "# path: /home/akash/Desktop/Akash/Projects/JSS-Paper-Example/dev/transformations/mcfm-translate/agent_log.md\n# lines: 1-63\n0001: # mcfm-translate agent log\n0002: \n0003: ## Group 1: BDK bit functions (M1bit1, M2bit1, M2bit2, M2bit3, M3bit1)\n0004: \n0005: Translated 5 short BDK helper functions (single complex-valued function each, no\n0006: cross-BDK-file calls) to `<base>.cpp` + `<base>_fi.f90`, sharing a new `BDK.hpp`\n0007: header. Each uses `sprods_com_mod::s` (already C++) and, for M1bit1, the\n"
+output_preview = "# path: /home/user/JSS-2026-Example/dev/transformations/mcfm-translate/agent_log.md\n# lines: 1-63\n0001: # mcfm-translate agent log\n0002: \n0003: ## Group 1: BDK bit functions (M1bit1, M2bit1, M2bit2, M2bit3, M3bit1)\n0004: \n0005: Translated 5 short BDK helper functions (single complex-valued function each, no\n0006: cross-BDK-file calls) to `<base>.cpp` + `<base>_fi.f90`, sharing a new `BDK.hpp`\n0007: header. Each uses `sprods_com_mod::s` (already C++) and, for M1bit1, the\n"
 
 [tools.args]
 path = "dev/transformations/mcfm-translate/agent_log.md"
 [[tools]]
 name = "read"
 ok = true
-output_preview = "# path: /home/akash/Desktop/Akash/Projects/JSS-Paper-Example/dev/transformations/mcfm-translate/loop.toml\n# lines: 1-18\n0001: # CodeScribe loop for Fortran -> C++.\n0002: #\n0003: # Run from the project root:\n0004: #   code-scribe loop -p dev/transformations/mcfm-translate/loop.toml -m <model>\n0005: \n0006: [tools]\n0007: bash = [\"jobrunner\", \"python3\"]\n0008: \n0009: [[chat.user]]\n0010: content = '''\n0011: Each round, follow the round algorithm in dev/transformations/mcfm-translate/current_plan.md an"
+output_preview = "# path: /home/user/JSS-2026-Example/dev/transformations/mcfm-translate/loop.toml\n# lines: 1-18\n0001: # CodeScribe loop for Fortran -> C++.\n0002: #\n0003: # Run from the project root:\n0004: #   code-scribe loop -p dev/transformations/mcfm-translate/loop.toml -m <model>\n0005: \n0006: [tools]\n0007: bash = [\"jobrunner\", \"python3\"]\n0008: \n0009: [[chat.user]]\n0010: content = '''\n0011: Each round, follow the round algorithm in dev/transformations/mcfm-translate/current_plan.md an"
 
 [tools.args]
 path = "dev/transformations/mcfm-translate/loop.toml"
 [[tools]]
 name = "write"
 ok = true
-output_preview = "Wrote /home/akash/Desktop/Akash/Projects/JSS-Paper-Example/.codescribe/loop/review_output.toml (2310 bytes)"
+output_preview = "Wrote /home/user/JSS-2026-Example/.codescribe/loop/review_output.toml (2310 bytes)"
 
 [tools.args]
 path = ".codescribe/loop/review_output.toml"

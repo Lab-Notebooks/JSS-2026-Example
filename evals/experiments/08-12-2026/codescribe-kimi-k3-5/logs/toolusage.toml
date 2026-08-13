@@ -41,7 +41,7 @@ ok = true
 duration_ms = 2.33
 output_chars = 8687
 output_preview = '''
-# path: /home/adubey/JSS-2026-Example/dev/transformations/mcfm-translate/current_plan.md
+# path: /home/user/JSS-2026-Example/dev/transformations/mcfm-translate/current_plan.md
 # lines: 1-182
 0001: # Fortran → C++ plan
 0002: 
@@ -71,7 +71,7 @@ ok = true
 duration_ms = 2.316
 output_chars = 7669
 output_preview = '''
-# path: /home/adubey/JSS-2026-Example/dev/transformations/mcfm-translate/desired_spec.md
+# path: /home/user/JSS-2026-Example/dev/transformations/mcfm-translate/desired_spec.md
 # lines: 1-144
 0001: # Fortran → C++: target output for one MCFM file
 0002: 
@@ -109,12 +109,12 @@ output_preview = '''
 exit_code: 0
 STDOUT:
 total 24
-drwxr-x---. 1 adubey adubey  106 Aug 12 10:44 .
-drwxr-x---. 1 adubey adubey  122 Aug  4 12:28 ..
--rw-r-----. 1 adubey adubey   12 Aug  4 12:28 approvals.toml
--rw-r-----. 1 adubey adubey 7509 Aug  4 12:28 current_plan.md
--rw-r-----. 1 adubey adubey 6727 Aug  4 12:28 desired_spec.md
--rw-r-----. 1 adubey adubey  637 Aug  4 12:28 loop.toml
+drwxr-x---. 1 user user  106 Aug 12 10:44 .
+drwxr-x---. 1 user user  122 Aug  4 12:28 ..
+-rw-r-----. 1 user user   12 Aug  4 12:28 approvals.toml
+-rw-r-----. 1 user user 7509 Aug  4 12:28 current_plan.md
+-rw-r-----. 1 user user 6727 Aug  4 12:28 desired_spec.md
+-rw-r-----. 1 user user  637 Aug  4 12:28 loop.toml
 
 STDERR:
 '''
@@ -162,7 +162,7 @@ ok = true
 duration_ms = 1.473
 output_chars = 1174
 output_preview = '''
-# path: /home/adubey/JSS-2026-Example/dev/transformations/mcfm-translate/current_plan.md
+# path: /home/user/JSS-2026-Example/dev/transformations/mcfm-translate/current_plan.md
 # lines: 160-182
 0160: 
 0161: If build or verification fails, keep fixing the current group unless the gate is blocking the
@@ -195,7 +195,7 @@ ok = true
 duration_ms = 2.048
 output_chars = 119
 output_preview = '''
-# path: /home/adubey/JSS-2026-Example/dev/transformations/mcfm-translate/approvals.toml
+# path: /home/user/JSS-2026-Example/dev/transformations/mcfm-translate/approvals.toml
 # lines: 1-1
 0001: version = 1
 '''
@@ -356,8 +356,8 @@ output_chars = 40751
 output_preview = '''
 exit_code: 0
 STDOUT:
-Generating Doxygen XML for /home/adubey/JSS-2026-Example/software/mcfm/src -> /home/adubey/JSS-2026-Example/software/mcfm/doxygen_dep/xml
-wrote 1128 XML file(s) to /home/adubey/JSS-2026-Example/software/mcfm/doxygen_dep/xml
+Generating Doxygen XML for /home/user/JSS-2026-Example/software/mcfm/src -> /home/user/JSS-2026-Example/software/mcfm/doxygen_dep/xml
+wrote 1128 XML file(s) to /home/user/JSS-2026-Example/software/mcfm/doxygen_dep/xml
 source 531  translated 86  untranslated 445
 ready leaves (deps=0, non-blind): 229
 symbol index: 915 symbol(s)
@@ -409,7 +409,7 @@ output_chars = 335
 output_preview = '''
 exit_code: 0
 STDOUT:
-[95mROOT:[0m /home/adubey/JSS-2026-Example
+[95mROOT:[0m /home/user/JSS-2026-Example
 [95mNODE:[0m <ROOT>/tests/mcfm
 
 [95mSCRIPTS: [0m
@@ -469,7 +469,7 @@ output_chars = 130
 output_preview = '''
 exit_code: 0
 STDOUT:
-no log found in /home/adubey/JSS-2026-Example/dev/transformations/mcfm-translate — nothing to gate.
+no log found in /home/user/JSS-2026-Example/dev/transformations/mcfm-translate — nothing to gate.
 
 STDERR:
 '''
@@ -626,7 +626,7 @@ ok = true
 duration_ms = 1.913
 output_chars = 13931
 output_preview = '''
-# path: /home/adubey/JSS-2026-Example/dev/workflow.py
+# path: /home/user/JSS-2026-Example/dev/workflow.py
 # lines: 1-318
 0001: #!/usr/bin/env python3
 0002: """Unified workflow CLI for dev tooling.
@@ -738,7 +738,7 @@ output_chars = 106
 output_preview = '''
 exit_code: 0
 STDOUT:
-wrote /home/adubey/JSS-2026-Example/dev/tmp/drafts/W2jet/ggZZcapture.scribe
+wrote /home/user/JSS-2026-Example/dev/tmp/drafts/W2jet/ggZZcapture.scribe
 
 STDERR:
 '''
@@ -784,7 +784,7 @@ ok = true
 duration_ms = 1.795
 output_chars = 7691
 output_preview = '''
-# path: /home/adubey/JSS-2026-Example/dev/tmp/drafts/W2jet/ggZZcapture.scribe
+# path: /home/user/JSS-2026-Example/dev/tmp/drafts/W2jet/ggZZcapture.scribe
 # lines: 1-216
 0001: scribe-prompt: Add an extern "C" <name>_wrapper; see the seed examples for FArray/scalar handling.
 0002: scribe-prompt: A variable used as a function is an external or statement function.
@@ -948,7 +948,7 @@ tool = "write"
 ok = true
 duration_ms = 2.176
 output_chars = 69
-output_preview = "Wrote /home/adubey/JSS-2026-Example/dev/tmp/list_ready.py (700 bytes)"
+output_preview = "Wrote /home/user/JSS-2026-Example/dev/tmp/list_ready.py (700 bytes)"
 ts = "2026-08-12T01:51:46.557173+00:00"
 
 [[event]]
@@ -1047,7 +1047,7 @@ tool = "write"
 ok = true
 duration_ms = 2.309
 output_chars = 76
-output_preview = "Wrote /home/adubey/JSS-2026-Example/dev/tmp/list_ready_detail.py (310 bytes)"
+output_preview = "Wrote /home/user/JSS-2026-Example/dev/tmp/list_ready_detail.py (310 bytes)"
 ts = "2026-08-12T01:52:31.969712+00:00"
 
 [[event]]
@@ -1265,7 +1265,7 @@ ok = true
 duration_ms = 1.562
 output_chars = 4293
 output_preview = '''
-# path: /home/adubey/JSS-2026-Example/software/mcfm/src/ThreeJets/fillSij.cpp
+# path: /home/user/JSS-2026-Example/software/mcfm/src/ThreeJets/fillSij.cpp
 # lines: 1-87
 0001: #include <constants_mod.hpp>
 0002: #include <epinv_mod.hpp>
@@ -1324,7 +1324,7 @@ output_chars = 97
 output_preview = '''
 exit_code: 0
 STDOUT:
-wrote /home/adubey/JSS-2026-Example/dev/tmp/drafts/W2jet/vv.scribe
+wrote /home/user/JSS-2026-Example/dev/tmp/drafts/W2jet/vv.scribe
 
 STDERR:
 '''
@@ -1349,7 +1349,7 @@ output_chars = 98
 output_preview = '''
 exit_code: 0
 STDOUT:
-wrote /home/adubey/JSS-2026-Example/dev/tmp/drafts/W2jet/fpm.scribe
+wrote /home/user/JSS-2026-Example/dev/tmp/drafts/W2jet/fpm.scribe
 
 STDERR:
 '''
@@ -1374,7 +1374,7 @@ output_chars = 98
 output_preview = '''
 exit_code: 0
 STDOUT:
-wrote /home/adubey/JSS-2026-Example/dev/tmp/drafts/W2jet/fvf.scribe
+wrote /home/user/JSS-2026-Example/dev/tmp/drafts/W2jet/fvf.scribe
 
 STDERR:
 '''
@@ -1399,7 +1399,7 @@ output_chars = 98
 output_preview = '''
 exit_code: 0
 STDOUT:
-wrote /home/adubey/JSS-2026-Example/dev/tmp/drafts/W2jet/fsl.scribe
+wrote /home/user/JSS-2026-Example/dev/tmp/drafts/W2jet/fsl.scribe
 
 STDERR:
 '''
@@ -1424,7 +1424,7 @@ output_chars = 98
 output_preview = '''
 exit_code: 0
 STDOUT:
-wrote /home/adubey/JSS-2026-Example/dev/tmp/drafts/W2jet/fpp.scribe
+wrote /home/user/JSS-2026-Example/dev/tmp/drafts/W2jet/fpp.scribe
 
 STDERR:
 '''
@@ -1470,7 +1470,7 @@ ok = true
 duration_ms = 1.879
 output_chars = 1904
 output_preview = '''
-# path: /home/adubey/JSS-2026-Example/dev/tmp/drafts/W2jet/vv.scribe
+# path: /home/user/JSS-2026-Example/dev/tmp/drafts/W2jet/vv.scribe
 # lines: 1-56
 0001: scribe-prompt: Add an extern "C" <name>_wrapper; see the seed examples for FArray/scalar handling.
 0002: scribe-prompt: A variable used as a function is an external or statement function.
@@ -1500,7 +1500,7 @@ ok = true
 duration_ms = 1.699
 output_chars = 10667
 output_preview = '''
-# path: /home/adubey/JSS-2026-Example/dev/tmp/drafts/W2jet/fpm.scribe
+# path: /home/user/JSS-2026-Example/dev/tmp/drafts/W2jet/fpm.scribe
 # lines: 1-171
 0001: scribe-prompt: Add an extern "C" <name>_wrapper; see the seed examples for FArray/scalar handling.
 0002: scribe-prompt: A variable used as a function is an external or statement function.
@@ -1526,7 +1526,7 @@ ok = true
 duration_ms = 1.756
 output_chars = 2487
 output_preview = '''
-# path: /home/adubey/JSS-2026-Example/dev/tmp/drafts/W2jet/fvf.scribe
+# path: /home/user/JSS-2026-Example/dev/tmp/drafts/W2jet/fvf.scribe
 # lines: 1-55
 0001: scribe-prompt: Add an extern "C" <name>_wrapper; see the seed examples for FArray/scalar handling.
 0002: scribe-prompt: A variable used as a function is an external or statement function.
@@ -1552,7 +1552,7 @@ ok = true
 duration_ms = 1.68
 output_chars = 17343
 output_preview = '''
-# path: /home/adubey/JSS-2026-Example/dev/tmp/drafts/W2jet/fsl.scribe
+# path: /home/user/JSS-2026-Example/dev/tmp/drafts/W2jet/fsl.scribe
 # lines: 1-266
 0001: scribe-prompt: Add an extern "C" <name>_wrapper; see the seed examples for FArray/scalar handling.
 0002: scribe-prompt: A variable used as a function is an external or statement function.
@@ -1578,7 +1578,7 @@ ok = true
 duration_ms = 1.575
 output_chars = 3294
 output_preview = '''
-# path: /home/adubey/JSS-2026-Example/dev/tmp/drafts/W2jet/fpp.scribe
+# path: /home/user/JSS-2026-Example/dev/tmp/drafts/W2jet/fpp.scribe
 # lines: 1-56
 0001: scribe-prompt: Add an extern "C" <name>_wrapper; see the seed examples for FArray/scalar handling.
 0002: scribe-prompt: A variable used as a function is an external or statement function.
@@ -1676,7 +1676,7 @@ ok = true
 duration_ms = 1.735
 output_chars = 2259
 output_preview = '''
-# path: /home/adubey/JSS-2026-Example/software/mcfm/src/Need/Need.hpp
+# path: /home/user/JSS-2026-Example/software/mcfm/src/Need/Need.hpp
 # lines: 1-46
 0001: #ifndef NEED_H
 0002: #define NEED_H
@@ -1711,7 +1711,7 @@ ok = true
 duration_ms = 1.757
 output_chars = 1313
 output_preview = '''
-# path: /home/adubey/JSS-2026-Example/software/mcfm/src/W2jet/CMakeLists.txt
+# path: /home/user/JSS-2026-Example/software/mcfm/src/W2jet/CMakeLists.txt
 # lines: 1-69
 0001: target_sources(objlib PRIVATE
 0002: aqqb_zbb.f
@@ -1820,7 +1820,7 @@ ok = true
 duration_ms = 1.801
 output_chars = 606
 output_preview = '''
-# path: /home/adubey/JSS-2026-Example/software/mcfm/src/ThreeJets/CMakeLists.txt
+# path: /home/user/JSS-2026-Example/software/mcfm/src/ThreeJets/CMakeLists.txt
 # lines: 1-26
 0001: target_sources(objlib PRIVATE
 0002: A5NLO4qg.f
@@ -1885,7 +1885,7 @@ ok = true
 duration_ms = 1.697
 output_chars = 687
 output_preview = '''
-# path: /home/adubey/JSS-2026-Example/software/mcfm/src/W1jet/t_fi.f90
+# path: /home/user/JSS-2026-Example/software/mcfm/src/W1jet/t_fi.f90
 # lines: 1-22
 0001: 
 0002: function t(j1,j2,j3) result(res)
@@ -1922,7 +1922,7 @@ ok = true
 duration_ms = 1.822
 output_chars = 2258
 output_preview = '''
-# path: /home/adubey/JSS-2026-Example/software/mcfm/src/W1jet/W1jet.hpp
+# path: /home/user/JSS-2026-Example/software/mcfm/src/W1jet/W1jet.hpp
 # lines: 1-34
 0001: #ifndef W1JET_H
 0002: #define W1JET_H
@@ -1952,7 +1952,7 @@ ok = true
 duration_ms = 1.933
 output_chars = 7346
 output_preview = '''
-# path: /home/adubey/JSS-2026-Example/software/mcfm/src/Inc/FArray.hpp
+# path: /home/user/JSS-2026-Example/software/mcfm/src/Inc/FArray.hpp
 # lines: 1-219
 0001: #ifndef FARRAY_H
 0002: #define FARRAY_H
@@ -2016,7 +2016,7 @@ ok = true
 duration_ms = 1.697
 output_chars = 1891
 output_preview = '''
-# path: /home/adubey/JSS-2026-Example/software/mcfm/src/W2jet/vv.f
+# path: /home/user/JSS-2026-Example/software/mcfm/src/W2jet/vv.f
 # lines: 1-54
 0001: !
 0002: !  SPDX-License-Identifier: GPL-3.0-or-later
@@ -2046,7 +2046,7 @@ ok = true
 duration_ms = 1.631
 output_chars = 2731
 output_preview = '''
-# path: /home/adubey/JSS-2026-Example/software/mcfm/src/W2jet/fpp.f
+# path: /home/user/JSS-2026-Example/software/mcfm/src/W2jet/fpp.f
 # lines: 1-47
 0001: !
 0002: !  SPDX-License-Identifier: GPL-3.0-or-later
@@ -2080,7 +2080,7 @@ ok = true
 duration_ms = 1.602
 output_chars = 1886
 output_preview = '''
-# path: /home/adubey/JSS-2026-Example/software/mcfm/src/W2jet/fvf.f
+# path: /home/user/JSS-2026-Example/software/mcfm/src/W2jet/fvf.f
 # lines: 1-45
 0001: !
 0002: !  SPDX-License-Identifier: GPL-3.0-or-later
@@ -2137,7 +2137,7 @@ ok = true
 duration_ms = 1.75
 output_chars = 578
 output_preview = '''
-# path: /home/adubey/JSS-2026-Example/software/mcfm/src/Mods/heldefs_mod.hpp
+# path: /home/user/JSS-2026-Example/software/mcfm/src/Mods/heldefs_mod.hpp
 # lines: 1-19
 0001: #ifndef HELDEFS_MOD
 0002: #define HELDEFS_MOD
@@ -2174,7 +2174,7 @@ ok = true
 duration_ms = 1.629
 output_chars = 3647
 output_preview = '''
-# path: /home/adubey/JSS-2026-Example/software/mcfm/src/Mods/constants_mod.hpp
+# path: /home/user/JSS-2026-Example/software/mcfm/src/Mods/constants_mod.hpp
 # lines: 1-60
 0001: /*PROMPT START
 0002: // - You are a code conversion tool for a scientific computing application. The application is organized as different source files in a directory structure.
@@ -2221,7 +2221,7 @@ ok = true
 duration_ms = 1.382
 output_chars = 228
 output_preview = '''
-# path: /home/adubey/JSS-2026-Example/software/mcfm/src/Mods/epinv_mod.hpp
+# path: /home/user/JSS-2026-Example/software/mcfm/src/Mods/epinv_mod.hpp
 # lines: 1-8
 0001: #ifndef EPINV_MOD
 0002: #define EPINV_MOD
@@ -2295,7 +2295,7 @@ tool = "write"
 ok = true
 duration_ms = 2.125
 output_chars = 79
-output_preview = "Wrote /home/adubey/JSS-2026-Example/software/mcfm/src/W2jet/vv.cpp (1537 bytes)"
+output_preview = "Wrote /home/user/JSS-2026-Example/software/mcfm/src/W2jet/vv.cpp (1537 bytes)"
 ts = "2026-08-12T01:54:36.426930+00:00"
 
 [[event]]
@@ -2315,7 +2315,7 @@ tool = "write"
 ok = true
 duration_ms = 1.945
 output_chars = 78
-output_preview = "Wrote /home/adubey/JSS-2026-Example/software/mcfm/src/W2jet/vv.hpp (421 bytes)"
+output_preview = "Wrote /home/user/JSS-2026-Example/software/mcfm/src/W2jet/vv.hpp (421 bytes)"
 ts = "2026-08-12T01:54:36.429997+00:00"
 
 [[event]]
@@ -2335,7 +2335,7 @@ tool = "write"
 ok = true
 duration_ms = 2.26
 output_chars = 81
-output_preview = "Wrote /home/adubey/JSS-2026-Example/software/mcfm/src/W2jet/vv_fi.F90 (786 bytes)"
+output_preview = "Wrote /home/user/JSS-2026-Example/software/mcfm/src/W2jet/vv_fi.F90 (786 bytes)"
 ts = "2026-08-12T01:54:36.433504+00:00"
 
 [[event]]
@@ -2380,7 +2380,7 @@ ok = true
 duration_ms = 1.835
 output_chars = 290
 output_preview = '''
-# path: /home/adubey/JSS-2026-Example/software/mcfm/src/Mods/sprods_com_mod.hpp
+# path: /home/user/JSS-2026-Example/software/mcfm/src/Mods/sprods_com_mod.hpp
 # lines: 1-10
 0001: #ifndef SPRODS_COM_MOD
 0002: #define SPRODS_COM_MOD
@@ -2413,7 +2413,7 @@ ok = true
 duration_ms = 1.63
 output_chars = 3625
 output_preview = '''
-# path: /home/adubey/JSS-2026-Example/software/mcfm/src/Need/lnrat.cpp
+# path: /home/user/JSS-2026-Example/software/mcfm/src/Need/lnrat.cpp
 # lines: 1-87
 0001: /* LLM INSTRUCTIONS START
 0002:  * You are a code conversion tool for a scientific computing application.
@@ -2474,7 +2474,7 @@ output_chars = 759
 output_preview = '''
 {
   "ok": true,
-  "path": "/home/adubey/JSS-2026-Example/software/mcfm/src/W2jet/vv.cpp",
+  "path": "/home/user/JSS-2026-Example/software/mcfm/src/W2jet/vv.cpp",
   "applied": 1,
   "replacements": [
     {
@@ -2547,7 +2547,7 @@ ok = true
 duration_ms = 1.823
 output_chars = 8687
 output_preview = '''
-# path: /home/adubey/JSS-2026-Example/dev/transformations/mcfm-translate/current_plan.md
+# path: /home/user/JSS-2026-Example/dev/transformations/mcfm-translate/current_plan.md
 # lines: 1-182
 0001: # Fortran → C++ plan
 0002: 
@@ -2577,7 +2577,7 @@ ok = true
 duration_ms = 1.61
 output_chars = 7669
 output_preview = '''
-# path: /home/adubey/JSS-2026-Example/dev/transformations/mcfm-translate/desired_spec.md
+# path: /home/user/JSS-2026-Example/dev/transformations/mcfm-translate/desired_spec.md
 # lines: 1-144
 0001: # Fortran → C++: target output for one MCFM file
 0002: 
@@ -2657,7 +2657,7 @@ ok = true
 duration_ms = 1.55
 output_chars = 1030
 output_preview = '''
-# path: /home/adubey/JSS-2026-Example/dev/transformations/mcfm-translate/current_plan.md
+# path: /home/user/JSS-2026-Example/dev/transformations/mcfm-translate/current_plan.md
 # lines: 164-182
 0164: ## When to stop
 0165: 
@@ -2779,7 +2779,7 @@ ok = true
 duration_ms = 2.102
 output_chars = 2123
 output_preview = '''
-# path: /home/adubey/JSS-2026-Example/software/mcfm/src/W2jet/vv.cpp
+# path: /home/user/JSS-2026-Example/software/mcfm/src/W2jet/vv.cpp
 # lines: 1-50
 0001: // Translated from W2jet/vv.f
 0002: #include "vv.hpp"
@@ -2825,7 +2825,7 @@ ok = true
 duration_ms = 1.762
 output_chars = 594
 output_preview = '''
-# path: /home/adubey/JSS-2026-Example/software/mcfm/src/W2jet/vv.hpp
+# path: /home/user/JSS-2026-Example/software/mcfm/src/W2jet/vv.hpp
 # lines: 1-15
 0001: #ifndef VV_H
 0002: #define VV_H
@@ -2870,7 +2870,7 @@ ok = true
 duration_ms = 1.907
 output_chars = 1076
 output_preview = '''
-# path: /home/adubey/JSS-2026-Example/software/mcfm/src/W2jet/vv_fi.F90
+# path: /home/user/JSS-2026-Example/software/mcfm/src/W2jet/vv_fi.F90
 # lines: 1-34
 0001: function vv(st,j1,j2,j3,j4,j5,j6) result(res)
 0002:   use, intrinsic :: iso_c_binding
@@ -2915,7 +2915,7 @@ ok = true
 duration_ms = 1.7
 output_chars = 1313
 output_preview = '''
-# path: /home/adubey/JSS-2026-Example/software/mcfm/src/W2jet/CMakeLists.txt
+# path: /home/user/JSS-2026-Example/software/mcfm/src/W2jet/CMakeLists.txt
 # lines: 1-69
 0001: target_sources(objlib PRIVATE
 0002: aqqb_zbb.f
@@ -2987,7 +2987,7 @@ ok = true
 duration_ms = 1.725
 output_chars = 1891
 output_preview = '''
-# path: /home/adubey/JSS-2026-Example/software/mcfm/src/W2jet/vv.f
+# path: /home/user/JSS-2026-Example/software/mcfm/src/W2jet/vv.f
 # lines: 1-54
 0001: !
 0002: !  SPDX-License-Identifier: GPL-3.0-or-later
@@ -3061,7 +3061,7 @@ ok = true
 duration_ms = 1.545
 output_chars = 3625
 output_preview = '''
-# path: /home/adubey/JSS-2026-Example/software/mcfm/src/Need/lnrat.cpp
+# path: /home/user/JSS-2026-Example/software/mcfm/src/Need/lnrat.cpp
 # lines: 1-87
 0001: /* LLM INSTRUCTIONS START
 0002:  * You are a code conversion tool for a scientific computing application.
@@ -3370,7 +3370,7 @@ tool = "write"
 ok = true
 duration_ms = 2.57
 output_chars = 96
-output_preview = "Wrote /home/adubey/JSS-2026-Example/dev/transformations/mcfm-translate/agent_log.md (1029 bytes)"
+output_preview = "Wrote /home/user/JSS-2026-Example/dev/transformations/mcfm-translate/agent_log.md (1029 bytes)"
 ts = "2026-08-12T01:57:57.401276+00:00"
 
 [[event]]
@@ -3390,7 +3390,7 @@ ok = true
 duration_ms = 2.324
 output_chars = 10667
 output_preview = '''
-# path: /home/adubey/JSS-2026-Example/dev/tmp/drafts/W2jet/fpm.scribe
+# path: /home/user/JSS-2026-Example/dev/tmp/drafts/W2jet/fpm.scribe
 # lines: 1-171
 0001: scribe-prompt: Add an extern "C" <name>_wrapper; see the seed examples for FArray/scalar handling.
 0002: scribe-prompt: A variable used as a function is an external or statement function.
@@ -3416,7 +3416,7 @@ ok = true
 duration_ms = 1.583
 output_chars = 2487
 output_preview = '''
-# path: /home/adubey/JSS-2026-Example/dev/tmp/drafts/W2jet/fvf.scribe
+# path: /home/user/JSS-2026-Example/dev/tmp/drafts/W2jet/fvf.scribe
 # lines: 1-55
 0001: scribe-prompt: Add an extern "C" <name>_wrapper; see the seed examples for FArray/scalar handling.
 0002: scribe-prompt: A variable used as a function is an external or statement function.
@@ -3442,7 +3442,7 @@ ok = true
 duration_ms = 1.676
 output_chars = 17343
 output_preview = '''
-# path: /home/adubey/JSS-2026-Example/dev/tmp/drafts/W2jet/fsl.scribe
+# path: /home/user/JSS-2026-Example/dev/tmp/drafts/W2jet/fsl.scribe
 # lines: 1-266
 0001: scribe-prompt: Add an extern "C" <name>_wrapper; see the seed examples for FArray/scalar handling.
 0002: scribe-prompt: A variable used as a function is an external or statement function.
@@ -3468,7 +3468,7 @@ ok = true
 duration_ms = 1.576
 output_chars = 3294
 output_preview = '''
-# path: /home/adubey/JSS-2026-Example/dev/tmp/drafts/W2jet/fpp.scribe
+# path: /home/user/JSS-2026-Example/dev/tmp/drafts/W2jet/fpp.scribe
 # lines: 1-56
 0001: scribe-prompt: Add an extern "C" <name>_wrapper; see the seed examples for FArray/scalar handling.
 0002: scribe-prompt: A variable used as a function is an external or statement function.
@@ -3519,7 +3519,7 @@ ok = true
 duration_ms = 2.104
 output_chars = 2259
 output_preview = '''
-# path: /home/adubey/JSS-2026-Example/software/mcfm/src/Need/Need.hpp
+# path: /home/user/JSS-2026-Example/software/mcfm/src/Need/Need.hpp
 # lines: 1-46
 0001: #ifndef NEED_H
 0002: #define NEED_H
@@ -3555,7 +3555,7 @@ ok = true
 duration_ms = 1.774
 output_chars = 2731
 output_preview = '''
-# path: /home/adubey/JSS-2026-Example/software/mcfm/src/W2jet/fpp.f
+# path: /home/user/JSS-2026-Example/software/mcfm/src/W2jet/fpp.f
 # lines: 1-47
 0001: !
 0002: !  SPDX-License-Identifier: GPL-3.0-or-later
@@ -3590,7 +3590,7 @@ ok = true
 duration_ms = 1.774
 output_chars = 1886
 output_preview = '''
-# path: /home/adubey/JSS-2026-Example/software/mcfm/src/W2jet/fvf.f
+# path: /home/user/JSS-2026-Example/software/mcfm/src/W2jet/fvf.f
 # lines: 1-45
 0001: !
 0002: !  SPDX-License-Identifier: GPL-3.0-or-later
@@ -3834,7 +3834,7 @@ ok = true
 duration_ms = 1.653
 output_chars = 687
 output_preview = '''
-# path: /home/adubey/JSS-2026-Example/software/mcfm/src/W1jet/t_fi.f90
+# path: /home/user/JSS-2026-Example/software/mcfm/src/W1jet/t_fi.f90
 # lines: 1-22
 0001: 
 0002: function t(j1,j2,j3) result(res)
@@ -3938,7 +3938,7 @@ ok = true
 duration_ms = 1.737
 output_chars = 571
 output_preview = '''
-# path: /home/adubey/JSS-2026-Example/software/mcfm/src/W1jet/t.cpp
+# path: /home/user/JSS-2026-Example/software/mcfm/src/W1jet/t.cpp
 # lines: 1-19
 0001: #include <W1jet.hpp>
 0002: #include <cmath>
@@ -4018,7 +4018,7 @@ ok = true
 duration_ms = 1.627
 output_chars = 9821
 output_preview = '''
-# path: /home/adubey/JSS-2026-Example/software/mcfm/src/W2jet/fpm.f
+# path: /home/user/JSS-2026-Example/software/mcfm/src/W2jet/fpm.f
 # lines: 1-158
 0001: !
 0002: !  SPDX-License-Identifier: GPL-3.0-or-later
@@ -4052,7 +4052,7 @@ ok = true
 duration_ms = 1.785
 output_chars = 16580
 output_preview = '''
-# path: /home/adubey/JSS-2026-Example/software/mcfm/src/W2jet/fsl.f
+# path: /home/user/JSS-2026-Example/software/mcfm/src/W2jet/fsl.f
 # lines: 1-254
 0001: !
 0002: !  SPDX-License-Identifier: GPL-3.0-or-later
@@ -4110,7 +4110,7 @@ ok = true
 duration_ms = 2.336
 output_chars = 1891
 output_preview = '''
-# path: /home/adubey/JSS-2026-Example/software/mcfm/src/W2jet/fpm.f
+# path: /home/user/JSS-2026-Example/software/mcfm/src/W2jet/fpm.f
 # lines: 126-158
 0126:      &3,j6)**2+(-za(j1,j4)*zb(j1,j3)-za(j2,j4)*zb(j2,j3))/(-za(j1,j3)*zb
 0127:      &(j1,j4)-za(j2,j3)*zb(j2,j4))*zb(j4,j6)**2)/zb(j5,j6)*t(j1,j3,j4)+1
@@ -4138,7 +4138,7 @@ ok = true
 duration_ms = 1.703
 output_chars = 8603
 output_preview = '''
-# path: /home/adubey/JSS-2026-Example/software/mcfm/src/W2jet/fsl.f
+# path: /home/user/JSS-2026-Example/software/mcfm/src/W2jet/fsl.f
 # lines: 124-254
 0124:      &za(j2,j3)*zb(j2,j4))*zb(j4,j6)*t(j1,j2,j3)-za(j2,j4)*zb(j4,j6)*t(j
 0125:      &1,j2,j4))
@@ -4193,7 +4193,7 @@ ok = true
 duration_ms = 1.518
 output_chars = 823
 output_preview = '''
-# path: /home/adubey/JSS-2026-Example/software/mcfm/src/W2jet/fsl.f
+# path: /home/user/JSS-2026-Example/software/mcfm/src/W2jet/fsl.f
 # lines: 242-254
 0242:       t0 = s5-1/(s(j1,j2)**2-2*s(j1,j2)*s(j3,j4)+s(j3,j4)**2-2*s(j1,j2)*
 0243:      &s(j5,j6)-2*s(j3,j4)*s(j5,j6)+s(j5,j6)**2)/za(j1,j2)*za(j2,j5)/za(j
@@ -4569,7 +4569,7 @@ ok = true
 duration_ms = 1.744
 output_chars = 290
 output_preview = '''
-# path: /home/adubey/JSS-2026-Example/software/mcfm/src/Mods/sprods_com_mod.hpp
+# path: /home/user/JSS-2026-Example/software/mcfm/src/Mods/sprods_com_mod.hpp
 # lines: 1-10
 0001: #ifndef SPRODS_COM_MOD
 0002: #define SPRODS_COM_MOD
@@ -4601,7 +4601,7 @@ ok = true
 duration_ms = 1.902
 output_chars = 7346
 output_preview = '''
-# path: /home/adubey/JSS-2026-Example/software/mcfm/src/Inc/FArray.hpp
+# path: /home/user/JSS-2026-Example/software/mcfm/src/Inc/FArray.hpp
 # lines: 1-219
 0001: #ifndef FARRAY_H
 0002: #define FARRAY_H
@@ -4690,7 +4690,7 @@ ok = true
 duration_ms = 1.447
 output_chars = 578
 output_preview = '''
-# path: /home/adubey/JSS-2026-Example/software/mcfm/src/Mods/heldefs_mod.hpp
+# path: /home/user/JSS-2026-Example/software/mcfm/src/Mods/heldefs_mod.hpp
 # lines: 1-19
 0001: #ifndef HELDEFS_MOD
 0002: #define HELDEFS_MOD
@@ -4796,7 +4796,7 @@ tool = "write"
 ok = true
 duration_ms = 2.63
 output_chars = 79
-output_preview = "Wrote /home/adubey/JSS-2026-Example/software/mcfm/src/W2jet/fvf.hpp (447 bytes)"
+output_preview = "Wrote /home/user/JSS-2026-Example/software/mcfm/src/W2jet/fvf.hpp (447 bytes)"
 ts = "2026-08-12T02:04:28.047194+00:00"
 
 [[event]]
@@ -4815,7 +4815,7 @@ tool = "write"
 ok = true
 duration_ms = 2.133
 output_chars = 80
-output_preview = "Wrote /home/adubey/JSS-2026-Example/software/mcfm/src/W2jet/fvf.cpp (2542 bytes)"
+output_preview = "Wrote /home/user/JSS-2026-Example/software/mcfm/src/W2jet/fvf.cpp (2542 bytes)"
 ts = "2026-08-12T02:04:28.050521+00:00"
 
 [[event]]
@@ -4834,7 +4834,7 @@ tool = "write"
 ok = true
 duration_ms = 1.841
 output_chars = 82
-output_preview = "Wrote /home/adubey/JSS-2026-Example/software/mcfm/src/W2jet/fvf_fi.F90 (709 bytes)"
+output_preview = "Wrote /home/user/JSS-2026-Example/software/mcfm/src/W2jet/fvf_fi.F90 (709 bytes)"
 ts = "2026-08-12T02:04:28.053499+00:00"
 
 [[event]]
@@ -4853,7 +4853,7 @@ tool = "write"
 ok = true
 duration_ms = 1.861
 output_chars = 79
-output_preview = "Wrote /home/adubey/JSS-2026-Example/software/mcfm/src/W2jet/fpp.hpp (424 bytes)"
+output_preview = "Wrote /home/user/JSS-2026-Example/software/mcfm/src/W2jet/fpp.hpp (424 bytes)"
 ts = "2026-08-12T02:04:28.056392+00:00"
 
 [[event]]
@@ -4872,7 +4872,7 @@ tool = "write"
 ok = true
 duration_ms = 2.058
 output_chars = 80
-output_preview = "Wrote /home/adubey/JSS-2026-Example/software/mcfm/src/W2jet/fpp.cpp (3337 bytes)"
+output_preview = "Wrote /home/user/JSS-2026-Example/software/mcfm/src/W2jet/fpp.cpp (3337 bytes)"
 ts = "2026-08-12T02:04:28.059622+00:00"
 
 [[event]]
@@ -4891,7 +4891,7 @@ tool = "write"
 ok = true
 duration_ms = 2.191
 output_chars = 82
-output_preview = "Wrote /home/adubey/JSS-2026-Example/software/mcfm/src/W2jet/fpp_fi.F90 (692 bytes)"
+output_preview = "Wrote /home/user/JSS-2026-Example/software/mcfm/src/W2jet/fpp_fi.F90 (692 bytes)"
 ts = "2026-08-12T02:04:28.063043+00:00"
 
 [[event]]
@@ -4933,7 +4933,7 @@ tool = "write"
 ok = true
 duration_ms = 2.845
 output_chars = 79
-output_preview = "Wrote /home/adubey/JSS-2026-Example/software/mcfm/src/W2jet/fpm.hpp (424 bytes)"
+output_preview = "Wrote /home/user/JSS-2026-Example/software/mcfm/src/W2jet/fpm.hpp (424 bytes)"
 ts = "2026-08-12T02:08:19.905730+00:00"
 
 [[event]]
@@ -4952,7 +4952,7 @@ tool = "write"
 ok = true
 duration_ms = 2.849
 output_chars = 81
-output_preview = "Wrote /home/adubey/JSS-2026-Example/software/mcfm/src/W2jet/fpm.cpp (11974 bytes)"
+output_preview = "Wrote /home/user/JSS-2026-Example/software/mcfm/src/W2jet/fpm.cpp (11974 bytes)"
 ts = "2026-08-12T02:08:19.909795+00:00"
 
 [[event]]
@@ -4971,7 +4971,7 @@ tool = "write"
 ok = true
 duration_ms = 2.27
 output_chars = 82
-output_preview = "Wrote /home/adubey/JSS-2026-Example/software/mcfm/src/W2jet/fpm_fi.F90 (692 bytes)"
+output_preview = "Wrote /home/user/JSS-2026-Example/software/mcfm/src/W2jet/fpm_fi.F90 (692 bytes)"
 ts = "2026-08-12T02:08:19.913146+00:00"
 
 [[event]]
@@ -5035,7 +5035,7 @@ ok = true
 duration_ms = 1.673
 output_chars = 8687
 output_preview = '''
-# path: /home/adubey/JSS-2026-Example/dev/transformations/mcfm-translate/current_plan.md
+# path: /home/user/JSS-2026-Example/dev/transformations/mcfm-translate/current_plan.md
 # lines: 1-182
 0001: # Fortran → C++ plan
 0002: 
@@ -5065,7 +5065,7 @@ ok = true
 duration_ms = 1.529
 output_chars = 7669
 output_preview = '''
-# path: /home/adubey/JSS-2026-Example/dev/transformations/mcfm-translate/desired_spec.md
+# path: /home/user/JSS-2026-Example/dev/transformations/mcfm-translate/desired_spec.md
 # lines: 1-144
 0001: # Fortran → C++: target output for one MCFM file
 0002: 
@@ -5100,7 +5100,7 @@ ok = true
 duration_ms = 1.487
 output_chars = 1243
 output_preview = '''
-# path: /home/adubey/JSS-2026-Example/dev/transformations/mcfm-translate/agent_log.md
+# path: /home/user/JSS-2026-Example/dev/transformations/mcfm-translate/agent_log.md
 # lines: 1-19
 0001: # mcfm-translate agent log
 0002: 
@@ -5133,7 +5133,7 @@ ok = true
 duration_ms = 2.363
 output_chars = 17343
 output_preview = '''
-# path: /home/adubey/JSS-2026-Example/dev/tmp/drafts/W2jet/fsl.scribe
+# path: /home/user/JSS-2026-Example/dev/tmp/drafts/W2jet/fsl.scribe
 # lines: 1-266
 0001: scribe-prompt: Add an extern "C" <name>_wrapper; see the seed examples for FArray/scalar handling.
 0002: scribe-prompt: A variable used as a function is an external or statement function.
@@ -5160,7 +5160,7 @@ ok = true
 duration_ms = 2.075
 output_chars = 1313
 output_preview = '''
-# path: /home/adubey/JSS-2026-Example/software/mcfm/src/W2jet/CMakeLists.txt
+# path: /home/user/JSS-2026-Example/software/mcfm/src/W2jet/CMakeLists.txt
 # lines: 1-69
 0001: target_sources(objlib PRIVATE
 0002: aqqb_zbb.f
@@ -5210,7 +5210,7 @@ ok = true
 duration_ms = 1.592
 output_chars = 12538
 output_preview = '''
-# path: /home/adubey/JSS-2026-Example/software/mcfm/src/W2jet/fpm.cpp
+# path: /home/user/JSS-2026-Example/software/mcfm/src/W2jet/fpm.cpp
 # lines: 1-80
 0001: // Translated from W2jet/fpm.f
 0002: #include "fpm.hpp"
@@ -5245,7 +5245,7 @@ ok = true
 duration_ms = 1.818
 output_chars = 586
 output_preview = '''
-# path: /home/adubey/JSS-2026-Example/software/mcfm/src/W2jet/fpm.hpp
+# path: /home/user/JSS-2026-Example/software/mcfm/src/W2jet/fpm.hpp
 # lines: 1-13
 0001: #ifndef FPM_H
 0002: #define FPM_H
@@ -5278,7 +5278,7 @@ ok = true
 duration_ms = 1.588
 output_chars = 911
 output_preview = '''
-# path: /home/adubey/JSS-2026-Example/software/mcfm/src/W2jet/fpm_fi.F90
+# path: /home/user/JSS-2026-Example/software/mcfm/src/W2jet/fpm_fi.F90
 # lines: 1-22
 0001: function fpm(j1,j2,j3,j4,j5,j6,za,zb) result(res)
 0002:   use, intrinsic :: iso_c_binding
@@ -5335,7 +5335,7 @@ ok = true
 duration_ms = 1.67
 output_chars = 9780
 output_preview = '''
-# path: /home/adubey/JSS-2026-Example/dev/tmp/drafts/W2jet/fsl.scribe
+# path: /home/user/JSS-2026-Example/dev/tmp/drafts/W2jet/fsl.scribe
 # lines: 120-266
 0120:      &j5,j6)-2*s(j3,j4)*s(j5,j6)+s(j5,j6)**2)*za(j2,j5)*zb(j1,j2)/(-za(j
 0121:      &1,j3)*zb(j1,j4)-za(j2,j3)*zb(j2,j4))*(za(j2,j3)*zb(j3,j6)-za(j2,j4
@@ -5362,7 +5362,7 @@ ok = true
 duration_ms = 1.819
 output_chars = 5127
 output_preview = '''
-# path: /home/adubey/JSS-2026-Example/software/mcfm/src/W2jet/fpm.cpp
+# path: /home/user/JSS-2026-Example/software/mcfm/src/W2jet/fpm.cpp
 # lines: 50-80
 0050:     s4 = s3 - Lsm1_2mh(s(j1, j2), t(j2, j3, j4), s(j3, j4), s(j5, j6)) * (1.0 / za(j5, j6) / zb(j2, j3) / pow((-za(j1, j3) * zb(j2, j3) - za(j1, j4) * zb(j2, j4)), 2) * pow((za(j3, j5) * zb(j2, j3) + za(j4, j5) * zb(j2, j4)), 2) / (za(j1, j2) * zb(j2, j4) + za(j1, j3) * zb(j3, j4)) * pow((za(j1, j2) * zb(j2, j3) - za(j1, j4) * zb(j3, j4)), 2) / t(j2, j3, j4) - 1.0 / za(j2, j3) * pow(za(j2, j4), 2) / (za(j2'''
 ts = "2026-08-12T02:09:38.005042+00:00"
@@ -5384,7 +5384,7 @@ ok = true
 duration_ms = 1.656
 output_chars = 2123
 output_preview = '''
-# path: /home/adubey/JSS-2026-Example/software/mcfm/src/W2jet/vv.cpp
+# path: /home/user/JSS-2026-Example/software/mcfm/src/W2jet/vv.cpp
 # lines: 1-50
 0001: // Translated from W2jet/vv.f
 0002: #include "vv.hpp"
@@ -5442,7 +5442,7 @@ ok = true
 duration_ms = 1.447
 output_chars = 16580
 output_preview = '''
-# path: /home/adubey/JSS-2026-Example/software/mcfm/src/W2jet/fsl.f
+# path: /home/user/JSS-2026-Example/software/mcfm/src/W2jet/fsl.f
 # lines: 1-254
 0001: !
 0002: !  SPDX-License-Identifier: GPL-3.0-or-later
@@ -5477,7 +5477,7 @@ ok = true
 duration_ms = 1.734
 output_chars = 586
 output_preview = '''
-# path: /home/adubey/JSS-2026-Example/software/mcfm/src/W2jet/fpp.hpp
+# path: /home/user/JSS-2026-Example/software/mcfm/src/W2jet/fpp.hpp
 # lines: 1-13
 0001: #ifndef FPP_H
 0002: #define FPP_H
@@ -5509,7 +5509,7 @@ ok = true
 duration_ms = 1.646
 output_chars = 911
 output_preview = '''
-# path: /home/adubey/JSS-2026-Example/software/mcfm/src/W2jet/fpp_fi.F90
+# path: /home/user/JSS-2026-Example/software/mcfm/src/W2jet/fpp_fi.F90
 # lines: 1-22
 0001: function fpp(j1,j2,j3,j4,j5,j6,za,zb) result(res)
 0002:   use, intrinsic :: iso_c_binding
@@ -5543,7 +5543,7 @@ ok = true
 duration_ms = 1.607
 output_chars = 609
 output_preview = '''
-# path: /home/adubey/JSS-2026-Example/software/mcfm/src/W2jet/fvf.hpp
+# path: /home/user/JSS-2026-Example/software/mcfm/src/W2jet/fvf.hpp
 # lines: 1-13
 0001: #ifndef FVF_H
 0002: #define FVF_H
@@ -5600,7 +5600,7 @@ ok = true
 duration_ms = 1.682
 output_chars = 8682
 output_preview = '''
-# path: /home/adubey/JSS-2026-Example/software/mcfm/src/W2jet/fsl.f
+# path: /home/user/JSS-2026-Example/software/mcfm/src/W2jet/fsl.f
 # lines: 123-254
 0123:      &j3)+(-s(j1,j2)+s(j3,j4)-s(j5,j6))*za(j2,j3)/(-za(j1,j3)*zb(j1,j4)-
 0124:      &za(j2,j3)*zb(j2,j4))*zb(j4,j6)*t(j1,j2,j3)-za(j2,j4)*zb(j4,j6)*t(j
@@ -5655,7 +5655,7 @@ ok = true
 duration_ms = 1.625
 output_chars = 869
 output_preview = '''
-# path: /home/adubey/JSS-2026-Example/software/mcfm/src/W2jet/fsl.f
+# path: /home/user/JSS-2026-Example/software/mcfm/src/W2jet/fsl.f
 # lines: 240-254
 0240:       s7 = s8*s9
 0241:       s5 = s6+s7
@@ -5706,7 +5706,7 @@ ok = true
 duration_ms = 1.83
 output_chars = 3004
 output_preview = '''
-# path: /home/adubey/JSS-2026-Example/software/mcfm/src/W2jet/fvf.cpp
+# path: /home/user/JSS-2026-Example/software/mcfm/src/W2jet/fvf.cpp
 # lines: 1-63
 0001: // Translated from W2jet/fvf.f
 0002: #include "fvf.hpp"
@@ -5740,7 +5740,7 @@ ok = true
 duration_ms = 1.801
 output_chars = 688
 output_preview = '''
-# path: /home/adubey/JSS-2026-Example/software/mcfm/src/W2jet/fpp.cpp
+# path: /home/user/JSS-2026-Example/software/mcfm/src/W2jet/fpp.cpp
 # lines: 1-20
 0001: // Translated from W2jet/fpp.f
 0002: #include "fpp.hpp"
@@ -5773,7 +5773,7 @@ ok = true
 duration_ms = 1.573
 output_chars = 1076
 output_preview = '''
-# path: /home/adubey/JSS-2026-Example/software/mcfm/src/W2jet/vv_fi.F90
+# path: /home/user/JSS-2026-Example/software/mcfm/src/W2jet/vv_fi.F90
 # lines: 1-34
 0001: function vv(st,j1,j2,j3,j4,j5,j6) result(res)
 0002:   use, intrinsic :: iso_c_binding
@@ -6078,7 +6078,7 @@ ok = true
 duration_ms = 1.328
 output_chars = 2259
 output_preview = '''
-# path: /home/adubey/JSS-2026-Example/software/mcfm/src/Need/Need.hpp
+# path: /home/user/JSS-2026-Example/software/mcfm/src/Need/Need.hpp
 # lines: 1-46
 0001: #ifndef NEED_H
 0002: #define NEED_H
@@ -6113,7 +6113,7 @@ ok = true
 duration_ms = 1.538
 output_chars = 2258
 output_preview = '''
-# path: /home/adubey/JSS-2026-Example/software/mcfm/src/W1jet/W1jet.hpp
+# path: /home/user/JSS-2026-Example/software/mcfm/src/W1jet/W1jet.hpp
 # lines: 1-34
 0001: #ifndef W1JET_H
 0002: #define W1JET_H
@@ -6184,7 +6184,7 @@ tool = "write"
 ok = true
 duration_ms = 2.424
 output_chars = 79
-output_preview = "Wrote /home/adubey/JSS-2026-Example/software/mcfm/src/W2jet/fsl.hpp (424 bytes)"
+output_preview = "Wrote /home/user/JSS-2026-Example/software/mcfm/src/W2jet/fsl.hpp (424 bytes)"
 ts = "2026-08-12T02:11:03.066537+00:00"
 
 [[event]]
@@ -6214,7 +6214,7 @@ tool = "write"
 ok = true
 duration_ms = 2.069
 output_chars = 82
-output_preview = "Wrote /home/adubey/JSS-2026-Example/software/mcfm/src/W2jet/fsl_fi.F90 (692 bytes)"
+output_preview = "Wrote /home/user/JSS-2026-Example/software/mcfm/src/W2jet/fsl_fi.F90 (692 bytes)"
 ts = "2026-08-12T02:11:03.069947+00:00"
 
 [[event]]
@@ -6258,7 +6258,7 @@ tool = "write"
 ok = true
 duration_ms = 3.316
 output_chars = 81
-output_preview = "Wrote /home/adubey/JSS-2026-Example/software/mcfm/src/W2jet/fsl.cpp (18940 bytes)"
+output_preview = "Wrote /home/user/JSS-2026-Example/software/mcfm/src/W2jet/fsl.cpp (18940 bytes)"
 ts = "2026-08-12T02:14:29.979157+00:00"
 
 [[event]]
@@ -6305,7 +6305,7 @@ output_chars = 1303
 output_preview = '''
 {
   "ok": true,
-  "path": "/home/adubey/JSS-2026-Example/software/mcfm/src/W2jet/CMakeLists.txt",
+  "path": "/home/user/JSS-2026-Example/software/mcfm/src/W2jet/CMakeLists.txt",
   "applied": 2,
   "replacements": [
     {
@@ -6470,7 +6470,7 @@ tool = "write"
 ok = true
 duration_ms = 2.474
 output_chars = 74
-output_preview = "Wrote /home/adubey/JSS-2026-Example/dev/tmp/move_deprecated.py (369 bytes)"
+output_preview = "Wrote /home/user/JSS-2026-Example/dev/tmp/move_deprecated.py (369 bytes)"
 ts = "2026-08-12T02:14:53.450367+00:00"
 
 [[event]]
@@ -6567,7 +6567,7 @@ output_chars = 335
 output_preview = '''
 exit_code: 0
 STDOUT:
-[95mROOT:[0m /home/adubey/JSS-2026-Example
+[95mROOT:[0m /home/user/JSS-2026-Example
 [95mNODE:[0m <ROOT>/tests/mcfm
 
 [95mSCRIPTS: [0m
@@ -6698,7 +6698,7 @@ ok = true
 duration_ms = 1.68
 output_chars = 2400
 output_preview = '''
-# path: /home/adubey/JSS-2026-Example/environment.sh
+# path: /home/user/JSS-2026-Example/environment.sh
 # lines: 1-41
 0001: # Shell configuration shared across the lab notebook.
 0002: #
@@ -6893,7 +6893,7 @@ event = "tool_start"
 run_id = "20260812-110922-845807"
 iteration = 24
 tool = "bash"
-args = "{\"command\": \"export MCFM_HOME=/home/adubey/JSS-2026-Example/software/mcfm\\npython3 dev/workflow.py verify software/mcfm/src/W2jet/vv.cpp -- u d~ ve e+ g g\", \"timeout\": 300}"
+args = "{\"command\": \"export MCFM_HOME=/home/user/JSS-2026-Example/software/mcfm\\npython3 dev/workflow.py verify software/mcfm/src/W2jet/vv.cpp -- u d~ ve e+ g g\", \"timeout\": 300}"
 ts = "2026-08-12T02:17:27.783560+00:00"
 
 [[event]]
@@ -6950,7 +6950,7 @@ ok = true
 duration_ms = 1.772
 output_chars = 4775
 output_preview = '''
-# path: /home/adubey/JSS-2026-Example/dev/tools/coverage/coverage_check.py
+# path: /home/user/JSS-2026-Example/dev/tools/coverage/coverage_check.py
 # lines: 1-97
 0001: """Coverage check — decide VERIFIED vs TRANSLATED for one rewritten MCFM file.
 0002: 
@@ -7020,7 +7020,7 @@ event = "tool_start"
 run_id = "20260812-110922-845807"
 iteration = 26
 tool = "write"
-args = "{\"path\": \"dev/tmp/verify_one.py\", \"content\": \"import os\\nimport sys\\n\\nos.environ.setdefault(\\\"MCFM_HOME\\\", \\\"/home/adubey/JSS-2026-Example/software/mcfm\\\")\\nos.environ.setdefault(\\\"PEPPER_HOME\\\", \\\"/home/adubey/JSS-2026-Example/software/pepper\\\")\\nos.environ.setdefault(\\\"QCDLOOP_HOME\\\", \\\"/home/adubey/JSS-2026-Example/software/qcdloop\\\")\\nos.environ.setdefault(\\\"PROJECT_HOME\\\", \\\"/home/adubey/JSS-2026-Example\\\")\\n\\nsys.argv = [\\\"workflow.py\\\", \\\"verify\\\"] + sys.argv[1:]\\nexec(open(\\\"dev/workflow.py\\\").read())\\n\"}"
+args = "{\"path\": \"dev/tmp/verify_one.py\", \"content\": \"import os\\nimport sys\\n\\nos.environ.setdefault(\\\"MCFM_HOME\\\", \\\"/home/user/JSS-2026-Example/software/mcfm\\\")\\nos.environ.setdefault(\\\"PEPPER_HOME\\\", \\\"/home/user/JSS-2026-Example/software/pepper\\\")\\nos.environ.setdefault(\\\"QCDLOOP_HOME\\\", \\\"/home/user/JSS-2026-Example/software/qcdloop\\\")\\nos.environ.setdefault(\\\"PROJECT_HOME\\\", \\\"/home/user/JSS-2026-Example\\\")\\n\\nsys.argv = [\\\"workflow.py\\\", \\\"verify\\\"] + sys.argv[1:]\\nexec(open(\\\"dev/workflow.py\\\").read())\\n\"}"
 ts = "2026-08-12T02:17:51.154857+00:00"
 
 [[event]]
@@ -7031,7 +7031,7 @@ tool = "write"
 ok = true
 duration_ms = 2.577
 output_chars = 69
-output_preview = "Wrote /home/adubey/JSS-2026-Example/dev/tmp/verify_one.py (439 bytes)"
+output_preview = "Wrote /home/user/JSS-2026-Example/dev/tmp/verify_one.py (439 bytes)"
 ts = "2026-08-12T02:17:51.157395+00:00"
 
 [[event]]
@@ -7079,7 +7079,7 @@ STDOUT:
 
 STDERR:
 Traceback (most recent call last):
-  File "/home/adubey/JSS-2026-Example/dev/tmp/verify_one.py", line 10, in <module>
+  File "/home/user/JSS-2026-Example/dev/tmp/verify_one.py", line 10, in <module>
     exec(open("dev/workflow.py").read())
   File "<string>", line 36, in <module>
 ModuleNotFoundError: No module named 'approval_log'
@@ -7126,7 +7126,7 @@ ok = true
 duration_ms = 1.503
 output_chars = 3136
 output_preview = '''
-# path: /home/adubey/JSS-2026-Example/dev/workflow.py
+# path: /home/user/JSS-2026-Example/dev/workflow.py
 # lines: 1-80
 0001: #!/usr/bin/env python3
 0002: """Unified workflow CLI for dev tooling.
@@ -7181,7 +7181,7 @@ ok = true
 duration_ms = 1.366
 output_chars = 4218
 output_preview = '''
-# path: /home/adubey/JSS-2026-Example/dev/workflow.py
+# path: /home/user/JSS-2026-Example/dev/workflow.py
 # lines: 220-299
 0220:         _print_approval_record(record)
 0221:     return 0
@@ -7226,7 +7226,7 @@ event = "tool_start"
 run_id = "20260812-110922-845807"
 iteration = 30
 tool = "write"
-args = "{\"path\": \"dev/tmp/verify_all.py\", \"content\": \"import os\\nimport subprocess\\nimport sys\\n\\nos.environ[\\\"MCFM_HOME\\\"] = \\\"/home/adubey/JSS-2026-Example/software/mcfm\\\"\\n\\ntargets = [\\\"vv\\\", \\\"fpm\\\", \\\"fpp\\\", \\\"fsl\\\", \\\"fvf\\\"]\\nfor t in targets:\\n    target = f\\\"software/mcfm/src/W2jet/{t}.cpp\\\"\\n    print(f\\\"\\\\n===== verifying {target} =====\\\", flush=True)\\n    rc = subprocess.run(\\n        [sys.executable, \\\"dev/tools/coverage/coverage_check.py\\\", target, \\\"--\\\", \\\"u\\\", \\\"d~\\\", \\\"ve\\\", \\\"e+\\\", \\\"g\\\", \\\"g\\\"]\\n    ).returncode\\n    print(f\\\"===== {t}: exit {rc} =====\\\", flush=True)\\n\"}"
+args = "{\"path\": \"dev/tmp/verify_all.py\", \"content\": \"import os\\nimport subprocess\\nimport sys\\n\\nos.environ[\\\"MCFM_HOME\\\"] = \\\"/home/user/JSS-2026-Example/software/mcfm\\\"\\n\\ntargets = [\\\"vv\\\", \\\"fpm\\\", \\\"fpp\\\", \\\"fsl\\\", \\\"fvf\\\"]\\nfor t in targets:\\n    target = f\\\"software/mcfm/src/W2jet/{t}.cpp\\\"\\n    print(f\\\"\\\\n===== verifying {target} =====\\\", flush=True)\\n    rc = subprocess.run(\\n        [sys.executable, \\\"dev/tools/coverage/coverage_check.py\\\", target, \\\"--\\\", \\\"u\\\", \\\"d~\\\", \\\"ve\\\", \\\"e+\\\", \\\"g\\\", \\\"g\\\"]\\n    ).returncode\\n    print(f\\\"===== {t}: exit {rc} =====\\\", flush=True)\\n\"}"
 ts = "2026-08-12T02:18:07.809629+00:00"
 
 [[event]]
@@ -7237,7 +7237,7 @@ tool = "write"
 ok = true
 duration_ms = 2.137
 output_chars = 69
-output_preview = "Wrote /home/adubey/JSS-2026-Example/dev/tmp/verify_all.py (490 bytes)"
+output_preview = "Wrote /home/user/JSS-2026-Example/dev/tmp/verify_all.py (490 bytes)"
 ts = "2026-08-12T02:18:07.811814+00:00"
 
 [[event]]
@@ -7301,7 +7301,7 @@ ok = true
 duration_ms = 1.647
 output_chars = 8687
 output_preview = '''
-# path: /home/adubey/JSS-2026-Example/dev/transformations/mcfm-translate/current_plan.md
+# path: /home/user/JSS-2026-Example/dev/transformations/mcfm-translate/current_plan.md
 # lines: 1-182
 0001: # Fortran → C++ plan
 0002: 
@@ -7331,7 +7331,7 @@ ok = true
 duration_ms = 1.641
 output_chars = 7669
 output_preview = '''
-# path: /home/adubey/JSS-2026-Example/dev/transformations/mcfm-translate/desired_spec.md
+# path: /home/user/JSS-2026-Example/dev/transformations/mcfm-translate/desired_spec.md
 # lines: 1-144
 0001: # Fortran → C++: target output for one MCFM file
 0002: 
@@ -7366,7 +7366,7 @@ ok = true
 duration_ms = 1.762
 output_chars = 1243
 output_preview = '''
-# path: /home/adubey/JSS-2026-Example/dev/transformations/mcfm-translate/agent_log.md
+# path: /home/user/JSS-2026-Example/dev/transformations/mcfm-translate/agent_log.md
 # lines: 1-19
 0001: # mcfm-translate agent log
 0002: 
@@ -7423,7 +7423,7 @@ ok = true
 duration_ms = 1.391
 output_chars = 1030
 output_preview = '''
-# path: /home/adubey/JSS-2026-Example/dev/transformations/mcfm-translate/current_plan.md
+# path: /home/user/JSS-2026-Example/dev/transformations/mcfm-translate/current_plan.md
 # lines: 164-182
 0164: ## When to stop
 0165: 
@@ -7454,15 +7454,15 @@ ok = true
 duration_ms = 1.542
 output_chars = 573
 output_preview = '''
-# path: /home/adubey/JSS-2026-Example/dev/tmp/verify_one.py
+# path: /home/user/JSS-2026-Example/dev/tmp/verify_one.py
 # lines: 1-10
 0001: import os
 0002: import sys
 0003: 
-0004: os.environ.setdefault("MCFM_HOME", "/home/adubey/JSS-2026-Example/software/mcfm")
-0005: os.environ.setdefault("PEPPER_HOME", "/home/adubey/JSS-2026-Example/software/pepper")
-0006: os.environ.setdefault("QCDLOOP_HOME", "/home/adubey/JSS-2026-Example/software/qcdloop")
-0007: os.environ.setdefault("PROJECT_HOME", "/home/adubey/JSS-2026-Example")
+0004: os.environ.setdefault("MCFM_HOME", "/home/user/JSS-2026-Example/software/mcfm")
+0005: os.environ.setdefault("PEPPER_HOME", "/home/user/JSS-2026-Example/software/pepper")
+0006: os.environ.setdefault("QCDLOOP_HOME", "/home/user/JSS-2026-Example/software/qcdloop")
+0007: os.environ.setdefault("PROJECT_HOME", "/home/user/JSS-2026-Example")
 0008: 
 0009: sys.argv = ["workflow.'''
 ts = "2026-08-12T02:19:04.109200+00:00"
@@ -7485,13 +7485,13 @@ ok = true
 duration_ms = 1.635
 output_chars = 648
 output_preview = '''
-# path: /home/adubey/JSS-2026-Example/dev/tmp/verify_all.py
+# path: /home/user/JSS-2026-Example/dev/tmp/verify_all.py
 # lines: 1-14
 0001: import os
 0002: import subprocess
 0003: import sys
 0004: 
-0005: os.environ["MCFM_HOME"] = "/home/adubey/JSS-2026-Example/software/mcfm"
+0005: os.environ["MCFM_HOME"] = "/home/user/JSS-2026-Example/software/mcfm"
 0006: 
 0007: targets = ["vv", "fpm", "fpp", "fsl", "fvf"]
 0008: for t in targets:
@@ -7608,7 +7608,7 @@ ok = true
 duration_ms = 2.08
 output_chars = 13931
 output_preview = '''
-# path: /home/adubey/JSS-2026-Example/dev/workflow.py
+# path: /home/user/JSS-2026-Example/dev/workflow.py
 # lines: 1-318
 0001: #!/usr/bin/env python3
 0002: """Unified workflow CLI for dev tooling.
@@ -7640,7 +7640,7 @@ ok = true
 duration_ms = 1.636
 output_chars = 4775
 output_preview = '''
-# path: /home/adubey/JSS-2026-Example/dev/tools/coverage/coverage_check.py
+# path: /home/user/JSS-2026-Example/dev/tools/coverage/coverage_check.py
 # lines: 1-97
 0001: """Coverage check — decide VERIFIED vs TRANSLATED for one rewritten MCFM file.
 0002: 
@@ -7767,7 +7767,7 @@ ok = true
 duration_ms = 1.649
 output_chars = 6013
 output_preview = '''
-# path: /home/adubey/JSS-2026-Example/dev/workflow.py
+# path: /home/user/JSS-2026-Example/dev/workflow.py
 # lines: 191-318
 0191:         *args.args,
 0192:     ]
@@ -7949,7 +7949,7 @@ event = "tool_start"
 run_id = "20260812-111855-22c766"
 iteration = 6
 tool = "write"
-args = "{\"path\": \"dev/tmp/run_test.py\", \"content\": \"import os\\nimport subprocess\\nimport sys\\n\\nos.environ.setdefault(\\\"MCFM_HOME\\\", \\\"/home/adubey/JSS-2026-Example/software/mcfm\\\")\\nos.environ.setdefault(\\\"PEPPER_HOME\\\", \\\"/home/adubey/JSS-2026-Example/software/pepper\\\")\\nos.environ.setdefault(\\\"QCDLOOP_HOME\\\", \\\"/home/adubey/JSS-2026-Example/software/qcdloop\\\")\\n\\nmcfm = os.environ[\\\"MCFM_HOME\\\"]\\nargs = sys.argv[1:] or [\\\"u\\\", \\\"d~\\\", \\\"ve\\\", \\\"e+\\\", \\\"g\\\", \\\"g\\\"]\\np = subprocess.run([mcfm + \\\"/Bin/test\\\", \\\"-b\\\", *args], cwd=mcfm + \\\"/Bin\\\",\\n                   capture_output=True, text=True)\\nsys.stdout.write(p.stdout)\\nsys.stderr.write(p.stderr)\\nprint(f\\\"EXIT_CODE={p.returncode}\\\")\\nsys.exit(p.returncode)\\n\"}"
+args = "{\"path\": \"dev/tmp/run_test.py\", \"content\": \"import os\\nimport subprocess\\nimport sys\\n\\nos.environ.setdefault(\\\"MCFM_HOME\\\", \\\"/home/user/JSS-2026-Example/software/mcfm\\\")\\nos.environ.setdefault(\\\"PEPPER_HOME\\\", \\\"/home/user/JSS-2026-Example/software/pepper\\\")\\nos.environ.setdefault(\\\"QCDLOOP_HOME\\\", \\\"/home/user/JSS-2026-Example/software/qcdloop\\\")\\n\\nmcfm = os.environ[\\\"MCFM_HOME\\\"]\\nargs = sys.argv[1:] or [\\\"u\\\", \\\"d~\\\", \\\"ve\\\", \\\"e+\\\", \\\"g\\\", \\\"g\\\"]\\np = subprocess.run([mcfm + \\\"/Bin/test\\\", \\\"-b\\\", *args], cwd=mcfm + \\\"/Bin\\\",\\n                   capture_output=True, text=True)\\nsys.stdout.write(p.stdout)\\nsys.stderr.write(p.stderr)\\nprint(f\\\"EXIT_CODE={p.returncode}\\\")\\nsys.exit(p.returncode)\\n\"}"
 ts = "2026-08-12T02:19:29.736694+00:00"
 
 [[event]]
@@ -7960,7 +7960,7 @@ tool = "write"
 ok = true
 duration_ms = 2.776
 output_chars = 67
-output_preview = "Wrote /home/adubey/JSS-2026-Example/dev/tmp/run_test.py (621 bytes)"
+output_preview = "Wrote /home/user/JSS-2026-Example/dev/tmp/run_test.py (621 bytes)"
 ts = "2026-08-12T02:19:29.739450+00:00"
 
 [[event]]
@@ -8201,7 +8201,7 @@ ok = true
 duration_ms = 1.379
 output_chars = 1183
 output_preview = '''
-# path: /home/adubey/JSS-2026-Example/software/mcfm/src/W2jet/vv.cpp
+# path: /home/user/JSS-2026-Example/software/mcfm/src/W2jet/vv.cpp
 # lines: 30-50
 0030:         //   - 2*epinv^2   + epinv* ( 2/3 - xlog12 - xlog34 )
 0031:         //   + 10/9 - 1/2*xlog12^2 - 1/2*xlog34^2 + 13/6*xlog23 - 3/2*xlog56
@@ -8228,7 +8228,7 @@ ok = true
 duration_ms = 1.58
 output_chars = 1428
 output_preview = '''
-# path: /home/adubey/JSS-2026-Example/software/mcfm/src/W2jet/fvf.cpp
+# path: /home/user/JSS-2026-Example/software/mcfm/src/W2jet/fvf.cpp
 # lines: 40-63
 0040:             -I3m123456 * za(j2, j4) * zb(j3, j6)
 0041:                 * zab2(j5, j2, j4, j1) / (2.0 * zab2(j3, j1, j2, j4) * t(j1, j2, j4))
@@ -8282,7 +8282,7 @@ output_chars = 1046
 output_preview = '''
 {
   "ok": true,
-  "path": "/home/adubey/JSS-2026-Example/software/mcfm/src/W2jet/vv.cpp",
+  "path": "/home/user/JSS-2026-Example/software/mcfm/src/W2jet/vv.cpp",
   "applied": 1,
   "replacements": [
     {
@@ -8312,7 +8312,7 @@ output_chars = 909
 output_preview = '''
 {
   "ok": true,
-  "path": "/home/adubey/JSS-2026-Example/software/mcfm/src/W2jet/fvf.cpp",
+  "path": "/home/user/JSS-2026-Example/software/mcfm/src/W2jet/fvf.cpp",
   "applied": 1,
   "replacements": [
     {
@@ -8368,7 +8368,7 @@ STDOUT:
 
 STDERR:
 Traceback (most recent call last):
-  File "/home/adubey/JSS-2026-Example/dev/tmp/verify_one.py", line 10, in <module>
+  File "/home/user/JSS-2026-Example/dev/tmp/verify_one.py", line 10, in <module>
     exec(open("dev/workflow.py").read())
   File "<string>", line 36, in <module>
 ModuleNotFoundError: No module named 'approval_log'
@@ -8403,7 +8403,7 @@ event = "tool_start"
 run_id = "20260812-111855-22c766"
 iteration = 13
 tool = "write"
-args = "{\"path\": \"dev/tmp/verify_one.py\", \"content\": \"import os\\nimport subprocess\\nimport sys\\n\\nos.environ.setdefault(\\\"MCFM_HOME\\\", \\\"/home/adubey/JSS-2026-Example/software/mcfm\\\")\\nos.environ.setdefault(\\\"PEPPER_HOME\\\", \\\"/home/adubey/JSS-2026-Example/software/pepper\\\")\\nos.environ.setdefault(\\\"QCDLOOP_HOME\\\", \\\"/home/adubey/JSS-2026-Example/software/qcdloop\\\")\\n\\nrc = subprocess.run(\\n    [sys.executable, \\\"dev/tools/coverage/coverage_check.py\\\", *sys.argv[1:]]\\n).returncode\\nprint(f\\\"EXIT_CODE={rc}\\\")\\nsys.exit(rc)\\n\"}"
+args = "{\"path\": \"dev/tmp/verify_one.py\", \"content\": \"import os\\nimport subprocess\\nimport sys\\n\\nos.environ.setdefault(\\\"MCFM_HOME\\\", \\\"/home/user/JSS-2026-Example/software/mcfm\\\")\\nos.environ.setdefault(\\\"PEPPER_HOME\\\", \\\"/home/user/JSS-2026-Example/software/pepper\\\")\\nos.environ.setdefault(\\\"QCDLOOP_HOME\\\", \\\"/home/user/JSS-2026-Example/software/qcdloop\\\")\\n\\nrc = subprocess.run(\\n    [sys.executable, \\\"dev/tools/coverage/coverage_check.py\\\", *sys.argv[1:]]\\n).returncode\\nprint(f\\\"EXIT_CODE={rc}\\\")\\nsys.exit(rc)\\n\"}"
 ts = "2026-08-12T02:20:33.839875+00:00"
 
 [[event]]
@@ -8414,7 +8414,7 @@ tool = "write"
 ok = true
 duration_ms = 2.35
 output_chars = 69
-output_preview = "Wrote /home/adubey/JSS-2026-Example/dev/tmp/verify_one.py (445 bytes)"
+output_preview = "Wrote /home/user/JSS-2026-Example/dev/tmp/verify_one.py (445 bytes)"
 ts = "2026-08-12T02:20:33.842127+00:00"
 
 [[event]]
@@ -8629,7 +8629,7 @@ ok = true
 duration_ms = 1.938
 output_chars = 3624
 output_preview = '''
-# path: /home/adubey/JSS-2026-Example/dev/tools/common/approval_log.py
+# path: /home/user/JSS-2026-Example/dev/tools/common/approval_log.py
 # lines: 1-94
 0001: """Shared approval-log helpers for transformation workflows."""
 0002: from __future__ import annotations
@@ -8686,7 +8686,7 @@ tool = "write"
 ok = true
 duration_ms = 2.699
 output_chars = 96
-output_preview = "Wrote /home/adubey/JSS-2026-Example/dev/transformations/mcfm-translate/agent_log.md (3911 bytes)"
+output_preview = "Wrote /home/user/JSS-2026-Example/dev/transformations/mcfm-translate/agent_log.md (3911 bytes)"
 ts = "2026-08-12T02:22:02.562057+00:00"
 
 [[event]]
@@ -8781,8 +8781,8 @@ output_chars = 40751
 output_preview = '''
 exit_code: 0
 STDOUT:
-Generating Doxygen XML for /home/adubey/JSS-2026-Example/software/mcfm/src -> /home/adubey/JSS-2026-Example/software/mcfm/doxygen_dep/xml
-wrote 1133 XML file(s) to /home/adubey/JSS-2026-Example/software/mcfm/doxygen_dep/xml
+Generating Doxygen XML for /home/user/JSS-2026-Example/software/mcfm/src -> /home/user/JSS-2026-Example/software/mcfm/doxygen_dep/xml
+wrote 1133 XML file(s) to /home/user/JSS-2026-Example/software/mcfm/doxygen_dep/xml
 source 526  translated 86  untranslated 440
 ready leaves (deps=0, non-blind): 224
 symbol index: 915 symbol(s)
@@ -8889,7 +8889,7 @@ output_chars = 100
 output_preview = '''
 exit_code: 0
 STDOUT:
-wrote /home/adubey/JSS-2026-Example/dev/tmp/drafts/W2jet/atree.scribe
+wrote /home/user/JSS-2026-Example/dev/tmp/drafts/W2jet/atree.scribe
 
 STDERR:
 '''
@@ -8917,7 +8917,7 @@ STDOUT:
 
 STDERR:
 Traceback (most recent call last):
-  File "/home/adubey/JSS-2026-Example/dev/tmp/list_ready_detail.py", line 3, in <module>
+  File "/home/user/JSS-2026-Example/dev/tmp/list_ready_detail.py", line 3, in <module>
     top = sys.argv[1]
           ~~~~~~~~^^^
 IndexError: list index out of range
@@ -8998,7 +8998,7 @@ output_chars = 98
 output_preview = '''
 exit_code: 0
 STDOUT:
-wrote /home/adubey/JSS-2026-Example/dev/tmp/drafts/W2jet/fax.scribe
+wrote /home/user/JSS-2026-Example/dev/tmp/drafts/W2jet/fax.scribe
 
 STDERR:
 '''
@@ -9046,7 +9046,7 @@ output_chars = 100
 output_preview = '''
 exit_code: 0
 STDOUT:
-wrote /home/adubey/JSS-2026-Example/dev/tmp/drafts/W2jet/faxsl.scribe
+wrote /home/user/JSS-2026-Example/dev/tmp/drafts/W2jet/faxsl.scribe
 
 STDERR:
 '''
@@ -9071,7 +9071,7 @@ output_chars = 98
 output_preview = '''
 exit_code: 0
 STDOUT:
-wrote /home/adubey/JSS-2026-Example/dev/tmp/drafts/W2jet/fsc.scribe
+wrote /home/user/JSS-2026-Example/dev/tmp/drafts/W2jet/fsc.scribe
 
 STDERR:
 '''
@@ -9096,7 +9096,7 @@ output_chars = 98
 output_preview = '''
 exit_code: 0
 STDOUT:
-wrote /home/adubey/JSS-2026-Example/dev/tmp/drafts/W2jet/fcc.scribe
+wrote /home/user/JSS-2026-Example/dev/tmp/drafts/W2jet/fcc.scribe
 
 STDERR:
 '''
@@ -9142,7 +9142,7 @@ ok = true
 duration_ms = 2.229
 output_chars = 33152
 output_preview = '''
-# path: /home/adubey/JSS-2026-Example/dev/tmp/drafts/W2jet/fax.scribe
+# path: /home/user/JSS-2026-Example/dev/tmp/drafts/W2jet/fax.scribe
 # lines: 1-649
 0001: scribe-prompt: Add an extern "C" <name>_wrapper; see the seed examples for FArray/scalar handling.
 0002: scribe-prompt: A variable used as a function is an external or statement function.
@@ -9168,7 +9168,7 @@ ok = true
 duration_ms = 1.84
 output_chars = 2178
 output_preview = '''
-# path: /home/adubey/JSS-2026-Example/dev/tmp/drafts/W2jet/faxsl.scribe
+# path: /home/user/JSS-2026-Example/dev/tmp/drafts/W2jet/faxsl.scribe
 # lines: 1-50
 0001: scribe-prompt: Add an extern "C" <name>_wrapper; see the seed examples for FArray/scalar handling.
 0002: scribe-prompt: A variable used as a function is an external or statement function.
@@ -9196,7 +9196,7 @@ ok = true
 duration_ms = 1.715
 output_chars = 2221
 output_preview = '''
-# path: /home/adubey/JSS-2026-Example/dev/tmp/drafts/W2jet/fsc.scribe
+# path: /home/user/JSS-2026-Example/dev/tmp/drafts/W2jet/fsc.scribe
 # lines: 1-49
 0001: scribe-prompt: Add an extern "C" <name>_wrapper; see the seed examples for FArray/scalar handling.
 0002: scribe-prompt: A variable used as a function is an external or statement function.
@@ -9222,7 +9222,7 @@ ok = true
 duration_ms = 1.736
 output_chars = 2351
 output_preview = '''
-# path: /home/adubey/JSS-2026-Example/dev/tmp/drafts/W2jet/fcc.scribe
+# path: /home/user/JSS-2026-Example/dev/tmp/drafts/W2jet/fcc.scribe
 # lines: 1-53
 0001: scribe-prompt: Add an extern "C" <name>_wrapper; see the seed examples for FArray/scalar handling.
 0002: scribe-prompt: A variable used as a function is an external or statement function.
@@ -9248,7 +9248,7 @@ ok = true
 duration_ms = 1.935
 output_chars = 2185
 output_preview = '''
-# path: /home/adubey/JSS-2026-Example/dev/tmp/drafts/W2jet/atree.scribe
+# path: /home/user/JSS-2026-Example/dev/tmp/drafts/W2jet/atree.scribe
 # lines: 1-49
 0001: scribe-prompt: Add an extern "C" <name>_wrapper; see the seed examples for FArray/scalar handling.
 0002: scribe-prompt: A variable used as a function is an external or statement function.
@@ -9301,7 +9301,7 @@ ok = true
 duration_ms = 1.63
 output_chars = 1716
 output_preview = '''
-# path: /home/adubey/JSS-2026-Example/software/mcfm/src/W2jet/fvf.cpp
+# path: /home/user/JSS-2026-Example/software/mcfm/src/W2jet/fvf.cpp
 # lines: 1-40
 0001: // Translated from W2jet/fvf.f
 0002: #include "fvf.hpp"
@@ -9638,7 +9638,7 @@ ok = true
 duration_ms = 1.698
 output_chars = 19606
 output_preview = '''
-# path: /home/adubey/JSS-2026-Example/software/mcfm/src/W2jet/fsl.cpp
+# path: /home/user/JSS-2026-Example/software/mcfm/src/W2jet/fsl.cpp
 # lines: 1-97
 0001: // Translated from W2jet/fsl.f
 0002: #include "fsl.hpp"
@@ -9716,7 +9716,7 @@ ok = true
 duration_ms = 1.883
 output_chars = 8687
 output_preview = '''
-# path: /home/adubey/JSS-2026-Example/dev/transformations/mcfm-translate/current_plan.md
+# path: /home/user/JSS-2026-Example/dev/transformations/mcfm-translate/current_plan.md
 # lines: 1-182
 0001: # Fortran → C++ plan
 0002: 
@@ -9746,7 +9746,7 @@ ok = true
 duration_ms = 1.814
 output_chars = 7669
 output_preview = '''
-# path: /home/adubey/JSS-2026-Example/dev/transformations/mcfm-translate/desired_spec.md
+# path: /home/user/JSS-2026-Example/dev/transformations/mcfm-translate/desired_spec.md
 # lines: 1-144
 0001: # Fortran → C++: target output for one MCFM file
 0002: 
@@ -9781,7 +9781,7 @@ ok = true
 duration_ms = 1.474
 output_chars = 4155
 output_preview = '''
-# path: /home/adubey/JSS-2026-Example/dev/transformations/mcfm-translate/agent_log.md
+# path: /home/user/JSS-2026-Example/dev/transformations/mcfm-translate/agent_log.md
 # lines: 1-24
 0001: # mcfm-translate agent log
 0002: 
@@ -9979,8 +9979,8 @@ output_chars = 40751
 output_preview = '''
 exit_code: 0
 STDOUT:
-Generating Doxygen XML for /home/adubey/JSS-2026-Example/software/mcfm/src -> /home/adubey/JSS-2026-Example/software/mcfm/doxygen_dep/xml
-wrote 1133 XML file(s) to /home/adubey/JSS-2026-Example/software/mcfm/doxygen_dep/xml
+Generating Doxygen XML for /home/user/JSS-2026-Example/software/mcfm/src -> /home/user/JSS-2026-Example/software/mcfm/doxygen_dep/xml
+wrote 1133 XML file(s) to /home/user/JSS-2026-Example/software/mcfm/doxygen_dep/xml
 source 526  translated 86  untranslated 440
 ready leaves (deps=0, non-blind): 224
 symbol index: 915 symbol(s)
@@ -10168,7 +10168,7 @@ STDOUT:
 
 STDERR:
 Traceback (most recent call last):
-  File "/home/adubey/JSS-2026-Example/dev/tmp/list_ready_detail.py", line 3, in <module>
+  File "/home/user/JSS-2026-Example/dev/tmp/list_ready_detail.py", line 3, in <module>
     top = sys.argv[1]
           ~~~~~~~~^^^
 IndexError: list index out of range
@@ -10269,7 +10269,7 @@ ok = true
 duration_ms = 1.376
 output_chars = 438
 output_preview = '''
-# path: /home/adubey/JSS-2026-Example/dev/tmp/list_ready_detail.py
+# path: /home/user/JSS-2026-Example/dev/tmp/list_ready_detail.py
 # lines: 1-8
 0001: import csv, sys, os
 0002: 
@@ -10488,7 +10488,7 @@ ok = true
 duration_ms = 1.636
 output_chars = 2028
 output_preview = '''
-# path: /home/adubey/JSS-2026-Example/software/mcfm/src/W2jet/atree.f
+# path: /home/user/JSS-2026-Example/software/mcfm/src/W2jet/atree.f
 # lines: 1-45
 0001: !
 0002: !  SPDX-License-Identifier: GPL-3.0-or-later
@@ -10521,7 +10521,7 @@ ok = true
 duration_ms = 2.121
 output_chars = 32267
 output_preview = '''
-# path: /home/adubey/JSS-2026-Example/software/mcfm/src/W2jet/fax.f
+# path: /home/user/JSS-2026-Example/software/mcfm/src/W2jet/fax.f
 # lines: 1-635
 0001: !
 0002: !  SPDX-License-Identifier: GPL-3.0-or-later
@@ -10557,7 +10557,7 @@ ok = true
 duration_ms = 1.593
 output_chars = 1702
 output_preview = '''
-# path: /home/adubey/JSS-2026-Example/software/mcfm/src/W2jet/faxsl.f
+# path: /home/user/JSS-2026-Example/software/mcfm/src/W2jet/faxsl.f
 # lines: 1-41
 0001: !
 0002: !  SPDX-License-Identifier: GPL-3.0-or-later
@@ -10592,7 +10592,7 @@ ok = true
 duration_ms = 1.562
 output_chars = 2157
 output_preview = '''
-# path: /home/adubey/JSS-2026-Example/software/mcfm/src/W2jet/fsc.f
+# path: /home/user/JSS-2026-Example/software/mcfm/src/W2jet/fsc.f
 # lines: 1-54
 0001: !
 0002: !  SPDX-License-Identifier: GPL-3.0-or-later
@@ -10649,7 +10649,7 @@ ok = true
 duration_ms = 2.432
 output_chars = 33152
 output_preview = '''
-# path: /home/adubey/JSS-2026-Example/dev/tmp/drafts/W2jet/fax.scribe
+# path: /home/user/JSS-2026-Example/dev/tmp/drafts/W2jet/fax.scribe
 # lines: 1-649
 0001: scribe-prompt: Add an extern "C" <name>_wrapper; see the seed examples for FArray/scalar handling.
 0002: scribe-prompt: A variable used as a function is an external or statement function.
@@ -10675,7 +10675,7 @@ ok = true
 duration_ms = 1.833
 output_chars = 2185
 output_preview = '''
-# path: /home/adubey/JSS-2026-Example/dev/tmp/drafts/W2jet/atree.scribe
+# path: /home/user/JSS-2026-Example/dev/tmp/drafts/W2jet/atree.scribe
 # lines: 1-49
 0001: scribe-prompt: Add an extern "C" <name>_wrapper; see the seed examples for FArray/scalar handling.
 0002: scribe-prompt: A variable used as a function is an external or statement function.
@@ -10705,7 +10705,7 @@ ok = true
 duration_ms = 1.822
 output_chars = 2178
 output_preview = '''
-# path: /home/adubey/JSS-2026-Example/dev/tmp/drafts/W2jet/faxsl.scribe
+# path: /home/user/JSS-2026-Example/dev/tmp/drafts/W2jet/faxsl.scribe
 # lines: 1-50
 0001: scribe-prompt: Add an extern "C" <name>_wrapper; see the seed examples for FArray/scalar handling.
 0002: scribe-prompt: A variable used as a function is an external or statement function.
@@ -10755,7 +10755,7 @@ tool = "read"
 ok = true
 duration_ms = 1.727
 output_chars = 840
-output_preview = "# path: /home/adubey/JSS-2026-Example/dev/transformations/mcfm-translate/loop.toml\n# lines: 1-18\n0001: # CodeScribe loop for Fortran -> C++.\n0002: #\n0003: # Run from the project root:\n0004: #   code-scribe loop -p dev/transformations/mcfm-translate/loop.toml -m <model>\n0005: \n0006: [tools]\n0007: bash = [\"jobrunner\", \"python3\"]\n0008: \n0009: [[chat.user]]\n0010: content = '''\n0011: Each round, follow the round algorithm in dev/transformations/mcfm-translate/current_plan.md and\n0012: the contract in"
+output_preview = "# path: /home/user/JSS-2026-Example/dev/transformations/mcfm-translate/loop.toml\n# lines: 1-18\n0001: # CodeScribe loop for Fortran -> C++.\n0002: #\n0003: # Run from the project root:\n0004: #   code-scribe loop -p dev/transformations/mcfm-translate/loop.toml -m <model>\n0005: \n0006: [tools]\n0007: bash = [\"jobrunner\", \"python3\"]\n0008: \n0009: [[chat.user]]\n0010: content = '''\n0011: Each round, follow the round algorithm in dev/transformations/mcfm-translate/current_plan.md and\n0012: the contract in"
 ts = "2026-08-12T02:24:46.941365+00:00"
 
 [[event]]
@@ -10798,7 +10798,7 @@ ok = true
 duration_ms = 1.807
 output_chars = 1001
 output_preview = '''
-# path: /home/adubey/JSS-2026-Example/dev/transformations/mcfm-translate/current_plan.md
+# path: /home/user/JSS-2026-Example/dev/transformations/mcfm-translate/current_plan.md
 # lines: 166-182
 0166: The *ready set* is the set of ready, not-yet-settled files. Each settled file leaves the
 0167: ready set and the readiness graph is acyclic, so the pass terminates. Stop only when one of
@@ -10826,7 +10826,7 @@ ok = true
 duration_ms = 1.549
 output_chars = 1407
 output_preview = '''
-# path: /home/adubey/JSS-2026-Example/software/mcfm/src/W2jet/CMakeLists.txt
+# path: /home/user/JSS-2026-Example/software/mcfm/src/W2jet/CMakeLists.txt
 # lines: 1-74
 0001: target_sources(objlib PRIVATE
 0002: aqqb_zbb.f
@@ -10874,7 +10874,7 @@ ok = true
 duration_ms = 1.564
 output_chars = 2146
 output_preview = '''
-# path: /home/adubey/JSS-2026-Example/software/mcfm/src/W2jet/vv.cpp
+# path: /home/user/JSS-2026-Example/software/mcfm/src/W2jet/vv.cpp
 # lines: 1-50
 0001: // Translated from W2jet/vv.f
 0002: #include "vv.hpp"
@@ -10909,7 +10909,7 @@ ok = true
 duration_ms = 1.538
 output_chars = 594
 output_preview = '''
-# path: /home/adubey/JSS-2026-Example/software/mcfm/src/W2jet/vv.hpp
+# path: /home/user/JSS-2026-Example/software/mcfm/src/W2jet/vv.hpp
 # lines: 1-15
 0001: #ifndef VV_H
 0002: #define VV_H
@@ -10943,7 +10943,7 @@ ok = true
 duration_ms = 1.529
 output_chars = 1076
 output_preview = '''
-# path: /home/adubey/JSS-2026-Example/software/mcfm/src/W2jet/vv_fi.F90
+# path: /home/user/JSS-2026-Example/software/mcfm/src/W2jet/vv_fi.F90
 # lines: 1-34
 0001: function vv(st,j1,j2,j3,j4,j5,j6) result(res)
 0002:   use, intrinsic :: iso_c_binding
@@ -10977,7 +10977,7 @@ ok = true
 duration_ms = 1.622
 output_chars = 2262
 output_preview = '''
-# path: /home/adubey/JSS-2026-Example/software/mcfm/src/W2jet/fcc.f
+# path: /home/user/JSS-2026-Example/software/mcfm/src/W2jet/fcc.f
 # lines: 1-51
 0001: !
 0002: !  SPDX-License-Identifier: GPL-3.0-or-later
@@ -11034,7 +11034,7 @@ ok = true
 duration_ms = 1.75
 output_chars = 19606
 output_preview = '''
-# path: /home/adubey/JSS-2026-Example/software/mcfm/src/W2jet/fsl.cpp
+# path: /home/user/JSS-2026-Example/software/mcfm/src/W2jet/fsl.cpp
 # lines: 1-97
 0001: // Translated from W2jet/fsl.f
 0002: #include "fsl.hpp"
@@ -11068,7 +11068,7 @@ ok = true
 duration_ms = 1.59
 output_chars = 586
 output_preview = '''
-# path: /home/adubey/JSS-2026-Example/software/mcfm/src/W2jet/fsl.hpp
+# path: /home/user/JSS-2026-Example/software/mcfm/src/W2jet/fsl.hpp
 # lines: 1-13
 0001: #ifndef FSL_H
 0002: #define FSL_H
@@ -11100,7 +11100,7 @@ ok = true
 duration_ms = 1.567
 output_chars = 911
 output_preview = '''
-# path: /home/adubey/JSS-2026-Example/software/mcfm/src/W2jet/fsl_fi.F90
+# path: /home/user/JSS-2026-Example/software/mcfm/src/W2jet/fsl_fi.F90
 # lines: 1-22
 0001: function fsl(j1,j2,j3,j4,j5,j6,za,zb) result(res)
 0002:   use, intrinsic :: iso_c_binding
@@ -11186,7 +11186,7 @@ ok = true
 duration_ms = 1.939
 output_chars = 2221
 output_preview = '''
-# path: /home/adubey/JSS-2026-Example/dev/tmp/drafts/W2jet/fsc.scribe
+# path: /home/user/JSS-2026-Example/dev/tmp/drafts/W2jet/fsc.scribe
 # lines: 1-49
 0001: scribe-prompt: Add an extern "C" <name>_wrapper; see the seed examples for FArray/scalar handling.
 0002: scribe-prompt: A variable used as a function is an external or statement function.
@@ -11212,7 +11212,7 @@ ok = true
 duration_ms = 1.732
 output_chars = 2351
 output_preview = '''
-# path: /home/adubey/JSS-2026-Example/dev/tmp/drafts/W2jet/fcc.scribe
+# path: /home/user/JSS-2026-Example/dev/tmp/drafts/W2jet/fcc.scribe
 # lines: 1-53
 0001: scribe-prompt: Add an extern "C" <name>_wrapper; see the seed examples for FArray/scalar handling.
 0002: scribe-prompt: A variable used as a function is an external or statement function.
@@ -11803,7 +11803,7 @@ ok = true
 duration_ms = 1.721
 output_chars = 2259
 output_preview = '''
-# path: /home/adubey/JSS-2026-Example/software/mcfm/src/Need/Need.hpp
+# path: /home/user/JSS-2026-Example/software/mcfm/src/Need/Need.hpp
 # lines: 1-46
 0001: #ifndef NEED_H
 0002: #define NEED_H
@@ -12018,7 +12018,7 @@ ok = true
 duration_ms = 1.619
 output_chars = 578
 output_preview = '''
-# path: /home/adubey/JSS-2026-Example/software/mcfm/src/Mods/heldefs_mod.hpp
+# path: /home/user/JSS-2026-Example/software/mcfm/src/Mods/heldefs_mod.hpp
 # lines: 1-19
 0001: #ifndef HELDEFS_MOD
 0002: #define HELDEFS_MOD

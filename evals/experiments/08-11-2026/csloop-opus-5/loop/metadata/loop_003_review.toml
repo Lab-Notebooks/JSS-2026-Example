@@ -2,8 +2,8 @@ run_id = "20260811-223522-f10bf0"
 loop_index = 3
 phase = "review"
 model = "anthropic-claude-opus-5"
-task_file = "/home/akash/Desktop/Akash/Projects/JSS-Paper-Example/dev/transformations/mcfm-translate/loop.toml"
-workdir = "/home/akash/Desktop/Akash/Projects/JSS-Paper-Example"
+task_file = "/home/user/JSS-2026-Example/dev/transformations/mcfm-translate/loop.toml"
+workdir = "/home/user/JSS-2026-Example"
 stop_reason = "final_text"
 final_text_present = true
 iterations = 7
@@ -13,21 +13,21 @@ created_at = "2026-08-12T04:01:42.740617+00:00"
 [[tools]]
 name = "read"
 ok = true
-output_preview = "# path: /home/akash/Desktop/Akash/Projects/JSS-Paper-Example/dev/transformations/mcfm-translate/loop.toml\n# lines: 1-18\n0001: # CodeScribe loop for Fortran -> C++.\n0002: #\n0003: # Run from the project root:\n0004: #   code-scribe loop -p dev/transformations/mcfm-translate/loop.toml -m <model>\n0005: \n0006: [tools]\n0007: bash = [\"jobrunner\", \"python3\"]\n0008: \n0009: [[chat.user]]\n0010: content = '''\n0011: Each round, follow the round algorithm in dev/transformations/mcfm-translate/current_plan.md an"
+output_preview = "# path: /home/user/JSS-2026-Example/dev/transformations/mcfm-translate/loop.toml\n# lines: 1-18\n0001: # CodeScribe loop for Fortran -> C++.\n0002: #\n0003: # Run from the project root:\n0004: #   code-scribe loop -p dev/transformations/mcfm-translate/loop.toml -m <model>\n0005: \n0006: [tools]\n0007: bash = [\"jobrunner\", \"python3\"]\n0008: \n0009: [[chat.user]]\n0010: content = '''\n0011: Each round, follow the round algorithm in dev/transformations/mcfm-translate/current_plan.md an"
 
 [tools.args]
 path = "dev/transformations/mcfm-translate/loop.toml"
 [[tools]]
 name = "read"
 ok = true
-output_preview = "# path: /home/akash/Desktop/Akash/Projects/JSS-Paper-Example/dev/transformations/mcfm-translate/agent_log.md\n# lines: 1-62\n0001: # mcfm-translate — agent log\n0002: \n0003: Worklist for the Fortran → C++ pass. Statuses follow `desired_spec.md` (`VERIFIED` /\n0004: `TRANSLATED` / `FAILED`).\n0005: \n0006: ## Ready set snapshot (latest refresh)\n0007: \n0008: `python3 dev/workflow.py refresh` → 526 source files, 86 translated, 440 untranslated,\n0009: 225 ready leaves (deps = 0, blind = 0).\n0010: \n0011: #"
+output_preview = "# path: /home/user/JSS-2026-Example/dev/transformations/mcfm-translate/agent_log.md\n# lines: 1-62\n0001: # mcfm-translate — agent log\n0002: \n0003: Worklist for the Fortran → C++ pass. Statuses follow `desired_spec.md` (`VERIFIED` /\n0004: `TRANSLATED` / `FAILED`).\n0005: \n0006: ## Ready set snapshot (latest refresh)\n0007: \n0008: `python3 dev/workflow.py refresh` → 526 source files, 86 translated, 440 untranslated,\n0009: 225 ready leaves (deps = 0, blind = 0).\n0010: \n0011: #"
 
 [tools.args]
 path = "dev/transformations/mcfm-translate/agent_log.md"
 [[tools]]
 name = "read"
 ok = true
-output_preview = "# path: /home/akash/Desktop/Akash/Projects/JSS-Paper-Example/dev/transformations/mcfm-translate/current_plan.md\n# lines: 1-182\n0001: # Fortran → C++ plan\n0002: \n0003: This file says how to run step 1. The rewrite rules and correctness bar are in\n0004: `desired_spec.md`.\n0005: \n0006: > This Plan is the policy: it selects and orders the work over the ready set (see *When to\n0007: > stop*). The correctness contract — objective `f`, invariants `I`, oracle `V`, and status set\n0008: > `Σ` — lives in `"
+output_preview = "# path: /home/user/JSS-2026-Example/dev/transformations/mcfm-translate/current_plan.md\n# lines: 1-182\n0001: # Fortran → C++ plan\n0002: \n0003: This file says how to run step 1. The rewrite rules and correctness bar are in\n0004: `desired_spec.md`.\n0005: \n0006: > This Plan is the policy: it selects and orders the work over the ready set (see *When to\n0007: > stop*). The correctness contract — objective `f`, invariants `I`, oracle `V`, and status set\n0008: > `Σ` — lives in `"
 
 [tools.args]
 path = "dev/transformations/mcfm-translate/current_plan.md"
@@ -48,7 +48,7 @@ command = "tail -5 tests/mcfm/job.output; grep -c PASSED tests/mcfm/job.output"
 [[tools]]
 name = "bash"
 ok = true
-output_preview = "exit_code: 0\nSTDOUT:\ntotal 168\ndrwxrwxr-x 3 akash akash   4096 Aug 11 23:00 .\ndrwxrwxr-x 4 akash akash   4096 Aug 11 22:35 ..\n-rw-rw-r-- 1 akash akash 100579 Aug 11 23:00 author.toml\ndrwxrwxr-x 2 akash akash   4096 Aug 11 23:00 metadata\n-rw-rw-r-- 1 akash akash   2788 Aug 11 22:52 review_output.toml\n-rw-rw-r-- 1 akash akash  33548 Aug 11 23:00 review.toml\n-rw-rw-r-- 1 akash akash    498 Aug 11 23:00 run.toml\n-rw-rw-r-- 1 akash akash    291 Aug 11 23:00 state.toml\n\nSTDERR:\n"
+output_preview = "exit_code: 0\nSTDOUT:\ntotal 168\ndrwxrwxr-x 3 user user   4096 Aug 11 23:00 .\ndrwxrwxr-x 4 user user   4096 Aug 11 22:35 ..\n-rw-rw-r-- 1 user user 100579 Aug 11 23:00 author.toml\ndrwxrwxr-x 2 user user   4096 Aug 11 23:00 metadata\n-rw-rw-r-- 1 user user   2788 Aug 11 22:52 review_output.toml\n-rw-rw-r-- 1 user user  33548 Aug 11 23:00 review.toml\n-rw-rw-r-- 1 user user    498 Aug 11 23:00 run.toml\n-rw-rw-r-- 1 user user    291 Aug 11 23:00 state.toml\n\nSTDERR:\n"
 
 [tools.args]
 command = "ls -la .codescribe/loop"
@@ -76,7 +76,7 @@ command = "grep -n \"W2jet\" software/mcfm/src/W2jet/CMakeLists.txt"
 [[tools]]
 name = "read"
 ok = true
-output_preview = "# path: /home/akash/Desktop/Akash/Projects/JSS-Paper-Example/software/mcfm/src/W2jet/CMakeLists.txt\n# lines: 1-79\n0001: target_sources(objlib PRIVATE\n0002: aqqb_zbb.f\n0003: atree.cpp\n0004: atree_fi.F90\n0005: a61LLL.f\n0006: a61LRL.f\n0007: a61g.f\n0008: atrLLL.cpp\n0009: atrLLL_fi.F90\n0010: atrLRL.cpp\n0011: atrLRL_fi.F90\n0012: a6g.f\n0013: a6treeg.f\n0014: a6.f\n0015: a61.f\n0016: a62.f\n0017: a6routine.f\n0018: Acalc.f\n0019: A6axBDK.f\n0020: A6texact.cpp\n0021: A6texact_fi.F90\n0022: BDKqqbggAxAmp.f\n0023: f"
+output_preview = "# path: /home/user/JSS-2026-Example/software/mcfm/src/W2jet/CMakeLists.txt\n# lines: 1-79\n0001: target_sources(objlib PRIVATE\n0002: aqqb_zbb.f\n0003: atree.cpp\n0004: atree_fi.F90\n0005: a61LLL.f\n0006: a61LRL.f\n0007: a61g.f\n0008: atrLLL.cpp\n0009: atrLLL_fi.F90\n0010: atrLRL.cpp\n0011: atrLRL_fi.F90\n0012: a6g.f\n0013: a6treeg.f\n0014: a6.f\n0015: a61.f\n0016: a62.f\n0017: a6routine.f\n0018: Acalc.f\n0019: A6axBDK.f\n0020: A6texact.cpp\n0021: A6texact_fi.F90\n0022: BDKqqbggAxAmp.f\n0023: f"
 
 [tools.args]
 path = "software/mcfm/src/W2jet/CMakeLists.txt"
@@ -97,14 +97,14 @@ command = "grep -n \"atrLLL\\|atrLRL\\|vv.cpp\\|atree\\|A6texact\" .codescribe/l
 [[tools]]
 name = "bash"
 ok = true
-output_preview = "exit_code: 0\nSTDOUT:\n9:02.644479+00:00\"\n\n[[event]]\nevent = \"tool_end\"\nrun_id = \"20260811-225251-0c6a67\"\niteration = 27\ntool = \"edit\"\nok = true\nduration_ms = 0.638\noutput_chars = 868\noutput_preview = '''\n{\n  \"ok\": true,\n  \"path\": \"/home/akash/Desktop/Akash/Projects/JSS-Paper-Example/software/mcfm/src/W2jet/atrLRL.cpp\",\n  \"applied\": 1,\n  \"replacements\": [\n    {\n      \"index\": 0,\n      \"match_count\": 1,\n      \"old_len\": 102,\n      \"new_len\": 103,\n      \"before_snippet\": \"…r: GPL-3.0-or-later\\n//  C"
+output_preview = "exit_code: 0\nSTDOUT:\n9:02.644479+00:00\"\n\n[[event]]\nevent = \"tool_end\"\nrun_id = \"20260811-225251-0c6a67\"\niteration = 27\ntool = \"edit\"\nok = true\nduration_ms = 0.638\noutput_chars = 868\noutput_preview = '''\n{\n  \"ok\": true,\n  \"path\": \"/home/user/JSS-2026-Example/software/mcfm/src/W2jet/atrLRL.cpp\",\n  \"applied\": 1,\n  \"replacements\": [\n    {\n      \"index\": 0,\n      \"match_count\": 1,\n      \"old_len\": 102,\n      \"new_len\": 103,\n      \"before_snippet\": \"…r: GPL-3.0-or-later\\n//  C"
 
 [tools.args]
 command = "tail -c 6000 .codescribe/loop/author.toml"
 [[tools]]
 name = "write"
 ok = true
-output_preview = "Wrote /home/akash/Desktop/Akash/Projects/JSS-Paper-Example/.codescribe/loop/review_output.toml (3191 bytes)"
+output_preview = "Wrote /home/user/JSS-2026-Example/.codescribe/loop/review_output.toml (3191 bytes)"
 
 [tools.args]
 path = ".codescribe/loop/review_output.toml"

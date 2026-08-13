@@ -1,14 +1,14 @@
 ---------------------------------------------------------------------------------------
 Lab-notebook environment:
-  PROJECT_HOME=/home/adubey/JSS-2026-Example
-  SITE_HOME=/home/adubey/JSS-2026-Example/sites/supercomp01a
-  MCFM_HOME=/home/adubey/JSS-2026-Example/software/mcfm
-  PEPPER_HOME=/home/adubey/JSS-2026-Example/software/pepper
-  QCDLOOP_HOME=/home/adubey/JSS-2026-Example/software/qcdloop
+  PROJECT_HOME=/home/user/JSS-2026-Example
+  SITE_HOME=/home/user/JSS-2026-Example/sites/supercomp01a
+  MCFM_HOME=/home/user/JSS-2026-Example/software/mcfm
+  PEPPER_HOME=/home/user/JSS-2026-Example/software/pepper
+  QCDLOOP_HOME=/home/user/JSS-2026-Example/software/qcdloop
 ---------------------------------------------------------------------------------------
 -- Configuring done (0.1s)
 -- Generating done (0.3s)
--- Build files have been written to: /home/adubey/JSS-2026-Example/software/mcfm/Bin
+-- Build files have been written to: /home/user/JSS-2026-Example/software/mcfm/Bin
 [  1%] Creating directories for 'qcdloop'
 [  1%] Performing download step for 'qcdloop'
 [  1%] No update step for 'qcdloop'
@@ -16,7 +16,7 @@ Lab-notebook environment:
 [  1%] Performing configure step for 'qcdloop'
 -- Configuring done (0.0s)
 -- Generating done (0.0s)
--- Build files have been written to: /home/adubey/JSS-2026-Example/software/mcfm/Bin/lib/qcdloop-2.0.5
+-- Build files have been written to: /home/user/JSS-2026-Example/software/mcfm/Bin/lib/qcdloop-2.0.5
 [  1%] Performing build step for 'qcdloop'
 [  8%] Building CXX object CMakeFiles/objlib.dir/src/box.cc.o
 [ 16%] Building CXX object CMakeFiles/objlib.dir/src/bubble.cc.o
@@ -39,8 +39,8 @@ Lab-notebook environment:
 [100%] Built target qcdloop_static
 Install the project...
 -- Install configuration: "RelWithDebInfo"
--- Installing: /home/adubey/JSS-2026-Example/software/mcfm/Bin/local/lib/libqcdloop.so
--- Installing: /home/adubey/JSS-2026-Example/software/mcfm/Bin/local/lib/libqcdloop.a
+-- Installing: /home/user/JSS-2026-Example/software/mcfm/Bin/local/lib/libqcdloop.so
+-- Installing: /home/user/JSS-2026-Example/software/mcfm/Bin/local/lib/libqcdloop.a
 [  2%] Completed 'qcdloop'
 [  2%] Built target qcdloop
 [  2%] Building Fortran object CMakeFiles/objlib.dir/src/Mods/Cabibbo_mod.f90.o
@@ -538,116 +538,116 @@ Install the project...
 [100%] Built target test
 Install the project...
 -- Install configuration: "RelWithDebInfo"
--- Up-to-date: /home/adubey/JSS-2026-Example/software/mcfm/Bin/params.lh
--- Installing: /home/adubey/JSS-2026-Example/software/mcfm/install/lib/libmcfm.so
--- Installing: /home/adubey/JSS-2026-Example/software/mcfm/install/include/
--- Installing: /home/adubey/JSS-2026-Example/software/mcfm/install/include//FArray.hpp
--- Installing: /home/adubey/JSS-2026-Example/software/mcfm/install/include//MCFM
--- Installing: /home/adubey/JSS-2026-Example/software/mcfm/install/include//MCFM/CXX_Interface.h
--- Installing: /home/adubey/JSS-2026-Example/software/mcfm/install/include//MCFM/CXX_Wrapper.h
--- Installing: /home/adubey/JSS-2026-Example/software/mcfm/install/include//MCFM/Flavor_Map.h
--- Installing: /home/adubey/JSS-2026-Example/software/mcfm/install/include//cplx.h
--- Installing: /home/adubey/JSS-2026-Example/software/mcfm/install/include//deprecated
--- Up-to-date: /home/adubey/JSS-2026-Example/software/mcfm/install/include/
--- Installing: /home/adubey/JSS-2026-Example/software/mcfm/install/include//Cabibbo_mod.hpp
--- Installing: /home/adubey/JSS-2026-Example/software/mcfm/install/include//ZZclabels_mod.hpp
--- Installing: /home/adubey/JSS-2026-Example/software/mcfm/install/include//ZZdlabels_mod.hpp
--- Installing: /home/adubey/JSS-2026-Example/software/mcfm/install/include//b0_mod.hpp
--- Installing: /home/adubey/JSS-2026-Example/software/mcfm/install/include//blabels_mod.hpp
--- Installing: /home/adubey/JSS-2026-Example/software/mcfm/install/include//blha_mod.hpp
--- Installing: /home/adubey/JSS-2026-Example/software/mcfm/install/include//breit_mod.hpp
--- Installing: /home/adubey/JSS-2026-Example/software/mcfm/install/include//ckm1_mod.hpp
--- Installing: /home/adubey/JSS-2026-Example/software/mcfm/install/include//ckm_mod.hpp
--- Installing: /home/adubey/JSS-2026-Example/software/mcfm/install/include//constants_mod.hpp
--- Installing: /home/adubey/JSS-2026-Example/software/mcfm/install/include//couple_mod.hpp
--- Up-to-date: /home/adubey/JSS-2026-Example/software/mcfm/install/include//deprecated
--- Installing: /home/adubey/JSS-2026-Example/software/mcfm/install/include//docheck_mod.hpp
--- Installing: /home/adubey/JSS-2026-Example/software/mcfm/install/include//epinv2_mod.hpp
--- Installing: /home/adubey/JSS-2026-Example/software/mcfm/install/include//epinv_mod.hpp
--- Installing: /home/adubey/JSS-2026-Example/software/mcfm/install/include//ewcharge_mod.hpp
--- Installing: /home/adubey/JSS-2026-Example/software/mcfm/install/include//ewcouple_mod.hpp
--- Installing: /home/adubey/JSS-2026-Example/software/mcfm/install/include//ewinput_mod.hpp
--- Installing: /home/adubey/JSS-2026-Example/software/mcfm/install/include//facscale_mod.hpp
--- Installing: /home/adubey/JSS-2026-Example/software/mcfm/install/include//first_mod.hpp
--- Installing: /home/adubey/JSS-2026-Example/software/mcfm/install/include//flags_mod.hpp
--- Installing: /home/adubey/JSS-2026-Example/software/mcfm/install/include//ggZZ_mod.hpp
--- Installing: /home/adubey/JSS-2026-Example/software/mcfm/install/include//ggZZcomputemp_mod.hpp
--- Installing: /home/adubey/JSS-2026-Example/software/mcfm/install/include//ggZZintegrals_mod.hpp
--- Installing: /home/adubey/JSS-2026-Example/software/mcfm/install/include//hdecaymode_mod.hpp
--- Installing: /home/adubey/JSS-2026-Example/software/mcfm/install/include//heldefs_mod.hpp
--- Installing: /home/adubey/JSS-2026-Example/software/mcfm/install/include//interference_mod.hpp
--- Installing: /home/adubey/JSS-2026-Example/software/mcfm/install/include//kpart_mod.hpp
--- Installing: /home/adubey/JSS-2026-Example/software/mcfm/install/include//kprocess_mod.hpp
--- Installing: /home/adubey/JSS-2026-Example/software/mcfm/install/include//lc_mod.hpp
--- Installing: /home/adubey/JSS-2026-Example/software/mcfm/install/include//limits_mod.hpp
--- Installing: /home/adubey/JSS-2026-Example/software/mcfm/install/include//masses_mod.hpp
--- Installing: /home/adubey/JSS-2026-Example/software/mcfm/install/include//maxd_mod.hpp
--- Installing: /home/adubey/JSS-2026-Example/software/mcfm/install/include//mmsq_cs_mod.hpp
--- Installing: /home/adubey/JSS-2026-Example/software/mcfm/install/include//mpicommon_mod.hpp
--- Installing: /home/adubey/JSS-2026-Example/software/mcfm/install/include//mqq_mod.hpp
--- Installing: /home/adubey/JSS-2026-Example/software/mcfm/install/include//msq_cs_mod.hpp
--- Installing: /home/adubey/JSS-2026-Example/software/mcfm/install/include//msq_struc_mod.hpp
--- Installing: /home/adubey/JSS-2026-Example/software/mcfm/install/include//mxdim_mod.hpp
--- Installing: /home/adubey/JSS-2026-Example/software/mcfm/install/include//mxpart_mod.hpp
--- Installing: /home/adubey/JSS-2026-Example/software/mcfm/install/include//nf_mod.hpp
--- Installing: /home/adubey/JSS-2026-Example/software/mcfm/install/include//nflav_mod.hpp
--- Installing: /home/adubey/JSS-2026-Example/software/mcfm/install/include//nlooprun_mod.hpp
--- Installing: /home/adubey/JSS-2026-Example/software/mcfm/install/include//nodecay_mod.hpp
--- Installing: /home/adubey/JSS-2026-Example/software/mcfm/install/include//noglue_mod.hpp
--- Installing: /home/adubey/JSS-2026-Example/software/mcfm/install/include//nplot_mod.hpp
--- Installing: /home/adubey/JSS-2026-Example/software/mcfm/install/include//nproc_mod.hpp
--- Installing: /home/adubey/JSS-2026-Example/software/mcfm/install/include//nqcdjets_mod.hpp
--- Installing: /home/adubey/JSS-2026-Example/software/mcfm/install/include//nwz_mod.hpp
--- Installing: /home/adubey/JSS-2026-Example/software/mcfm/install/include//part_mod.hpp
--- Installing: /home/adubey/JSS-2026-Example/software/mcfm/install/include//plabel_mod.hpp
--- Installing: /home/adubey/JSS-2026-Example/software/mcfm/install/include//ppmax_mod.hpp
--- Installing: /home/adubey/JSS-2026-Example/software/mcfm/install/include//process_mod.hpp
--- Installing: /home/adubey/JSS-2026-Example/software/mcfm/install/include//qcdcouple_mod.hpp
--- Installing: /home/adubey/JSS-2026-Example/software/mcfm/install/include//qqbggintnames_mod.hpp
--- Installing: /home/adubey/JSS-2026-Example/software/mcfm/install/include//removebr_mod.hpp
--- Installing: /home/adubey/JSS-2026-Example/software/mcfm/install/include//scalarselect_mod.hpp
--- Installing: /home/adubey/JSS-2026-Example/software/mcfm/install/include//scale_mod.hpp
--- Installing: /home/adubey/JSS-2026-Example/software/mcfm/install/include//scheme_mod.hpp
--- Installing: /home/adubey/JSS-2026-Example/software/mcfm/install/include//sprods_com_mod.hpp
--- Installing: /home/adubey/JSS-2026-Example/software/mcfm/install/include//sprods_decl_mod.hpp
--- Installing: /home/adubey/JSS-2026-Example/software/mcfm/install/include//toploops_mod.hpp
--- Installing: /home/adubey/JSS-2026-Example/software/mcfm/install/include//verbose_mod.hpp
--- Installing: /home/adubey/JSS-2026-Example/software/mcfm/install/include//virt5ax_mod.hpp
--- Installing: /home/adubey/JSS-2026-Example/software/mcfm/install/include//yukawas_mod.hpp
--- Installing: /home/adubey/JSS-2026-Example/software/mcfm/install/include//zcouple_cms_mod.hpp
--- Installing: /home/adubey/JSS-2026-Example/software/mcfm/install/include//zcouple_mod.hpp
--- Installing: /home/adubey/JSS-2026-Example/software/mcfm/install/include//zerowidth_mod.hpp
--- Installing: /home/adubey/JSS-2026-Example/software/mcfm/install/include//zeta_mod.hpp
--- Installing: /home/adubey/JSS-2026-Example/software/mcfm/install/include//zprods_com_mod.hpp
--- Installing: /home/adubey/JSS-2026-Example/software/mcfm/install/include//zprods_decl_mod.hpp
--- Up-to-date: /home/adubey/JSS-2026-Example/software/mcfm/install/include/
--- Installing: /home/adubey/JSS-2026-Example/software/mcfm/install/include//Need.hpp
--- Up-to-date: /home/adubey/JSS-2026-Example/software/mcfm/install/include//deprecated
--- Up-to-date: /home/adubey/JSS-2026-Example/software/mcfm/install/include/
--- Installing: /home/adubey/JSS-2026-Example/software/mcfm/install/include//Loop.hpp
--- Up-to-date: /home/adubey/JSS-2026-Example/software/mcfm/install/include//deprecated
--- Installing: /home/adubey/JSS-2026-Example/software/mcfm/install/include//working
--- Up-to-date: /home/adubey/JSS-2026-Example/software/mcfm/install/include/
--- Up-to-date: /home/adubey/JSS-2026-Example/software/mcfm/install/include//deprecated
--- Installing: /home/adubey/JSS-2026-Example/software/mcfm/install/include//qqb_z.hpp
--- Up-to-date: /home/adubey/JSS-2026-Example/software/mcfm/install/include/
--- Up-to-date: /home/adubey/JSS-2026-Example/software/mcfm/install/include//deprecated
--- Installing: /home/adubey/JSS-2026-Example/software/mcfm/install/include//qqb_w.hpp
--- Up-to-date: /home/adubey/JSS-2026-Example/software/mcfm/install/include/
--- Installing: /home/adubey/JSS-2026-Example/software/mcfm/install/include//Z1jet.hpp
--- Up-to-date: /home/adubey/JSS-2026-Example/software/mcfm/install/include//deprecated
--- Up-to-date: /home/adubey/JSS-2026-Example/software/mcfm/install/include//working
--- Up-to-date: /home/adubey/JSS-2026-Example/software/mcfm/install/include/
--- Installing: /home/adubey/JSS-2026-Example/software/mcfm/install/include//W1jet.hpp
--- Up-to-date: /home/adubey/JSS-2026-Example/software/mcfm/install/include//deprecated
--- Installing: /home/adubey/JSS-2026-Example/software/mcfm/install/include//gpt-4o-conversions
--- Up-to-date: /home/adubey/JSS-2026-Example/software/mcfm/install/include//working
--- Up-to-date: /home/adubey/JSS-2026-Example/software/mcfm/install/include/
--- Up-to-date: /home/adubey/JSS-2026-Example/software/mcfm/install/include//deprecated
--- Installing: /home/adubey/JSS-2026-Example/software/mcfm/install/include//gg_h.hpp
--- Up-to-date: /home/adubey/JSS-2026-Example/software/mcfm/install/include/
--- Installing: /home/adubey/JSS-2026-Example/software/mcfm/install/include//SpecialFunctions.hpp
--- Up-to-date: /home/adubey/JSS-2026-Example/software/mcfm/install/include//deprecated
+-- Up-to-date: /home/user/JSS-2026-Example/software/mcfm/Bin/params.lh
+-- Installing: /home/user/JSS-2026-Example/software/mcfm/install/lib/libmcfm.so
+-- Installing: /home/user/JSS-2026-Example/software/mcfm/install/include/
+-- Installing: /home/user/JSS-2026-Example/software/mcfm/install/include//FArray.hpp
+-- Installing: /home/user/JSS-2026-Example/software/mcfm/install/include//MCFM
+-- Installing: /home/user/JSS-2026-Example/software/mcfm/install/include//MCFM/CXX_Interface.h
+-- Installing: /home/user/JSS-2026-Example/software/mcfm/install/include//MCFM/CXX_Wrapper.h
+-- Installing: /home/user/JSS-2026-Example/software/mcfm/install/include//MCFM/Flavor_Map.h
+-- Installing: /home/user/JSS-2026-Example/software/mcfm/install/include//cplx.h
+-- Installing: /home/user/JSS-2026-Example/software/mcfm/install/include//deprecated
+-- Up-to-date: /home/user/JSS-2026-Example/software/mcfm/install/include/
+-- Installing: /home/user/JSS-2026-Example/software/mcfm/install/include//Cabibbo_mod.hpp
+-- Installing: /home/user/JSS-2026-Example/software/mcfm/install/include//ZZclabels_mod.hpp
+-- Installing: /home/user/JSS-2026-Example/software/mcfm/install/include//ZZdlabels_mod.hpp
+-- Installing: /home/user/JSS-2026-Example/software/mcfm/install/include//b0_mod.hpp
+-- Installing: /home/user/JSS-2026-Example/software/mcfm/install/include//blabels_mod.hpp
+-- Installing: /home/user/JSS-2026-Example/software/mcfm/install/include//blha_mod.hpp
+-- Installing: /home/user/JSS-2026-Example/software/mcfm/install/include//breit_mod.hpp
+-- Installing: /home/user/JSS-2026-Example/software/mcfm/install/include//ckm1_mod.hpp
+-- Installing: /home/user/JSS-2026-Example/software/mcfm/install/include//ckm_mod.hpp
+-- Installing: /home/user/JSS-2026-Example/software/mcfm/install/include//constants_mod.hpp
+-- Installing: /home/user/JSS-2026-Example/software/mcfm/install/include//couple_mod.hpp
+-- Up-to-date: /home/user/JSS-2026-Example/software/mcfm/install/include//deprecated
+-- Installing: /home/user/JSS-2026-Example/software/mcfm/install/include//docheck_mod.hpp
+-- Installing: /home/user/JSS-2026-Example/software/mcfm/install/include//epinv2_mod.hpp
+-- Installing: /home/user/JSS-2026-Example/software/mcfm/install/include//epinv_mod.hpp
+-- Installing: /home/user/JSS-2026-Example/software/mcfm/install/include//ewcharge_mod.hpp
+-- Installing: /home/user/JSS-2026-Example/software/mcfm/install/include//ewcouple_mod.hpp
+-- Installing: /home/user/JSS-2026-Example/software/mcfm/install/include//ewinput_mod.hpp
+-- Installing: /home/user/JSS-2026-Example/software/mcfm/install/include//facscale_mod.hpp
+-- Installing: /home/user/JSS-2026-Example/software/mcfm/install/include//first_mod.hpp
+-- Installing: /home/user/JSS-2026-Example/software/mcfm/install/include//flags_mod.hpp
+-- Installing: /home/user/JSS-2026-Example/software/mcfm/install/include//ggZZ_mod.hpp
+-- Installing: /home/user/JSS-2026-Example/software/mcfm/install/include//ggZZcomputemp_mod.hpp
+-- Installing: /home/user/JSS-2026-Example/software/mcfm/install/include//ggZZintegrals_mod.hpp
+-- Installing: /home/user/JSS-2026-Example/software/mcfm/install/include//hdecaymode_mod.hpp
+-- Installing: /home/user/JSS-2026-Example/software/mcfm/install/include//heldefs_mod.hpp
+-- Installing: /home/user/JSS-2026-Example/software/mcfm/install/include//interference_mod.hpp
+-- Installing: /home/user/JSS-2026-Example/software/mcfm/install/include//kpart_mod.hpp
+-- Installing: /home/user/JSS-2026-Example/software/mcfm/install/include//kprocess_mod.hpp
+-- Installing: /home/user/JSS-2026-Example/software/mcfm/install/include//lc_mod.hpp
+-- Installing: /home/user/JSS-2026-Example/software/mcfm/install/include//limits_mod.hpp
+-- Installing: /home/user/JSS-2026-Example/software/mcfm/install/include//masses_mod.hpp
+-- Installing: /home/user/JSS-2026-Example/software/mcfm/install/include//maxd_mod.hpp
+-- Installing: /home/user/JSS-2026-Example/software/mcfm/install/include//mmsq_cs_mod.hpp
+-- Installing: /home/user/JSS-2026-Example/software/mcfm/install/include//mpicommon_mod.hpp
+-- Installing: /home/user/JSS-2026-Example/software/mcfm/install/include//mqq_mod.hpp
+-- Installing: /home/user/JSS-2026-Example/software/mcfm/install/include//msq_cs_mod.hpp
+-- Installing: /home/user/JSS-2026-Example/software/mcfm/install/include//msq_struc_mod.hpp
+-- Installing: /home/user/JSS-2026-Example/software/mcfm/install/include//mxdim_mod.hpp
+-- Installing: /home/user/JSS-2026-Example/software/mcfm/install/include//mxpart_mod.hpp
+-- Installing: /home/user/JSS-2026-Example/software/mcfm/install/include//nf_mod.hpp
+-- Installing: /home/user/JSS-2026-Example/software/mcfm/install/include//nflav_mod.hpp
+-- Installing: /home/user/JSS-2026-Example/software/mcfm/install/include//nlooprun_mod.hpp
+-- Installing: /home/user/JSS-2026-Example/software/mcfm/install/include//nodecay_mod.hpp
+-- Installing: /home/user/JSS-2026-Example/software/mcfm/install/include//noglue_mod.hpp
+-- Installing: /home/user/JSS-2026-Example/software/mcfm/install/include//nplot_mod.hpp
+-- Installing: /home/user/JSS-2026-Example/software/mcfm/install/include//nproc_mod.hpp
+-- Installing: /home/user/JSS-2026-Example/software/mcfm/install/include//nqcdjets_mod.hpp
+-- Installing: /home/user/JSS-2026-Example/software/mcfm/install/include//nwz_mod.hpp
+-- Installing: /home/user/JSS-2026-Example/software/mcfm/install/include//part_mod.hpp
+-- Installing: /home/user/JSS-2026-Example/software/mcfm/install/include//plabel_mod.hpp
+-- Installing: /home/user/JSS-2026-Example/software/mcfm/install/include//ppmax_mod.hpp
+-- Installing: /home/user/JSS-2026-Example/software/mcfm/install/include//process_mod.hpp
+-- Installing: /home/user/JSS-2026-Example/software/mcfm/install/include//qcdcouple_mod.hpp
+-- Installing: /home/user/JSS-2026-Example/software/mcfm/install/include//qqbggintnames_mod.hpp
+-- Installing: /home/user/JSS-2026-Example/software/mcfm/install/include//removebr_mod.hpp
+-- Installing: /home/user/JSS-2026-Example/software/mcfm/install/include//scalarselect_mod.hpp
+-- Installing: /home/user/JSS-2026-Example/software/mcfm/install/include//scale_mod.hpp
+-- Installing: /home/user/JSS-2026-Example/software/mcfm/install/include//scheme_mod.hpp
+-- Installing: /home/user/JSS-2026-Example/software/mcfm/install/include//sprods_com_mod.hpp
+-- Installing: /home/user/JSS-2026-Example/software/mcfm/install/include//sprods_decl_mod.hpp
+-- Installing: /home/user/JSS-2026-Example/software/mcfm/install/include//toploops_mod.hpp
+-- Installing: /home/user/JSS-2026-Example/software/mcfm/install/include//verbose_mod.hpp
+-- Installing: /home/user/JSS-2026-Example/software/mcfm/install/include//virt5ax_mod.hpp
+-- Installing: /home/user/JSS-2026-Example/software/mcfm/install/include//yukawas_mod.hpp
+-- Installing: /home/user/JSS-2026-Example/software/mcfm/install/include//zcouple_cms_mod.hpp
+-- Installing: /home/user/JSS-2026-Example/software/mcfm/install/include//zcouple_mod.hpp
+-- Installing: /home/user/JSS-2026-Example/software/mcfm/install/include//zerowidth_mod.hpp
+-- Installing: /home/user/JSS-2026-Example/software/mcfm/install/include//zeta_mod.hpp
+-- Installing: /home/user/JSS-2026-Example/software/mcfm/install/include//zprods_com_mod.hpp
+-- Installing: /home/user/JSS-2026-Example/software/mcfm/install/include//zprods_decl_mod.hpp
+-- Up-to-date: /home/user/JSS-2026-Example/software/mcfm/install/include/
+-- Installing: /home/user/JSS-2026-Example/software/mcfm/install/include//Need.hpp
+-- Up-to-date: /home/user/JSS-2026-Example/software/mcfm/install/include//deprecated
+-- Up-to-date: /home/user/JSS-2026-Example/software/mcfm/install/include/
+-- Installing: /home/user/JSS-2026-Example/software/mcfm/install/include//Loop.hpp
+-- Up-to-date: /home/user/JSS-2026-Example/software/mcfm/install/include//deprecated
+-- Installing: /home/user/JSS-2026-Example/software/mcfm/install/include//working
+-- Up-to-date: /home/user/JSS-2026-Example/software/mcfm/install/include/
+-- Up-to-date: /home/user/JSS-2026-Example/software/mcfm/install/include//deprecated
+-- Installing: /home/user/JSS-2026-Example/software/mcfm/install/include//qqb_z.hpp
+-- Up-to-date: /home/user/JSS-2026-Example/software/mcfm/install/include/
+-- Up-to-date: /home/user/JSS-2026-Example/software/mcfm/install/include//deprecated
+-- Installing: /home/user/JSS-2026-Example/software/mcfm/install/include//qqb_w.hpp
+-- Up-to-date: /home/user/JSS-2026-Example/software/mcfm/install/include/
+-- Installing: /home/user/JSS-2026-Example/software/mcfm/install/include//Z1jet.hpp
+-- Up-to-date: /home/user/JSS-2026-Example/software/mcfm/install/include//deprecated
+-- Up-to-date: /home/user/JSS-2026-Example/software/mcfm/install/include//working
+-- Up-to-date: /home/user/JSS-2026-Example/software/mcfm/install/include/
+-- Installing: /home/user/JSS-2026-Example/software/mcfm/install/include//W1jet.hpp
+-- Up-to-date: /home/user/JSS-2026-Example/software/mcfm/install/include//deprecated
+-- Installing: /home/user/JSS-2026-Example/software/mcfm/install/include//gpt-4o-conversions
+-- Up-to-date: /home/user/JSS-2026-Example/software/mcfm/install/include//working
+-- Up-to-date: /home/user/JSS-2026-Example/software/mcfm/install/include/
+-- Up-to-date: /home/user/JSS-2026-Example/software/mcfm/install/include//deprecated
+-- Installing: /home/user/JSS-2026-Example/software/mcfm/install/include//gg_h.hpp
+-- Up-to-date: /home/user/JSS-2026-Example/software/mcfm/install/include/
+-- Installing: /home/user/JSS-2026-Example/software/mcfm/install/include//SpecialFunctions.hpp
+-- Up-to-date: /home/user/JSS-2026-Example/software/mcfm/install/include//deprecated
 Benchmark with tolerance: 1.00000000000000003e-13
 [1m===> Z processes <===[0m
 d d~ e- e+: [1;32m PASSED [0m
