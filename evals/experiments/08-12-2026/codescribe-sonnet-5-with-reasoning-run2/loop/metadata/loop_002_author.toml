@@ -1,0 +1,445 @@
+run_id = "20260812-195540-b46a3b"
+loop_index = 2
+phase = "author"
+model = "anthropic-claude-sonnet-5"
+task_file = "/home/user/JSS-2026-Example/dev/transformations/mcfm-translate/loop.toml"
+workdir = "/home/user/JSS-2026-Example"
+stop_reason = "max_iterations"
+final_text_present = false
+iterations = 30
+duration_s = 325.875
+rejected_calls = []
+created_at = "2026-08-13T01:07:36.017206+00:00"
+[[tools]]
+name = "read"
+ok = true
+output_preview = "# path: /home/user/JSS-2026-Example/dev/transformations/mcfm-translate/current_plan.md\n# lines: 1-182\n0001: # Fortran → C++ plan\n0002: \n0003: This file says how to run step 1. The rewrite rules and correctness bar are in\n0004: `desired_spec.md`.\n0005: \n0006: > This Plan is the policy: it selects and orders the work over the ready set (see *When to\n0007: > stop*). The correctness contract — objective `f`, invariants `I`, oracle `V`, and status set\n0008: > `Σ` — lives in `"
+
+[tools.args]
+path = "dev/transformations/mcfm-translate/current_plan.md"
+[[tools]]
+name = "read"
+ok = true
+output_preview = "# path: /home/user/JSS-2026-Example/dev/transformations/mcfm-translate/desired_spec.md\n# lines: 1-144\n0001: # Fortran → C++: target output for one MCFM file\n0002: \n0003: This file defines the rewrite target and correctness bar for step 1. The workflow lives in\n0004: `current_plan.md`.\n0005: \n0006: Paths are written as `software/mcfm/src/...`.\n0007: \n0008: ---\n0009: \n0010: ## Contract\n0011: \n0012: This step advances by *settling* source files one at a time: each file is r"
+
+[tools.args]
+path = "dev/transformations/mcfm-translate/desired_spec.md"
+[[tools]]
+name = "read"
+ok = true
+output_preview = "# path: /home/user/JSS-2026-Example/dev/transformations/mcfm-translate/current_plan.md\n# lines: 164-182\n0164: ## When to stop\n0165: \n0166: The *ready set* is the set of ready, not-yet-settled files. Each settled file leaves the\n0167: ready set and the readiness graph is acyclic, so the pass terminates. Stop only when one of\n0168: these is true:\n0169: \n0170: - a completed group needs human approval before the next group can start\n0171: - the ready set is empty (no ready f"
+
+[tools.args]
+path = "dev/transformations/mcfm-translate/current_plan.md"
+offset = 164
+[[tools]]
+name = "read"
+ok = true
+output_preview = "# path: /home/user/JSS-2026-Example/dev/transformations/mcfm-translate/agent_log.md\n# lines: 1-36\n0001: # mcfm-translate agent log\n0002: \n0003: ## Group 1: BDK bit functions (M1bit1, M2bit1, M2bit2, M2bit3, M3bit1)\n0004: \n0005: Translated 5 short BDK helper functions (single complex-valued function each, no\n0006: cross-BDK-file calls) to `<base>.cpp` + `<base>_fi.f90`, sharing a new `BDK.hpp`\n0007: header. Each uses `sprods_com_mod::s` (already C++) and, for M1bit1, the\n"
+
+[tools.args]
+path = "dev/transformations/mcfm-translate/agent_log.md"
+[[tools]]
+name = "glob"
+ok = true
+output_preview = "software/mcfm/src/BDK/AAAREADME.txt\nsoftware/mcfm/src/BDK/BDK.hpp\nsoftware/mcfm/src/BDK/CMakeLists.txt\nsoftware/mcfm/src/BDK/FFMPcc.f\nsoftware/mcfm/src/BDK/FFMPsc.f\nsoftware/mcfm/src/BDK/FFPMcc.f\nsoftware/mcfm/src/BDK/FFPMccT.f\nsoftware/mcfm/src/BDK/FFPMccTtilde.f\nsoftware/mcfm/src/BDK/FFPMsc.f\nsoftware/mcfm/src/BDK/FFPMscT.f\nsoftware/mcfm/src/BDK/FFPMscTtilde.f\nsoftware/mcfm/src/BDK/FFPPcc.f\nsoftware/mcfm/src/BDK/FFPPsc.f\nsoftware/mcfm/src/BDK/FMPFcc.f\nsoftware/mcfm/src/BDK/FMPFsc.f\nsoftware/mc"
+
+[tools.args]
+pattern = "software/mcfm/src/BDK/*"
+[[tools]]
+name = "glob"
+ok = true
+output_preview = ""
+
+[tools.args]
+pattern = "software/mcfm/src/BDK/deprecated/*"
+[[tools]]
+name = "read"
+ok = true
+output_preview = "# path: /home/user/JSS-2026-Example/software/mcfm/src/BDK/CMakeLists.txt\n# lines: 1-50\n0001: target_sources(objlib PRIVATE\n0002: FFPPsc.f\n0003: M2abit2.f\n0004: FFMPsc.f\n0005: FFPMcc.f\n0006: FMPFsc.f\n0007: CMakeLists.txt\n0008: FFPMscT.f\n0009: M3bit4.f\n0010: FFPMsc.f\n0011: Master3a.f\n0012: FPFMccTtilde.f\n0013: FFMPcc.f\n0014: FFPPcc.f\n0015: M2abit1.f\n0016: AAAREADME.txt\n0017: Master2a.f\n0018: FMPFcc.f\n0019: M3bit3.f\n0020: FFPMscTtilde.f\n0021: M3abit1.f\n0022: FPFMsc.f\n0023: "
+
+[tools.args]
+path = "software/mcfm/src/BDK/CMakeLists.txt"
+[[tools]]
+name = "bash"
+ok = true
+output_preview = "exit_code: 0\nSTDOUT:\nsoftware/mcfm/src/BDK/deprecated\nsoftware/mcfm/src/BDK/deprecated/.keep\n\nSTDERR:\n"
+
+[tools.args]
+command = "find software/mcfm/src/BDK/deprecated -maxdepth 1"
+[[tools]]
+name = "bash"
+ok = false
+output_preview = "Error: blocked shell syntax detected"
+
+[tools.args]
+command = "git -C . status --porcelain | head -60"
+[[tools]]
+name = "bash"
+ok = false
+output_preview = "Error: blocked shell syntax detected"
+
+[tools.args]
+command = "git --version; git rev-parse --is-inside-work-tree"
+[[tools]]
+name = "bash"
+ok = true
+output_preview = "exit_code: 0\nSTDOUT:\n M software/mcfm\n?? .codescribe/\n?? dev/transformations/mcfm-translate/agent_log.md\n\nSTDERR:\n"
+
+[tools.args]
+command = "git status --porcelain"
+[[tools]]
+name = "bash"
+ok = true
+output_preview = "exit_code: 0\nSTDOUT:\ntrue\n\nSTDERR:\n"
+
+[tools.args]
+command = "git rev-parse --is-inside-work-tree"
+[[tools]]
+name = "bash"
+ok = true
+output_preview = "exit_code: 128\nSTDOUT:\n\nSTDERR:\nfatal: not under version control, source=software/mcfm/src/BDK/M1bit1.f, destination=software/mcfm/src/BDK/deprecated/M1bit1.f\n"
+
+[tools.args]
+command = "git mv software/mcfm/src/BDK/M1bit1.f software/mcfm/src/BDK/deprecated/M1bit1.f"
+[[tools]]
+name = "bash"
+ok = false
+output_preview = "Error: blocked shell syntax detected"
+
+[tools.args]
+command = "git -C software/mcfm status --porcelain | head -20"
+[[tools]]
+name = "bash"
+ok = true
+output_preview = "exit_code: 0\nSTDOUT:\ntrue\n\nSTDERR:\n"
+
+[tools.args]
+command = "git -C software/mcfm rev-parse --is-inside-work-tree"
+[[tools]]
+name = "bash"
+ok = true
+output_preview = "exit_code: 0\nSTDOUT:\n M src/BDK/CMakeLists.txt\n?? src/BDK/BDK.hpp\n?? src/BDK/M1bit1.cpp\n?? src/BDK/M1bit1_fi.f90\n?? src/BDK/M2bit1.cpp\n?? src/BDK/M2bit1_fi.f90\n?? src/BDK/M2bit2.cpp\n?? src/BDK/M2bit2_fi.f90\n?? src/BDK/M2bit3.cpp\n?? src/BDK/M2bit3_fi.f90\n?? src/BDK/M3bit1.cpp\n?? src/BDK/M3bit1_fi.f90\n?? src/BDK/deprecated/\n\nSTDERR:\n"
+
+[tools.args]
+command = "git -C software/mcfm status --porcelain"
+[[tools]]
+name = "bash"
+ok = true
+output_preview = "exit_code: 0\nSTDOUT:\n\nSTDERR:\n"
+
+[tools.args]
+command = "git -C software/mcfm mv src/BDK/M1bit1.f src/BDK/deprecated/M1bit1.f"
+[[tools]]
+name = "bash"
+ok = true
+output_preview = "exit_code: 0\nSTDOUT:\n\nSTDERR:\n"
+
+[tools.args]
+command = "git -C software/mcfm mv src/BDK/M2bit1.f src/BDK/deprecated/M2bit1.f"
+[[tools]]
+name = "bash"
+ok = true
+output_preview = "exit_code: 0\nSTDOUT:\n\nSTDERR:\n"
+
+[tools.args]
+command = "git -C software/mcfm mv src/BDK/M2bit2.f src/BDK/deprecated/M2bit2.f"
+[[tools]]
+name = "bash"
+ok = true
+output_preview = "exit_code: 0\nSTDOUT:\n\nSTDERR:\n"
+
+[tools.args]
+command = "git -C software/mcfm mv src/BDK/M2bit3.f src/BDK/deprecated/M2bit3.f"
+[[tools]]
+name = "bash"
+ok = true
+output_preview = "exit_code: 0\nSTDOUT:\n\nSTDERR:\n"
+
+[tools.args]
+command = "git -C software/mcfm mv src/BDK/M3bit1.f src/BDK/deprecated/M3bit1.f"
+[[tools]]
+name = "bash"
+ok = true
+output_preview = "exit_code: 0\nSTDOUT:\nx1b[95mROOT:x1b[0m /home/user/JSS-2026-Example\nx1b[95mNODE:x1b[0m <ROOT>/tests/mcfm\n\nx1b[95mSCRIPTS: x1b[0m\n    - <ROOT>/config.sh\n    - <ROOT>/environment.sh\n    - <ROOT>/tests/mcfm/test.sh\n\nx1b[95mEXECUTE:x1b[0m <ROOT>/tests/mcfm/job.submit\nin 1:14.5 \n\n/home/user/JSS-2026-Example/software/mcfm/src/BDK/M1bit1.cpp:1:10: fatal error: BDK.hpp: No such file or directory\n    1 | #include <BDK.hpp>\n      |          ^~~~~~~~~\ncompilation terminate"
+
+[tools.args]
+command = "jobrunner submit tests/mcfm"
+timeout = 1800
+[[tools]]
+name = "bash"
+ok = false
+output_preview = "Error: blocked shell syntax detected"
+
+[tools.args]
+command = "grep -rn \"include_directories\\|target_include_directories\" software/mcfm/src/CMakeLists.txt software/mcfm/CMakeLists.txt 2>/dev/null"
+[[tools]]
+name = "bash"
+ok = true
+output_preview = "exit_code: 0\nSTDOUT:\nsoftware/mcfm/src/CMakeLists.txt\nsoftware/mcfm/CMakeLists.txt\n\nSTDERR:\n"
+
+[tools.args]
+command = "find software/mcfm -maxdepth 2 -name \"CMakeLists.txt\""
+[[tools]]
+name = "bash"
+ok = true
+output_preview = "exit_code: 1\nSTDOUT:\n\nSTDERR:\n"
+
+[tools.args]
+command = "grep -n \"include_directories\" software/mcfm/src/CMakeLists.txt"
+[[tools]]
+name = "bash"
+ok = true
+output_preview = "exit_code: 0\nSTDOUT:\n97:target_include_directories(objlib PRIVATE src/Inc src/Mods src/Need src/loop src/Z src/W src/Z1jet src/W1jet lib/SpecialFunctions src/ggH .)\n116:    target_include_directories(libmcfm PUBLIC src/Inc src/Mods src/Need src/loop src/Z src/W src/Z1jet src/W1jet lib/SpecialFunctions src/ggH)\n120:    target_include_directories(test PRIVATE src/Inc src/Mods src/Need src/loop src/Z src/W src/Z1jet src/W1jet lib/SpecialFunctions src/ggH)\n126:      target_include_directories(oltest"
+
+[tools.args]
+command = "grep -n \"include_directories\" software/mcfm/CMakeLists.txt"
+[[tools]]
+name = "read"
+ok = true
+output_preview = "# path: /home/user/JSS-2026-Example/software/mcfm/CMakeLists.txt\n# lines: 85-144\n0085: if(${use_internal_lhapdf})\n0086:     set(use_external_lhapdf OFF BOOL)\n0087: else()\n0088:     set(use_external_lhapdf ON BOOL)\n0089: endif()\n0090: \n0091: add_compile_definitions(HAVE_LHAPDF=1)\n0092: \n0093: ### main MCFM code below\n0094: \n0095: add_library(objlib OBJECT)\n0096: set_property(TARGET objlib PROPERTY POSITION_INDEPENDENT_CODE ON)\n0097: target_include_directories(objlib PRIVA"
+
+[tools.args]
+path = "software/mcfm/CMakeLists.txt"
+offset = 85
+limit = 60
+[[tools]]
+name = "edit"
+ok = true
+output_preview = "{\n  \"ok\": true,\n  \"path\": \"/home/user/JSS-2026-Example/software/mcfm/CMakeLists.txt\",\n  \"applied\": 3,\n  \"replacements\": [\n    {\n      \"index\": 0,\n      \"match_count\": 1,\n      \"old_len\": 140,\n      \"new_len\": 148,\n      \"before_snippet\": \"…bjlib OBJECT)\\nset_property(TARGET objlib PROPERTY POSITION_INDEPENDENT_CODE ON)\\ntarget_include_directories(objlib PRIVATE src/Inc src/Mods src/Need src/loop src/Z src/W src/Z1jet src/W1jet lib/SpecialFunctions src/ggH .)\\n\\n## MCFM a"
+
+[tools.args]
+path = "software/mcfm/CMakeLists.txt"
+[[tools.args.edits]]
+oldText = "target_include_directories(objlib PRIVATE src/Inc src/Mods src/Need src/loop src/Z src/W src/Z1jet src/W1jet lib/SpecialFunctions src/ggH .)"
+newText = "target_include_directories(objlib PRIVATE src/Inc src/Mods src/Need src/loop src/Z src/W src/Z1jet src/W1jet src/BDK lib/SpecialFunctions src/ggH .)"
+
+[[tools.args.edits]]
+oldText = "    target_include_directories(libmcfm PUBLIC src/Inc src/Mods src/Need src/loop src/Z src/W src/Z1jet src/W1jet lib/SpecialFunctions src/ggH)"
+newText = "    target_include_directories(libmcfm PUBLIC src/Inc src/Mods src/Need src/loop src/Z src/W src/Z1jet src/W1jet src/BDK lib/SpecialFunctions src/ggH)"
+
+[[tools.args.edits]]
+oldText = "    target_include_directories(test PRIVATE src/Inc src/Mods src/Need src/loop src/Z src/W src/Z1jet src/W1jet lib/SpecialFunctions src/ggH)"
+newText = "    target_include_directories(test PRIVATE src/Inc src/Mods src/Need src/loop src/Z src/W src/Z1jet src/W1jet src/BDK lib/SpecialFunctions src/ggH)"
+
+[[tools]]
+name = "bash"
+ok = true
+output_preview = "exit_code: 0\nSTDOUT:\nx1b[95mROOT:x1b[0m /home/user/JSS-2026-Example\nx1b[95mNODE:x1b[0m <ROOT>/tests/mcfm\n\nx1b[95mSCRIPTS: x1b[0m\n    - <ROOT>/config.sh\n    - <ROOT>/environment.sh\n    - <ROOT>/tests/mcfm/test.sh\n\nx1b[95mEXECUTE:x1b[0m <ROOT>/tests/mcfm/job.submit\nin 1:30.6 \nx1b[92mSUCCESS x1b[0m\n\nx1b[95mOUTPUT:x1b[0m <ROOT>/tests/mcfm/job.output\n\nSTDERR:\n"
+
+[tools.args]
+command = "jobrunner submit tests/mcfm"
+timeout = 1800
+[[tools]]
+name = "bash"
+ok = true
+output_preview = "exit_code: 2\nSTDOUT:\n\nSTDERR:\nerror: set MCFM_HOME first (source environment.sh)\n"
+
+[tools.args]
+command = "python3 dev/workflow.py verify software/mcfm/src/BDK/M1bit1.cpp -- u d~ ve e+ g g"
+timeout = 1800
+[[tools]]
+name = "bash"
+ok = false
+output_preview = "Error: command not allowed: 'cat'"
+
+[tools.args]
+command = "cat environment.sh"
+[[tools]]
+name = "bash"
+ok = false
+output_preview = "Error: command not allowed: 'cat'"
+
+[tools.args]
+command = "cat config.sh"
+[[tools]]
+name = "read"
+ok = true
+output_preview = "# path: /home/user/JSS-2026-Example/environment.sh\n# lines: 1-41\n0001: # Shell configuration shared across the lab notebook.\n0002: #\n0003: # Sourcing this file exports the project paths every orchestrator, skill, and\n0004: # tool depends on. It resolves the project root from THIS script's own location\n0005: # (via BASH_SOURCE), not the current working directory, so\n0006: #   source /abs/path/to/environment.sh\n0007: # is correct from any cwd — including inside a subagent "
+
+[tools.args]
+path = "environment.sh"
+[[tools]]
+name = "bash"
+ok = false
+output_preview = "Error: command not allowed: 'MCFM_HOME=/home/user/JSS-2026-Example/software/mcfm'"
+
+[tools.args]
+command = "MCFM_HOME=/home/user/JSS-2026-Example/software/mcfm python3 dev/workflow.py verify software/mcfm/src/BDK/M1bit1.cpp -- u d~ ve e+ g g"
+timeout = 1800
+[[tools]]
+name = "bash"
+ok = true
+output_preview = "exit_code: 1\nSTDOUT:\n\nSTDERR:\n"
+
+[tools.args]
+command = "grep -n \"MCFM_HOME\" dev/workflow.py"
+[[tools]]
+name = "bash"
+ok = true
+output_preview = "exit_code: 0\nSTDOUT:\ndev/tools/cleanup/analyze_cleanup.py\ndev/tools/cleanup/__pycache__/analyze_cleanup.cpython-38.pyc\ndev/tools/closure/calltree_closure.py\ndev/tools/closure/__pycache__/calltree_closure.cpython-38.pyc\ndev/tools/kokkos/kokkosify.py\ndev/tools/kokkos/__pycache__/kokkosify.cpython-38.pyc\ndev/tools/index/build_roadmap.py\ndev/tools/index/__pycache__/build_roadmap.cpython-38.pyc\ndev/tools/coverage/coverage_check.py\ndev/tools/coverage/__pycache__/coverage_check.cpython-38.pyc\n\nSTDERR:\n"
+
+[tools.args]
+command = "grep -rln \"MCFM_HOME\" dev/"
+[[tools]]
+name = "bash"
+ok = false
+output_preview = "Error: blocked shell syntax detected"
+
+[tools.args]
+command = "grep -n \"MCFM\\|add_argument\\|def verify\\|environ\" dev/workflow.py"
+[[tools]]
+name = "read"
+ok = true
+output_preview = "# path: /home/user/JSS-2026-Example/dev/workflow.py\n# lines: 1-80\n0001: #!/usr/bin/env python3\n0002: \"\"\"Unified workflow CLI for dev tooling.\n0003: \n0004: Examples:\n0005:   python3 dev/workflow.py refresh\n0006:   python3 dev/workflow.py status\n0007:   python3 dev/workflow.py next mcfm-translate\n0008:   python3 dev/workflow.py gate mcfm-translate\n0009:   python3 dev/workflow.py approve mcfm-translate --latest-blocking\n0010:   python3 dev/workflow.py draft software/mcfm/sr"
+
+[tools.args]
+path = "dev/workflow.py"
+limit = 80
+[[tools]]
+name = "bash"
+ok = true
+output_preview = "exit_code: 0\nSTDOUT:\n228:def cmd_verify(args: argparse.Namespace) -> int:\n\nSTDERR:\n"
+
+[tools.args]
+command = "grep -n \"def cmd_verify\" dev/workflow.py"
+[[tools]]
+name = "bash"
+ok = true
+output_preview = "exit_code: 0\nSTDOUT:\n10:Needs `MCFM_HOME`. Exit: 0 covered, 1 not covered, 2 usage/setup error.\n46:    mcfm = os.environ.get(\"MCFM_HOME\") or die(\"set MCFM_HOME first (source environment.sh)\")\n\nSTDERR:\n"
+
+[tools.args]
+command = "grep -n \"MCFM_HOME\" dev/tools/coverage/coverage_check.py"
+[[tools]]
+name = "bash"
+ok = false
+output_preview = "Error: blocked shell syntax detected"
+
+[tools.args]
+command = "python3 -c \"\nimport os, subprocess, sys\nos.environ['MCFM_HOME'] = '/home/user/JSS-2026-Example/software/mcfm'\nos.environ['PROJECT_HOME'] = '/home/user/JSS-2026-Example'\nr = subprocess.run([sys.executable, 'dev/workflow.py', 'verify', 'software/mcfm/src/BDK/M1bit1.cpp', '--', 'u', 'd~', 've', 'e+', 'g', 'g'])\nsys.exit(r.returncode)\n\""
+timeout = 1800
+[[tools]]
+name = "write"
+ok = true
+output_preview = "Wrote /home/user/JSS-2026-Example/dev/tmp/run_verify.py (526 bytes)"
+
+[tools.args]
+path = "dev/tmp/run_verify.py"
+content = "import os\nimport subprocess\nimport sys\n\nos.environ[\"MCFM_HOME\"] = \"/home/user/JSS-2026-Example/software/mcfm\"\nos.environ[\"PROJECT_HOME\"] = \"/home/user/JSS-2026-Example\"\nos.environ[\"PEPPER_HOME\"] = \"/home/user/JSS-2026-Example/software/pepper\"\nos.environ[\"QCDLOOP_HOME\"] = \"/home/user/JSS-2026-Example/software/qcdloop\"\n\nargs = sys.argv[1:]\nr = subprocess.run([sys.executable, \"dev/workflow.py\"] + arg... [truncated, 526 chars total]"
+[[tools]]
+name = "bash"
+ok = true
+output_preview = "exit_code: 2\nSTDOUT:\n== coverage check: software/mcfm/src/BDK/M1bit1.cpp ==\nprocess : u d~ ve e+ g g\nfactor  : 1.5\n-- baseline build + test --\n-- scaling the marked output by 1.5 --\n\nSTDERR:\nerror: could not scale the marked line — is it a plain 'lhs = rhs;   // @coverage-probe' statement?\n"
+
+[tools.args]
+command = "python3 dev/tmp/run_verify.py verify software/mcfm/src/BDK/M1bit1.cpp -- u d~ ve e+ g g"
+timeout = 1800
+[[tools]]
+name = "read"
+ok = true
+output_preview = "# path: /home/user/JSS-2026-Example/software/mcfm/src/BDK/M1bit1.cpp\n# lines: 1-54\n0001: #include <BDK.hpp>\n0002: #include <W1jet.hpp>\n0003: #include <cmath>\n0004: #include <complex>\n0005: #include <mxpart_mod.hpp>\n0006: #include <sprods_com_mod.hpp>\n0007: #include <FArray.hpp>\n0008: \n0009: using namespace mxpart_mod;\n0010: using namespace sprods_com_mod;\n0011: \n0012: // Z. Bern, L. Dixon, D.A. Kosower, e-Print:hep-ph/9708239\n0013: // Eq 7.1\n0014: std::complex<double> M1"
+
+[tools.args]
+path = "software/mcfm/src/BDK/M1bit1.cpp"
+[[tools]]
+name = "read"
+ok = true
+output_preview = "# path: /home/user/JSS-2026-Example/software/mcfm/src/BDK/M2bit1.cpp\n# lines: 1-37\n0001: #include <BDK.hpp>\n0002: #include <complex>\n0003: #include <mxpart_mod.hpp>\n0004: #include <sprods_com_mod.hpp>\n0005: #include <FArray.hpp>\n0006: \n0007: using namespace mxpart_mod;\n0008: using namespace sprods_com_mod;\n0009: \n0010: // Z. Bern, L. Dixon, D.A. Kosower, e-Print:hep-ph/9708239\n0011: // Eq.7.3\n0012: std::complex<double> M2bit1(int j1, int j2, int j3, int j4, int j5, int j"
+
+[tools.args]
+path = "software/mcfm/src/BDK/M2bit1.cpp"
+[[tools]]
+name = "read"
+ok = true
+output_preview = "# path: /home/user/JSS-2026-Example/software/mcfm/src/BDK/M2bit2.cpp\n# lines: 1-35\n0001: #include <BDK.hpp>\n0002: #include <complex>\n0003: #include <mxpart_mod.hpp>\n0004: #include <sprods_com_mod.hpp>\n0005: #include <FArray.hpp>\n0006: \n0007: using namespace mxpart_mod;\n0008: using namespace sprods_com_mod;\n0009: \n0010: // Z. Bern, L. Dixon, D.A. Kosower, e-Print:hep-ph/9708239\n0011: // Eq.7.3\n0012: std::complex<double> M2bit2(int j1, int j2, int j3, int j4, int j5, int j"
+
+[tools.args]
+path = "software/mcfm/src/BDK/M2bit2.cpp"
+[[tools]]
+name = "read"
+ok = true
+output_preview = "# path: /home/user/JSS-2026-Example/software/mcfm/src/BDK/M2bit3.cpp\n# lines: 1-38\n0001: #include <BDK.hpp>\n0002: #include <complex>\n0003: #include <mxpart_mod.hpp>\n0004: #include <sprods_com_mod.hpp>\n0005: #include <FArray.hpp>\n0006: \n0007: using namespace mxpart_mod;\n0008: using namespace sprods_com_mod;\n0009: \n0010: // Z. Bern, L. Dixon, D.A. Kosower, e-Print:hep-ph/9708239\n0011: // Eq.7.3\n0012: std::complex<double> M2bit3(int j1, int j2, int j3, int j4, int j5, int j"
+
+[tools.args]
+path = "software/mcfm/src/BDK/M2bit3.cpp"
+[[tools]]
+name = "read"
+ok = true
+output_preview = "# path: /home/user/JSS-2026-Example/software/mcfm/src/BDK/M3bit1.cpp\n# lines: 1-35\n0001: #include <BDK.hpp>\n0002: #include <complex>\n0003: #include <mxpart_mod.hpp>\n0004: #include <sprods_com_mod.hpp>\n0005: #include <FArray.hpp>\n0006: \n0007: using namespace mxpart_mod;\n0008: using namespace sprods_com_mod;\n0009: \n0010: // Z. Bern, L. Dixon, D.A. Kosower, e-Print:hep-ph/9708239\n0011: // Eq.7.5\n0012: std::complex<double> M3bit1(int j1, int j2, int j3, int j4, int j5, int j"
+
+[tools.args]
+path = "software/mcfm/src/BDK/M3bit1.cpp"
+[[tools]]
+name = "read"
+ok = true
+output_preview = "# path: /home/user/JSS-2026-Example/dev/tools/coverage/coverage_check.py\n# lines: 1-97\n0001: \"\"\"Coverage check — decide VERIFIED vs TRANSLATED for one rewritten MCFM file.\n0002: \n0003:   python3 coverage_check.py <target.cpp> -- <process args>\n0004: \n0005: Builds and tests once, scales the marked output statement, rebuilds and retests, then\n0006: restores the file and rebuilds clean. Changed output means `COVERED`; unchanged output\n0007: means `NOT COVERED`.\n0008: \n0009:"
+
+[tools.args]
+path = "dev/tools/coverage/coverage_check.py"
+[[tools]]
+name = "edit"
+ok = true
+output_preview = "{\n  \"ok\": true,\n  \"path\": \"/home/user/JSS-2026-Example/software/mcfm/src/BDK/M1bit1.cpp\",\n  \"applied\": 1,\n  \"replacements\": [\n    {\n      \"index\": 0,\n      \"match_count\": 1,\n      \"old_len\": 578,\n      \"new_len\": 596,\n      \"before_snippet\": \"…6),2)\\n      - 2*s(j1,j2)*s(j3,j4) - 2*s(j3,j4)*s(j5,j6) - 2*s(j5,j6)*s(j1,j2);\\n\\n  // @coverage-probe\\n  std::complex<double> M1bit1 =\\n      +2.0/(zab2(j1,j3,j4,j2)*zab2(j3,j1,j2,j4)*Delta3)\\n      *(zb(j1,j3)/za(j5,j6)\\n      *"
+
+[tools.args]
+path = "software/mcfm/src/BDK/M1bit1.cpp"
+[[tools.args.edits]]
+oldText = "  // @coverage-probe\n  std::complex<double> M1bit1 =\n      +2.0/(zab2(j1,j3,j4,j2)*zab2(j3,j1,j2,j4)*Delta3)\n      *(zb(j1,j3)/za(j5,j6)\n      *(za(j2,j1)*zba2(j1,j3,j4,j5)\n      -(zab2(j2,j3,j4,j1)*za(j1,j5)+zab2(j2,j3,j4,j2)*za(j2,j5)))\n      *(za(j1,j5)*t(j1,j2,j4)+zab(j1,j2,j6)*za(j6,j5))\n      -zb(j1,j6)*za(j2,j4)/(za(j3,j4)*zb(j5,j6))\n      *((s(j1,j4)-s(j2,j3))\n      *(zab(j1,j2,j6)*delta12-zab(j1,j5,j6)*delta56)\n      +zab2(j1,j3,j4,j2)*(zab(j2,j1,j6)*delta12-zab(j2,j5,j6)*delta56))\n    ... [truncated, 578 chars total]"
+newText = "  std::complex<double> M1bit1 =\n      +2.0/(zab2(j1,j3,j4,j2)*zab2(j3,j1,j2,j4)*Delta3)\n      *(zb(j1,j3)/za(j5,j6)\n      *(za(j2,j1)*zba2(j1,j3,j4,j5)\n      -(zab2(j2,j3,j4,j1)*za(j1,j5)+zab2(j2,j3,j4,j2)*za(j2,j5)))\n      *(za(j1,j5)*t(j1,j2,j4)+zab(j1,j2,j6)*za(j6,j5))\n      -zb(j1,j6)*za(j2,j4)/(za(j3,j4)*zb(j5,j6))\n      *((s(j1,j4)-s(j2,j3))\n      *(zab(j1,j2,j6)*delta12-zab(j1,j5,j6)*delta56)\n      +zab2(j1,j3,j4,j2)*(zab(j2,j1,j6)*delta12-zab(j2,j5,j6)*delta56))\n      +2.0*zab(j2,j1,j3)*... [truncated, 596 chars total]"
+
+[[tools]]
+name = "edit"
+ok = true
+output_preview = "{\n  \"ok\": true,\n  \"path\": \"/home/user/JSS-2026-Example/software/mcfm/src/BDK/M2bit1.cpp\",\n  \"applied\": 1,\n  \"replacements\": [\n    {\n      \"index\": 0,\n      \"match_count\": 1,\n      \"old_len\": 144,\n      \"new_len\": 162,\n      \"before_snippet\": \"…= [](int a1, int a2, int a3) {\\n    return s(a1,a2) + s(a2,a3) + s(a3,a1);\\n  };\\n\\n  // @coverage-probe\\n  std::complex<double> M2bit1 = t(j1,j2,j3)*zb(j4,j6)*zab(j5,j4,j1)\\n      / (zb(j2,j3)*zab2(j4,j1,j2,j3));\\n  return M2bit1;"
+
+[tools.args]
+path = "software/mcfm/src/BDK/M2bit1.cpp"
+[[tools.args.edits]]
+oldText = "  // @coverage-probe\n  std::complex<double> M2bit1 = t(j1,j2,j3)*zb(j4,j6)*zab(j5,j4,j1)\n      / (zb(j2,j3)*zab2(j4,j1,j2,j3));\n  return M2bit1;"
+newText = "  std::complex<double> M2bit1 = t(j1,j2,j3)*zb(j4,j6)*zab(j5,j4,j1)\n      / (zb(j2,j3)*zab2(j4,j1,j2,j3));\n  M2bit1 = M2bit1;  // @coverage-probe\n  return M2bit1;"
+
+[[tools]]
+name = "edit"
+ok = true
+output_preview = "{\n  \"ok\": true,\n  \"path\": \"/home/user/JSS-2026-Example/software/mcfm/src/BDK/M2bit2.cpp\",\n  \"applied\": 1,\n  \"replacements\": [\n    {\n      \"index\": 0,\n      \"match_count\": 1,\n      \"old_len\": 181,\n      \"new_len\": 199,\n      \"before_snippet\": \"…ab = [&za, &zb](int a1, int a2, int a3) {\\n    return za(a1,a2)*zb(a2,a3);\\n  };\\n\\n  // @coverage-probe\\n  std::complex<double> M2bit2 =\\n      -zab(j3,j2,j1)*std::pow(zab2(j5,j1,j2,j3),2)\\n      / (zb(j2,j3)*za(j5,j6)*std::pow(za"
+
+[tools.args]
+path = "software/mcfm/src/BDK/M2bit2.cpp"
+[[tools.args.edits]]
+oldText = "  // @coverage-probe\n  std::complex<double> M2bit2 =\n      -zab(j3,j2,j1)*std::pow(zab2(j5,j1,j2,j3),2)\n      / (zb(j2,j3)*za(j5,j6)*std::pow(zab2(j4,j1,j2,j3),2));\n  return M2bit2;"
+newText = "  std::complex<double> M2bit2 =\n      -zab(j3,j2,j1)*std::pow(zab2(j5,j1,j2,j3),2)\n      / (zb(j2,j3)*za(j5,j6)*std::pow(zab2(j4,j1,j2,j3),2));\n  M2bit2 = M2bit2;  // @coverage-probe\n  return M2bit2;"
+
+[[tools]]
+name = "edit"
+ok = true
+output_preview = "{\n  \"ok\": true,\n  \"path\": \"/home/user/JSS-2026-Example/software/mcfm/src/BDK/M2bit3.cpp\",\n  \"applied\": 1,\n  \"replacements\": [\n    {\n      \"index\": 0,\n      \"match_count\": 1,\n      \"old_len\": 181,\n      \"new_len\": 199,\n      \"before_snippet\": \"…= [](int a1, int a2, int a3) {\\n    return s(a1,a2) + s(a2,a3) + s(a3,a1);\\n  };\\n\\n  // @coverage-probe\\n  std::complex<double> M2bit3 =\\n      -zab(j5,j4,j1)*zab2(j5,j1,j2,j3)*t(j1,j2,j3)\\n      / (zb(j2,j3)*za(j5,j6)*std::pow(za"
+
+[tools.args]
+path = "software/mcfm/src/BDK/M2bit3.cpp"
+[[tools.args.edits]]
+oldText = "  // @coverage-probe\n  std::complex<double> M2bit3 =\n      -zab(j5,j4,j1)*zab2(j5,j1,j2,j3)*t(j1,j2,j3)\n      / (zb(j2,j3)*za(j5,j6)*std::pow(zab2(j4,j1,j2,j3),2));\n  return M2bit3;"
+newText = "  std::complex<double> M2bit3 =\n      -zab(j5,j4,j1)*zab2(j5,j1,j2,j3)*t(j1,j2,j3)\n      / (zb(j2,j3)*za(j5,j6)*std::pow(zab2(j4,j1,j2,j3),2));\n  M2bit3 = M2bit3;  // @coverage-probe\n  return M2bit3;"
+
+[[tools]]
+name = "edit"
+ok = true
+output_preview = "{\n  \"ok\": true,\n  \"path\": \"/home/user/JSS-2026-Example/software/mcfm/src/BDK/M3bit1.cpp\",\n  \"applied\": 1,\n  \"replacements\": [\n    {\n      \"index\": 0,\n      \"match_count\": 1,\n      \"old_len\": 229,\n      \"new_len\": 247,\n      \"before_snippet\": \"…= [](int a1, int a2, int a3) {\\n    return s(a1,a2) + s(a2,a3) + s(a3,a1);\\n  };\\n\\n  // @coverage-probe\\n  std::complex<double> M3bit1 = 0.5*std::pow(za(j1,j5),2)*zb(j1,j4)*zb(j2,j4)*t(j2,j3,j4)\\n      / (zb(j2,j3)*zb(j3,j4)*za(j5"
+
+[tools.args]
+path = "software/mcfm/src/BDK/M3bit1.cpp"
+[[tools.args.edits]]
+oldText = "  // @coverage-probe\n  std::complex<double> M3bit1 = 0.5*std::pow(za(j1,j5),2)*zb(j1,j4)*zb(j2,j4)*t(j2,j3,j4)\n      / (zb(j2,j3)*zb(j3,j4)*za(j5,j6)*zab2(j1,j3,j4,j2))\n      * (-2.0*zb(j2,j4)/zab2(j1,j3,j4,j2));\n  return M3bit1;"
+newText = "  std::complex<double> M3bit1 = 0.5*std::pow(za(j1,j5),2)*zb(j1,j4)*zb(j2,j4)*t(j2,j3,j4)\n      / (zb(j2,j3)*zb(j3,j4)*za(j5,j6)*zab2(j1,j3,j4,j2))\n      * (-2.0*zb(j2,j4)/zab2(j1,j3,j4,j2));\n  M3bit1 = M3bit1;  // @coverage-probe\n  return M3bit1;"
+
+[usage]
+input = 30092
+output = 11840
+reasoning = 0
+cache_write = 68317
+cache_read = 975856
+
+[tool_calls]
+executed = 54
+rejected = 0
+errors = 9
+ok = 45

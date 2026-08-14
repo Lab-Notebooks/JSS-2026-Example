@@ -1,0 +1,33 @@
+loop = 4
+summary = """
+Loop 4 opened a third W2jet batch and did the code work: a6treeg, vvg, subqcd, Acalc and LRcalc were \
+rewritten as <base>.hpp/<base>.cpp/<base>_fi.F90 (all five .cpp files verified present and each carrying \
+exactly one // @coverage-probe marker), wired into software/mcfm/src/W2jet/CMakeLists.txt (a6treeg.cpp, \
+Acalc.cpp, LRcalc.cpp, subqcd.cpp, vvg.cpp plus their _fi.F90 companions are listed), and the five \
+original .f sources were moved into software/mcfm/src/W2jet/deprecated/ (now 15 originals). Invariant I \
+holds: jobrunner submit tests/mcfm succeeded and tests/mcfm/job.output ends with 'SUMMARY: pass rate \
+272/272' with 272 PASSED and zero FAILED lines. Two gaps: (1) agent_log.md was edited but still contains \
+no 'Group W2jet-helpers-3' heading, no per-file status lines for the five new files, and no session-4 \
+note — its content stops at the Session 3 / W2jet-helpers-2 entry, so plan step 4 (record each result) is \
+unsatisfied and the gate cannot see the new group; (2) no coverage probe was executed for any of the five \
+new files — dev/tmp/run_probes_group3.py was written at the end of the loop but never run, so any claim \
+that the group-3 files are COVERED/NOT COVERED is unverified. Additionally, the two probe re-runs that did \
+execute (run_probe.py on atrLRL.cpp and vv.cpp) both exited 1, i.e. the probe wrapper failed rather than \
+reporting a coverage verdict, so the probe path itself needs fixing before statuses can be recorded.
+"""
+blocker = "Group W2jet-helpers-3 is undocumented in agent_log.md and its coverage probes were never executed (dev/tmp/run_probes_group3.py written but not run; the two probes that did run exited 1)."
+
+[[pending]]
+item = "Fix/execute dev/tmp/run_probes_group3.py (or python3 dev/workflow.py verify <file>.cpp -- u d~ ve e+ g g) for a6treeg.cpp, vvg.cpp, subqcd.cpp, Acalc.cpp and LRcalc.cpp; the earlier run_probe.py invocations on atrLRL.cpp and vv.cpp exited 1, so diagnose that failure (MCFM_HOME / restore path) first."
+
+[[pending]]
+item = "Add a '## Group W2jet-helpers-3' section to dev/transformations/mcfm-translate/agent_log.md with one '- [x] software/mcfm/src/W2jet/<file>.f — VERIFIED/TRANSLATED (<reason>)' line per file, matching the actual probe verdicts."
+
+[[pending]]
+item = "Append a Session 4 note to agent_log.md recording the CMakeLists wiring, the move of the five originals into software/mcfm/src/W2jet/deprecated/, and the 272/272 test evidence."
+
+[[pending]]
+item = "After the group-3 probes restore the tree, re-run 'jobrunner submit tests/mcfm' and confirm 272 PASSED / 0 FAILED before marking the group complete."
+
+[[pending]]
+item = "Run 'python3 dev/workflow.py gate mcfm-translate' once group W2jet-helpers-3 is logged as complete; with three completed groups expect an approval requirement before opening a fourth group."

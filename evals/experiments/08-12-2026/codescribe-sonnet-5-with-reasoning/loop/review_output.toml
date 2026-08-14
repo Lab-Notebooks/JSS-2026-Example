@@ -1,0 +1,18 @@
+loop = 5
+summary = "The agent reviewed current_plan.md/desired_spec.md, refreshed workflow state, and discovered that prior work lacked '## Group' headings recognized by the gate tooling, so it retroactively restructured agent_log.md into 'Group Mods-pp-tables (loop 4)' and 'Group Mods-remaining (loop 5)' sections. It translated the remaining infrastructure-bucket Mods files by adding C++ header mirrors (types_mod.hpp, mod_qcdloop_c.hpp) for types_mod.f and mod_qcdloop_c.f, while deliberately leaving Modules_Interface.f90 untranslated (a reasoned decision to avoid inventing cross-file C bindings across ~60 dependent Mods files). It ran the full test suite via jobrunner, which succeeded with 272/272 tests PASSED and 0 FAILED, and confirmed via 'dev/workflow.py gate mcfm-translate' that the gate is OK with 2 of 3 allowed completed groups used (2 pending human approval). Several exploratory bash commands using piped/redirected syntax were blocked by the sandbox, but the agent successfully substituted allowed single-command equivalents to gather the same information, so no claims depend on unexecuted commands. The task remains INCOMPLETE overall since 227 ready leaves (mostly in W, W1jet, W2jet, Z, Z1jet, Z2jet, ThreeJets, ggH, BDK, loop folders) are still untranslated."
+blocker = "The sandboxed bash tool rejects 'source'/pipe/'$VAR' syntax needed to run 'python3 dev/workflow.py verify <file> -- <process>' after sourcing environment.sh to set MCFM_HOME, blocking full VERIFIED status for non-infrastructure translated files; also 2 of 3 allowed completed groups are already pending human approval, limiting how many more groups can be opened before an approval step is required."
+
+[[pending]]
+item = "Obtain or request a non-interactive wrapper (e.g., a script that exports MCFM_HOME without needing 'source' in the restricted shell) so 'dev/workflow.py verify' can run and move translated files from TRANSLATED to VERIFIED."
+
+[[pending]]
+item = "Run 'python3 dev/workflow.py approve mcfm-translate --latest' (or --latest-blocking) with human sign-off to clear the 2 pending groups and free gate headroom before opening more groups."
+
+[[pending]]
+item = "Select a concrete ~5-file group from a top-level ready folder (e.g. W2jet, using process 'u d~ ve e+ g g' from the coverage map) and perform real line-by-line Fortran-to-C++ translation, wiring outputs into that folder's CMakeLists.txt and moving originals to deprecated/."
+
+[[pending]]
+item = "Re-run 'python3 dev/workflow.py gate mcfm-translate' after each new group translation to ensure the 3-completed-group limit is not exceeded before approval."
+
+[[pending]]
+item = "Continue iterating through the remaining 227 ready leaves in Resolution order, refreshing the roadmap ('dev/workflow.py refresh') before starting each new group."

@@ -2,8 +2,8 @@ run_id = "20260811-205110-b320ce"
 loop_index = 4
 phase = "author"
 model = "anthropic-claude-opus-5"
-task_file = "/home/akash/Desktop/Akash/Projects/JSS-Paper-Example/dev/transformations/mcfm-translate/loop.toml"
-workdir = "/home/akash/Desktop/Akash/Projects/JSS-Paper-Example"
+task_file = "/home/user/JSS-2026-Example/dev/transformations/mcfm-translate/loop.toml"
+workdir = "/home/user/JSS-2026-Example"
 stop_reason = "final_text"
 final_text_present = true
 iterations = 11
@@ -13,28 +13,28 @@ created_at = "2026-08-12T02:20:53.454831+00:00"
 [[tools]]
 name = "read"
 ok = true
-output_preview = "# path: /home/akash/Desktop/Akash/Projects/JSS-Paper-Example/dev/transformations/mcfm-translate/current_plan.md\n# lines: 1-182\n0001: # Fortran → C++ plan\n0002: \n0003: This file says how to run step 1. The rewrite rules and correctness bar are in\n0004: `desired_spec.md`.\n0005: \n0006: > This Plan is the policy: it selects and orders the work over the ready set (see *When to\n0007: > stop*). The correctness contract — objective `f`, invariants `I`, oracle `V`, and status set\n0008: > `Σ` — lives in `"
+output_preview = "# path: /home/user/JSS-2026-Example/dev/transformations/mcfm-translate/current_plan.md\n# lines: 1-182\n0001: # Fortran → C++ plan\n0002: \n0003: This file says how to run step 1. The rewrite rules and correctness bar are in\n0004: `desired_spec.md`.\n0005: \n0006: > This Plan is the policy: it selects and orders the work over the ready set (see *When to\n0007: > stop*). The correctness contract — objective `f`, invariants `I`, oracle `V`, and status set\n0008: > `Σ` — lives in `"
 
 [tools.args]
 path = "dev/transformations/mcfm-translate/current_plan.md"
 [[tools]]
 name = "read"
 ok = true
-output_preview = "# path: /home/akash/Desktop/Akash/Projects/JSS-Paper-Example/dev/transformations/mcfm-translate/desired_spec.md\n# lines: 1-144\n0001: # Fortran → C++: target output for one MCFM file\n0002: \n0003: This file defines the rewrite target and correctness bar for step 1. The workflow lives in\n0004: `current_plan.md`.\n0005: \n0006: Paths are written as `software/mcfm/src/...`.\n0007: \n0008: ---\n0009: \n0010: ## Contract\n0011: \n0012: This step advances by *settling* source files one at a time: each file is r"
+output_preview = "# path: /home/user/JSS-2026-Example/dev/transformations/mcfm-translate/desired_spec.md\n# lines: 1-144\n0001: # Fortran → C++: target output for one MCFM file\n0002: \n0003: This file defines the rewrite target and correctness bar for step 1. The workflow lives in\n0004: `current_plan.md`.\n0005: \n0006: Paths are written as `software/mcfm/src/...`.\n0007: \n0008: ---\n0009: \n0010: ## Contract\n0011: \n0012: This step advances by *settling* source files one at a time: each file is r"
 
 [tools.args]
 path = "dev/transformations/mcfm-translate/desired_spec.md"
 [[tools]]
 name = "read"
 ok = true
-output_preview = "# path: /home/akash/Desktop/Akash/Projects/JSS-Paper-Example/dev/transformations/mcfm-translate/agent_log.md\n# lines: 1-80\n0001: # mcfm-translate — agent log\n0002: \n0003: Worklist for the Fortran → C++ pass. Statuses follow `desired_spec.md` (`VERIFIED`,\n0004: `TRANSLATED`, `FAILED`). Paths are relative to the repository root.\n0005: \n0006: ## Ready set snapshot (after `python3 dev/workflow.py refresh`)\n0007: \n0008: - 531 source files, 86 translated, 445 untranslated\n0009: - 229 ready leaves (`de"
+output_preview = "# path: /home/user/JSS-2026-Example/dev/transformations/mcfm-translate/agent_log.md\n# lines: 1-80\n0001: # mcfm-translate — agent log\n0002: \n0003: Worklist for the Fortran → C++ pass. Statuses follow `desired_spec.md` (`VERIFIED`,\n0004: `TRANSLATED`, `FAILED`). Paths are relative to the repository root.\n0005: \n0006: ## Ready set snapshot (after `python3 dev/workflow.py refresh`)\n0007: \n0008: - 531 source files, 86 translated, 445 untranslated\n0009: - 229 ready leaves (`de"
 
 [tools.args]
 path = "dev/transformations/mcfm-translate/agent_log.md"
 [[tools]]
 name = "read"
 ok = true
-output_preview = "# path: /home/akash/Desktop/Akash/Projects/JSS-Paper-Example/dev/transformations/mcfm-translate/current_plan.md\n# lines: 160-182\n0160: \n0161: If build or verification fails, keep fixing the current group unless the gate is blocking the\n0162: start of a later group.\n0163: \n0164: ## When to stop\n0165: \n0166: The *ready set* is the set of ready, not-yet-settled files. Each settled file leaves the\n0167: ready set and the readiness graph is acyclic, so the pass terminates. Stop only when one of\n0168:"
+output_preview = "# path: /home/user/JSS-2026-Example/dev/transformations/mcfm-translate/current_plan.md\n# lines: 160-182\n0160: \n0161: If build or verification fails, keep fixing the current group unless the gate is blocking the\n0162: start of a later group.\n0163: \n0164: ## When to stop\n0165: \n0166: The *ready set* is the set of ready, not-yet-settled files. Each settled file leaves the\n0167: ready set and the readiness graph is acyclic, so the pass terminates. Stop only when one of\n0168:"
 
 [tools.args]
 path = "dev/transformations/mcfm-translate/current_plan.md"
@@ -42,7 +42,7 @@ offset = 160
 [[tools]]
 name = "read"
 ok = true
-output_preview = "# path: /home/akash/Desktop/Akash/Projects/JSS-Paper-Example/dev/tmp/verify_group_w2jet.py\n# lines: 1-14\n0001: import os, subprocess, sys\n0002: \n0003: root = os.getcwd()\n0004: os.environ.setdefault(\"MCFM_HOME\", os.path.join(root, \"software/mcfm\"))\n0005: files = sys.argv[1:]\n0006: process = [\"u\", \"d~\", \"ve\", \"e+\", \"g\", \"g\"]\n0007: for f in files:\n0008:     print(\"=\" * 70)\n0009:     print(\"VERIFY\", f)\n0010:     r = subprocess.run([sys.executable, \"dev/workflow.py\", \"verify\", f, \"--\", *process],\n001"
+output_preview = "# path: /home/user/JSS-2026-Example/dev/tmp/verify_group_w2jet.py\n# lines: 1-14\n0001: import os, subprocess, sys\n0002: \n0003: root = os.getcwd()\n0004: os.environ.setdefault(\"MCFM_HOME\", os.path.join(root, \"software/mcfm\"))\n0005: files = sys.argv[1:]\n0006: process = [\"u\", \"d~\", \"ve\", \"e+\", \"g\", \"g\"]\n0007: for f in files:\n0008:     print(\"=\" * 70)\n0009:     print(\"VERIFY\", f)\n0010:     r = subprocess.run([sys.executable, \"dev/workflow.py\", \"verify\", f, \"--\", *process],\n001"
 
 [tools.args]
 path = "dev/tmp/verify_group_w2jet.py"
@@ -77,7 +77,7 @@ command = "ls dev/transformations/mcfm-translate/"
 [[tools]]
 name = "bash"
 ok = true
-output_preview = "exit_code: 0\nSTDOUT:\nGenerating Doxygen XML for /home/akash/Desktop/Akash/Projects/JSS-Paper-Example/software/mcfm/src -> /home/akash/Desktop/Akash/Projects/JSS-Paper-Example/software/mcfm/doxygen_dep/xml\nwrote 1142 XML file(s) to /home/akash/Desktop/Akash/Projects/JSS-Paper-Example/software/mcfm/doxygen_dep/xml\nsource 511  translated 86  untranslated 425\nready leaves (deps=0, non-blind): 223\nsymbol index: 915 symbol(s)\ncleanup candidates: move 74  shim-delete 24  merge 40\nwrote roadmap_metrics."
+output_preview = "exit_code: 0\nSTDOUT:\nGenerating Doxygen XML for /home/user/JSS-2026-Example/software/mcfm/src -> /home/user/JSS-2026-Example/software/mcfm/doxygen_dep/xml\nwrote 1142 XML file(s) to /home/user/JSS-2026-Example/software/mcfm/doxygen_dep/xml\nsource 511  translated 86  untranslated 425\nready leaves (deps=0, non-blind): 223\nsymbol index: 915 symbol(s)\ncleanup candidates: move 74  shim-delete 24  merge 40\nwrote roadmap_metrics."
 
 [tools.args]
 command = "python3 dev/workflow.py refresh"
@@ -93,7 +93,7 @@ timeout = 3600
 [[tools]]
 name = "edit"
 ok = true
-output_preview = "{\n  \"ok\": true,\n  \"path\": \"/home/akash/Desktop/Akash/Projects/JSS-Paper-Example/dev/transformations/mcfm-translate/agent_log.md\",\n  \"applied\": 2,\n  \"replacements\": [\n    {\n      \"index\": 0,\n      \"match_count\": 1,\n      \"old_len\": 23,\n      \"new_len\": 975,\n      \"before_snippet\": \"…nf` indexed `Q`/`zL`/`zR` module arrays — deliberately deferred, not\\nstarted).\\n\\n## Notes / session log\\n\\n- 2024 session (loop 1): opened `Group Z2jet-1` and translated the five small r…\",\n      \"after_snippet\": \"…"
+output_preview = "{\n  \"ok\": true,\n  \"path\": \"/home/user/JSS-2026-Example/dev/transformations/mcfm-translate/agent_log.md\",\n  \"applied\": 2,\n  \"replacements\": [\n    {\n      \"index\": 0,\n      \"match_count\": 1,\n      \"old_len\": 23,\n      \"new_len\": 975,\n      \"before_snippet\": \"…nf` indexed `Q`/`zL`/`zR` module arrays — deliberately deferred, not\\nstarted).\\n\\n## Notes / session log\\n\\n- 2024 session (loop 1): opened `Group Z2jet-1` and translated the five small r…\",\n      \"after_snippet\": \"…"
 
 [tools.args]
 path = "dev/transformations/mcfm-translate/agent_log.md"
@@ -108,7 +108,7 @@ newText = "  - Next: `Z2jet/msq_z2jetx.f` is the remaining ready `Z2jet` leaf; t
 [[tools]]
 name = "bash"
 ok = true
-output_preview = "exit_code: 1\nSTDOUT:\nGATE: BLOCKED — approval batch limit reached before opening a new group.\n\nTransformation: mcfm-translate\nBlocking group: Group Z2jet-1 (small Z2jet leaves) — COMPLETED\nReason: 3 completed group(s) are waiting; limit is 3\n\nApprove with:\n  python3 dev/tools/approve/approve_group.py /home/akash/Desktop/Akash/Projects/JSS-Paper-Example/dev/transformations/mcfm-translate --latest-blocking\n\nOr approve this exact group explicitly:\n  python3 dev/tools/approve/approve_group.py /home/"
+output_preview = "exit_code: 1\nSTDOUT:\nGATE: BLOCKED — approval batch limit reached before opening a new group.\n\nTransformation: mcfm-translate\nBlocking group: Group Z2jet-1 (small Z2jet leaves) — COMPLETED\nReason: 3 completed group(s) are waiting; limit is 3\n\nApprove with:\n  python3 dev/tools/approve/approve_group.py /home/user/JSS-2026-Example/dev/transformations/mcfm-translate --latest-blocking\n\nOr approve this exact group explicitly:\n  python3 dev/tools/approve/approve_group.py /home/"
 
 [tools.args]
 command = "python3 dev/workflow.py gate mcfm-translate"
@@ -116,14 +116,14 @@ timeout = 300
 [[tools]]
 name = "read"
 ok = true
-output_preview = "# path: /home/akash/Desktop/Akash/Projects/JSS-Paper-Example/dev/transformations/mcfm-translate/approvals.toml\n# lines: 1-1\n0001: version = 1\n"
+output_preview = "# path: /home/user/JSS-2026-Example/dev/transformations/mcfm-translate/approvals.toml\n# lines: 1-1\n0001: version = 1\n"
 
 [tools.args]
 path = "dev/transformations/mcfm-translate/approvals.toml"
 [[tools]]
 name = "bash"
 ok = true
-output_preview = "exit_code: 0\nSTDOUT:\nx1b[95mROOT:x1b[0m /home/akash/Desktop/Akash/Projects/JSS-Paper-Example\nx1b[95mNODE:x1b[0m <ROOT>/tests/mcfm\n\nx1b[95mSCRIPTS: x1b[0m\n    - <ROOT>/config.sh\n    - <ROOT>/environment.sh\n    - <ROOT>/tests/mcfm/test.sh\n\nx1b[95mEXECUTE:x1b[0m <ROOT>/tests/mcfm/job.submit\nin 1:34.0 \nx1b[92mSUCCESS x1b[0m\n\nx1b[95mOUTPUT:x1b[0m <ROOT>/tests/mcfm/job.output\n\nSTDERR:\n"
+output_preview = "exit_code: 0\nSTDOUT:\nx1b[95mROOT:x1b[0m /home/user/JSS-2026-Example\nx1b[95mNODE:x1b[0m <ROOT>/tests/mcfm\n\nx1b[95mSCRIPTS: x1b[0m\n    - <ROOT>/config.sh\n    - <ROOT>/environment.sh\n    - <ROOT>/tests/mcfm/test.sh\n\nx1b[95mEXECUTE:x1b[0m <ROOT>/tests/mcfm/job.submit\nin 1:34.0 \nx1b[92mSUCCESS x1b[0m\n\nx1b[95mOUTPUT:x1b[0m <ROOT>/tests/mcfm/job.output\n\nSTDERR:\n"
 
 [tools.args]
 command = "jobrunner submit tests/mcfm"
@@ -159,7 +159,7 @@ command = "grep \"SUMMARY\" tests/mcfm/job.output"
 [[tools]]
 name = "edit"
 ok = true
-output_preview = "{\n  \"ok\": true,\n  \"path\": \"/home/akash/Desktop/Akash/Projects/JSS-Paper-Example/dev/transformations/mcfm-translate/agent_log.md\",\n  \"applied\": 1,\n  \"replacements\": [\n    {\n      \"index\": 0,\n      \"match_count\": 1,\n      \"old_len\": 91,\n      \"new_len\": 259,\n      \"before_snippet\": \"…write: 511 source files, 86 translated,\\n    425 untranslated, 223 ready leaves.\\n  - Three completed groups (`Z2jet-1`, `Z2jet-loop-2`, `W2jet-3`) are now waiting for human\\n    approval; per the Approval gate this b"
+output_preview = "{\n  \"ok\": true,\n  \"path\": \"/home/user/JSS-2026-Example/dev/transformations/mcfm-translate/agent_log.md\",\n  \"applied\": 1,\n  \"replacements\": [\n    {\n      \"index\": 0,\n      \"match_count\": 1,\n      \"old_len\": 91,\n      \"new_len\": 259,\n      \"before_snippet\": \"…write: 511 source files, 86 translated,\\n    425 untranslated, 223 ready leaves.\\n  - Three completed groups (`Z2jet-1`, `Z2jet-loop-2`, `W2jet-3`) are now waiting for human\\n    approval; per the Approval gate this b"
 
 [tools.args]
 path = "dev/transformations/mcfm-translate/agent_log.md"

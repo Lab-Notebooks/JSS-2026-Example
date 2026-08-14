@@ -1,4 +1,4 @@
-[95mROOT:[0m /home/adubey/JSS-2026-Example
+[95mROOT:[0m /home/user/JSS-2026-Example
 [95mNODE:[0m <ROOT>/tests/mcfm
 
 [95mSCRIPTS: [0m
@@ -9,7 +9,7 @@
 [95mEXECUTE:[0m <ROOT>/tests/mcfm/job.submit
 in 1:25.3 
 
-/home/adubey/JSS-2026-Example/software/mcfm/src/Z2jet/ampqqb_qqb.cpp:1:10: fatal error: Z2jet.hpp: No such file or directory
+/home/user/JSS-2026-Example/software/mcfm/src/Z2jet/ampqqb_qqb.cpp:1:10: fatal error: Z2jet.hpp: No such file or directory
     1 | #include <Z2jet.hpp>
       |          ^~~~~~~~~~~
 compilation terminated.

@@ -1,0 +1,7 @@
+## main...origin/main
+ M dev/transformations/mcfm-translate/approvals.toml
+ m software/mcfm
+?? .codescribe/
+?? dev/tmp/
+?? dev/transformations/mcfm-translate/agent_log.md
+?? evals/experiments/08-12-2026/codescribe-opus-5-run2/

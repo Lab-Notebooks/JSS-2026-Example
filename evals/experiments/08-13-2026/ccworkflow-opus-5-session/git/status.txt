@@ -1,0 +1,5 @@
+## main...origin/main
+ m software/mcfm
+?? dev/tmp/
+?? dev/transformations/mcfm-translate/agent_log.md
+?? evals/experiments/08-13-2026/

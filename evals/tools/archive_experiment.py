@@ -127,7 +127,27 @@ def drop_excluded_paths_from_worktree(repo: Path, excludes: list[str]) -> None:
         run(["git", "clean", "-fd", "--", path], cwd=repo, check=False)
 
 
+def validate_session_logs(path_str: str) -> Path:
+    """Checked before anything is written, so a bad path leaves no partial archive."""
+    path = Path(path_str).expanduser().resolve()
+    if not sorted(path.glob("subagents/workflows/wf_*")):
+        raise SystemExit(f"no workflow logs under {path}/subagents/workflows/wf_*")
+    return path
+
+
+def copy_session_logs(session_dir: Path, archive_dir: Path) -> None:
+    """Flatten a session's out-of-repo logs into the layout evals/analysis reads:
+    parse_ccworkflow.py wants <run>/workflow-wf_<id>/{journal.jsonl,agent-*.jsonl}."""
+    for wf_dir in sorted(session_dir.glob("subagents/workflows/wf_*")):
+        copy_tree(wf_dir, archive_dir / f"workflow-{wf_dir.name}")
+    for script in sorted(session_dir.glob("workflows/scripts/*.js")):
+        copy_file(script, archive_dir / script.name)
+
+
 def copy_loop_artifacts(loop_dir: Path, archive_dir: Path) -> None:
+    if loop_dir.name == ".claude":
+        return  # tracked in git; this run's real artifacts come from --session-logs
+
     files = [
         "logs/toolusage.toml",
         "loop/run.toml",
@@ -178,6 +198,7 @@ def write_summary(
     submodule_results: list[dict[str, object]],
     included_dev_tmp: bool,
     cleanup_performed: bool,
+    session_logs: Path | None,
 ) -> None:
     summary = {
         "experiment_name": experiment_name,
@@ -187,6 +208,7 @@ def write_summary(
         "submodules": [str(path.relative_to(ROOT)) for path in submodules],
         "archive_branch": branch,
         "submodule_results": submodule_results,
+        "session_logs": str(session_logs) if session_logs else None,
         "included_dev_tmp": included_dev_tmp,
         "cleanup_performed": cleanup_performed,
     }
@@ -199,15 +221,22 @@ def main() -> int:
     parser.add_argument("--transformation", required=True, help="path like dev/transformations/<name>")
     parser.add_argument("--loop-dir", required=True, help="path like .csloop or .codescribe")
     parser.add_argument("--submodule", action="append", default=[], help="path like software/<name>; may be repeated")
+    parser.add_argument("--session-logs", help="agent session log dir to archive, for harnesses that log outside the repo")
     parser.add_argument("--include-dev-tmp", action="store_true", help="copy dev/tmp into archive")
     args = parser.parse_args()
 
     experiment = slugify(args.experiment_name)
     transformation_dir = validate_relative_dir(args.transformation, "dev/transformations")
     loop_dir = validate_relative_dir(args.loop_dir, ".")
-    if loop_dir.name not in {".csloop", ".codescribe"}:
-        raise SystemExit("--loop-dir must point to .csloop or .codescribe")
+    if loop_dir.name not in {".claude", ".csloop", ".codescribe"}:
+        raise SystemExit("--loop-dir must point to .claude, .csloop, or .codescribe")
     submodules = [validate_relative_dir(path, "software") for path in args.submodule]
+
+    # evals/analysis finds runs by globbing ccworkflow-*; a mismatched name parses as zero
+    # rows rather than failing, so the prefix is enforced here instead.
+    if loop_dir.name == ".claude" and not experiment.startswith("ccworkflow-"):
+        raise SystemExit(f"a .claude experiment name must start with 'ccworkflow-' (got: {experiment})")
+    session_logs = validate_session_logs(args.session_logs) if args.session_logs else None
 
     date_dir = dt.datetime.now().strftime("%m-%d-%Y")
     archive_dir = ROOT / "evals" / "experiments" / date_dir / experiment
@@ -215,6 +244,8 @@ def main() -> int:
 
     copy_tree(transformation_dir, archive_dir / transformation_dir.relative_to(ROOT))
     copy_loop_artifacts(loop_dir, archive_dir)
+    if session_logs:
+        copy_session_logs(session_logs, archive_dir)
     if args.include_dev_tmp:
         dev_tmp = ROOT / "dev" / "tmp"
         if dev_tmp.exists() and dev_tmp.is_dir():
@@ -229,7 +260,10 @@ def main() -> int:
         submodule_results.append(commit_submodule(submodule, branch, f"Archive experiment {experiment}"))
 
     clean_path(ROOT, transformation_dir.relative_to(ROOT))
-    clean_path(ROOT, loop_dir.relative_to(ROOT))
+    # Only clean ephemeral harness directories (.csloop, .codescribe).
+    # .claude is tracked by git and should not be cleaned after archiving.
+    if loop_dir.name != ".claude":
+        clean_path(ROOT, loop_dir.relative_to(ROOT))
     cleanup_performed = True
 
     write_summary(
@@ -242,6 +276,7 @@ def main() -> int:
         submodule_results,
         args.include_dev_tmp,
         cleanup_performed,
+        session_logs,
     )
 
     print(f"Archived experiment to {archive_dir.relative_to(ROOT)}")
@@ -251,7 +286,8 @@ def main() -> int:
         else:
             print(f"{result['repo']}: on {result['branch']}, {result['note']}")
     print(f"Cleaned {transformation_dir.relative_to(ROOT)}")
-    print(f"Cleaned {loop_dir.relative_to(ROOT)}")
+    if loop_dir.name != ".claude":
+        print(f"Cleaned {loop_dir.relative_to(ROOT)}")
     return 0
 
 

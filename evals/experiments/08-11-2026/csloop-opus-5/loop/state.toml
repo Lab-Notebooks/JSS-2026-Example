@@ -1,0 +1,6 @@
+run_id = "20260811-223522-f10bf0"
+workdir = "/home/user/JSS-2026-Example"
+task_file = "/home/user/JSS-2026-Example/dev/transformations/mcfm-translate/loop.toml"
+loop_index = 5
+phase = "author"
+updated_at = "2026-08-12T04:13:40.485380+00:00"

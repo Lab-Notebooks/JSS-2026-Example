@@ -1,0 +1,5 @@
+## main...origin/main
+ m software/mcfm
+?? dev/tmp/
+?? dev/transformations/mcfm-translate/agent_log.md
+?? evals/experiments/08-12-2026/ccworkflow-sonnet-5-opus-5-integrate-run2/

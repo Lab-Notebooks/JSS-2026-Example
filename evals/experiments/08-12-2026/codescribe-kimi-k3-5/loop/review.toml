@@ -38,7 +38,7 @@ tool = "read"
 ok = true
 duration_ms = 1.029
 output_chars = 840
-output_preview = "# path: /home/adubey/JSS-2026-Example/dev/transformations/mcfm-translate/loop.toml\n# lines: 1-18\n0001: # CodeScribe loop for Fortran -> C++.\n0002: #\n0003: # Run from the project root:\n0004: #   code-scribe loop -p dev/transformations/mcfm-translate/loop.toml -m <model>\n0005: \n0006: [tools]\n0007: bash = [\"jobrunner\", \"python3\"]\n0008: \n0009: [[chat.user]]\n0010: content = '''\n0011: Each round, follow the round algorithm in dev/transformations/mcfm-translate/current_plan.md and\n0012: the contract in"
+output_preview = "# path: /home/user/JSS-2026-Example/dev/transformations/mcfm-translate/loop.toml\n# lines: 1-18\n0001: # CodeScribe loop for Fortran -> C++.\n0002: #\n0003: # Run from the project root:\n0004: #   code-scribe loop -p dev/transformations/mcfm-translate/loop.toml -m <model>\n0005: \n0006: [tools]\n0007: bash = [\"jobrunner\", \"python3\"]\n0008: \n0009: [[chat.user]]\n0010: content = '''\n0011: Each round, follow the round algorithm in dev/transformations/mcfm-translate/current_plan.md and\n0012: the contract in"
 ts = "2026-08-12T01:54:55.217143+00:00"
 
 [[event]]
@@ -58,7 +58,7 @@ ok = true
 duration_ms = 1.174
 output_chars = 8687
 output_preview = '''
-# path: /home/adubey/JSS-2026-Example/dev/transformations/mcfm-translate/current_plan.md
+# path: /home/user/JSS-2026-Example/dev/transformations/mcfm-translate/current_plan.md
 # lines: 1-182
 0001: # Fortran → C++ plan
 0002: 
@@ -87,7 +87,7 @@ ok = true
 duration_ms = 1.143
 output_chars = 7669
 output_preview = '''
-# path: /home/adubey/JSS-2026-Example/dev/transformations/mcfm-translate/desired_spec.md
+# path: /home/user/JSS-2026-Example/dev/transformations/mcfm-translate/desired_spec.md
 # lines: 1-144
 0001: # Fortran → C++: target output for one MCFM file
 0002: 
@@ -170,7 +170,7 @@ ok = true
 duration_ms = 2.532
 output_chars = 85351
 output_preview = '''
-# path: /home/adubey/JSS-2026-Example/.codescribe/loop/author.toml
+# path: /home/user/JSS-2026-Example/.codescribe/loop/author.toml
 # lines: 1-2506
 0001: 
 0002: [[event]]
@@ -208,14 +208,14 @@ ok = true
 duration_ms = 1.523
 output_chars = 33086
 output_preview = '''
-# path: /home/adubey/JSS-2026-Example/.codescribe/loop/metadata/loop_001_author.toml
+# path: /home/user/JSS-2026-Example/.codescribe/loop/metadata/loop_001_author.toml
 # lines: 1-452
 0001: run_id = "20260812-104819-de77c7"
 0002: loop_index = 1
 0003: phase = "author"
 0004: model = "oaic-moonshotai/Kimi-K3"
-0005: task_file = "/home/adubey/JSS-2026-Example/dev/transformations/mcfm-translate/loop.toml"
-0006: workdir = "/home/adubey/JSS-2026-Example"
+0005: task_file = "/home/user/JSS-2026-Example/dev/transformations/mcfm-translate/loop.toml"
+0006: workdir = "/home/user/JSS-2026-Example"
 0007: stop_reason = "max_iterations"
 0008: final_text_present = false
 0009: iterations = 30
@@ -263,19 +263,19 @@ ok = true
 duration_ms = 1.41
 output_chars = 25206
 output_preview = '''
-# path: /home/adubey/JSS-2026-Example/.codescribe/loop/metadata/loop_001_author.toml
+# path: /home/user/JSS-2026-Example/.codescribe/loop/metadata/loop_001_author.toml
 # lines: 128-452
 0128: [[tools]]
 0129: name = "bash"
 0130: ok = true
-0131: output_preview = "exit_code: 0\nSTDOUT:\nwrote /home/adubey/JSS-2026-Example/dev/tmp/drafts/W2jet/ggZZcapture.scribe\n\nSTDERR:\n"
+0131: output_preview = "exit_code: 0\nSTDOUT:\nwrote /home/user/JSS-2026-Example/dev/tmp/drafts/W2jet/ggZZcapture.scribe\n\nSTDERR:\n"
 0132: 
 0133: [tools.args]
 0134: command = "python3 dev/workflow.py draft software/mcfm/src/W2jet/ggZZcapture.f"
 0135: [[tools]]
 0136: name = "read"
 0137: ok = true
-0138: output_preview = "# path: /home/adubey/'''
+0138: output_preview = "# path: /home/user/'''
 ts = "2026-08-12T01:55:02.354939+00:00"
 
 [[event]]
@@ -295,12 +295,12 @@ ok = true
 duration_ms = 1.365
 output_chars = 595
 output_preview = '''
-# path: /home/adubey/JSS-2026-Example/.codescribe/loop/run.toml
+# path: /home/user/JSS-2026-Example/.codescribe/loop/run.toml
 # lines: 1-12
 0001: run_id = "20260812-104819-de77c7"
 0002: created_at = "2026-08-12T01:48:19.929462+00:00"
-0003: workdir = "/home/adubey/JSS-2026-Example"
-0004: task_file = "/home/adubey/JSS-2026-Example/dev/transformations/mcfm-translate/loop.toml"
+0003: workdir = "/home/user/JSS-2026-Example"
+0004: task_file = "/home/user/JSS-2026-Example/dev/transformations/mcfm-translate/loop.toml"
 0005: model = "oaic-moonshotai/Kimi-K3"
 0006: agent_loops = 5
 0007: agent_iterations = 30
@@ -349,16 +349,16 @@ ok = true
 duration_ms = 1.209
 output_chars = 17430
 output_preview = '''
-# path: /home/adubey/JSS-2026-Example/.codescribe/loop/metadata/loop_001_author.toml
+# path: /home/user/JSS-2026-Example/.codescribe/loop/metadata/loop_001_author.toml
 # lines: 240-452
-0240: output_preview = "exit_code: 0\nSTDOUT:\nwrote /home/adubey/JSS-2026-Example/dev/tmp/drafts/W2jet/fsl.scribe\n\nSTDERR:\n"
+0240: output_preview = "exit_code: 0\nSTDOUT:\nwrote /home/user/JSS-2026-Example/dev/tmp/drafts/W2jet/fsl.scribe\n\nSTDERR:\n"
 0241: 
 0242: [tools.args]
 0243: command = "python3 dev/workflow.py draft software/mcfm/src/W2jet/fsl.f"
 0244: [[tools]]
 0245: name = "bash"
 0246: ok = true
-0247: output_preview = "exit_code: 0\nSTDOUT:\nwrote /home/adubey/JSS-2026-Example/dev/tmp/drafts/W2jet/fpp.scrib'''
+0247: output_preview = "exit_code: 0\nSTDOUT:\nwrote /home/user/JSS-2026-Example/dev/tmp/drafts/W2jet/fpp.scrib'''
 ts = "2026-08-12T01:55:04.568383+00:00"
 
 [[event]]
@@ -401,10 +401,10 @@ ok = true
 duration_ms = 1.188
 output_chars = 10052
 output_preview = '''
-# path: /home/adubey/JSS-2026-Example/.codescribe/loop/metadata/loop_001_author.toml
+# path: /home/user/JSS-2026-Example/.codescribe/loop/metadata/loop_001_author.toml
 # lines: 330-452
 0330: ok = true
-0331: output_preview = "# path: /home/adubey/JSS-2026-Example/software/mcfm/src/W1jet/W1jet.hpp\n# lines: 1-34\n0001: #ifndef W1JET_H\n0002: #define W1JET_H\n0003: \n0004: #include <FArray.hpp>\n0005: #include <complex>\n0006: \n0007: extern double t(int j1, int j2, int j3);\n0008: extern std::complex<double> A52(int j1, int j2, int j3, int j4, int j5, FArray2D<std::complex<doubl'''
+0331: output_preview = "# path: /home/user/JSS-2026-Example/software/mcfm/src/W1jet/W1jet.hpp\n# lines: 1-34\n0001: #ifndef W1JET_H\n0002: #define W1JET_H\n0003: \n0004: #include <FArray.hpp>\n0005: #include <complex>\n0006: \n0007: extern double t(int j1, int j2, int j3);\n0008: extern std::complex<double> A52(int j1, int j2, int j3, int j4, int j5, FArray2D<std::complex<doubl'''
 ts = "2026-08-12T01:55:06.880811+00:00"
 
 [[event]]
@@ -447,12 +447,12 @@ ok = true
 duration_ms = 1.021
 output_chars = 2518
 output_preview = '''
-# path: /home/adubey/JSS-2026-Example/.codescribe/loop/metadata/loop_001_author.toml
+# path: /home/user/JSS-2026-Example/.codescribe/loop/metadata/loop_001_author.toml
 # lines: 416-452
 0416: [[tools]]
 0417: name = "read"
 0418: ok = true
-0419: output_preview = "# path: /home/adubey/JSS-2026-Example/software/mcfm/src/Mods/sprods_com_mod.hpp\n# lines: 1-10\n0001: #ifndef SPRODS_COM_MOD\n0002: #define SPRODS_COM_MOD\n0003: \n0004: #include <FArray.hpp>\n0005: \n0006: namespace sprods_com_mod {\n0007:   extern FArray2D<double> s;\n0008: }\n0009: \n0010: #endif\n"
+0419: output_preview = "# path: /home/user/JSS-2026-Example/software/mcfm/src/Mods/sprods_com_mod.hpp\n# lines: 1-10\n0001: #ifndef SPRODS_COM_MOD\n0002: #define SPRODS_COM_MOD\n0003: \n0004: #include <FArray.hpp>\n0005: \n0006: namespace sprods_com_mod {\n0007:   extern FArray2D<double> s;\n0008: }\n0009: \n0010: #endif\n"
 0420: 
 0421: [tool'''
 ts = "2026-08-12T01:55:10.494466+00:00"
@@ -590,11 +590,11 @@ ok = true
 duration_ms = 1.217
 output_chars = 360
 output_preview = '''
-# path: /home/adubey/JSS-2026-Example/.codescribe/loop/state.toml
+# path: /home/user/JSS-2026-Example/.codescribe/loop/state.toml
 # lines: 1-6
 0001: run_id = "20260812-104819-de77c7"
-0002: workdir = "/home/adubey/JSS-2026-Example"
-0003: task_file = "/home/adubey/JSS-2026-Example/dev/transformations/mcfm-translate/loop.toml"
+0002: workdir = "/home/user/JSS-2026-Example"
+0003: task_file = "/home/user/JSS-2026-Example/dev/transformations/mcfm-translate/loop.toml"
 0004: loop_index = 1
 0005: phase = "review"
 0006: updated_at = "2026-08-12T01:54:50.404885+00:00"
@@ -643,7 +643,7 @@ ok = true
 duration_ms = 1.125
 output_chars = 4884
 output_preview = '''
-# path: /home/adubey/JSS-2026-Example/.codescribe/loop/author.toml
+# path: /home/user/JSS-2026-Example/.codescribe/loop/author.toml
 # lines: 2400-2506
 2400: run_id = "20260812-104819-a5f0cc"
 2401: iteration = 29
@@ -676,7 +676,7 @@ ok = true
 duration_ms = 1.238
 output_chars = 2123
 output_preview = '''
-# path: /home/adubey/JSS-2026-Example/software/mcfm/src/W2jet/vv.cpp
+# path: /home/user/JSS-2026-Example/software/mcfm/src/W2jet/vv.cpp
 # lines: 1-50
 0001: // Translated from W2jet/vv.f
 0002: #include "vv.hpp"
@@ -744,7 +744,7 @@ tool = "write"
 ok = true
 duration_ms = 1.81
 output_chars = 84
-output_preview = "Wrote /home/adubey/JSS-2026-Example/.codescribe/loop/review_output.toml (2709 bytes)"
+output_preview = "Wrote /home/user/JSS-2026-Example/.codescribe/loop/review_output.toml (2709 bytes)"
 ts = "2026-08-12T01:56:09.100523+00:00"
 
 [[event]]
@@ -829,7 +829,7 @@ tool = "read"
 ok = true
 duration_ms = 1.371
 output_chars = 840
-output_preview = "# path: /home/adubey/JSS-2026-Example/dev/transformations/mcfm-translate/loop.toml\n# lines: 1-18\n0001: # CodeScribe loop for Fortran -> C++.\n0002: #\n0003: # Run from the project root:\n0004: #   code-scribe loop -p dev/transformations/mcfm-translate/loop.toml -m <model>\n0005: \n0006: [tools]\n0007: bash = [\"jobrunner\", \"python3\"]\n0008: \n0009: [[chat.user]]\n0010: content = '''\n0011: Each round, follow the round algorithm in dev/transformations/mcfm-translate/current_plan.md and\n0012: the contract in"
+output_preview = "# path: /home/user/JSS-2026-Example/dev/transformations/mcfm-translate/loop.toml\n# lines: 1-18\n0001: # CodeScribe loop for Fortran -> C++.\n0002: #\n0003: # Run from the project root:\n0004: #   code-scribe loop -p dev/transformations/mcfm-translate/loop.toml -m <model>\n0005: \n0006: [tools]\n0007: bash = [\"jobrunner\", \"python3\"]\n0008: \n0009: [[chat.user]]\n0010: content = '''\n0011: Each round, follow the round algorithm in dev/transformations/mcfm-translate/current_plan.md and\n0012: the contract in"
 ts = "2026-08-12T02:08:24.133848+00:00"
 
 [[event]]
@@ -850,7 +850,7 @@ ok = true
 duration_ms = 1.351
 output_chars = 1243
 output_preview = '''
-# path: /home/adubey/JSS-2026-Example/dev/transformations/mcfm-translate/agent_log.md
+# path: /home/user/JSS-2026-Example/dev/transformations/mcfm-translate/agent_log.md
 # lines: 1-19
 0001: # mcfm-translate agent log
 0002: 
@@ -1018,7 +1018,7 @@ ok = true
 duration_ms = 1.243
 output_chars = 8687
 output_preview = '''
-# path: /home/adubey/JSS-2026-Example/dev/transformations/mcfm-translate/current_plan.md
+# path: /home/user/JSS-2026-Example/dev/transformations/mcfm-translate/current_plan.md
 # lines: 1-182
 0001: # Fortran → C++ plan
 0002: 
@@ -1047,7 +1047,7 @@ ok = true
 duration_ms = 1.106
 output_chars = 7669
 output_preview = '''
-# path: /home/adubey/JSS-2026-Example/dev/transformations/mcfm-translate/desired_spec.md
+# path: /home/user/JSS-2026-Example/dev/transformations/mcfm-translate/desired_spec.md
 # lines: 1-144
 0001: # Fortran → C++: target output for one MCFM file
 0002: 
@@ -1081,7 +1081,7 @@ ok = true
 duration_ms = 0.896
 output_chars = 1313
 output_preview = '''
-# path: /home/adubey/JSS-2026-Example/software/mcfm/src/W2jet/CMakeLists.txt
+# path: /home/user/JSS-2026-Example/software/mcfm/src/W2jet/CMakeLists.txt
 # lines: 1-69
 0001: target_sources(objlib PRIVATE
 0002: aqqb_zbb.f
@@ -1177,7 +1177,7 @@ tool = "write"
 ok = true
 duration_ms = 2.011
 output_chars = 84
-output_preview = "Wrote /home/adubey/JSS-2026-Example/.codescribe/loop/review_output.toml (2288 bytes)"
+output_preview = "Wrote /home/user/JSS-2026-Example/.codescribe/loop/review_output.toml (2288 bytes)"
 ts = "2026-08-12T02:09:18.023305+00:00"
 
 [[event]]
@@ -1260,7 +1260,7 @@ tool = "read"
 ok = true
 duration_ms = 0.908
 output_chars = 840
-output_preview = "# path: /home/adubey/JSS-2026-Example/dev/transformations/mcfm-translate/loop.toml\n# lines: 1-18\n0001: # CodeScribe loop for Fortran -> C++.\n0002: #\n0003: # Run from the project root:\n0004: #   code-scribe loop -p dev/transformations/mcfm-translate/loop.toml -m <model>\n0005: \n0006: [tools]\n0007: bash = [\"jobrunner\", \"python3\"]\n0008: \n0009: [[chat.user]]\n0010: content = '''\n0011: Each round, follow the round algorithm in dev/transformations/mcfm-translate/current_plan.md and\n0012: the contract in"
+output_preview = "# path: /home/user/JSS-2026-Example/dev/transformations/mcfm-translate/loop.toml\n# lines: 1-18\n0001: # CodeScribe loop for Fortran -> C++.\n0002: #\n0003: # Run from the project root:\n0004: #   code-scribe loop -p dev/transformations/mcfm-translate/loop.toml -m <model>\n0005: \n0006: [tools]\n0007: bash = [\"jobrunner\", \"python3\"]\n0008: \n0009: [[chat.user]]\n0010: content = '''\n0011: Each round, follow the round algorithm in dev/transformations/mcfm-translate/current_plan.md and\n0012: the contract in"
 ts = "2026-08-12T02:18:12.030771+00:00"
 
 [[event]]
@@ -1280,7 +1280,7 @@ ok = true
 duration_ms = 1.011
 output_chars = 1243
 output_preview = '''
-# path: /home/adubey/JSS-2026-Example/dev/transformations/mcfm-translate/agent_log.md
+# path: /home/user/JSS-2026-Example/dev/transformations/mcfm-translate/agent_log.md
 # lines: 1-19
 0001: # mcfm-translate agent log
 0002: 
@@ -1312,7 +1312,7 @@ ok = true
 duration_ms = 1.105
 output_chars = 8687
 output_preview = '''
-# path: /home/adubey/JSS-2026-Example/dev/transformations/mcfm-translate/current_plan.md
+# path: /home/user/JSS-2026-Example/dev/transformations/mcfm-translate/current_plan.md
 # lines: 1-182
 0001: # Fortran → C++ plan
 0002: 
@@ -1341,7 +1341,7 @@ ok = true
 duration_ms = 1.405
 output_chars = 7669
 output_preview = '''
-# path: /home/adubey/JSS-2026-Example/dev/transformations/mcfm-translate/desired_spec.md
+# path: /home/user/JSS-2026-Example/dev/transformations/mcfm-translate/desired_spec.md
 # lines: 1-144
 0001: # Fortran → C++: target output for one MCFM file
 0002: 
@@ -1465,15 +1465,15 @@ ok = true
 duration_ms = 1.154
 output_chars = 573
 output_preview = '''
-# path: /home/adubey/JSS-2026-Example/dev/tmp/verify_one.py
+# path: /home/user/JSS-2026-Example/dev/tmp/verify_one.py
 # lines: 1-10
 0001: import os
 0002: import sys
 0003: 
-0004: os.environ.setdefault("MCFM_HOME", "/home/adubey/JSS-2026-Example/software/mcfm")
-0005: os.environ.setdefault("PEPPER_HOME", "/home/adubey/JSS-2026-Example/software/pepper")
-0006: os.environ.setdefault("QCDLOOP_HOME", "/home/adubey/JSS-2026-Example/software/qcdloop")
-0007: os.environ.setdefault("PROJECT_HOME", "/home/adubey/JSS-2026-Example")
+0004: os.environ.setdefault("MCFM_HOME", "/home/user/JSS-2026-Example/software/mcfm")
+0005: os.environ.setdefault("PEPPER_HOME", "/home/user/JSS-2026-Example/software/pepper")
+0006: os.environ.setdefault("QCDLOOP_HOME", "/home/user/JSS-2026-Example/software/qcdloop")
+0007: os.environ.setdefault("PROJECT_HOME", "/home/user/JSS-2026-Example")
 0008: 
 0009: sys.argv = ["workflow.'''
 ts = "2026-08-12T02:18:18.157754+00:00"
@@ -1495,13 +1495,13 @@ ok = true
 duration_ms = 1.228
 output_chars = 648
 output_preview = '''
-# path: /home/adubey/JSS-2026-Example/dev/tmp/verify_all.py
+# path: /home/user/JSS-2026-Example/dev/tmp/verify_all.py
 # lines: 1-14
 0001: import os
 0002: import subprocess
 0003: import sys
 0004: 
-0005: os.environ["MCFM_HOME"] = "/home/adubey/JSS-2026-Example/software/mcfm"
+0005: os.environ["MCFM_HOME"] = "/home/user/JSS-2026-Example/software/mcfm"
 0006: 
 0007: targets = ["vv", "fpm", "fpp", "fsl", "fvf"]
 0008: for t in targets:
@@ -1778,7 +1778,7 @@ tool = "write"
 ok = true
 duration_ms = 1.721
 output_chars = 84
-output_preview = "Wrote /home/adubey/JSS-2026-Example/.codescribe/loop/review_output.toml (2974 bytes)"
+output_preview = "Wrote /home/user/JSS-2026-Example/.codescribe/loop/review_output.toml (2974 bytes)"
 ts = "2026-08-12T02:18:51.850820+00:00"
 
 [[event]]
@@ -1856,7 +1856,7 @@ tool = "read"
 ok = true
 duration_ms = 1.061
 output_chars = 840
-output_preview = "# path: /home/adubey/JSS-2026-Example/dev/transformations/mcfm-translate/loop.toml\n# lines: 1-18\n0001: # CodeScribe loop for Fortran -> C++.\n0002: #\n0003: # Run from the project root:\n0004: #   code-scribe loop -p dev/transformations/mcfm-translate/loop.toml -m <model>\n0005: \n0006: [tools]\n0007: bash = [\"jobrunner\", \"python3\"]\n0008: \n0009: [[chat.user]]\n0010: content = '''\n0011: Each round, follow the round algorithm in dev/transformations/mcfm-translate/current_plan.md and\n0012: the contract in"
+output_preview = "# path: /home/user/JSS-2026-Example/dev/transformations/mcfm-translate/loop.toml\n# lines: 1-18\n0001: # CodeScribe loop for Fortran -> C++.\n0002: #\n0003: # Run from the project root:\n0004: #   code-scribe loop -p dev/transformations/mcfm-translate/loop.toml -m <model>\n0005: \n0006: [tools]\n0007: bash = [\"jobrunner\", \"python3\"]\n0008: \n0009: [[chat.user]]\n0010: content = '''\n0011: Each round, follow the round algorithm in dev/transformations/mcfm-translate/current_plan.md and\n0012: the contract in"
 ts = "2026-08-12T02:23:24.156558+00:00"
 
 [[event]]
@@ -1876,7 +1876,7 @@ ok = true
 duration_ms = 1.063
 output_chars = 4155
 output_preview = '''
-# path: /home/adubey/JSS-2026-Example/dev/transformations/mcfm-translate/agent_log.md
+# path: /home/user/JSS-2026-Example/dev/transformations/mcfm-translate/agent_log.md
 # lines: 1-24
 0001: # mcfm-translate agent log
 0002: 
@@ -1909,7 +1909,7 @@ ok = true
 duration_ms = 1.205
 output_chars = 8687
 output_preview = '''
-# path: /home/adubey/JSS-2026-Example/dev/transformations/mcfm-translate/current_plan.md
+# path: /home/user/JSS-2026-Example/dev/transformations/mcfm-translate/current_plan.md
 # lines: 1-182
 0001: # Fortran → C++ plan
 0002: 
@@ -1960,7 +1960,7 @@ tool = "write"
 ok = true
 duration_ms = 1.463
 output_chars = 84
-output_preview = "Wrote /home/adubey/JSS-2026-Example/.codescribe/loop/review_output.toml (2169 bytes)"
+output_preview = "Wrote /home/user/JSS-2026-Example/.codescribe/loop/review_output.toml (2169 bytes)"
 ts = "2026-08-12T02:23:52.397519+00:00"
 
 [[event]]
@@ -2045,7 +2045,7 @@ tool = "read"
 ok = true
 duration_ms = 0.997
 output_chars = 840
-output_preview = "# path: /home/adubey/JSS-2026-Example/dev/transformations/mcfm-translate/loop.toml\n# lines: 1-18\n0001: # CodeScribe loop for Fortran -> C++.\n0002: #\n0003: # Run from the project root:\n0004: #   code-scribe loop -p dev/transformations/mcfm-translate/loop.toml -m <model>\n0005: \n0006: [tools]\n0007: bash = [\"jobrunner\", \"python3\"]\n0008: \n0009: [[chat.user]]\n0010: content = '''\n0011: Each round, follow the round algorithm in dev/transformations/mcfm-translate/current_plan.md and\n0012: the contract in"
+output_preview = "# path: /home/user/JSS-2026-Example/dev/transformations/mcfm-translate/loop.toml\n# lines: 1-18\n0001: # CodeScribe loop for Fortran -> C++.\n0002: #\n0003: # Run from the project root:\n0004: #   code-scribe loop -p dev/transformations/mcfm-translate/loop.toml -m <model>\n0005: \n0006: [tools]\n0007: bash = [\"jobrunner\", \"python3\"]\n0008: \n0009: [[chat.user]]\n0010: content = '''\n0011: Each round, follow the round algorithm in dev/transformations/mcfm-translate/current_plan.md and\n0012: the contract in"
 ts = "2026-08-12T02:26:30.476258+00:00"
 
 [[event]]
@@ -2065,7 +2065,7 @@ ok = true
 duration_ms = 1.04
 output_chars = 4155
 output_preview = '''
-# path: /home/adubey/JSS-2026-Example/dev/transformations/mcfm-translate/agent_log.md
+# path: /home/user/JSS-2026-Example/dev/transformations/mcfm-translate/agent_log.md
 # lines: 1-24
 0001: # mcfm-translate agent log
 0002: 
@@ -2098,7 +2098,7 @@ ok = true
 duration_ms = 1.276
 output_chars = 8687
 output_preview = '''
-# path: /home/adubey/JSS-2026-Example/dev/transformations/mcfm-translate/current_plan.md
+# path: /home/user/JSS-2026-Example/dev/transformations/mcfm-translate/current_plan.md
 # lines: 1-182
 0001: # Fortran → C++ plan
 0002: 
@@ -2226,7 +2226,7 @@ tool = "write"
 ok = true
 duration_ms = 1.81
 output_chars = 84
-output_preview = "Wrote /home/adubey/JSS-2026-Example/.codescribe/loop/review_output.toml (2442 bytes)"
+output_preview = "Wrote /home/user/JSS-2026-Example/.codescribe/loop/review_output.toml (2442 bytes)"
 ts = "2026-08-12T02:27:42.473665+00:00"
 
 [[event]]
