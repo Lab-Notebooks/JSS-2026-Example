@@ -1,0 +1,12 @@
+run_id = "20260814-092938-df4e94"
+created_at = "2026-08-14T00:29:38.118950+00:00"
+workdir = "/home/adubey/JSS-2026-Example"
+task_file = "/home/adubey/JSS-2026-Example/dev/transformations/mcfm-translate/loop.toml"
+model = "oaic-moonshotai/Kimi-K3"
+agent_loops = 5
+agent_iterations = 30
+cumulative_input_tokens = 6216358
+cumulative_output_tokens = 55434
+cumulative_cache_creation_tokens = 0
+cumulative_cache_read_tokens = 5777600
+loops_completed = 4

@@ -1,0 +1,14 @@
+[
+  {
+    "path": "software/mcfm",
+    "head": "1abdcddaad89582552edc41de68e4a6e1ac75f1d",
+    "branch": "HEAD",
+    "status": "## HEAD (no branch)\n D src/Inc/ppmax.f\n D src/Inc/tri123x4x56coeffs.f\n M src/Mods/CMakeLists.txt\n M src/Mods/Modules_Interface.f90\n M src/Mods/pp_mod.f90\n M src/Mods/ppwp2j_mod.f90\n M src/Mods/types_mod.f\n M src/W2jet/qqb_wp2jetx_new.f\n M src/W2jet/qqbggAxtri123x4x56.f\n M src/Z2jet/qqb_z2jetx_new.f\n?? Bin/lib/\n?? Bin/test\n?? doxygen_dep/\n?? install/\n?? src/Inc/deprecated/tri123x4x56coeffs.f\n?? src/Mods/pp_mod.cpp\n?? src/Mods/pp_mod.hpp\n?? src/Mods/ppwp2j_mod.cpp\n?? src/Mods/ppwp2j_mod.hpp\n?? src/Mods/types_mod.hpp\n"
+  },
+  {
+    "path": "software/qcdloop",
+    "head": "c8a05202351ca2e803158e99ae8a1c5c05f1437d",
+    "branch": "master",
+    "status": "## master...origin/master\n"
+  }
+]

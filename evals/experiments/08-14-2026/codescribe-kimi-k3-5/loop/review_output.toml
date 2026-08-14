@@ -1,0 +1,18 @@
+loop = 3
+summary = "Loop 3 fixed the loop-2 build break: it ran dev/tmp/inline_coeffs.py to inline tri123x4x56coeffs.f into software/mcfm/src/W2jet/qqbggAxtri123x4x56.f (confirmed: file now carries an 'inlined from former include' comment at lines 26-27 and grep shows no remaining include refs; no CMake or spec changes were attempted with pipes this time), and edited qqb_wp2jetx_new.f / qqb_z2jetx_new.f for the pp-module usage. The second jobrunner submit tests/mcfm exited 0 and the tree now builds; tests/mcfm/job.output ends with 'SUMMARY: pass rate 270/272', with the only failures 'd d~ h g g' and 'd~ d h g g' in the hjj (H+2 jets) group, which the agent observed but did not attribute. dev/tmp/check_ppvals.py ran clean (exit 0), so the pp table contents are numerically verified. However, the workflow-level verification did NOT happen: all env-prefixed attempts (env/var assignment) were blocked by the shell policy, the direct workflow.py verify exited 2 for missing MCFM_HOME, and after the agent wrote dev/tmp/run_verify.py (fixed at iteration 28 so it correctly sets MCFM_HOME/PROJECT_HOME and reaches workflow.py) the verify run on pp_mod.cpp failed with 'error: no // @coverage-probe marker'. The 30-iteration budget expired right after two blocked grep attempts (pipe alternations) to find where to insert the marker, and agent_log.md was still never created (dev/transformations/mcfm-translate/ contains only approvals.toml, current_plan.md, desired_spec.md, loop.toml). Any author claims about 'VERIFIED' statuses, gate, or per-file log entries must be treated as not executed."
+blocker = "workflow.py verify cannot run because the generated C++ files lack the '// @coverage-probe' marker on the output statement (pp_mod.cpp, and almost certainly ppwp2j_mod.cpp); additionally the hjj cases d d~ h g g and d~ d h g g FAILED (270/272) without an attribution, and agent_log.md + gate/refresh for Group 1 are still outstanding."
+
+[[pending]]
+item = "Add '// @coverage-probe' markers to software/mcfm/src/Mods/pp_mod.cpp and software/mcfm/src/Mods/ppwp2j_mod.cpp on the statement(s) that produce the main output, then run python3 dev/tmp/run_verify.py software/mcfm/src/Mods/pp_mod.cpp and python3 dev/tmp/run_verify.py software/mcfm/src/Mods/ppwp2j_mod.cpp (the wrapper already sets MCFM_HOME correctly and was confirmed to reach workflow.py); record the resulting VERIFIED/TRANSLATED statuses."
+
+[[pending]]
+item = "Determine attribution of the two FAILED tests (d d~ h g g, d~ d h g g) in tests/mcfm/job.output: rerun those cases on a clean/baseline tree (e.g. git stash the group-1 changes or use git worktree) to check if they fail pre-change; if pre-existing, note it in agent_log.md, otherwise fix before closing Group 1."
+
+[[pending]]
+item = "Create dev/transformations/mcfm-translate/agent_log.md with a 'Group 1' heading and per-file entries recording actual dispositions: Mods/pp_mod.f90 and Mods/ppwp2j_mod.f90 (translated to .cpp/.hpp + c_f_pointer shims), Inc/ppmax.f and Inc/tri123x4x56coeffs.f (moved to deprecated; qqbggAxtri123x4x56.f now has inlined coeffs), the W2jet/Z2jet consumer edits, and the 270/272 test result."
+
+[[pending]]
+item = "After the coverage-probe verify passes and the FAILED tests are attributed/resolved, run python3 dev/workflow.py gate mcfm-translate and python3 dev/workflow.py refresh (via a MCFM_HOME-setting wrapper like dev/tmp/run_verify.py, since direct env-prefix commands are blocked) to complete Group 1 and update the readiness map."
+
+[[pending]]
+item = "Avoid shell syntax that gets blocked (pipes, env-var prefixes, backslash-pipe grep alternations): use grep -e 'pat1' -e 'pat2' form and python wrappers, since repeated blocked calls wasted ~6 iterations in loops 2-3."

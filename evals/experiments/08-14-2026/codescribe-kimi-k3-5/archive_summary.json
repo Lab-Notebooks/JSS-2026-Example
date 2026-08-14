@@ -1,0 +1,25 @@
+{
+  "experiment_name": "codescribe-kimi-k3-5",
+  "archive_created_at": "2026-08-14T04:32:37.856704+00:00",
+  "loop_source": ".codescribe",
+  "transformation_source": "dev/transformations/mcfm-translate",
+  "submodules": [
+    "software/mcfm"
+  ],
+  "archive_branch": "evals/08-14-2026/codescribe-kimi-k3-5",
+  "submodule_results": [
+    {
+      "repo": "software/mcfm",
+      "branch": "evals/08-14-2026/codescribe-kimi-k3-5",
+      "branch_action": "created",
+      "excluded_paths": [
+        "Bin",
+        "install"
+      ],
+      "committed": true,
+      "head": "8cecfab1da4201933693fed44e3c39af2d4b1b4c"
+    }
+  ],
+  "included_dev_tmp": true,
+  "cleanup_performed": true
+}
